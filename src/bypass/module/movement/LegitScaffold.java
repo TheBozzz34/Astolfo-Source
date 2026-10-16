@@ -262,7 +262,7 @@ public class LegitScaffold extends Module {
          this.sneakAdjust
       );
       this.globals = new Globals();
-      Script.w(this.globals);
+      Script.installLibraries(this.globals);
       this.globals.load(new ModuleManagerLibrary4(this));
       LuaValue luaValue = LuaGlobals.globals.load(string, "563726532", this.globals);
       luaValue.call();

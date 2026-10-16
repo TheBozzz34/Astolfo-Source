@@ -3,28 +3,28 @@ package bypass.loader.check;
 import java.util.List;
 
 public final class DefaultCheckContext implements CheckContext {
-   private final CheckRequest c;
-   private final List<StageCheck> m;
-   private final List<VerdictProcessor> o;
+   private final CheckRequest request;
+   private final List<StageCheck> checks;
+   private final List<VerdictProcessor> processors;
 
    public DefaultCheckContext(CheckRequest checkRequest, List<StageCheck> list, List<VerdictProcessor> list2) {
-      this.c = checkRequest;
-      this.m = list;
-      this.o = list2;
+      this.request = checkRequest;
+      this.checks = list;
+      this.processors = list2;
    }
 
    @Override
-   public CheckRequest f() {
-      return this.c;
+   public CheckRequest getRequest() {
+      return this.request;
    }
 
    @Override
-   public List<StageCheck> i() {
-      return this.m;
+   public List<StageCheck> getChecks() {
+      return this.checks;
    }
 
    @Override
-   public List<VerdictProcessor> a() {
-      return this.o;
+   public List<VerdictProcessor> getProcessors() {
+      return this.processors;
    }
 }

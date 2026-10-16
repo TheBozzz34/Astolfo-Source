@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public final class FilteredContainer<E> extends ListContainer<E> implements ContainerSupplier<ListContainer<E>> {
-   private final Predicate<? super E> s;
-   private final ListContainer<E> m;
-   private List<E> C;
-   private List<E> i;
+   private final Predicate<? super E> filter;
+   private final ListContainer<E> source;
+   private List<E> accepted;
+   private List<E> rejected;
 
    public FilteredContainer(ListContainer<E> listContainer, Predicate<? super E> predicate, boolean bl) {
       super(listContainer.getValue());
-      this.m = listContainer;
-      this.s = predicate;
+      this.source = listContainer;
+      this.filter = predicate;
       if (bl) {
-         this.C = new ArrayList<>();
-         this.i = new ArrayList<>();
+         this.accepted = new ArrayList<>();
+         this.rejected = new ArrayList<>();
       }
    }
 
@@ -26,7 +26,7 @@ public final class FilteredContainer<E> extends ListContainer<E> implements Cont
       boolean bl = false;
 
       for (int i = 0; i < objects.length; i++) {
-         bl = this.A((E)objects[i]);
+         bl = this.testAndRecord((E)objects[i]);
          if (bl) {
             super.add((E)objects[i]);
          }
@@ -41,57 +41,61 @@ public final class FilteredContainer<E> extends ListContainer<E> implements Cont
 
    @Override
    public boolean add(E object) {
-      return this.A((E)object) ? super.add((E)object) : false;
+      return this.testAndRecord((E)object) ? super.add((E)object) : false;
    }
 
    @Override
-   public void b(int i, E object) {
-      if (this.A((E)object)) {
-         super.b(i, (E)object);
+   public void insertAt(int i, E object) {
+      if (this.testAndRecord((E)object)) {
+         super.insertAt(i, (E)object);
       }
    }
 
    @Override
-   public boolean k(Collection<? extends E> collection) {
+   public boolean addAllFrom(Collection<? extends E> collection) {
       for (Object object : collection) {
-         if (!this.A((E)object)) {
+         if (!this.testAndRecord((E)object)) {
             return false;
          }
       }
 
-      return super.k(collection);
+      return super.addAllFrom(collection);
    }
 
    @Override
-   public boolean Z(int i, Collection<? extends E> collection) {
+   public boolean addAllAt(int i, Collection<? extends E> collection) {
       for (Object object : collection) {
-         if (!this.A((E)object)) {
+         if (!this.testAndRecord((E)object)) {
             return false;
          }
       }
 
-      return super.Z(i, collection);
+      return super.addAllAt(i, collection);
    }
 
-   private boolean A(E object) {
-      return this.s != null
-         ? (this.s.test((E)object) ? (this.C != null ? this.C.add((E)object) : true) : (this.i != null ? !this.i.add((E)object) : false))
+   private boolean testAndRecord(E object) {
+      return this.filter != null
+         ? (
+            this.filter.test((E)object)
+               ? (this.accepted != null ? this.accepted.add((E)object) : true)
+               : (this.rejected != null ? !this.rejected.add((E)object) : false)
+         )
          : true;
    }
 
-   public List<E> w() {
-      return this.i;
+   public List<E> getRejected() {
+      return this.rejected;
    }
 
-   public List<E> g() {
-      return this.C;
+   public List<E> getAccepted() {
+      return this.accepted;
    }
 
-   public Predicate<? super E> l() {
-      return this.s;
+   public Predicate<? super E> getFilter() {
+      return this.filter;
    }
 
-   public ListContainer<E> W() {
-      return this.m;
+   public ListContainer<E> getContainer() {
+      return this.source;
    }
 }

@@ -6,7 +6,7 @@ public final class NonEmptyValidator implements FingerprintValidator<String> {
       if (fingerprintEntry instanceof EmptyFingerprintEntry) {
          return false;
       } else {
-         Object object = fingerprintEntry.z();
+         Object object = fingerprintEntry.getValue();
          if (object instanceof String) {
             String string = (String)object;
             return !string.isEmpty();

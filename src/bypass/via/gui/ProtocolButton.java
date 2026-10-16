@@ -9,13 +9,13 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.MathHelper;
 
 public class ProtocolButton extends GuiButton {
-   private float x;
-   public boolean K;
-   public static float P;
+   private float sliderValue;
+   public boolean dragging;
+   public static float lastSliderValue;
 
    public ProtocolButton(int i, int j, int k) {
       super(i, j, k, 100, 20, "");
-      this.x = P;
+      this.sliderValue = lastSliderValue;
       this.displayString = "Protocol: " + ViaFabric.INSTANCE.getVersion().getName();
    }
 
@@ -27,45 +27,45 @@ public class ProtocolButton extends GuiButton {
    @Override
    public void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
-         if (this.K) {
-            this.x = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
-            this.x = MathHelper.clamp_float(this.x, 0.0F, 1.0F);
-            this.q(this.x);
+         if (this.dragging) {
+            this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
+            this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
+            this.applySliderValue(this.sliderValue);
          }
 
          mc.getTextureManager().bindTexture(buttonTextures);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         this.drawTexturedModalRect(this.xPosition + (int)(this.x * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
-         this.drawTexturedModalRect(this.xPosition + (int)(this.x * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
+         this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
+         this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);
       }
    }
 
    @Override
    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
       if (super.mousePressed(mc, mouseX, mouseY)) {
-         this.x = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
-         this.x = MathHelper.clamp_float(this.x, 0.0F, 1.0F);
-         this.q(this.x);
-         this.K = true;
+         this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (this.width - 8);
+         this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
+         this.applySliderValue(this.sliderValue);
+         this.dragging = true;
          return true;
       } else {
          return false;
       }
    }
 
-   private void q(float f) {
-      ProtocolVersion protocolVersion = GuiMultiplayer.O.get(this.o(f));
+   private void applySliderValue(float f) {
+      ProtocolVersion protocolVersion = GuiMultiplayer.O.get(this.getProtocolIndex(f));
       ViaFabric.INSTANCE.setVersion(protocolVersion);
-      P = f;
+      lastSliderValue = f;
       this.displayString = "Protocol: " + ViaFabric.INSTANCE.getVersion().getName();
    }
 
    @Override
    public void mouseReleased(int mouseX, int mouseY) {
-      this.K = false;
+      this.dragging = false;
    }
 
-   public int o(double d) {
+   public int getProtocolIndex(double d) {
       if (d == 0.0) {
          ViaFabric.enabled = false;
          return 0;

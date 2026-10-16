@@ -4,27 +4,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class AlteningLicense {
    @SerializedName("username")
-   private String t;
+   private String username;
    @SerializedName("premium")
-   private boolean v;
+   private boolean premium;
    @SerializedName("premium_name")
-   private String q;
+   private String premiumName;
    @SerializedName("expires")
-   private String C;
+   private String expires;
 
-   public String V() {
-      return this.t;
+   public String getUsername() {
+      return this.username;
    }
 
-   public boolean f() {
-      return this.v;
+   public boolean isPremium() {
+      return this.premium;
    }
 
-   public String A() {
-      return this.q;
+   public String getPremiumName() {
+      return this.premiumName;
    }
 
-   public String Q() {
-      return this.C;
+   public String getExpires() {
+      return this.expires;
    }
 }

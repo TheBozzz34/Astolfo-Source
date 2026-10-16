@@ -7,14 +7,14 @@ public enum NoFallMode {
    AAC_3315("AAC 3.3.15"),
    AAC_3311("AAC 3.3.11");
 
-   private String U;
-   private static final NoFallMode[] J = new NoFallMode[]{SPOOF, PACKET, NO_GROUND, AAC_3315, AAC_3311};
+   private String displayName;
+   private static final NoFallMode[] VALUES = new NoFallMode[]{SPOOF, PACKET, NO_GROUND, AAC_3315, AAC_3311};
 
    NoFallMode(String string2) {
-      this.U = string2;
+      this.displayName = string2;
    }
 
-   public static String W(NoFallMode noFallMode) {
-      return noFallMode.U;
+   public static String displayNameOf(NoFallMode noFallMode) {
+      return noFallMode.displayName;
    }
 }

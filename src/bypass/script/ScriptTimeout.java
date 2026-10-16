@@ -1,19 +1,19 @@
 package bypass.script;
 
 public class ScriptTimeout {
-   public Object L = null;
-   private boolean U = false;
-   public final Object W = new Object();
+   public Object result = null;
+   private boolean finished = false;
+   public final Object lock = new Object();
 
-   public void i(Thread thread, int i) {
+   public void runWithTimeout(Thread thread, int i) {
       thread.start();
-      synchronized (this.W) {
-         if (!this.U) {
+      synchronized (this.lock) {
+         if (!this.finished) {
             try {
                if (i < 1) {
-                  this.W.wait();
+                  this.lock.wait();
                } else {
-                  this.W.wait(1000 * i);
+                  this.lock.wait(1000 * i);
                }
             } catch (InterruptedException interruptedException) {
                throw new RuntimeException(interruptedException);
@@ -21,17 +21,17 @@ public class ScriptTimeout {
          }
       }
 
-      if (!this.U) {
+      if (!this.finished) {
          thread.interrupt();
          thread.stop();
          throw new RuntimeException("Script was forced to termination: Execution time bigger then " + i + " seconds");
       }
    }
 
-   public void J() {
-      synchronized (this.W) {
-         this.U = true;
-         this.W.notifyAll();
+   public void markFinished() {
+      synchronized (this.lock) {
+         this.finished = true;
+         this.lock.notifyAll();
       }
    }
 }

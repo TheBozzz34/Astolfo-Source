@@ -9,28 +9,28 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public final class AlteningApi {
-   private String d;
-   private final String T = "http://api.thealtening.com/v1/";
-   private final Gson D = new GsonBuilder().setPrettyPrinting().create();
+   private String apiKey;
+   private final String baseUrl = "http://api.thealtening.com/v1/";
+   private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
    public AlteningApi(String string) {
-      this.d = string;
+      this.apiKey = string;
    }
 
-   public AlteningLicense t() throws IOException {
-      URLConnection urlConnection = new URL(this.t("http://api.thealtening.com/v1/" + "license")).openConnection();
-      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
-      return this.D.fromJson(string, AlteningLicense.class);
+   public AlteningLicense getLicense() throws IOException {
+      URLConnection urlConnection = new URL(this.appendApiKey("http://api.thealtening.com/v1/" + "license")).openConnection();
+      String string = new String(StreamReader.getInstance().readAllBytes(urlConnection.getInputStream()));
+      return this.gson.fromJson(string, AlteningLicense.class);
    }
 
-   public AlteningAccountData i(AlteningLicense alteningLicense) throws IOException {
-      HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(this.t("http://api.thealtening.com/v1/" + "generate")).openConnection();
+   public AlteningAccountData generateAccount(AlteningLicense alteningLicense) throws IOException {
+      HttpURLConnection httpURLConnection = (HttpURLConnection)new URL(this.appendApiKey("http://api.thealtening.com/v1/" + "generate")).openConnection();
       InputStream inputStream = httpURLConnection.getInputStream();
-      String string = new String(StreamReader.o().M(inputStream));
-      if (alteningLicense.f()) {
+      String string = new String(StreamReader.getInstance().readAllBytes(inputStream));
+      if (alteningLicense.isPremium()) {
          inputStream.close();
          httpURLConnection.disconnect();
-         return this.D.fromJson(string, AlteningAccountData.class);
+         return this.gson.fromJson(string, AlteningAccountData.class);
       }
 
       if (inputStream != null) {
@@ -44,31 +44,31 @@ public final class AlteningApi {
       return null;
    }
 
-   public boolean C(AlteningAccountData alteningAccountData) throws IOException {
-      URLConnection urlConnection = new URL(this.r("http://api.thealtening.com/v1/" + "favorite", alteningAccountData)).openConnection();
-      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
+   public boolean favoriteAccount(AlteningAccountData alteningAccountData) throws IOException {
+      URLConnection urlConnection = new URL(this.buildAccountUrl("http://api.thealtening.com/v1/" + "favorite", alteningAccountData)).openConnection();
+      String string = new String(StreamReader.getInstance().readAllBytes(urlConnection.getInputStream()));
       return string.isEmpty();
    }
 
-   public boolean L(AlteningAccountData alteningAccountData) throws IOException {
-      URLConnection urlConnection = new URL(this.r("http://api.thealtening.com/v1/" + "private", alteningAccountData)).openConnection();
-      String string = new String(StreamReader.o().M(urlConnection.getInputStream()));
+   public boolean privateAccount(AlteningAccountData alteningAccountData) throws IOException {
+      URLConnection urlConnection = new URL(this.buildAccountUrl("http://api.thealtening.com/v1/" + "private", alteningAccountData)).openConnection();
+      String string = new String(StreamReader.getInstance().readAllBytes(urlConnection.getInputStream()));
       return string.isEmpty();
    }
 
-   private String t(String string) {
-      return string + "?token=" + this.d;
+   private String appendApiKey(String string) {
+      return string + "?token=" + this.apiKey;
    }
 
-   private String r(String string, AlteningAccountData alteningAccountData) {
-      return string + "?token=" + this.d + "&acctoken=" + alteningAccountData.f();
+   private String buildAccountUrl(String string, AlteningAccountData alteningAccountData) {
+      return string + "?token=" + this.apiKey + "&acctoken=" + alteningAccountData.getToken();
    }
 
-   public String O() {
-      return this.d;
+   public String getApiKey() {
+      return this.apiKey;
    }
 
-   public void d(String string) {
-      this.d = string;
+   public void setApiKey(String string) {
+      this.apiKey = string;
    }
 }

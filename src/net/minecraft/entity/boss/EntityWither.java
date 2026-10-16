@@ -521,7 +521,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
    @Override
    public float getCollisionBorderSize() {
-      return Astolfo.INSTANCE.getModuleManager().get(Hitboxes.class).isEnabled() && Hitboxes.wither.getValue() && Hitboxes.G
+      return Astolfo.INSTANCE.getModuleManager().get(Hitboxes.class).isEnabled() && Hitboxes.wither.getValue() && Hitboxes.witherNearby
          ? super.getCollisionBorderSize() + Hitboxes.size.getValue()
          : super.getCollisionBorderSize();
    }

@@ -7,114 +7,114 @@ import bypass.util.Holder;
 import net.minecraft.entity.monster.EntitySkeleton;
 
 public class IntegrityCheck {
-   private final StringListHolder E;
-   private boolean Z;
-   private boolean K = true;
-   private boolean D;
-   private boolean k;
-   private boolean j = true;
-   private boolean y;
-   private boolean V;
-   private boolean O;
+   private final StringListHolder hashList;
+   private boolean flag1;
+   private boolean flag2 = true;
+   private boolean flag3;
+   private boolean flag4;
+   private boolean flag5 = true;
+   private boolean flag6;
+   private boolean flag7;
+   private boolean flag8;
 
    public IntegrityCheck(StringListHolder stringListHolder) {
-      this.E = stringListHolder;
+      this.hashList = stringListHolder;
    }
 
-   public Holder Y() {
-      this.w(true);
+   public Holder performIntegrityCheck() {
+      this.setFlag5(true);
       Holder holder = new Holder();
       holder.value = new EntitySkeleton(3298775);
-      this.h(true);
+      this.setFlag1(true);
       AuthHttpRequest authHttpRequest = new AuthHttpRequest()
-         .r("https://security.astolfo.lgbt/api/md5")
-         .a("hash")
-         .O(this.E.A().L().m_Iterator().next())
-         .F("application/x-www-form-urlencoded")
-         .v("aa4hu3ib2");
-      this.Q(true);
-      this.w(!this.O());
-      if (!AuthUtil.k(authHttpRequest).contains("Valid") && (holder.value = new EntitySkeleton(3298776)) != null) {
+         .setUrl("https://security.astolfo.lgbt/api/md5")
+         .setParamNames("hash")
+         .setParamValues(this.hashList.getStringContainer().getOwnedContainer().m_Iterator().next())
+         .setContentType("application/x-www-form-urlencoded")
+         .setUserAgent("aa4hu3ib2");
+      this.setFlag4(true);
+      this.setFlag5(!this.isFlag4());
+      if (!AuthUtil.httpPost(authHttpRequest).contains("Valid") && (holder.value = new EntitySkeleton(3298776)) != null) {
       }
 
-      this.Z(this.f());
-      this.R(true);
+      this.setFlag2(this.getFlag5());
+      this.setFlag6(true);
       return holder;
    }
 
-   public void h(boolean bl) {
-      this.Z = bl;
+   public void setFlag1(boolean bl) {
+      this.flag1 = bl;
    }
 
-   public void Z(boolean bl) {
-      this.K = bl;
+   public void setFlag2(boolean bl) {
+      this.flag2 = bl;
    }
 
-   public void c(boolean bl) {
-      this.D = bl;
+   public void setFlag3(boolean bl) {
+      this.flag3 = bl;
    }
 
-   public void Q(boolean bl) {
-      this.k = bl;
+   public void setFlag4(boolean bl) {
+      this.flag4 = bl;
    }
 
-   public void w(boolean bl) {
-      this.j = bl;
+   public void setFlag5(boolean bl) {
+      this.flag5 = bl;
    }
 
-   public void R(boolean bl) {
-      this.y = bl;
+   public void setFlag6(boolean bl) {
+      this.flag6 = bl;
    }
 
-   public void a(boolean bl) {
-      this.V = bl;
+   public void setFlag7(boolean bl) {
+      this.flag7 = bl;
    }
 
-   public void f(boolean bl) {
-      this.O = bl;
+   public void setFlag8(boolean bl) {
+      this.flag8 = bl;
    }
 
-   public boolean V() {
-      return this.Z;
+   public boolean isFlag1() {
+      return this.flag1;
    }
 
-   public boolean n() {
-      return this.Z;
+   public boolean getFlag1() {
+      return this.flag1;
    }
 
-   public boolean P() {
-      return this.y;
+   public boolean isFlag6() {
+      return this.flag6;
    }
 
-   public boolean z() {
-      return this.y;
+   public boolean getFlag6() {
+      return this.flag6;
    }
 
-   public boolean F() {
-      return this.j;
+   public boolean isFlag5() {
+      return this.flag5;
    }
 
-   public boolean f() {
-      return this.j;
+   public boolean getFlag5() {
+      return this.flag5;
    }
 
-   public boolean O() {
-      return this.k;
+   public boolean isFlag4() {
+      return this.flag4;
    }
 
-   public boolean b() {
-      return this.D;
+   public boolean isFlag3() {
+      return this.flag3;
    }
 
-   public boolean a() {
-      return this.K;
+   public boolean isFlag2() {
+      return this.flag2;
    }
 
-   public boolean s() {
-      return this.V;
+   public boolean isFlag7() {
+      return this.flag7;
    }
 
-   public boolean h() {
-      return this.O;
+   public boolean isFlag8() {
+      return this.flag8;
    }
 }

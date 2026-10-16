@@ -7,21 +7,21 @@ import java.util.HashMap;
 import net.minecraft.entity.Entity;
 
 public class RelationManager extends JsonFileManager<Relation, JsonObject> {
-   private final HashMap<String, Relation> u = new HashMap<>();
+   private final HashMap<String, Relation> relationMap = new HashMap<>();
 
    public RelationManager(File file) {
       super(file, "relations.json");
    }
 
-   public void t(String string, JsonObject jsonObject) {
+   public void loadEntry(String string, JsonObject jsonObject) {
       this.getList().add(new Relation(string, jsonObject.get("nickname").getAsString(), jsonObject.get("protected").getAsBoolean()));
    }
 
    @Override
-   public void I() {
+   public void loadDefaults() {
    }
 
-   public boolean z(Entity entity) {
+   public boolean isFriend(Entity entity) {
       if (entity.getCommandSenderEntity() == null) {
          return false;
       }
@@ -35,14 +35,14 @@ public class RelationManager extends JsonFileManager<Relation, JsonObject> {
       }
 
       String string = entity.getCommandSenderEntity().getName();
-      return this.u.containsKey(string) && this.u.get(string).z();
+      return this.relationMap.containsKey(string) && this.relationMap.get(string).isFriend();
    }
 
-   public boolean A(String string) {
-      return this.u.containsKey(string) && this.u.get(string).z();
+   public boolean isFriendName(String string) {
+      return this.relationMap.containsKey(string) && this.relationMap.get(string).isFriend();
    }
 
-   public boolean D(Entity entity) {
+   public boolean isEnemy(Entity entity) {
       if (entity.getCommandSenderEntity() == null) {
          return false;
       }
@@ -56,28 +56,28 @@ public class RelationManager extends JsonFileManager<Relation, JsonObject> {
       }
 
       String string = entity.getCommandSenderEntity().getName();
-      return this.u.containsKey(string) && !this.u.get(string).z();
+      return this.relationMap.containsKey(string) && !this.relationMap.get(string).isFriend();
    }
 
-   public boolean U(String string) {
-      return this.u.containsKey(string) && !this.u.get(string).z();
+   public boolean isEnemyName(String string) {
+      return this.relationMap.containsKey(string) && !this.relationMap.get(string).isFriend();
    }
 
    public boolean canAdd(Relation relation) {
-      this.u.put(relation.i(), relation);
+      this.relationMap.put(relation.getName(), relation);
       return true;
    }
 
-   public HashMap<String, Relation> Z() {
-      return this.u;
+   public HashMap<String, Relation> getRelationMap() {
+      return this.relationMap;
    }
 
    @Override
    public boolean canRemove(Object object) {
-      return this.u.remove(object) != null;
+      return this.relationMap.remove(object) != null;
    }
 
-   public HashMap<String, Relation> n() {
-      return this.u;
+   public HashMap<String, Relation> getRelations() {
+      return this.relationMap;
    }
 }

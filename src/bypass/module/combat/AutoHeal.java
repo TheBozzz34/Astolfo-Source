@@ -76,7 +76,7 @@ public final class AutoHeal extends Module {
    private float serverPitch;
    public static ItemStack unusedStack;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
    @EventHandler(RenderLivingEvent.class)
    private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
       if (healItem != null && renderLivingEvent.getEntity() == mc.thePlayer && HealItem.typeOf(healItem) == HealItemType.POTION) {
@@ -127,9 +127,9 @@ public final class AutoHeal extends Module {
                            healItem = new HealItem(HealItemType.HOLD, itemStack, k);
                         }
 
-                        boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+                        boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
                         float f = (float)(85.0 + Math.random());
-                        MovingObjectPosition movingObjectPosition = GameUtil.A(mc.thePlayer.rotationYaw, f, 3.0);
+                        MovingObjectPosition movingObjectPosition = GameUtil.rayTrace(mc.thePlayer.rotationYaw, f, 3.0);
                         if (itemStack.getItem() instanceof ItemPotion && (this.belowMinHealth && this.isHealingPotion(itemStack) || this.isBuffPotion(itemStack))) {
                            if (ItemPotion.isSplash(itemStack.getMetadata())) {
                               if (mc.thePlayer.onGround
@@ -256,7 +256,7 @@ public final class AutoHeal extends Module {
    }
 
    private void useInstantly(int i, ItemStack itemStack) {
-      FastUse.E(i, itemStack, false);
+      FastUse.sendUseItemPackets(i, itemStack, false);
       mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
       mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
       healItem = null;
@@ -270,9 +270,9 @@ public final class AutoHeal extends Module {
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       this.setDisplayName("Auto Heal " + EnumChatFormatting.GRAY + this.countItems());
-      super.p();
+      super.updateDisplayName();
    }
 
    private boolean isJumpBoostEnabled() {
@@ -320,7 +320,7 @@ public final class AutoHeal extends Module {
          return false;
       }
 
-      boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+      boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
       return !ItemPotion.isSplash(itemStack.getMetadata()) && !bl
          ? false
          : InventoryUtil.hasPotionEffect(itemStack, Potion.regeneration.id)
@@ -331,7 +331,7 @@ public final class AutoHeal extends Module {
    }
 
    private boolean isBuffPotion(ItemStack itemStack) {
-      boolean bl = RiderGod.r() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
+      boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel() && client.getModuleManager().get(FastUse.class).isEnabled();
       return !ItemPotion.isSplash(itemStack.getMetadata()) && !bl
          ? false
          : InventoryUtil.hasPotionEffect(itemStack, Potion.fireResistance.id)
@@ -367,7 +367,7 @@ public final class AutoHeal extends Module {
       EntityPlayer entityPlayer = null;
 
       for (EntityPlayer entityPlayer2 : mc.theWorld.playerEntities) {
-         if (entityPlayer2 != mc.thePlayer && !BotDetector.w.contains(entityPlayer2)) {
+         if (entityPlayer2 != mc.thePlayer && !BotDetector.bots.contains(entityPlayer2)) {
             float g = mc.thePlayer.getDistanceToEntity(entityPlayer2);
             if (g < f) {
                entityPlayer = entityPlayer2;

@@ -223,7 +223,7 @@ public class GuiIngame extends Gui {
          this.mc.mcProfiler.endSection();
       }
 
-      if (this.titlesTimer > 0 && (!ModuleManager.S.isEnabled() || !TitleAnnouncer.d.hasElapsed(4500.0F))) {
+      if (this.titlesTimer > 0 && (!ModuleManager.noTitle.isEnabled() || !TitleAnnouncer.titleTimer.hasElapsed(4500.0F))) {
          String string = this.mc.mouseHelper.Y().getAccount().getUsername().toLowerCase();
          if (string.equals("belle")
             || string.equals("triangle")
@@ -492,7 +492,7 @@ public class GuiIngame extends Gui {
       }
 
       bypass.module.visuals.Scoreboard scoreboard2 = Astolfo.INSTANCE.getModuleManager().get(bypass.module.visuals.Scoreboard.class);
-      StreamerMode streamerMode = (StreamerMode)ModuleManager.G;
+      StreamerMode streamerMode2 = (StreamerMode)ModuleManager.streamerMode;
       int j = arrayList2.size() * this.getFontRenderer().FONT_HEIGHT;
       int l = scaledRes.getScaledHeight() / 2 + j / 3;
       if (scoreboard2.isEnabled()) {
@@ -517,7 +517,7 @@ public class GuiIngame extends Gui {
             }
 
             this.w = string3;
-            if (streamerMode.isEnabled()) {
+            if (streamerMode2.isEnabled()) {
                string2 = string2.replaceAll("§8", "§8§k");
             }
          }

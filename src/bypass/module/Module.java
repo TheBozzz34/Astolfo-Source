@@ -18,8 +18,8 @@ import org.luaj.vm2.LuaValue;
 public class Module extends AbstractModule implements Toggleable, ClientAccess {
    private boolean enabled;
    public LuaValue script;
-   public LuaValue o;
-   private int U = Color.WHITE.getRGB();
+   public LuaValue registeredScriptTable;
+   private int moduleColor = Color.WHITE.getRGB();
    private int key;
    private final ArrayList<Setting<?>> settings = new ArrayList<>();
    public Animation animation = new TimedAnimation().setDuration(250).setEasing(Easing.INERTIA);
@@ -67,12 +67,12 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
       }
    }
 
-   public int f_int() {
-      return this.U;
+   public int getModuleColor() {
+      return this.moduleColor;
    }
 
-   public void B(int i) {
-      this.U = i;
+   public void setModuleColor(int i) {
+      this.moduleColor = i;
    }
 
    public boolean isHidden() {
@@ -98,7 +98,7 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
       return this.enabled;
    }
 
-   public void p() {
+   public void updateDisplayName() {
    }
 
    public LuaValue callScript(String string, LuaValue luaValue) {
@@ -109,7 +109,7 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
          } catch (LuaError luaError) {
             if (HUD.isDevelopment) {
                luaError.printStackTrace();
-               chat.f(luaError.getMessage());
+               chat.printError(luaError.getMessage());
             }
          }
       }
@@ -125,7 +125,7 @@ public class Module extends AbstractModule implements Toggleable, ClientAccess {
          } catch (LuaError luaError) {
             if (HUD.isDevelopment) {
                luaError.printStackTrace();
-               chat.f(luaError.getMessage());
+               chat.printError(luaError.getMessage());
             }
          }
       }

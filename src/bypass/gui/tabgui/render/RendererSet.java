@@ -16,7 +16,7 @@ public interface RendererSet {
       return this.getRenderers().get(class2);
    }
 
-   default CustomFontRenderer O() {
+   default CustomFontRenderer getFontRenderer() {
       return Astolfo.INSTANCE.getCustomFontRenderer();
    }
 }

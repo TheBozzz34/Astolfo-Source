@@ -14,30 +14,30 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.util.BlockPos;
 
 public class SpeedBridge extends Module {
-   private boolean P;
+   private boolean autoSneaking;
    private final NumberSetting<Integer> unsneak = new NumberSetting<>("Unsneak", "Delay before unsneaking", 150, 0, 500, "ms");
-   private final Stopwatch l = new Stopwatch();
+   private final Stopwatch sneakTimer = new Stopwatch();
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (updateEvent.getState() == EventState.PRE) {
          if ((
-               C()
+               isNearEdge()
                   || mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ)).getBlock() != null
                      && mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX, mc.thePlayer.posY - 1.0, mc.thePlayer.posZ)).getBlock() instanceof BlockAir
             )
-            && this.D()) {
+            && this.canBridge()) {
             mc.gameSettings.keyBindSneak.pressed = true;
-            this.P = true;
-            this.l.reset();
-         } else if ((this.l.hasElapsed(this.unsneak.getValue().intValue()) || !mc.thePlayer.onGround) && this.P) {
+            this.autoSneaking = true;
+            this.sneakTimer.reset();
+         } else if ((this.sneakTimer.hasElapsed(this.unsneak.getValue().intValue()) || !mc.thePlayer.onGround) && this.autoSneaking) {
             mc.gameSettings.keyBindSneak.pressed = false;
-            this.P = false;
+            this.autoSneaking = false;
          }
       }
    };
    @EventHandler(SafeWalkEvent.class)
    private Listener<SafeWalkEvent> onSafeWalk = safeWalkEvent -> {
-      if (mc.thePlayer != null && this.D()) {
+      if (mc.thePlayer != null && this.canBridge()) {
          safeWalkEvent.setSafe(true);
          safeWalkEvent.cancel();
       }
@@ -54,7 +54,7 @@ public class SpeedBridge extends Module {
       super.onDisable();
    }
 
-   private boolean D() {
+   private boolean canBridge() {
       return mc.thePlayer.onGround
          && mc.thePlayer.isCollidedVertically
          && mc.thePlayer.rotationPitch > 50.0F
@@ -62,7 +62,7 @@ public class SpeedBridge extends Module {
          && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBlock;
    }
 
-   public static boolean C() {
+   public static boolean isNearEdge() {
       double d = mc.thePlayer.motionX;
       double e = mc.thePlayer.motionY;
       double d2 = mc.thePlayer.motionZ;

@@ -8,37 +8,46 @@ import java.awt.Color;
 import org.lwjgl.input.Mouse;
 
 public class HubPanel extends Container {
-   private HubCategory f;
+   private HubCategory selectedCategory;
 
    public HubPanel(int i, int j, int k, int l) {
       super("Hub", i, j, k, l);
-      this.F(true);
+      this.setDraggable(true);
    }
 
    @Override
    public void render(int i, int j) {
-      RenderUtil.drawRect(this.M() - 4.0F, this.E_float() - 4.0F, this.M() + this.x() + 4.0F, this.E_float() + this.Y() + 4.0F, new Color(67, 63, 65).getRGB());
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(32, 31, 32).getRGB());
-      if (this.f != null) {
-         this.f.Z(this);
-         client.getCustomFontRenderer().drawString(this.f.J(), this.M() + 50.0F, this.E_float() + 5.0F, Color.WHITE.getRGB());
-         this.f.render(i, j);
+      RenderUtil.drawRect(
+         this.getX() - 4.0F,
+         this.getYPos() - 4.0F,
+         this.getX() + this.getWidth() + 4.0F,
+         this.getYPos() + this.getHeight() + 4.0F,
+         new Color(67, 63, 65).getRGB()
+      );
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(32, 31, 32).getRGB());
+      if (this.selectedCategory != null) {
+         this.selectedCategory.setHubPanel(this);
+         client.getCustomFontRenderer().drawString(this.selectedCategory.getName(), this.getX() + 50.0F, this.getYPos() + 5.0F, Color.WHITE.getRGB());
+         this.selectedCategory.render(i, j);
       } else {
          client.getCustomFontRenderer()
             .drawString(
-               this.J(), this.M() + this.x() / 2 - client.getCustomFontRenderer().getStringWidth("Hub") / 2, this.E_float() + 5.0F, Color.WHITE.getRGB()
+               this.getName(),
+               this.getX() + this.getWidth() / 2 - client.getCustomFontRenderer().getStringWidth("Hub") / 2,
+               this.getYPos() + 5.0F,
+               Color.WHITE.getRGB()
             );
          int k = 0;
          int l = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof HubCategory) {
                Component component = (Component)element;
-               float g = this.M() + this.x() / 3 * l;
+               float f = this.getX() + this.getWidth() / 3 * l;
                int m = k >= 3 ? 110 : 20;
-               component.r(g, this.E_float() + m);
+               component.setPosition(f, this.getYPos() + m);
                component.render(i, j);
-               ((HubCategory)component).Z(this);
+               ((HubCategory)component).setHubPanel(this);
                k++;
                if (++l >= 3) {
                   l = 0;
@@ -46,12 +55,12 @@ public class HubPanel extends Container {
             }
          }
 
-         if (this.f == null) {
-            for (Element element2 : this.M_ArrayList()) {
+         if (this.selectedCategory == null) {
+            for (Element element2 : this.getChildren()) {
                if (element2 instanceof HubCategory) {
                   Component component2 = (Component)element2;
-                  if (this.G(i, j) && Mouse.isButtonDown(0)) {
-                     this.f = (HubCategory)component2;
+                  if (this.isHovered(i, j) && Mouse.isButtonDown(0)) {
+                     this.selectedCategory = (HubCategory)component2;
                   }
                }
             }
@@ -60,10 +69,10 @@ public class HubPanel extends Container {
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 
-   public HubCategory n() {
-      return this.f;
+   public HubCategory getSelectedCategory() {
+      return this.selectedCategory;
    }
 }

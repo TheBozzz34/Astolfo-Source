@@ -13,12 +13,12 @@ import java.util.concurrent.ExecutorService;
 
 public class VRPlatform extends AbstractFabricPlatform {
    @Override
-   public ExecutorService O() {
+   public ExecutorService getAsyncExecutor() {
       return ViaFabric.ASYNC_EXECUTOR;
    }
 
    @Override
-   public EventLoop I() {
+   public EventLoop getEventLoop() {
       return ViaFabric.EVENT_LOOP;
    }
 
@@ -34,7 +34,7 @@ public class VRPlatform extends AbstractFabricPlatform {
    }
 
    public FutureTaskId runSync(Runnable runnable) {
-      return this.l(runnable);
+      return this.runOnEventLoop(runnable);
    }
 
    @Override

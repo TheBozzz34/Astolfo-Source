@@ -6,57 +6,57 @@ import com.google.gson.annotations.SerializedName;
 public class SkinTexturesPayload {
    @SerializedName("timestamp")
    @Expose
-   private Long t;
+   private Long timestamp;
    @SerializedName("profileId")
    @Expose
-   private String n;
+   private String profileId;
    @SerializedName("profileName")
    @Expose
-   private String r;
+   private String profileName;
    @SerializedName("signatureRequired")
    @Expose
-   private Boolean c;
+   private Boolean signatureRequired;
    @SerializedName("textures")
    @Expose
-   private SkinTextures b;
+   private SkinTextures textures;
 
-   public Long S() {
-      return this.t;
+   public Long getTimestamp() {
+      return this.timestamp;
    }
 
-   public void o(Long long2) {
-      this.t = long2;
+   public void setTimestamp(Long long2) {
+      this.timestamp = long2;
    }
 
-   public String o() {
-      return this.n;
+   public String getProfileId() {
+      return this.profileId;
    }
 
-   public void W(String string) {
-      this.n = string;
+   public void setProfileId(String string) {
+      this.profileId = string;
    }
 
-   public String g() {
-      return this.r;
+   public String getProfileName() {
+      return this.profileName;
    }
 
-   public void F(String string) {
-      this.r = string;
+   public void setProfileName(String string) {
+      this.profileName = string;
    }
 
-   public Boolean D() {
-      return this.c;
+   public Boolean getSignatureRequired() {
+      return this.signatureRequired;
    }
 
-   public void H(Boolean boolean2) {
-      this.c = boolean2;
+   public void setSignatureRequired(Boolean boolean2) {
+      this.signatureRequired = boolean2;
    }
 
-   public SkinTextures Y() {
-      return this.b;
+   public SkinTextures getTextures() {
+      return this.textures;
    }
 
-   public void P(SkinTextures skinTextures) {
-      this.b = skinTextures;
+   public void setTextures(SkinTextures skinTextures) {
+      this.textures = skinTextures;
    }
 }

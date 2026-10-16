@@ -8,17 +8,17 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class AlteningSsl {
-   private boolean R = false;
+   private boolean initialized = false;
 
-   public void H() {
-      if (!this.R) {
-         this.i();
+   public void initialize() {
+      if (!this.initialized) {
+         this.installTrustAllManager();
          this.whitelistTheAltening();
-         this.R = true;
+         this.initialized = true;
       }
    }
 
-   private void i() {
+   private void installTrustAllManager() {
       TrustManager[] trustManagers = new TrustManager[]{new AlteningSsl.alr()};
 
       try {
@@ -33,12 +33,12 @@ public class AlteningSsl {
       HttpsURLConnection.setDefaultHostnameVerifier((string, sslSession) -> string.equals("authserver.thealtening.com") || string.equals("sessionserver.thealtening.com"));
    }
 
-   public boolean A() {
-      return this.R;
+   public boolean isInitialized() {
+      return this.initialized;
    }
 
-   public void m(boolean bl) {
-      this.R = bl;
+   public void setInitialized(boolean bl) {
+      this.initialized = bl;
    }
 
    public class alr implements X509TrustManager {

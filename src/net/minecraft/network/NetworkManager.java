@@ -463,7 +463,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
             .addLast("packet_handler", NetworkManager.this);
          if (channel2 instanceof SocketChannel) {
             UserConnectionImpl userConnectionImpl = new UserConnectionImpl(channel2, true);
-            new ProtocolPipelineImpl(userConnectionImpl).add(ViaFabricHostnameProtocol.i);
+            new ProtocolPipelineImpl(userConnectionImpl).add(ViaFabricHostnameProtocol.instance);
             channel2.pipeline().addBefore("encoder", "via-encoder", new VREncodeHandler(userConnectionImpl));
             channel2.pipeline().addBefore("decoder", "via-decoder", new VRDecodeHandler(userConnectionImpl));
          }

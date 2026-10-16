@@ -3,7 +3,7 @@ package bypass.setting.attribute;
 import bypass.event.Cancellable;
 
 public abstract class ChangeListenerAttribute extends SettingAttribute implements Cancellable {
-   private boolean i;
+   private boolean listenerCancelled;
 
    public ChangeListenerAttribute() {
       super(AttributePriority.HIGH);
@@ -11,17 +11,17 @@ public abstract class ChangeListenerAttribute extends SettingAttribute implement
 
    @Override
    public void cancel() {
-      this.i = true;
+      this.listenerCancelled = true;
    }
 
    @Override
    public boolean isCancelled() {
-      return this.i;
+      return this.listenerCancelled;
    }
 
    @Override
    public void setCancelled(boolean bl) {
-      this.i = bl;
+      this.listenerCancelled = bl;
    }
 
    public abstract void onChange(SettingPart settingPart);

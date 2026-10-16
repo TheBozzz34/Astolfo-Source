@@ -11,13 +11,13 @@ import org.luaj.vm2.lib.VarArgFunction;
 public final class Modules extends VarArgFunction {
    @Override
    public Varargs invoke() {
-      if (ModuleManagerLibrary2.i().isEmpty()) {
+      if (ModuleManagerLibrary2.getModuleNames().isEmpty()) {
          for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
-            ModuleManagerLibrary2.i().add(valueOf(moduleInfo.getName()));
+            ModuleManagerLibrary2.getModuleNames().add(valueOf(moduleInfo.getName()));
          }
       }
 
-      LuaValue[] luaValues = (org.luaj.vm2.LuaValue[])(ModuleManagerLibrary2.i().toArray(new LuaValue[0]));
+      LuaValue[] luaValues = (org.luaj.vm2.LuaValue[])(ModuleManagerLibrary2.getModuleNames().toArray(new LuaValue[0]));
       return LuaValue.varargsOf(new LuaValue[]{new LuaTable(LuaValue.varargsOf(luaValues))});
    }
 }

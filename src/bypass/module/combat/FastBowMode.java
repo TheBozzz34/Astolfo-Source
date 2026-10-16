@@ -3,14 +3,14 @@ package bypass.module.combat;
 public enum FastBowMode {
    VANILLA("Vanilla");
 
-   private String z;
-   private static final FastBowMode[] s = new FastBowMode[]{VANILLA};
+   private String displayName;
+   private static final FastBowMode[] VALUES = new FastBowMode[]{VANILLA};
 
    FastBowMode(String string2) {
-      this.z = string2;
+      this.displayName = string2;
    }
 
-   public static String T(FastBowMode fastBowMode) {
-      return fastBowMode.z;
+   public static String displayNameOf(FastBowMode fastBowMode) {
+      return fastBowMode.displayName;
    }
 }

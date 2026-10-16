@@ -269,7 +269,7 @@ public class AutoProjectile extends Module {
          this.slot
       );
       this.globals = new Globals();
-      Script.w(this.globals);
+      Script.installLibraries(this.globals);
       this.globals.load(new ModuleManagerLibrary4(this));
       LuaValue luaValue = LuaGlobals.globals.load(string, "754362327", this.globals);
       luaValue.call();

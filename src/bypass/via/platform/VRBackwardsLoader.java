@@ -41,8 +41,8 @@ import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class VRBackwardsLoader implements ViaBackwardsPlatform, Runnable {
-   private final Logger M = new LoggerWrapper(LogManager.getLogger("ViaBackwards"));
-   private File X;
+   private final Logger logger = new LoggerWrapper(LogManager.getLogger("ViaBackwards"));
+   private File dataFolder;
 
    @Override
    public void run() {
@@ -90,12 +90,12 @@ public class VRBackwardsLoader implements ViaBackwardsPlatform, Runnable {
 
    @Override
    public File getDataFolder() {
-      return this.X;
+      return this.dataFolder;
    }
 
    @Override
    public Logger getLogger() {
-      return this.M;
+      return this.logger;
    }
 
    @Override

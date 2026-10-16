@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerChecks {
-   private final List<AbstractCheck> w = new ArrayList<>(10);
+   private final List<AbstractCheck> checks = new ArrayList<>(10);
 
-   private void f(AbstractCheck abstractCheck) {
-      this.w.add(abstractCheck);
+   private void addCheck(AbstractCheck abstractCheck) {
+      this.checks.add(abstractCheck);
    }
 
-   public static List P(PlayerChecks playerChecks) {
-      return playerChecks.w;
+   public static List getChecks(PlayerChecks playerChecks) {
+      return playerChecks.checks;
    }
 
-   public static void p(PlayerChecks playerChecks, AbstractCheck abstractCheck) {
-      playerChecks.f(abstractCheck);
+   public static void addCheckTo(PlayerChecks playerChecks, AbstractCheck abstractCheck) {
+      playerChecks.addCheck(abstractCheck);
    }
 }

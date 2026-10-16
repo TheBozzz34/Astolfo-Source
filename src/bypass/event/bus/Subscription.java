@@ -7,21 +7,21 @@ import bypass.event.Listener;
 import java.lang.reflect.AnnotatedElement;
 
 public interface Subscription<O, E extends Event> {
-   EventPriority g = EventPriority.NORMAL;
+   EventPriority DEFAULT_PRIORITY = EventPriority.NORMAL;
 
-   void C(E event);
+   void invoke(E event);
 
-   Class<? extends E> V();
+   Class<? extends E> getEventType();
 
-   SubscriptionFilter[] i();
+   SubscriptionFilter[] getFilters();
 
-   O t();
+   O getOwner();
 
-   int l();
+   int getPriority();
 
-   Listener<E> P();
+   Listener<E> getListener();
 
-   static <O> Subscriber<O, ?> l(O object, AnnotatedElement annotatedElement, InvocationStrategy invocationStrategy) {
+   static <O> Subscriber<O, ?> fromAnnotatedMember(O object, AnnotatedElement annotatedElement, InvocationStrategy invocationStrategy) {
       return new Subscriber<>(
          (O)object,
          annotatedElement,
@@ -31,13 +31,13 @@ public interface Subscription<O, E extends Event> {
       );
    }
 
-   static <O, E extends Event> Subscriber<O, E> N(O object, Class<E> class2, Listener<E> listener, Class<? extends SubscriptionFilter<E>>... classs) {
-      return K((O)object, class2, listener, g, classs);
+   static <O, E extends Event> Subscriber<O, E> create(O object, Class<E> class2, Listener<E> listener, Class<? extends SubscriptionFilter<E>>... classs) {
+      return createWithPriority((O)object, class2, listener, DEFAULT_PRIORITY, classs);
    }
 
-   static <O, E extends Event> Subscriber<O, E> K(
+   static <O, E extends Event> Subscriber<O, E> createWithPriority(
       O object, Class<E> class2, Listener<E> listener, EventPriority eventPriority, Class<? extends SubscriptionFilter<E>>... classs
    ) {
-      return new Subscriber<>((O)object, class2, listener, eventPriority.J(), classs);
+      return new Subscriber<>((O)object, class2, listener, eventPriority.getLevel(), classs);
    }
 }

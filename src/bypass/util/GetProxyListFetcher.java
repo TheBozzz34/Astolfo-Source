@@ -1,7 +1,7 @@
 package bypass.util;
 
 public final class GetProxyListFetcher {
-   public static ProxySource G(String string, String[] strings) {
+   public static ProxySource createSource(String string, String[] strings) {
       if (string.equals("getproxylist")) {
          String string2 = strings[0];
          int i = Integer.parseInt(strings[1]);

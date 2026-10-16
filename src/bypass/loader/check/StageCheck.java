@@ -3,9 +3,9 @@ package bypass.loader.check;
 import bypass.event.EventPriority;
 
 public interface StageCheck extends Comparable<StageCheck> {
-   CheckResult H(CheckRequest checkRequest);
+   CheckResult check(CheckRequest checkRequest);
 
-   default EventPriority o() {
+   default EventPriority getPriority() {
       return EventPriority.NORMAL;
    }
 

@@ -11,18 +11,18 @@ public enum MediaType {
    TEXT("text"),
    VIDEO("video");
 
-   private String e;
+   private String typeName;
 
    MediaType(String string2) {
-      this.e = string2;
+      this.typeName = string2;
    }
 
-   public String e() {
-      return this.e;
+   public String getTypeName() {
+      return this.typeName;
    }
 
    @Override
    public String toString() {
-      return this.e();
+      return this.getTypeName();
    }
 }

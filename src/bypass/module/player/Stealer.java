@@ -244,7 +244,7 @@ public final class Stealer extends Module {
                break;
             case POST:
                if (this.auraTarget != null && this.clickTimer.hasElapsed(this.aura.getSetting("Delay").asInt())) {
-                  MovingObjectPosition movingObjectPosition = GameUtil.A(this.auraYaw, this.auraPitch, mc.playerController.getBlockReachDistance());
+                  MovingObjectPosition movingObjectPosition = GameUtil.rayTrace(this.auraYaw, this.auraPitch, mc.playerController.getBlockReachDistance());
                   if (this.isChestHit(movingObjectPosition)) {
                      if (mc.playerController
                         .onPlayerRightClick(

@@ -1,9 +1,9 @@
 package bypass.anticheat;
 
 public interface Check {
-   String A();
+   String getName();
 
-   CheckType D();
+   CheckType getCheckType();
 
-   int p();
+   int getMaxViolations();
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class WesternKillMessages {
    public WesternKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was filled full of lead by (\\w{1,16}).*",

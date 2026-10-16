@@ -14,7 +14,7 @@ public class UserListHandler extends PacketHandler<UserListPacket> {
 
    public void handle(UserListPacket userListPacket, PacketOutput packetOutput) {
       if (userListPacket.type == UserListType.A) {
-         client.getUserManager().r().clear();
+         client.getUserManager().getUsers().clear();
          String[] strings = userListPacket.users.split(" ");
          int i = 0;
 
@@ -27,7 +27,7 @@ public class UserListHandler extends PacketHandler<UserListPacket> {
                String string4 = strings2[1];
                if (!string3.isEmpty() && !string4.isEmpty()) {
                   client.getUserManager()
-                     .r()
+                     .getUsers()
                      .put(
                         string4,
                         new AstolfoUser(string3, string4, string2.equals("*") ? AstolfoUserStatus.C : (string2.equals("º") ? AstolfoUserStatus.B : AstolfoUserStatus.A))

@@ -6,9 +6,9 @@ import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 
 public class TransparentPanelListType extends TypeToken<ArrayList<JsonObject>> {
-   public final TransparentPanelManager d;
+   public final TransparentPanelManager panelManager;
 
    public TransparentPanelListType(TransparentPanelManager transparentPanelManager) {
-      this.d = transparentPanelManager;
+      this.panelManager = transparentPanelManager;
    }
 }

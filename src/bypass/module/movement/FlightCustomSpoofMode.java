@@ -5,5 +5,5 @@ public enum FlightCustomSpoofMode {
    ALWAYS,
    RANDOM;
 
-   private static final FlightCustomSpoofMode[] b = new FlightCustomSpoofMode[]{NONE, ALWAYS, RANDOM};
+   private static final FlightCustomSpoofMode[] VALUES = new FlightCustomSpoofMode[]{NONE, ALWAYS, RANDOM};
 }

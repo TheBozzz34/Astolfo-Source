@@ -186,36 +186,36 @@ import javax.xml.bind.DatatypeConverter;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 
 public final class PacketReceiver implements LoginListener {
-   private final SocketChannel W;
-   private final ByteBuffer V;
-   private final ByteBuffer J;
-   private final Map<Short, PacketReader<?>> g;
-   private final Map<Short, List<PacketListener<?>>> u;
-   private byte p;
-   private short e = -1;
-   private PacketReader<?> r;
-   private short E;
-   private ByteBuffer c;
-   private short z;
-   private Object Q;
-   private boolean H;
-   private volatile boolean v;
-   private int U = -1;
-   private Scrambler x;
+   private final SocketChannel socketChannel;
+   private final ByteBuffer headerBuffer;
+   private final ByteBuffer chunkHeaderBuffer;
+   private final Map<Short, PacketReader<?>> readers;
+   private final Map<Short, List<PacketListener<?>>> listeners;
+   private byte xorKey;
+   private short chunkCount = -1;
+   private PacketReader<?> currentReader;
+   private short chunksRead;
+   private ByteBuffer chunkBuffer;
+   private short currentPacketId;
+   private Object currentPacket;
+   private boolean chunkBodyRead;
+   private volatile boolean readingPacket;
+   private int chunkLength = -1;
+   private Scrambler scrambler;
 
    public PacketReceiver(SocketChannel socketChannel, Map<Short, PacketReader<?>> map, Map<Short, List<PacketListener<?>>> map2) {
-      this.W = socketChannel;
-      this.g = map;
-      this.u = map2;
-      this.V = ByteBuffer.allocateDirect(5);
-      this.J = ByteBuffer.allocateDirect(3);
+      this.socketChannel = socketChannel;
+      this.readers = map;
+      this.listeners = map2;
+      this.headerBuffer = ByteBuffer.allocateDirect(5);
+      this.chunkHeaderBuffer = ByteBuffer.allocateDirect(3);
    }
 
    public ReceiveResult receive() throws IOException {
       boolean bl2 = false;
       ReceiveResult receiveResult = null;
-      if (!this.v) {
-         receiveResult = this.R();
+      if (!this.readingPacket) {
+         receiveResult = this.readHeader();
          if (receiveResult != ReceiveResult.B) {
             return receiveResult;
          }
@@ -224,109 +224,109 @@ public final class PacketReceiver implements LoginListener {
       boolean bl3 = false;
       boolean bl4 = false;
       Object object = null;
-      if (this.e != 0) {
+      if (this.chunkCount != 0) {
          bl3 = true;
 
-         while (this.E < this.e) {
-            if (this.U == -1) {
+         while (this.chunksRead < this.chunkCount) {
+            if (this.chunkLength == -1) {
                int i2;
                try {
-                  i2 = this.W.read(this.J);
+                  i2 = this.socketChannel.read(this.chunkHeaderBuffer);
                } catch (IOException ioException) {
-                  this.v = false;
-                  this.e = -1;
+                  this.readingPacket = false;
+                  this.chunkCount = -1;
                   throw ioException;
                }
 
                if (i2 == -1) {
-                  this.v = false;
-                  this.e = -1;
+                  this.readingPacket = false;
+                  this.chunkCount = -1;
                   return ReceiveResult.C;
                }
 
-               if (this.J.position() != this.J.capacity()) {
+               if (this.chunkHeaderBuffer.position() != this.chunkHeaderBuffer.capacity()) {
                   return ReceiveResult.A;
                }
 
-               ((Buffer)this.J).flip();
-               this.x = Scramblers.INSTANCE.w(this.J.get());
-               this.U = this.J.getShort() ^ this.p;
-               ((Buffer)this.J).clear();
+               ((Buffer)this.chunkHeaderBuffer).flip();
+               this.scrambler = Scramblers.INSTANCE.getScrambler(this.chunkHeaderBuffer.get());
+               this.chunkLength = this.chunkHeaderBuffer.getShort() ^ this.xorKey;
+               ((Buffer)this.chunkHeaderBuffer).clear();
             }
 
-            if (this.c == null) {
-               this.c = ByteBuffer.allocate(this.U);
+            if (this.chunkBuffer == null) {
+               this.chunkBuffer = ByteBuffer.allocate(this.chunkLength);
             }
 
-            if (!this.H) {
+            if (!this.chunkBodyRead) {
                int i3;
                try {
-                  i3 = this.W.read(this.c);
+                  i3 = this.socketChannel.read(this.chunkBuffer);
                   bl4 = true;
                } catch (IOException ioException2) {
-                  this.v = false;
-                  this.e = -1;
+                  this.readingPacket = false;
+                  this.chunkCount = -1;
                   throw ioException2;
                }
 
                if (i3 == -1) {
-                  this.v = false;
-                  this.e = -1;
+                  this.readingPacket = false;
+                  this.chunkCount = -1;
                   return ReceiveResult.C;
                }
 
-               if (this.c.position() != this.U) {
+               if (this.chunkBuffer.position() != this.chunkLength) {
                   return ReceiveResult.A;
                }
 
-               ((Buffer)this.c).flip();
-               this.H = true;
+               ((Buffer)this.chunkBuffer).flip();
+               this.chunkBodyRead = true;
             }
 
             int i4 = 0;
 
-            for (int i5 = this.c.limit(); i4 < i5; i4++) {
-               this.c.put(i4, (byte)(this.c.get(i4) ^ this.p));
+            for (int i5 = this.chunkBuffer.limit(); i4 < i5; i4++) {
+               this.chunkBuffer.put(i4, (byte)(this.chunkBuffer.get(i4) ^ this.xorKey));
                bl2 = true;
             }
 
-            this.x.B(this.c);
-            this.r.read(this.c);
-            this.c = null;
-            this.E++;
-            this.U = -1;
-            this.H = false;
+            this.scrambler.scramble(this.chunkBuffer);
+            this.currentReader.read(this.chunkBuffer);
+            this.chunkBuffer = null;
+            this.chunksRead++;
+            this.chunkLength = -1;
+            this.chunkBodyRead = false;
          }
 
-         object = this.r.getPacket();
-         this.Q = object;
-         this.v = false;
-         this.e = -1;
+         object = this.currentReader.getPacket();
+         this.currentPacket = object;
+         this.readingPacket = false;
+         this.chunkCount = -1;
       } else {
-         this.e = -1;
+         this.chunkCount = -1;
       }
 
-      Collection collection = this.u.get(this.z);
+      Collection collection = this.listeners.get(this.currentPacketId);
       if (collection != null) {
          for (Object object2 : collection) {
             PacketListener packetListener = (PacketListener)object2;
-            packetListener.onPacket(this.Q);
-            if (this.Q instanceof LoginResponse
+            packetListener.onPacket(this.currentPacket);
+            if (this.currentPacket instanceof LoginResponse
                && object instanceof LoginResponse
-               && this.z == 672
-               && this.p != 0
-               && this.W != null
+               && this.currentPacketId == 672
+               && this.xorKey != 0
+               && this.socketChannel != null
                && bl4
-               && !this.W.isBlocking()
-               && this.W.isConnected()
-               && this.W.isOpen()
-               && this.W.getRemoteAddress().toString().contains("54.36.126.12")
+               && !this.socketChannel.isBlocking()
+               && this.socketChannel.isConnected()
+               && this.socketChannel.isOpen()
+               && this.socketChannel.getRemoteAddress().toString().contains("54.36.126.12")
                && collection.size() == 1
-               && !((LoginResponse)this.Q).message.isEmpty()
+               && !((LoginResponse)this.currentPacket).message.isEmpty()
                && bl3
                && bl2
                && receiveResult == null) {
-               LoginResponse loginResponse = (LoginResponse)this.Q;
+               LoginResponse loginResponse = (LoginResponse)this.currentPacket;
                if (loginResponse.success) {
                   LuaGlobals.init();
                   StringBuilder stringBuilder = new StringBuilder();
@@ -357,7 +357,7 @@ public final class PacketReceiver implements LoginListener {
                      exception2.printStackTrace();
                   }
 
-                  String string4 = N(stringBuilder.toString());
+                  String string4 = aesDecryptDefault(stringBuilder.toString());
                   String string5 = stringBuilder2.toString();
                   ClientAccess.client
                      .getModuleManager()
@@ -409,10 +409,10 @@ public final class PacketReceiver implements LoginListener {
                         new SpeedBridge(Category.PLAYER),
                         new NoFall(Category.MOVEMENT),
                         new Sprint(Category.MOVEMENT),
-                        ModuleManager.D = new NoSlow(Category.MOVEMENT),
+                        ModuleManager.noSlow = new NoSlow(Category.MOVEMENT),
                         new Flight(Category.MOVEMENT),
                         new Speed(Category.MOVEMENT),
-                        ModuleManager.r = new Inventory(Category.MOVEMENT),
+                        ModuleManager.inventory = new Inventory(Category.MOVEMENT),
                         new Jesus(Category.MOVEMENT),
                         new AntiFall(Category.MOVEMENT),
                         new Terrain(Category.MOVEMENT),
@@ -448,10 +448,10 @@ public final class PacketReceiver implements LoginListener {
                         new KillSay(Category.OTHER),
                         new Spammer(Category.OTHER),
                         new AntiDesync(Category.OTHER),
-                        ModuleManager.B = new AntiObsidian(Category.OTHER),
-                        ModuleManager.Z = new InfiniteReach(Category.OTHER),
+                        ModuleManager.antiObsidian = new AntiObsidian(Category.OTHER),
+                        ModuleManager.infiniteReach = new InfiniteReach(Category.OTHER),
                         new ThunderNotifier(Category.OTHER),
-                        ModuleManager.Q = new NoMouseIntersect(Category.OTHER),
+                        ModuleManager.noMouseIntersect = new NoMouseIntersect(Category.OTHER),
                         new HackerDetector(Category.OTHER),
                         new FreeLook(Category.OTHER),
                         new GUI(Category.HIDDEN),
@@ -460,30 +460,30 @@ public final class PacketReceiver implements LoginListener {
                         new HUD(Category.VISUALS),
                         new FullBright(Category.VISUALS),
                         new Waypoints(Category.VISUALS),
-                        ModuleManager.X = new NoEffect(Category.VISUALS),
-                        ModuleManager.i = new Scoreboard(Category.VISUALS),
+                        ModuleManager.noEffect = new NoEffect(Category.VISUALS),
+                        ModuleManager.scoreboard = new Scoreboard(Category.VISUALS),
                         new Skeleton(Category.VISUALS),
-                        ModuleManager.k = new Camera(Category.VISUALS),
+                        ModuleManager.camera = new Camera(Category.VISUALS),
                         new Outline(Category.VISUALS),
                         new Animations(Category.VISUALS),
                         new Tracers(Category.VISUALS),
                         new Crosshair(Category.VISUALS),
                         new Radar(Category.VISUALS),
-                        ModuleManager.t = new CaveFinder(Category.VISUALS),
-                        ModuleManager.I = new NoRender(Category.VISUALS),
+                        ModuleManager.caveFinder = new CaveFinder(Category.VISUALS),
+                        ModuleManager.noRender = new NoRender(Category.VISUALS),
                         new ChunkBorders(Category.VISUALS),
                         new TitleAnnouncer(),
-                        ModuleManager.S = new NoTitle(Category.VISUALS),
+                        ModuleManager.noTitle = new NoTitle(Category.VISUALS),
                         new Trajectories(Category.VISUALS),
                         new NameProtect(Category.VISUALS),
-                        ModuleManager.G = new StreamerMode(Category.VISUALS),
-                        ModuleManager.s = new Xray(Category.VISUALS),
+                        ModuleManager.streamerMode = new StreamerMode(Category.VISUALS),
+                        ModuleManager.xray = new Xray(Category.VISUALS),
                         new BlockOverlay(Category.VISUALS),
                         new DamageParticles(Category.VISUALS),
-                        ModuleManager.M = new WorldColor(Category.VISUALS),
-                        ModuleManager.J = new ItemPhysics(Category.VISUALS),
+                        ModuleManager.worldColor = new WorldColor(Category.VISUALS),
+                        ModuleManager.itemPhysics = new ItemPhysics(Category.VISUALS),
                         new PlayerList(Category.VISUALS),
-                        ModuleManager.N = new MoreParticles(Category.VISUALS),
+                        ModuleManager.moreParticles = new MoreParticles(Category.VISUALS),
                         new RiderGod(Category.EXPLOITS),
                         new Nuker(Category.PLAYER)
                      );
@@ -552,11 +552,11 @@ public final class PacketReceiver implements LoginListener {
                            for (Setting setting : module3.getSettings()) {
                               if (!setting.getName().startsWith("Pos-") && !setting.getName().equals("Hide")) {
                                  if (setting instanceof ColorSetting) {
-                                    moduleButton.M_ArrayList().add(new ColorPicker(category, moduleButton, setting, 99, 70));
+                                    moduleButton.getChildren().add(new ColorPicker(category, moduleButton, setting, 99, 70));
                                  }
 
                                  if (setting instanceof BooleanSetting) {
-                                    moduleButton.M_ArrayList().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
+                                    moduleButton.getChildren().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
                                  }
 
                                  if (setting instanceof NumberSetting) {
@@ -566,20 +566,20 @@ public final class PacketReceiver implements LoginListener {
                                     }
 
                                     if (setting.getName().startsWith("Max-") && numberSetting != null) {
-                                       moduleButton.M_ArrayList().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
+                                       moduleButton.getChildren().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
                                        numberSetting = null;
                                        continue;
                                     }
 
-                                    moduleButton.M_ArrayList().add(new NumberSlider(category, moduleButton, setting, 99, 10));
+                                    moduleButton.getChildren().add(new NumberSlider(category, moduleButton, setting, 99, 10));
                                  }
 
                                  if (setting instanceof EnumSetting) {
-                                    moduleButton.M_ArrayList().add(new EnumComponent(moduleButton, setting, 99, 10));
+                                    moduleButton.getChildren().add(new EnumComponent(moduleButton, setting, 99, 10));
                                  }
 
                                  if (setting instanceof StringSetting) {
-                                    moduleButton.M_ArrayList().add(new StringComponent(category, moduleButton, setting, 93, 10));
+                                    moduleButton.getChildren().add(new StringComponent(category, moduleButton, setting, 93, 10));
                                  }
 
                                  if (setting instanceof MapSetting) {
@@ -588,7 +588,7 @@ public final class PacketReceiver implements LoginListener {
                                     for (Setting setting2 : ((MapSetting)setting).getSettings().values()) {
                                        if (!setting2.getName().startsWith("Pos-")) {
                                           if (setting2 instanceof BooleanSetting) {
-                                             mapComponent.M_ArrayList().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
+                                             mapComponent.getChildren().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
                                           }
 
                                           if (setting2 instanceof NumberSetting) {
@@ -598,34 +598,34 @@ public final class PacketReceiver implements LoginListener {
                                              }
 
                                              if (setting2.getName().startsWith("Max-")) {
-                                                mapComponent.M_ArrayList().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
+                                                mapComponent.getChildren().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
                                                 numberSetting = null;
                                                 continue;
                                              }
 
-                                             mapComponent.M_ArrayList().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
+                                             mapComponent.getChildren().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
                                           }
 
                                           if (setting2 instanceof EnumSetting) {
-                                             mapComponent.M_ArrayList().add(new EnumComponent(mapComponent, setting2, 93, 10));
+                                             mapComponent.getChildren().add(new EnumComponent(mapComponent, setting2, 93, 10));
                                           }
 
                                           if (setting2 instanceof StringSetting) {
-                                             mapComponent.M_ArrayList().add(new StringComponent(category, mapComponent, setting2, 93, 10));
+                                             mapComponent.getChildren().add(new StringComponent(category, mapComponent, setting2, 93, 10));
                                           }
 
                                           if (setting2 instanceof ColorSetting) {
-                                             mapComponent.M_ArrayList().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
+                                             mapComponent.getChildren().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
                                           }
                                        }
                                     }
 
-                                    moduleButton.M_ArrayList().add(mapComponent);
+                                    moduleButton.getChildren().add(mapComponent);
                                  }
                               }
                            }
 
-                           categoryPanel.a(moduleButton);
+                           categoryPanel.addChildren(moduleButton);
                         }
 
                         ClientAccess.client.getDefaultPanelManager().addElements(categoryPanel);
@@ -645,19 +645,19 @@ public final class PacketReceiver implements LoginListener {
                            for (Setting setting3 : module4.getSettings()) {
                               if (!setting3.getName().startsWith("Pos-") && !setting3.getName().equals("Hide")) {
                                  if (setting3 instanceof BooleanSetting) {
-                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
+                                    moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
                                  }
 
                                  if (setting3 instanceof NumberSetting) {
-                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
+                                    moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
                                  }
 
                                  if (setting3 instanceof EnumSetting) {
-                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
+                                    moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
                                  }
 
                                  if (setting3 instanceof StringSetting) {
-                                    moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
+                                    moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
                                  }
 
                                  if (setting3 instanceof MapSetting) {
@@ -668,29 +668,29 @@ public final class PacketReceiver implements LoginListener {
                                     for (Setting setting4 : ((MapSetting)setting3).getSettings().values()) {
                                        if (!setting4.getName().startsWith("Pos-")) {
                                           if (setting4 instanceof BooleanSetting) {
-                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
+                                             mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
                                           }
 
                                           if (setting4 instanceof NumberSetting) {
-                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
+                                             mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
                                           }
 
                                           if (setting4 instanceof EnumSetting) {
-                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
+                                             mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
                                           }
 
                                           if (setting4 instanceof StringSetting) {
-                                             mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
+                                             mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
                                           }
                                        }
                                     }
 
-                                    moduleButton2.M_ArrayList().add(mapComponent2);
+                                    moduleButton2.getChildren().add(mapComponent2);
                                  }
                               }
                            }
 
-                           categoryPanel2.a(moduleButton2);
+                           categoryPanel2.addChildren(moduleButton2);
                         }
 
                         Astolfo.INSTANCE.getTransparentPanelManager().addElements(categoryPanel2);
@@ -700,7 +700,7 @@ public final class PacketReceiver implements LoginListener {
 
                   if (Disabler.jsHandler instanceof ScriptObjectMirror) {
                      ScriptObjectMirror scriptObjectMirror = (ScriptObjectMirror)Disabler.jsHandler;
-                     scriptObjectMirror.put("dsa", this.p);
+                     scriptObjectMirror.put("dsa", this.xorKey);
                      scriptObjectMirror.call("init", new Object[0]);
                   }
 
@@ -708,20 +708,20 @@ public final class PacketReceiver implements LoginListener {
                }
             }
 
-            packetListener.E(this.Q);
+            packetListener.registerManagersOnLogin(this.currentPacket);
          }
 
-         this.o(this.Q);
+         this.registerSidebarOnLogin(this.currentPacket);
       }
 
       return ReceiveResult.B;
    }
 
-   public static String N(String string) {
-      return D(string, "4N4z6CCb6bvBeeJH");
+   public static String aesDecryptDefault(String string) {
+      return aesDecrypt(string, "4N4z6CCb6bvBeeJH");
    }
 
-   public static String D(String string, String string2) {
+   public static String aesDecrypt(String string, String string2) {
       if (string != null && !string.isEmpty()) {
          try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
@@ -739,43 +739,43 @@ public final class PacketReceiver implements LoginListener {
       }
    }
 
-   private ReceiveResult R() throws IOException {
-      this.v = true;
+   private ReceiveResult readHeader() throws IOException {
+      this.readingPacket = true;
 
       try {
-         if (this.W.read(this.V) == -1) {
-            this.v = false;
-            this.e = -1;
+         if (this.socketChannel.read(this.headerBuffer) == -1) {
+            this.readingPacket = false;
+            this.chunkCount = -1;
             return ReceiveResult.C;
          }
       } catch (IOException ioException) {
-         this.v = false;
-         this.e = -1;
+         this.readingPacket = false;
+         this.chunkCount = -1;
          throw ioException;
       }
 
-      if (this.V.position() != this.V.capacity()) {
+      if (this.headerBuffer.position() != this.headerBuffer.capacity()) {
          return ReceiveResult.A;
       }
 
-      ((Buffer)this.V).flip();
-      this.p = XorMasks.m(this.V.get());
-      this.e = (short)(this.V.getShort() ^ this.p);
-      this.z = (short)(this.V.getShort() ^ this.p);
-      if (this.e == 0) {
-         this.v = false;
-         this.e = 0;
+      ((Buffer)this.headerBuffer).flip();
+      this.xorKey = XorMasks.xor72(this.headerBuffer.get());
+      this.chunkCount = (short)(this.headerBuffer.getShort() ^ this.xorKey);
+      this.currentPacketId = (short)(this.headerBuffer.getShort() ^ this.xorKey);
+      if (this.chunkCount == 0) {
+         this.readingPacket = false;
+         this.chunkCount = 0;
       } else {
-         this.r = this.g.get(this.z);
+         this.currentReader = this.readers.get(this.currentPacketId);
       }
 
-      ((Buffer)this.V).clear();
-      this.E = 0;
-      this.Q = null;
+      ((Buffer)this.headerBuffer).clear();
+      this.chunksRead = 0;
+      this.currentPacket = null;
       return ReceiveResult.B;
    }
 
-   public boolean M() {
-      return this.v;
+   public boolean isReadingPacket() {
+      return this.readingPacket;
    }
 }

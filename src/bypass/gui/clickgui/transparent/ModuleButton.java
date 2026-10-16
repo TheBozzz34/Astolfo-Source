@@ -14,158 +14,166 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public class ModuleButton extends Container {
-   private Container L;
-   private Module A;
-   private int O = 0;
-   private final Color G = new Color(85, 85, 85);
-   private static final Color N = new Color(1, 1, 1, 70);
-   private static final Color T = new Color(255, 255, 255, 170);
-   private boolean K;
-   private int Y;
+   private Container parentPanel;
+   private Module module;
+   private int openTicks = 0;
+   private final Color grayColor = new Color(85, 85, 85);
+   private static final Color shadowColor = new Color(1, 1, 1, 70);
+   private static final Color whiteColor = new Color(255, 255, 255, 170);
+   private boolean listeningForBind;
+   private int hoverAlpha;
 
    public ModuleButton(Container container, Module module, int i, int j) {
       super(module.getName(), 0.0F, 0.0F, i, j);
-      this.L = container;
-      this.A = module;
+      this.parentPanel = container;
+      this.module = module;
    }
 
    @Override
    public void render(int i, int j) {
-      if (this.G(i, j)) {
-         if (this.Y < 120) {
-            this.Y += 5;
+      if (this.isHovered(i, j)) {
+         if (this.hoverAlpha < 120) {
+            this.hoverAlpha += 5;
          }
-      } else if (this.Y > 0) {
-         this.Y -= 5;
+      } else if (this.hoverAlpha > 0) {
+         this.hoverAlpha -= 5;
       }
 
-      if (this.Y > 0) {
+      if (this.hoverAlpha > 0) {
          RenderUtil.drawRect(
-            this.M() + 1.0F, this.E_float() - 1.0F, this.M() + this.x() + 1.0F, this.E_float() + this.Y() + 4.0F, new Color(255, 255, 255, this.Y).getRGB()
+            this.getX() + 1.0F,
+            this.getYPos() - 1.0F,
+            this.getX() + this.getWidth() + 1.0F,
+            this.getYPos() + this.getHeight() + 4.0F,
+            new Color(255, 255, 255, this.hoverAlpha).getRGB()
          );
       }
 
-      if (this.K && Mouse.isButtonDown(0) && !this.G(i, j)) {
-         this.K = false;
+      if (this.listeningForBind && Mouse.isButtonDown(0) && !this.isHovered(i, j)) {
+         this.listeningForBind = false;
       }
 
       RenderUtil.drawRect(
-         this.M() + 1.0F, this.E_float() - 1.0F, this.M() + this.x() + 1.0F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
+         this.getX() + 1.0F,
+         this.getYPos() - 1.0F,
+         this.getX() + this.getWidth() + 1.0F,
+         this.getYPos() + this.getHeight() + 4.0F,
+         new Color(1, 1, 1, 120).getRGB()
       );
       client.getCustomFontRenderer()
          .drawStringWithShadow(
-            this.A.getName(),
-            this.M() + 3.0F,
-            this.E_float(),
-            this.K ? Color.RED.getRGB() : (this.A.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB())
+            this.module.getName(),
+            this.getX() + 3.0F,
+            this.getYPos(),
+            this.listeningForBind ? Color.RED.getRGB() : (this.module.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB())
          );
-      if (!this.M_ArrayList().isEmpty()) {
-         if (!this.s_boolean()) {
-            this.u(
-               this.M() + this.x() - 10.0F,
-               this.E_float() + 4.0F,
+      if (!this.getChildren().isEmpty()) {
+         if (!this.isExpanded()) {
+            this.drawChevron(
+               this.getX() + this.getWidth() - 10.0F,
+               this.getYPos() + 4.0F,
                7.0F,
                4.0F,
                2.0F,
-               this.A.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB()
+               this.module.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB()
             );
          } else {
-            this.u(
-               this.M() + this.x() - 10.0F,
-               this.E_float() + 8.0F,
+            this.drawChevron(
+               this.getX() + this.getWidth() - 10.0F,
+               this.getYPos() + 8.0F,
                7.0F,
                -4.0F,
                2.0F,
-               this.A.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB()
+               this.module.isEnabled() ? client.getColor().getRGB() : new Color(154, 154, 154).getRGB()
             );
          }
       }
 
-      if (this.s_boolean() || this.U.isRunning()) {
+      if (this.isExpanded() || this.expandAnimation.isRunning()) {
          int k = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof Component) {
-               ((Component)element).r(this.M() + 1.0F, this.E_float() + k + 15.0F);
-               if (this.s_boolean()) {
+               ((Component)element).setPosition(this.getX() + 1.0F, this.getYPos() + k + 15.0F);
+               if (this.isExpanded()) {
                   element.render(i, j);
                }
 
-               k += 15 + (element instanceof MapComponent && ((MapComponent)element).s_boolean() ? ((MapComponent)element).d() : 0);
-               k = (int)(k - this.U.getValue(0.0, k));
+               k += 15 + (element instanceof MapComponent && ((MapComponent)element).isExpanded() ? ((MapComponent)element).getChildrenHeight() : 0);
+               k = (int)(k - this.expandAnimation.getValue(0.0, k));
             }
          }
       }
 
-      if (this.A.isEnabled()) {
-         this.F.backwards().start();
+      if (this.module.isEnabled()) {
+         this.stateAnimation.backwards().start();
       } else {
-         this.F.forwards().start();
+         this.stateAnimation.forwards().start();
       }
 
-      if (this.L.s_boolean()) {
-         this.O++;
+      if (this.parentPanel.isExpanded()) {
+         this.openTicks++;
       } else {
-         this.O = 0;
+         this.openTicks = 0;
       }
    }
 
    @Override
-   public boolean G(int i, int j) {
-      return i >= this.M() && i <= this.M() + this.x() && j >= this.E_float() && j <= this.E_float() + this.Y();
+   public boolean isHovered(int i, int j) {
+      return i >= this.getX() && i <= this.getX() + this.getWidth() && j >= this.getYPos() && j <= this.getYPos() + this.getHeight();
    }
 
-   private void u(float f, float g, float h, float f2, float f3, int i) {
+   private void drawChevron(float f, float g, float h, float f2, float f3, int i) {
       RenderUtil.drawLine(f3, f, g, f + h / 2.0F, g + f2, i);
       RenderUtil.drawLine(f3, f + h / 2.0F, g + f2, f + h, g, i);
    }
 
    @Override
-   public void l(int i) {
-      if (this.L.s_boolean()) {
+   public void onClick(int i) {
+      if (this.parentPanel.isExpanded()) {
          if (i == 0) {
-            if (this.K) {
-               this.K = false;
+            if (this.listeningForBind) {
+               this.listeningForBind = false;
                return;
             }
 
-            Module module = client.getModuleManager().getModule(this.A.getName());
-            module.setEnabled(!module.isEnabled());
+            Module module2 = client.getModuleManager().getModule(this.module.getName());
+            module2.setEnabled(!module2.isEnabled());
          }
 
          if (i == 1 && (Keyboard.isKeyDown(42) || Keyboard.isKeyDown(54))) {
-            this.K = true;
+            this.listeningForBind = true;
             return;
          }
 
-         if (i == 1 && this.O > 0 && !this.M_ArrayList().isEmpty() && !this.K) {
-            this.u(!this.s_boolean());
-            if (this.s_boolean()) {
-               this.U.backwards().rewind().start();
+         if (i == 1 && this.openTicks > 0 && !this.getChildren().isEmpty() && !this.listeningForBind) {
+            this.setExpanded(!this.isExpanded());
+            if (this.isExpanded()) {
+               this.expandAnimation.backwards().rewind().start();
             } else {
-               this.U.forwards().rewind().start();
+               this.expandAnimation.forwards().rewind().start();
             }
          }
       }
    }
 
    @Override
-   public void P(char c, int i) {
-      if (this.K && ChatAllowedCharacters.isAllowedCharacter(c)) {
+   public void onKeyTyped(char c, int i) {
+      if (this.listeningForBind && ChatAllowedCharacters.isAllowedCharacter(c)) {
          client.getNotificationManager()
-            .i(String.format("%s's bind is now %s", this.a().getName(), Character.toUpperCase(c)), "", NotificationType.SUCCESS, 1500)
-            .K();
-         this.a().setKey(i);
-         this.K = false;
+            .createNotification(String.format("%s's bind is now %s", this.getModule().getName(), Character.toUpperCase(c)), "", NotificationType.SUCCESS, 1500)
+            .show();
+         this.getModule().setKey(i);
+         this.listeningForBind = false;
       }
 
-      super.P(c, i);
+      super.onKeyTyped(c, i);
    }
 
-   public int d() {
+   public int getExpandedHeight() {
       byte b = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SettingComponent || element instanceof SettingContainer) {
                b += 15;
             }
@@ -175,7 +183,7 @@ public class ModuleButton extends Container {
       return b + 15;
    }
 
-   public Module a() {
-      return this.A;
+   public Module getModule() {
+      return this.module;
    }
 }

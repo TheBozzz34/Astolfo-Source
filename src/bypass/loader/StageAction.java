@@ -1,15 +1,15 @@
 package bypass.loader;
 
 public abstract class StageAction {
-   private final LoadStage a;
+   private final LoadStage stage;
 
    public StageAction(LoadStage loadStage) {
-      this.a = loadStage;
+      this.stage = loadStage;
    }
 
    public abstract void run();
 
    public LoadStage getStage() {
-      return this.a;
+      return this.stage;
    }
 }

@@ -1714,7 +1714,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
    }
 
    public boolean isWearing(EnumPlayerModelParts enumPlayerModelParts) {
-      return Astolfo.INSTANCE.getUserManager().g(this.getName()) != null
+      return Astolfo.INSTANCE.getUserManager().getUser(this.getName()) != null
          ? true
          : (this.getDataWatcher().getWatchableObjectByte(10) & enumPlayerModelParts.getPartMask()) == enumPlayerModelParts.getPartMask();
    }

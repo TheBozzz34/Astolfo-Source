@@ -4,5 +4,5 @@ import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
 public interface ConnectionHandler {
-   void c(SocketChannel socketChannel) throws IOException;
+   void handleConnected(SocketChannel socketChannel) throws IOException;
 }

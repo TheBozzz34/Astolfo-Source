@@ -16,110 +16,110 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 
 public class ChatMessageBuilder implements ClientAccess {
-   private ChatComponentText b;
-   private boolean N;
-   private boolean f;
-   private ChatStyle d;
-   private ChatComponentStyle q;
-   public final ClientChat k;
+   private ChatComponentText root;
+   private boolean autoColor;
+   private boolean linkDetection;
+   private ChatStyle style;
+   private ChatComponentStyle current;
+   public final ClientChat clientChat;
 
    public ChatMessageBuilder(ClientChat clientChat) {
-      this.k = clientChat;
-      this.b = new ChatComponentText("");
-      this.N = false;
-      this.d = new ChatStyle();
-      this.q = new ChatComponentText("");
+      this.clientChat = clientChat;
+      this.root = new ChatComponentText("");
+      this.autoColor = false;
+      this.style = new ChatStyle();
+      this.current = new ChatComponentText("");
    }
 
-   public ChatMessageBuilder i(String string) {
-      this.w();
-      this.q = new ChatComponentText(string);
-      this.d = new ChatStyle();
-      if (this.f) {
-         Matcher matcher2 = ClientChat.N().matcher(string);
+   public ChatMessageBuilder append(String string) {
+      this.flushCurrent();
+      this.current = new ChatComponentText(string);
+      this.style = new ChatStyle();
+      if (this.linkDetection) {
+         Matcher matcher2 = ClientChat.getUrlPattern().matcher(string);
 
          while (matcher2.find()) {
-            this.m(string.substring(matcher2.start(1), matcher2.end(0)));
+            this.openUrlOnClick(string.substring(matcher2.start(1), matcher2.end(0)));
          }
       }
 
-      if (this.N) {
-         this.M(ClientChat.K(this.k));
+      if (this.autoColor) {
+         this.color(ClientChat.getAccentColor(this.clientChat));
       }
 
       return this;
    }
 
-   public ChatMessageBuilder S() {
-      this.f = true;
+   public ChatMessageBuilder enableLinkDetection() {
+      this.linkDetection = true;
       return this;
    }
 
-   public ChatMessageBuilder M(EnumChatFormatting enumChatFormatting) {
-      this.d.setColor(enumChatFormatting);
+   public ChatMessageBuilder color(EnumChatFormatting enumChatFormatting) {
+      this.style.setColor(enumChatFormatting);
       return this;
    }
 
-   public ChatMessageBuilder M() {
-      this.d.setBold(true);
+   public ChatMessageBuilder bold() {
+      this.style.setBold(true);
       return this;
    }
 
-   public ChatMessageBuilder V() {
-      this.d.setItalic(true);
+   public ChatMessageBuilder italic() {
+      this.style.setItalic(true);
       return this;
    }
 
-   public ChatMessageBuilder F() {
-      this.d.setStrikethrough(true);
+   public ChatMessageBuilder strikethrough() {
+      this.style.setStrikethrough(true);
       return this;
    }
 
-   public ChatMessageBuilder j() {
-      this.d.setUnderlined(true);
+   public ChatMessageBuilder underline() {
+      this.style.setUnderlined(true);
       return this;
    }
 
-   public ChatMessageBuilder V(String string) {
-      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, string));
+   public ChatMessageBuilder runCommandOnClick(String string) {
+      this.style.setChatClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, string));
       return this;
    }
 
-   public ChatMessageBuilder y(String string) {
-      this.d.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(string)));
+   public ChatMessageBuilder showTextOnHover(String string) {
+      this.style.setChatHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ChatComponentText(string)));
       return this;
    }
 
-   public ChatMessageBuilder m(String string) {
-      this.d.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, string));
+   public ChatMessageBuilder openUrlOnClick(String string) {
+      this.style.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, string));
       return this;
    }
 
-   public ChatMessageBuilder g(TextAlignment textAlignment) {
-      this.w();
-      this.b.appendSibling(new AlignedChatComponent(this.k, textAlignment));
+   public ChatMessageBuilder align(TextAlignment textAlignment) {
+      this.flushCurrent();
+      this.root.appendSibling(new AlignedChatComponent(this.clientChat, textAlignment));
       return this;
    }
 
-   public ChatMessage N() {
-      this.w();
+   public ChatMessage build() {
+      this.flushCurrent();
       this.resolveColumns();
-      return new ChatMessage(this.k, this.b);
+      return new ChatMessage(this.clientChat, this.root);
    }
 
-   private void w() {
-      if (this.q != null) {
-         this.b.appendSibling(this.q.setChatStyle(this.d));
-         this.q = null;
+   private void flushCurrent() {
+      if (this.current != null) {
+         this.root.appendSibling(this.current.setChatStyle(this.style));
+         this.current = null;
       }
    }
 
    private void resolveColumns() {
-      if (!this.b.getSiblings().stream().noneMatch(iChatComponent -> iChatComponent instanceof AlignedChatComponent)) {
+      if (!this.root.getSiblings().stream().noneMatch(iChatComponent -> iChatComponent instanceof AlignedChatComponent)) {
          int i = MathHelper.floor_float(MathHelper.floor_float(mc.gameSettings.l6 * 280.0F + 40.0F) / mc.gameSettings.chatScale);
-         List list = GuiUtilRenderComponents.splitText(this.b, i, mc.fontRendererObj, false, false);
-         ChatComponentText chatComponentText = this.b;
-         chatComponentText.getSiblings().add(0, new AlignedChatComponent(this.k, TextAlignment.CENTER));
+         List list = GuiUtilRenderComponents.splitText(this.root, i, mc.fontRendererObj, false, false);
+         ChatComponentText chatComponentText = this.root;
+         chatComponentText.getSiblings().add(0, new AlignedChatComponent(this.clientChat, TextAlignment.CENTER));
          int j = 0;
          ArrayList arrayList = new ArrayList();
          ChatComponentText chatComponentText2 = new ChatComponentText("");
@@ -129,39 +129,39 @@ public class ChatMessageBuilder implements ClientAccess {
             if (iChatComponent2 instanceof AlignedChatComponent) {
                AlignedChatComponent alignedChatComponent = (AlignedChatComponent)iChatComponent2;
                String string = GuiUtilRenderComponents.func_178909_a(chatComponentText2.getFormattedText(), false);
-               alignedChatComponent.x = mc.fontRendererObj.getStringWidth(string);
-               j += alignedChatComponent.x;
+               alignedChatComponent.padWidth = mc.fontRendererObj.getStringWidth(string);
+               j += alignedChatComponent.padWidth;
                arrayList.add(alignedChatComponent);
                chatComponentText2 = new ChatComponentText("");
             }
          }
 
-         int l = i - j;
-         int m = arrayList.size();
-         int n = l / m;
+         int k = i - j;
+         int l = arrayList.size();
+         int m = k / l;
 
-         for (int i2 = 0; i2 < arrayList.size(); i2++) {
-            AlignedChatComponent alignedChatComponent2 = (AlignedChatComponent)arrayList.get(i2);
-            AlignedChatComponent alignedChatComponent3 = i2 > 0 ? (AlignedChatComponent)arrayList.get(i2 - 1) : null;
-            alignedChatComponent2.x = n;
-            switch (alignedChatComponent2.f) {
+         for (int n = 0; n < arrayList.size(); n++) {
+            AlignedChatComponent alignedChatComponent2 = (AlignedChatComponent)arrayList.get(n);
+            AlignedChatComponent alignedChatComponent3 = n > 0 ? (AlignedChatComponent)arrayList.get(n - 1) : null;
+            alignedChatComponent2.padWidth = m;
+            switch (alignedChatComponent2.alignment) {
                case LEFT:
-                  alignedChatComponent3.x -= n;
-                  alignedChatComponent2.x += n;
+                  alignedChatComponent3.padWidth -= m;
+                  alignedChatComponent2.padWidth += m;
                   break;
                case RIGHT:
-                  alignedChatComponent3.x += n;
-                  alignedChatComponent2.x -= n;
+                  alignedChatComponent3.padWidth += m;
+                  alignedChatComponent2.padWidth -= m;
             }
          }
       }
    }
 
-   public static ChatComponentText Y(ChatMessageBuilder chatMessageBuilder) {
-      return chatMessageBuilder.b;
+   public static ChatComponentText getRoot(ChatMessageBuilder chatMessageBuilder) {
+      return chatMessageBuilder.root;
    }
 
-   public static boolean m(ChatMessageBuilder chatMessageBuilder, boolean bl) {
-      return chatMessageBuilder.N = bl;
+   public static boolean setAutoColor(ChatMessageBuilder chatMessageBuilder, boolean bl) {
+      return chatMessageBuilder.autoColor = bl;
    }
 }

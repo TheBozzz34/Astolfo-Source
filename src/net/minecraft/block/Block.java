@@ -252,7 +252,7 @@ public class Block {
    }
 
    public boolean isFullCube() {
-      return !ModuleManager.s.isEnabled() || Xray.isEnabledOre(this);
+      return !ModuleManager.xray.isEnabled() || Xray.isEnabledOre(this);
    }
 
    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
@@ -308,7 +308,7 @@ public class Block {
    }
 
    public int getMixedBrightnessForBlock(IBlockAccess worldIn, BlockPos pos) {
-      if (ModuleManager.s.isEnabled() && Xray.isEnabledOre(this)) {
+      if (ModuleManager.xray.isEnabled() && Xray.isEnabledOre(this)) {
          return 200;
       } else {
          Block block = worldIn.getBlockState(pos).getBlock();
@@ -324,7 +324,7 @@ public class Block {
    }
 
    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-      if (ModuleManager.s.isEnabled() && Xray.isEnabledOre(this)) {
+      if (ModuleManager.xray.isEnabled() && Xray.isEnabledOre(this)) {
          if (Xray.hypixel.getValue() == XrayHypixelMode.FALSE) {
             return true;
          }

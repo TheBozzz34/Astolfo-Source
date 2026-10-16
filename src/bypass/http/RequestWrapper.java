@@ -5,56 +5,56 @@ import java.util.Collections;
 import java.util.Map;
 
 public final class RequestWrapper extends AbstractRequest {
-   private String B;
-   private Request U;
+   private String cachedBody;
+   private Request delegate;
 
    public RequestWrapper(Request request) {
-      this.U = request;
+      this.delegate = request;
    }
 
    @Override
-   public String D() throws Exception {
-      if (this.B != null) {
-         return this.B;
+   public String getBody() throws Exception {
+      if (this.cachedBody != null) {
+         return this.cachedBody;
       }
 
-      String string = this.U.D();
-      this.B = string;
+      String string = this.delegate.getBody();
+      this.cachedBody = string;
       return string;
    }
 
    @Override
-   public String t() {
-      return this.U.t();
+   public String getMethod() {
+      return this.delegate.getMethod();
    }
 
    @Override
-   public ContentType V() {
-      return this.U.V();
+   public ContentType getContentType() {
+      return this.delegate.getContentType();
    }
 
    @Override
-   public int d() {
-      if (this.B != null) {
-         return this.B.length();
+   public int getContentLength() {
+      if (this.cachedBody != null) {
+         return this.cachedBody.length();
       }
 
       try {
-         this.B = this.D();
+         this.cachedBody = this.getBody();
       } catch (Exception exception) {
          exception.printStackTrace();
       }
 
-      return this.B.length();
+      return this.cachedBody.length();
    }
 
    @Override
-   public URL m(URL url) throws Exception {
-      return this.U instanceof AbstractRequest ? ((AbstractRequest)this.U).m(url) : url;
+   public URL buildUrl(URL url) throws Exception {
+      return this.delegate instanceof AbstractRequest ? ((AbstractRequest)this.delegate).buildUrl(url) : url;
    }
 
    @Override
-   public Map<String, String> U() {
-      return this.U instanceof AbstractRequest ? ((AbstractRequest)this.U).U() : Collections.emptyMap();
+   public Map<String, String> getHeaders() {
+      return this.delegate instanceof AbstractRequest ? ((AbstractRequest)this.delegate).getHeaders() : Collections.emptyMap();
    }
 }

@@ -26,20 +26,20 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
 
 public final class InventoryPacketHandler extends HiddenModule {
-   public static Stopwatch F = new Stopwatch();
-   public static boolean u;
-   private ScheduledExecutorService N = Executors.newScheduledThreadPool(1);
+   public static Stopwatch inventoryActionTimer = new Stopwatch();
+   public static boolean inventoryOpen;
+   private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
-      u = false;
-      this.N.shutdownNow();
-      this.N = Executors.newScheduledThreadPool(1);
-      UnusedTeleportCommand.W = 0;
+      inventoryOpen = false;
+      this.scheduler.shutdownNow();
+      this.scheduler = Executors.newScheduledThreadPool(1);
+      UnusedTeleportCommand.riderGodTeleports = 0;
    };
-   private final Packet<?> V = new C0DPacketCloseWindow(0);
-   private boolean d;
-   private Stopwatch w = new Stopwatch();
-   private final Queue<Packet<?>> p = new LinkedList<>();
+   private final Packet<?> closeInventoryPacket = new C0DPacketCloseWindow(0);
+   private boolean unusedFlag;
+   private Stopwatch unusedTimer = new Stopwatch();
+   private final Queue<Packet<?>> delayedClickPackets = new LinkedList<>();
    @EventHandler(value = PacketEvent.class, priority = EventPriority.HIGHEST)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
@@ -48,23 +48,23 @@ public final class InventoryPacketHandler extends HiddenModule {
          int i = InventoryManager.general.getSetting("Drop-Delay").asInt();
          if (bl2 && packetEvent.getPacket() instanceof C03PacketPlayer) {
             if (!GameUtil.isMoving(mc.thePlayer)) {
-               Packet packet = this.p.poll();
+               Packet packet = this.delayedClickPackets.poll();
                if (packet != null) {
-                  this.N.schedule(() -> {
-                     if (!u) {
+                  this.scheduler.schedule(() -> {
+                     if (!inventoryOpen) {
                         mc.thePlayer.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
                      }
                   }, 50L, TimeUnit.MILLISECONDS);
-                  this.N.schedule(() -> {
-                     if (u) {
+                  this.scheduler.schedule(() -> {
+                     if (inventoryOpen) {
                         mc.thePlayer.sendQueue.addToSendQueue(packet);
                      }
                   }, 55 + i, TimeUnit.MILLISECONDS);
                }
-            } else if (u) {
-               this.N.schedule(() -> {
-                  if (u) {
-                     mc.thePlayer.sendQueue.addToSendQueue(this.V);
+            } else if (inventoryOpen) {
+               this.scheduler.schedule(() -> {
+                  if (inventoryOpen) {
+                     mc.thePlayer.sendQueue.addToSendQueue(this.closeInventoryPacket);
                   }
                }, 50L, TimeUnit.MILLISECONDS);
             }
@@ -76,50 +76,50 @@ public final class InventoryPacketHandler extends HiddenModule {
             if (j == 0) {
                if (bl2) {
                   if (GameUtil.isMoving(mc.thePlayer)) {
-                     this.p.offer(packetEvent.getPacket());
+                     this.delayedClickPackets.offer(packetEvent.getPacket());
                      packetEvent.cancel();
                   }
                } else if (bl) {
                   mc.thePlayer.sendQueue.u(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
                   mc.thePlayer.sendQueue.u(packetEvent.getPacket());
-                  mc.thePlayer.sendQueue.addToSendQueue(this.V);
+                  mc.thePlayer.sendQueue.addToSendQueue(this.closeInventoryPacket);
                   packetEvent.cancel();
                }
             }
 
-            F.reset();
+            inventoryActionTimer.reset();
          }
 
          if (packetEvent.getPacket() instanceof C0DPacketCloseWindow) {
             C0DPacketCloseWindow c0DPacketCloseWindow = (C0DPacketCloseWindow)packetEvent.getPacket();
             if (c0DPacketCloseWindow.e() == 0) {
-               if (!u) {
+               if (!inventoryOpen) {
                   packetEvent.cancel();
                }
 
-               u = false;
+               inventoryOpen = false;
             }
          }
 
          if (packetEvent.getPacket() instanceof C16PacketClientStatus) {
             C16PacketClientStatus c16PacketClientStatus = (C16PacketClientStatus)packetEvent.getPacket();
             if (c16PacketClientStatus.getStatus() == C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT) {
-               if (u) {
+               if (inventoryOpen) {
                   packetEvent.cancel();
                }
 
-               u = true;
+               inventoryOpen = true;
             }
          }
 
          if (packetEvent.getPacket() instanceof C08PacketPlayerBlockPlacement) {
             C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = (C08PacketPlayerBlockPlacement)packetEvent.getPacket();
             if (c08PacketPlayerBlockPlacement.getPlacedBlockDirection() != 255 && mc.theWorld.getBlockState(c08PacketPlayerBlockPlacement.getPosition()).getBlock() instanceof BlockChest) {
-               F.reset();
+               inventoryActionTimer.reset();
             }
          }
       } else if (packetEvent.getPacket() instanceof S2EPacketCloseWindow) {
-         u = false;
+         inventoryOpen = false;
       }
    };
 

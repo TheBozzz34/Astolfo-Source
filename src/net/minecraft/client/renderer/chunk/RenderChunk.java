@@ -172,7 +172,7 @@ public class RenderChunk {
                enumWorldBlockLayers = ENUM_WORLD_BLOCK_LAYERS;
             } else {
                enumWorldBlockLayers = this.blockLayersSingle;
-               enumWorldBlockLayers[0] = ModuleManager.s.isEnabled() && !Xray.isEnabledOre(block) ? EnumWorldBlockLayer.TRANSLUCENT : block.getBlockLayer();
+               enumWorldBlockLayers[0] = ModuleManager.xray.isEnabled() && !Xray.isEnabledOre(block) ? EnumWorldBlockLayer.TRANSLUCENT : block.getBlockLayer();
             }
 
             for (int i = 0; i < enumWorldBlockLayers.length; i++) {

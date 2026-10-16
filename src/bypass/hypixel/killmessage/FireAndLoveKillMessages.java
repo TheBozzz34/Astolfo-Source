@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class FireAndLoveKillMessages {
    public FireAndLoveKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was struck down by (\\w{1,16}).*",

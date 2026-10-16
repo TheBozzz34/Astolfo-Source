@@ -20,35 +20,43 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 public class ScriptsPanel extends Container {
-   private DefaultClickGuiScreen Q;
-   private Stopwatch r = new Stopwatch();
-   private SimpleDateFormat K = new SimpleDateFormat("MM/dd/yyyy");
+   private DefaultClickGuiScreen screen;
+   private Stopwatch clickTimer = new Stopwatch();
+   private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
    public ScriptsPanel(DefaultClickGuiScreen defaultClickGuiScreen) {
       super("scripts", 0.0F, 0.0F, 107, 17);
-      this.Q = defaultClickGuiScreen;
+      this.screen = defaultClickGuiScreen;
    }
 
    @Override
    public void render(int i, int j) {
-      int k = this.a();
+      int k = this.getScriptListHeight();
       RenderUtil.drawRect(
-         this.M() - 0.5F, this.E_float() - k - 0.5F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 0.5F, new Color(128, 128, 128).getRGB()
+         this.getX() - 0.5F,
+         this.getYPos() - k - 0.5F,
+         this.getX() + this.getWidth() + 0.5F,
+         this.getYPos() + this.getHeight() + 0.5F,
+         new Color(128, 128, 128).getRGB()
       );
-      RenderUtil.drawRect(this.M(), this.E_float() - k, this.M() + this.x(), this.E_float() + this.Y(), new Color(1710618).getRGB());
+      RenderUtil.drawRect(this.getX(), this.getYPos() - k, this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(1710618).getRGB());
       RenderUtil.drawRect(
-         this.M() + 2.0F, this.E_float() - k + 2.0F, this.M() + this.x() - 2.0F, this.E_float() + this.Y() - 17.0F, new Color(37, 37, 37).getRGB()
+         this.getX() + 2.0F,
+         this.getYPos() - k + 2.0F,
+         this.getX() + this.getWidth() - 2.0F,
+         this.getYPos() + this.getHeight() - 17.0F,
+         new Color(37, 37, 37).getRGB()
       );
-      int l = (int)(this.M() + this.x() - 11.0F);
-      int n = (int)this.E_float() + 4;
+      int l = (int)(this.getX() + this.getWidth() - 11.0F);
+      int n = (int)this.getYPos() + 4;
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/lua.png"));
       Gui.drawModalRectWithCustomSizedTexture(l, n, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPushMatrix();
-      if (this.u(l - 16, n, 12, n + 4, i, j)) {
+      if (this.isMouseInRect(l - 16, n, 12, n + 4, i, j)) {
          RenderUtil.setColor(new Color(127, 127, 127).getRGB());
-         if (Mouse.isButtonDown(0) && this.r.hasElapsed(1500.0F)) {
-            SettingsCommand.m(ScriptManager.B);
-            this.r.reset();
+         if (Mouse.isButtonDown(0) && this.clickTimer.hasElapsed(1500.0F)) {
+            SettingsCommand.openFolder(ScriptManager.SCRIPTS_DIR);
+            this.clickTimer.reset();
          }
       }
 
@@ -56,30 +64,30 @@ public class ScriptsPanel extends Container {
       Gui.drawModalRectWithCustomSizedTexture(l - 12, n, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPopMatrix();
       RenderUtil.setColor(Color.WHITE.getRGB());
-      int i2 = (int)(this.M() + this.x() - 24.0F);
-      int i3 = (int)this.E_float() + 4;
+      int i2 = (int)(this.getX() + this.getWidth() - 24.0F);
+      int i3 = (int)this.getYPos() + 4;
       GL11.glPushMatrix();
-      if (this.u(i2 - 16, i3, 12, i3 + 4, i, j)) {
+      if (this.isMouseInRect(i2 - 16, i3, 12, i3 + 4, i, j)) {
          RenderUtil.setColor(new Color(127, 127, 127).getRGB());
-         if (Mouse.isButtonDown(0) && this.r.hasElapsed(1500.0F)) {
+         if (Mouse.isButtonDown(0) && this.clickTimer.hasElapsed(1500.0F)) {
             mc.thePlayer.sendChatMessage(".script reload");
             this.updateConfigComponents();
-            this.Q.S();
-            this.r.reset();
+            this.screen.refreshScriptModules();
+            this.clickTimer.reset();
          }
       }
 
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/reload.png"));
       Gui.drawModalRectWithCustomSizedTexture(i2 - 12, i3, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPopMatrix();
-      GuiMainMenu.m.drawStringWithShadow(this.J(), this.M() + 4.0F, this.E_float() + 3.5F, -1);
-      if (this.s_boolean()) {
+      GuiMainMenu.m.drawStringWithShadow(this.getName(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
+      if (this.isExpanded()) {
          byte b = 30;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ScriptsPanel.ax_) {
                ScriptsPanel.ax_ ax_2 = (ScriptsPanel.ax_)element;
-               ax_2.r(this.M() + 2.0F, this.E_float() - b + 17.0F);
+               ax_2.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
                ax_2.render(i, j);
                b += 15;
             }
@@ -87,10 +95,10 @@ public class ScriptsPanel extends Container {
       }
    }
 
-   private int a() {
+   private int getScriptListHeight() {
       byte b = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ScriptsPanel.ax_) {
                b += 15;
             }
@@ -101,59 +109,61 @@ public class ScriptsPanel extends Container {
    }
 
    private void updateConfigComponents() {
-      this.M_ArrayList().clear();
-      File[] files = ScriptManager.B.listFiles();
+      this.getChildren().clear();
+      File[] files = ScriptManager.SCRIPTS_DIR.listFiles();
       Arrays.sort(files, (file, file2) -> -file.getName().compareTo(file2.getName()));
 
       for (File file3 : files) {
          if (!file3.isDirectory() && file3.getName().endsWith(".lua")) {
-            this.a(new ScriptsPanel.ax_(file3.getName(), file3, 103, 15));
+            this.addChildren(new ScriptsPanel.ax_(file3.getName(), file3, 103, 15));
             System.out.println(file3.getName());
          }
       }
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 1) {
-         this.u(!this.s_boolean());
+         this.setExpanded(!this.isExpanded());
          this.updateConfigComponents();
       }
    }
 
-   public static DefaultClickGuiScreen t(ScriptsPanel scriptsPanel) {
-      return scriptsPanel.Q;
+   public static DefaultClickGuiScreen getScreenOf(ScriptsPanel scriptsPanel) {
+      return scriptsPanel.screen;
    }
 
    public class ax_ extends Component {
-      private File w;
+      private File file;
 
       public ax_(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);
-         this.w = file;
+         this.file = file;
       }
 
       @Override
       public void render(int i, int j) {
-         Script script = client.getScriptManager().T(this.J());
-         if (script != null && script.t()) {
-            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(128, 128, 128).getRGB());
+         Script script = client.getScriptManager().getScript(this.getName());
+         if (script != null && script.isEnabled()) {
+            RenderUtil.drawRect(
+               this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(128, 128, 128).getRGB()
+            );
          }
 
-         GuiMainMenu.m.drawString(this.J(), this.M() + 2.0F, this.E_float() + 3.0F, -1);
+         GuiMainMenu.m.drawString(this.getName(), this.getX() + 2.0F, this.getYPos() + 3.0F, -1);
       }
 
       @Override
-      public void l(int i) {
+      public void onClick(int i) {
          if (i == 0) {
-            Script script2 = client.getScriptManager().T(this.J());
+            Script script2 = client.getScriptManager().getScript(this.getName());
             if (script2 != null) {
-               if (script2.t()) {
-                  mc.thePlayer.sendChatMessage(".script disable " + this.J());
-                  ScriptsPanel.t(ScriptsPanel.this).S();
+               if (script2.isEnabled()) {
+                  mc.thePlayer.sendChatMessage(".script disable " + this.getName());
+                  ScriptsPanel.getScreenOf(ScriptsPanel.this).refreshScriptModules();
                } else {
-                  mc.thePlayer.sendChatMessage(".script enable " + this.J());
-                  ScriptsPanel.t(ScriptsPanel.this).S();
+                  mc.thePlayer.sendChatMessage(".script enable " + this.getName());
+                  ScriptsPanel.getScreenOf(ScriptsPanel.this).refreshScriptModules();
                }
             }
          }

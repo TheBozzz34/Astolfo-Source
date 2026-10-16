@@ -17,95 +17,95 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 
 public class CustomChatGui extends GuiNewChat {
-   private final Minecraft z;
-   private final List<String> J = Lists.newArrayList();
-   private final List<ChatLine> X = Lists.newArrayList();
-   private final List<ChatLine> n = Lists.newArrayList();
-   private int o;
-   private boolean m;
-   public static float u = 0.0F;
-   public static int S;
-   public static long l = -1L;
-   public boolean f;
+   private final Minecraft minecraft;
+   private final List<String> sentMessageHistory = Lists.newArrayList();
+   private final List<ChatLine> allChatLines = Lists.newArrayList();
+   private final List<ChatLine> displayedChatLines = Lists.newArrayList();
+   private int scrollOffset;
+   private boolean scrolledUp;
+   public static float slideProgress = 0.0F;
+   public static int newMessageLastLineIndex;
+   public static long lastFrameTime = -1L;
+   public boolean renderingDisabled;
 
    public CustomChatGui(Minecraft minecraft) {
       super(minecraft);
-      this.z = minecraft;
+      this.minecraft = minecraft;
    }
 
-   public static void D(long m) {
-      if (u < 1.0F) {
-         u += 0.004F * (float)m;
+   public static void advanceSlideAnimation(long l) {
+      if (slideProgress < 1.0F) {
+         slideProgress += 0.004F * (float)l;
       }
 
-      u = MathHelper.clamp_float(u, 0.0F, 1.0F);
+      slideProgress = MathHelper.clamp_float(slideProgress, 0.0F, 1.0F);
    }
 
    @Override
    public void drawChat(int updateCounter) {
-      if (!this.f) {
-         if (l == -1L) {
-            l = System.currentTimeMillis();
+      if (!this.renderingDisabled) {
+         if (lastFrameTime == -1L) {
+            lastFrameTime = System.currentTimeMillis();
          } else {
-            long l2 = System.currentTimeMillis();
-            long l3 = l2 - l;
-            l = l2;
-            D(l3);
-            float g = u;
-            float h = 1.0F - --g * g * g * g;
-            h = MathHelper.clamp_float(h, 0.0F, 1.0F);
-            if (this.z.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
+            long l = System.currentTimeMillis();
+            long m = l - lastFrameTime;
+            lastFrameTime = l;
+            advanceSlideAnimation(m);
+            float f = slideProgress;
+            float g = 1.0F - --f * f * f * f;
+            g = MathHelper.clamp_float(g, 0.0F, 1.0F);
+            if (this.minecraft.gameSettings.chatVisibility != EntityPlayer.EnumChatVisibility.HIDDEN) {
                int i = this.getLineCount();
-               int j = this.n.size();
-               float f2 = this.z.gameSettings.chatOpacity * 0.9F + 0.1F;
+               int j = this.displayedChatLines.size();
+               float h = this.minecraft.gameSettings.chatOpacity * 0.9F + 0.1F;
                if (j > 0) {
                   boolean bl = false;
                   if (this.getChatOpen()) {
                      bl = true;
                   }
 
-                  float f3 = this.getChatScale();
-                  int k = MathHelper.ceiling_float_int(this.getChatWidth() / f3);
+                  float f2 = this.getChatScale();
+                  int k = MathHelper.ceiling_float_int(this.getChatWidth() / f2);
                   GlStateManager.pushMatrix();
-                  if (HUD.chatSettings.getSetting("Smooth").asBoolean() && !this.m) {
-                     GlStateManager.translate(2.0F, 8.0F + (9.0F - 9.0F * h) * f3, 0.0F);
+                  if (HUD.chatSettings.getSetting("Smooth").asBoolean() && !this.scrolledUp) {
+                     GlStateManager.translate(2.0F, 8.0F + (9.0F - 9.0F * g) * f2, 0.0F);
                   } else {
                      GlStateManager.translate(2.0F, 8.0F, 0.0F);
                   }
 
-                  GlStateManager.scale(f3, f3, 1.0F);
-                  int i2 = 0;
+                  GlStateManager.scale(f2, f2, 1.0F);
+                  int n = 0;
 
-                  for (int i3 = 0; i3 + this.o < this.n.size() && i3 < i; i3++) {
-                     ChatLine chatLine = this.n.get(i3 + this.o);
+                  for (int i2 = 0; i2 + this.scrollOffset < this.displayedChatLines.size() && i2 < i; i2++) {
+                     ChatLine chatLine = this.displayedChatLines.get(i2 + this.scrollOffset);
                      if (chatLine != null) {
-                        int i4 = updateCounter - chatLine.getUpdatedCounter();
-                        if (i4 < 200 || bl) {
-                           double d = i4 / 200.0;
+                        int i3 = updateCounter - chatLine.getUpdatedCounter();
+                        if (i3 < 200 || bl) {
+                           double d = i3 / 200.0;
                            d = 1.0 - d;
                            d *= 10.0;
                            d = MathHelper.clamp_double(d, 0.0, 1.0);
                            d *= d;
-                           int i5 = (int)(255.0 * d);
+                           int i4 = (int)(255.0 * d);
                            if (bl) {
-                              i5 = 255;
+                              i4 = 255;
                            }
 
-                           i5 = (int)(i5 * f2);
-                           i2++;
-                           if (i5 > 3) {
+                           i4 = (int)(i4 * h);
+                           n++;
+                           if (i4 > 3) {
                               byte b = 0;
-                              int i6 = -i3 * 9;
+                              int i5 = -i2 * 9;
                               if (!HUD.chatSettings.getSetting("Clear").asBoolean()) {
-                                 drawRect(-2, i6 - 9, b + k + 4, i6, i5 / 2 << 24);
+                                 drawRect(-2, i5 - 9, b + k + 4, i5, i4 / 2 << 24);
                               }
 
                               String string = chatLine.getChatComponent().getFormattedText();
                               GlStateManager.enableBlend();
-                              if (HUD.chatSettings.getSetting("Smooth").asBoolean() && i3 <= S) {
-                                 this.z.fontRendererObj.drawStringWithShadow(string, 0.0F, i6 - 8, 16777215 + ((int)(i5 * h) << 24));
+                              if (HUD.chatSettings.getSetting("Smooth").asBoolean() && i2 <= newMessageLastLineIndex) {
+                                 this.minecraft.fontRendererObj.drawStringWithShadow(string, 0.0F, i5 - 8, 16777215 + ((int)(i4 * g) << 24));
                               } else {
-                                 this.z.fontRendererObj.drawStringWithShadow(string, b, i6 - 8, 16777215 + (i5 << 24));
+                                 this.minecraft.fontRendererObj.drawStringWithShadow(string, b, i5 - 8, 16777215 + (i4 << 24));
                               }
 
                               GlStateManager.disableAlpha();
@@ -116,17 +116,17 @@ public class CustomChatGui extends GuiNewChat {
                   }
 
                   if (bl) {
-                     int i7 = this.z.fontRendererObj.FONT_HEIGHT;
+                     int i6 = this.minecraft.fontRendererObj.FONT_HEIGHT;
                      GlStateManager.translate(-3.0F, 0.0F, 0.0F);
-                     int i8 = j * i7 + j;
-                     int i9 = i2 * i7 + i2;
-                     int i10 = this.o * i9 / j;
-                     int i11 = i9 * i9 / i8;
-                     if (i8 != i9) {
-                        int i12 = i10 > 0 ? 170 : 96;
-                        int i13 = this.m ? 13382451 : 3355562;
-                        drawRect(0, -i10, 2, -i10 - i11, i13 + (i12 << 24));
-                        drawRect(2, -i10, 1, -i10 - i11, 13421772 + (i12 << 24));
+                     int i7 = j * i6 + j;
+                     int i8 = n * i6 + n;
+                     int i9 = this.scrollOffset * i8 / j;
+                     int i10 = i8 * i8 / i7;
+                     if (i7 != i8) {
+                        int i11 = i9 > 0 ? 170 : 96;
+                        int i12 = this.scrolledUp ? 13382451 : 3355562;
+                        drawRect(0, -i9, 2, -i9 - i10, i12 + (i11 << 24));
+                        drawRect(2, -i9, 1, -i9 - i10, 13421772 + (i11 << 24));
                      }
                   }
 
@@ -139,9 +139,9 @@ public class CustomChatGui extends GuiNewChat {
 
    @Override
    public void clearChatMessages() {
-      this.n.clear();
-      this.X.clear();
-      this.J.clear();
+      this.displayedChatLines.clear();
+      this.allChatLines.clear();
+      this.sentMessageHistory.clear();
    }
 
    @Override
@@ -151,8 +151,8 @@ public class CustomChatGui extends GuiNewChat {
 
    @Override
    public void printChatMessageWithOptionalDeletion(IChatComponent chatComponent, int chatLineId) {
-      u = 0.0F;
-      this.setChatLine(chatComponent, chatLineId, this.z.ingameGUI.getUpdateCounter(), false);
+      slideProgress = 0.0F;
+      this.setChatLine(chatComponent, chatLineId, this.minecraft.ingameGUI.getUpdateCounter(), false);
       GuiNewChat.logger.info("[CHAT] " + chatComponent.getUnformattedText());
    }
 
@@ -163,73 +163,73 @@ public class CustomChatGui extends GuiNewChat {
       }
 
       int i = MathHelper.floor_float(this.getChatWidth() / this.getChatScale());
-      List list = GuiUtilRenderComponents.splitText(chatComponent, i, this.z.fontRendererObj, false, false);
+      List list = GuiUtilRenderComponents.splitText(chatComponent, i, this.minecraft.fontRendererObj, false, false);
       boolean bl = this.getChatOpen();
-      S = list.size() - 1;
+      newMessageLastLineIndex = list.size() - 1;
 
       for (Object object : list) {
          IChatComponent iChatComponent = (IChatComponent)object;
-         if (bl && this.o > 0) {
-            this.m = true;
+         if (bl && this.scrollOffset > 0) {
+            this.scrolledUp = true;
             this.scroll(1);
          }
 
-         this.n.add(0, new ChatLine(updateCounter, iChatComponent, chatLineId));
+         this.displayedChatLines.add(0, new ChatLine(updateCounter, iChatComponent, chatLineId));
       }
 
-      while (this.n.size() > 100) {
-         this.n.remove(this.n.size() - 1);
+      while (this.displayedChatLines.size() > 100) {
+         this.displayedChatLines.remove(this.displayedChatLines.size() - 1);
       }
 
       if (!displayOnly) {
-         this.X.add(0, new ChatLine(updateCounter, chatComponent, chatLineId));
+         this.allChatLines.add(0, new ChatLine(updateCounter, chatComponent, chatLineId));
 
-         while (this.X.size() > 100) {
-            this.X.remove(this.X.size() - 1);
+         while (this.allChatLines.size() > 100) {
+            this.allChatLines.remove(this.allChatLines.size() - 1);
          }
       }
    }
 
    @Override
    public void refreshChat() {
-      this.n.clear();
+      this.displayedChatLines.clear();
       this.resetScroll();
 
-      for (int i = this.X.size() - 1; i >= 0; i--) {
-         ChatLine chatLine = this.X.get(i);
+      for (int i = this.allChatLines.size() - 1; i >= 0; i--) {
+         ChatLine chatLine = this.allChatLines.get(i);
          this.setChatLine(chatLine.getChatComponent(), chatLine.getChatLineID(), chatLine.getUpdatedCounter(), true);
       }
    }
 
    @Override
    public List<String> getSentMessages() {
-      return this.J;
+      return this.sentMessageHistory;
    }
 
    @Override
    public void addToSentMessages(String message) {
-      if (this.J.isEmpty() || !this.J.get(this.J.size() - 1).equals(message)) {
-         this.J.add(message);
+      if (this.sentMessageHistory.isEmpty() || !this.sentMessageHistory.get(this.sentMessageHistory.size() - 1).equals(message)) {
+         this.sentMessageHistory.add(message);
       }
    }
 
    @Override
    public void resetScroll() {
-      this.o = 0;
-      this.m = false;
+      this.scrollOffset = 0;
+      this.scrolledUp = false;
    }
 
    @Override
    public void scroll(int amount) {
-      this.o += amount;
-      int i = this.n.size();
-      if (this.o > i - this.getLineCount()) {
-         this.o = i - this.getLineCount();
+      this.scrollOffset += amount;
+      int i = this.displayedChatLines.size();
+      if (this.scrollOffset > i - this.getLineCount()) {
+         this.scrollOffset = i - this.getLineCount();
       }
 
-      if (this.o <= 0) {
-         this.o = 0;
-         this.m = false;
+      if (this.scrollOffset <= 0) {
+         this.scrollOffset = 0;
+         this.scrolledUp = false;
       }
    }
 
@@ -239,7 +239,7 @@ public class CustomChatGui extends GuiNewChat {
          return null;
       }
 
-      ScaledResolution scaledResolution = new ScaledResolution(this.z);
+      ScaledResolution scaledResolution = new ScaledResolution(this.minecraft);
       int i = scaledResolution.getScaleFactor();
       float f = this.getChatScale();
       int j = mouseX / i - 2 - 0;
@@ -247,17 +247,17 @@ public class CustomChatGui extends GuiNewChat {
       j = MathHelper.floor_float(j / f);
       k = MathHelper.floor_float(k / f);
       if (j >= 0 && k >= 0) {
-         int l = Math.min(this.getLineCount(), this.n.size());
-         if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.z.fontRendererObj.FONT_HEIGHT * l + l) {
-            int m = k / this.z.fontRendererObj.FONT_HEIGHT + this.o;
-            if (m >= 0 && m < this.n.size()) {
-               ChatLine chatLine = this.n.get(m);
-               int i2 = 0;
+         int l = Math.min(this.getLineCount(), this.displayedChatLines.size());
+         if (j <= MathHelper.floor_float(this.getChatWidth() / this.getChatScale()) && k < this.minecraft.fontRendererObj.FONT_HEIGHT * l + l) {
+            int m = k / this.minecraft.fontRendererObj.FONT_HEIGHT + this.scrollOffset;
+            if (m >= 0 && m < this.displayedChatLines.size()) {
+               ChatLine chatLine = this.displayedChatLines.get(m);
+               int n = 0;
 
                for (IChatComponent iChatComponent : chatLine.getChatComponent()) {
                   if (iChatComponent instanceof ChatComponentText) {
-                     i2 += this.z.fontRendererObj.getStringWidth(GuiUtilRenderComponents.func_178909_a(iChatComponent.getUnformattedTextForChat(), false));
-                     if (i2 > j) {
+                     n += this.minecraft.fontRendererObj.getStringWidth(GuiUtilRenderComponents.func_178909_a(iChatComponent.getUnformattedTextForChat(), false));
+                     if (n > j) {
                         return iChatComponent;
                      }
                   }
@@ -275,12 +275,12 @@ public class CustomChatGui extends GuiNewChat {
 
    @Override
    public boolean getChatOpen() {
-      return this.z.currentScreen instanceof GuiChat;
+      return this.minecraft.currentScreen instanceof GuiChat;
    }
 
    @Override
    public void deleteChatLine(int id) {
-      Iterator iterator2 = this.n.iterator();
+      Iterator iterator2 = this.displayedChatLines.iterator();
 
       while (iterator2.hasNext()) {
          ChatLine chatLine = (ChatLine)iterator2.next();
@@ -289,7 +289,7 @@ public class CustomChatGui extends GuiNewChat {
          }
       }
 
-      iterator2 = this.X.iterator();
+      iterator2 = this.allChatLines.iterator();
 
       while (iterator2.hasNext()) {
          ChatLine chatLine2 = (ChatLine)iterator2.next();
@@ -302,24 +302,24 @@ public class CustomChatGui extends GuiNewChat {
 
    @Override
    public int getChatWidth() {
-      return S(this.z.gameSettings.l6);
+      return computeChatWidth(this.minecraft.gameSettings.l6);
    }
 
    @Override
    public int getChatHeight() {
-      return R(this.getChatOpen() ? this.z.gameSettings.o : this.z.gameSettings.la);
+      return computeChatHeight(this.getChatOpen() ? this.minecraft.gameSettings.o : this.minecraft.gameSettings.la);
    }
 
    @Override
    public float getChatScale() {
-      return this.z.gameSettings.chatScale;
+      return this.minecraft.gameSettings.chatScale;
    }
 
-   public static int S(float f) {
+   public static int computeChatWidth(float f) {
       return MathHelper.floor_float(f * 280.0F + 40.0F);
    }
 
-   public static int R(float f) {
+   public static int computeChatHeight(float f) {
       return MathHelper.floor_float(f * 160.0F + 20.0F);
    }
 

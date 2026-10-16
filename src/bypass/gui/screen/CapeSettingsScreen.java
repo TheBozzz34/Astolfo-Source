@@ -14,27 +14,27 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 
 public class CapeSettingsScreen extends GuiScreen {
-   private GuiScreen m;
+   private GuiScreen parentScreen;
 
    public CapeSettingsScreen(GuiScreen guiScreen) {
-      this.m = guiScreen;
+      this.parentScreen = guiScreen;
    }
 
    @Override
    public void initGui() {
       this.buttonList.clear();
-      this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.l(), 155, 20, "Open Cape Editor"));
-      this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.l(), 155, 20, I18n.format("gui.done")));
+      this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.getButtonY(), 155, 20, "Open Cape Editor"));
+      this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.getButtonY(), 155, 20, I18n.format("gui.done")));
    }
 
    @Override
    public void actionPerformed(GuiButton button) {
       switch (button.id) {
          case 0:
-            this.W();
+            this.openCapeEditor();
             break;
          case 1:
-            this.mc.displayGuiScreen(this.m);
+            this.mc.displayGuiScreen(this.parentScreen);
       }
    }
 
@@ -49,7 +49,7 @@ public class CapeSettingsScreen extends GuiScreen {
       return false;
    }
 
-   private void W() {
+   private void openCapeEditor() {
       try {
          GameProfile gameProfile = Minecraft.getMinecraft().thePlayer.getGameProfile();
          String string = gameProfile.getName();
@@ -69,7 +69,7 @@ public class CapeSettingsScreen extends GuiScreen {
       }
    }
 
-   private int l() {
+   private int getButtonY() {
       return 147;
    }
 }

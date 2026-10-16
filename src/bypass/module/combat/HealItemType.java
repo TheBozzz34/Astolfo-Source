@@ -6,5 +6,5 @@ public enum HealItemType {
    HOLD,
    FAKE;
 
-   private static final HealItemType[] p = new HealItemType[]{POTION, USABLE, HOLD, FAKE};
+   private static final HealItemType[] VALUES = new HealItemType[]{POTION, USABLE, HOLD, FAKE};
 }

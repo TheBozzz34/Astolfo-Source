@@ -3,7 +3,7 @@ package bypass.loader;
 import bypass.loader.check.VirtualMachineCheckSetup;
 
 public final class DecoyStage1 extends AbstractLoadStage {
-   private final VirtualMachineCheckSetup L = new VirtualMachineCheckSetup();
+   private final VirtualMachineCheckSetup virtualMachineCheckSetup = new VirtualMachineCheckSetup();
 
    @Override
    public StageValue getValue() {
@@ -15,8 +15,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
       return new DecoyStage1.azi(this);
    }
 
-   public VirtualMachineCheckSetup y() {
-      return this.L;
+   public VirtualMachineCheckSetup getVirtualMachineCheckSetup() {
+      return this.virtualMachineCheckSetup;
    }
 
    @Override
@@ -29,8 +29,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
       return this.state;
    }
 
-   public static VirtualMachineCheckSetup J(DecoyStage1 decoyStage1) {
-      return decoyStage1.L;
+   public static VirtualMachineCheckSetup accessVirtualMachineCheckSetup(DecoyStage1 decoyStage1) {
+      return decoyStage1.virtualMachineCheckSetup;
    }
 
    public class azi extends StageAction {
@@ -52,7 +52,7 @@ public final class DecoyStage1 extends AbstractLoadStage {
       }
 
       public NullPointerException get() {
-         return (NullPointerException)DecoyStage1.J(DecoyStage1.this).u().U().value;
+         return (NullPointerException)DecoyStage1.accessVirtualMachineCheckSetup(DecoyStage1.this).getVirtualMachineCheck().checkVirtualMachine().value;
       }
    }
 }

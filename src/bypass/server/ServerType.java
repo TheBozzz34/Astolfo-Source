@@ -5,5 +5,5 @@ public enum ServerType {
    CUBECRAFT,
    UNKNOWN;
 
-   private static final ServerType[] k = new ServerType[]{HYPIXEL, CUBECRAFT, UNKNOWN};
+   private static final ServerType[] VALUES = new ServerType[]{HYPIXEL, CUBECRAFT, UNKNOWN};
 }

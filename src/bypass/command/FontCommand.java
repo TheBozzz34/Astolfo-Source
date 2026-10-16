@@ -13,8 +13,8 @@ public class FontCommand extends Command {
    public void runCommand(String[] strings) {
       if (strings.length >= 2) {
          String string = StringUtils.join(Arrays.copyOfRange(strings, 1, strings.length), " ");
-         FontManager.U(string);
-         chat.I("Font has been set to " + string);
+         FontManager.applyFont(string);
+         chat.print("Font has been set to " + string);
       }
    }
 }

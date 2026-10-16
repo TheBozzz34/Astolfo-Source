@@ -8,5 +8,5 @@ public enum EnvironmentType {
    E,
    F;
 
-   private static final EnvironmentType[] M = new EnvironmentType[]{A, B, C, D, E, F};
+   private static final EnvironmentType[] VALUES = new EnvironmentType[]{A, B, C, D, E, F};
 }

@@ -7,33 +7,33 @@ import bypass.setting.MapSetting;
 import bypass.setting.NumberSetting;
 
 public class MapSettingItem extends TabGuiItem {
-   private final MapSetting O;
+   private final MapSetting setting;
 
    public MapSettingItem(TabGui.Panel panel, MapSetting mapSetting) {
       super(panel);
-      this.O = mapSetting;
+      this.setting = mapSetting;
    }
 
    @Override
-   public String L() {
-      return "§f" + this.O.getName() + "...";
+   public String getDisplayText() {
+      return "§f" + this.setting.getName() + "...";
    }
 
    @Override
    public void onPress() {
-      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
-      this.O.getValue().forEach((string, setting) -> {
-         if (setting instanceof BooleanSetting) {
-            if (!setting.getName().equals("Hide")) {
-               panel.addItem(new BooleanSettingItem(panel, (BooleanSetting)setting));
+      TabGui.Panel panel = new TabGui.Panel(this.getPanel().getTabGui());
+      this.setting.getValue().forEach((string, setting2) -> {
+         if (setting2 instanceof BooleanSetting) {
+            if (!setting2.getName().equals("Hide")) {
+               panel.addItem(new BooleanSettingItem(panel, (BooleanSetting)setting2));
             }
-         } else if (setting instanceof NumberSetting) {
-            panel.addItem(new NumberSettingItem(panel, (NumberSetting)setting));
-         } else if (setting instanceof EnumSetting) {
-            panel.addItem(new EnumSettingItem(panel, (EnumSetting)setting));
+         } else if (setting2 instanceof NumberSetting) {
+            panel.addItem(new NumberSettingItem(panel, (NumberSetting)setting2));
+         } else if (setting2 instanceof EnumSetting) {
+            panel.addItem(new EnumSettingItem(panel, (EnumSetting)setting2));
          }
       });
-      this.s().getTabGui().s(panel);
+      this.getPanel().getTabGui().addElement(panel);
    }
 
    @Override

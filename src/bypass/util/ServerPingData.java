@@ -1,7 +1,7 @@
 package bypass.util;
 
 public class ServerPingData {
-   public volatile String N = "0";
-   public volatile long O = 0L;
-   public volatile String u = "";
+   public volatile String playerCount = "0";
+   public volatile long pingTime = 0L;
+   public volatile String playerList = "";
 }

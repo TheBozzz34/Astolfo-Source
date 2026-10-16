@@ -11,54 +11,54 @@ import bypass.module.Category;
 import bypass.module.Module;
 
 public class Freecam2 extends Module {
-   public static double V;
-   public static double J;
-   public static double R;
-   public float d;
-   public float O;
-   public Animation c = new TimedAnimation().setDuration(50).setEasing(Easing.LINEAR);
+   public static double cameraOffsetX;
+   public static double cameraOffsetY;
+   public static double cameraOffsetZ;
+   public float strafeInput;
+   public float forwardInput;
+   public Animation moveAnimation = new TimedAnimation().setDuration(50).setEasing(Easing.LINEAR);
    @EventHandler(MovementInputEvent.class)
    private Listener<MovementInputEvent> onMovementInput = movementInputEvent -> {
-      this.O = this.d = 0.0F;
+      this.forwardInput = this.strafeInput = 0.0F;
       if (mc.gameSettings.keyBindForward.isKeyDown()) {
-         this.O++;
+         this.forwardInput++;
       }
 
       if (mc.gameSettings.keyBindBack.isKeyDown()) {
-         this.O--;
+         this.forwardInput--;
       }
 
       if (mc.gameSettings.keyBindLeft.isKeyDown()) {
-         this.d++;
+         this.strafeInput++;
       }
 
       if (mc.gameSettings.keyBindRight.isKeyDown()) {
-         this.d--;
+         this.strafeInput--;
       }
 
       movementInputEvent.cancel();
    };
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      double e = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
-      double d2 = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
-      double d3 = this.d * 1.0F * e + this.O * 1.0F * d2;
-      double d4 = this.d * -1.0F * e + this.O * -1.0F * d2;
-      double d5 = this.d * 1.0F * d2 - this.O * 1.0F * e;
-      double d6 = this.d * -1.0F * d2 - this.O * -1.0F * e;
-      if (this.O != 0.0F) {
-         if (this.O > 0.0F) {
-            R += d3;
+      double d = -Math.sin(Math.toRadians(mc.thePlayer.rotationYaw));
+      double e = Math.cos(Math.toRadians(mc.thePlayer.rotationYaw));
+      double d2 = this.strafeInput * 1.0F * d + this.forwardInput * 1.0F * e;
+      double d3 = this.strafeInput * -1.0F * d + this.forwardInput * -1.0F * e;
+      double d4 = this.strafeInput * 1.0F * e - this.forwardInput * 1.0F * d;
+      double d5 = this.strafeInput * -1.0F * e - this.forwardInput * -1.0F * d;
+      if (this.forwardInput != 0.0F) {
+         if (this.forwardInput > 0.0F) {
+            cameraOffsetZ += d2;
          } else {
-            R -= d4;
+            cameraOffsetZ -= d3;
          }
       }
 
-      if (this.d != 0.0F) {
-         if (this.d > 0.0F) {
-            V -= d5;
+      if (this.strafeInput != 0.0F) {
+         if (this.strafeInput > 0.0F) {
+            cameraOffsetX -= d4;
          } else {
-            V += d6;
+            cameraOffsetX += d5;
          }
       }
    };
@@ -69,10 +69,10 @@ public class Freecam2 extends Module {
 
    @Override
    public void onDisable() {
-      this.O = this.d = 0.0F;
-      R = 0.0;
-      J = 0.0;
-      V = 0.0;
+      this.forwardInput = this.strafeInput = 0.0F;
+      cameraOffsetZ = 0.0;
+      cameraOffsetY = 0.0;
+      cameraOffsetX = 0.0;
       super.onDisable();
    }
 }

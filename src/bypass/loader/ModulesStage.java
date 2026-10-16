@@ -184,7 +184,7 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.passive.EntityPig;
 
 public final class ModulesStage extends AbstractLoadStage {
-   private final ProcessCheckSetup A = new ProcessCheckSetup();
+   private final ProcessCheckSetup processCheckSetup = new ProcessCheckSetup();
 
    @Override
    public StageAction getAction() {
@@ -196,11 +196,11 @@ public final class ModulesStage extends AbstractLoadStage {
       return new ModulesStage.r9s(this);
    }
 
-   public static String l(String string) {
-      return W(string, "4N4z6CCb6bvBeeJH");
+   public static String decrypt(String string) {
+      return decryptWithKey(string, "4N4z6CCb6bvBeeJH");
    }
 
-   public static String W(String string, String string2) {
+   public static String decryptWithKey(String string, String string2) {
       if (string != null && !string.isEmpty()) {
          try {
             SecretKeySpec secretKeySpec = new SecretKeySpec(string2.getBytes(), "AES");
@@ -228,8 +228,8 @@ public final class ModulesStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public static ProcessCheckSetup C(ModulesStage modulesStage) {
-      return modulesStage.A;
+   public static ProcessCheckSetup accessProcessCheckSetup(ModulesStage modulesStage) {
+      return modulesStage.processCheckSetup;
    }
 
    public class azs extends StageAction {
@@ -242,7 +242,13 @@ public final class ModulesStage extends AbstractLoadStage {
          if (ModulesStage.this.getState() == 1) {
             if (ClientAccess.client.getEventBus() == null) {
                ClientAccess.client
-                  .setEventBus(EventBus.<Field>p().e(MemberScanner.z()).j(ListenerFilter.W()).v(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION).v());
+                  .setEventBus(
+                     EventBus.<Field>builder()
+                        .withMemberScanner(MemberScanner.forFields())
+                        .withListenerFilter(ListenerFilter.forFields())
+                        .withInvocationStrategy(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION)
+                        .build()
+                  );
             }
 
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getRelationManager());
@@ -275,7 +281,7 @@ public final class ModulesStage extends AbstractLoadStage {
                exception2.printStackTrace();
             }
 
-            String string4 = ModulesStage.l(stringBuilder.toString());
+            String string4 = ModulesStage.decrypt(stringBuilder.toString());
             String string5 = stringBuilder2.toString();
             ClientAccess.client
                .getModuleManager()
@@ -327,10 +333,10 @@ public final class ModulesStage extends AbstractLoadStage {
                   new SpeedBridge(Category.PLAYER),
                   new NoFall(Category.MOVEMENT),
                   new Sprint(Category.MOVEMENT),
-                  ModuleManager.D = new NoSlow(Category.MOVEMENT),
+                  ModuleManager.noSlow = new NoSlow(Category.MOVEMENT),
                   new Flight(Category.MOVEMENT),
                   new Speed(Category.MOVEMENT),
-                  ModuleManager.r = new Inventory(Category.MOVEMENT),
+                  ModuleManager.inventory = new Inventory(Category.MOVEMENT),
                   new Jesus(Category.MOVEMENT),
                   new AntiFall(Category.MOVEMENT),
                   new Terrain(Category.MOVEMENT),
@@ -366,10 +372,10 @@ public final class ModulesStage extends AbstractLoadStage {
                   new KillSay(Category.OTHER),
                   new Spammer(Category.OTHER),
                   new AntiDesync(Category.OTHER),
-                  ModuleManager.B = new AntiObsidian(Category.OTHER),
-                  ModuleManager.Z = new InfiniteReach(Category.OTHER),
+                  ModuleManager.antiObsidian = new AntiObsidian(Category.OTHER),
+                  ModuleManager.infiniteReach = new InfiniteReach(Category.OTHER),
                   new ThunderNotifier(Category.OTHER),
-                  ModuleManager.Q = new NoMouseIntersect(Category.OTHER),
+                  ModuleManager.noMouseIntersect = new NoMouseIntersect(Category.OTHER),
                   new HackerDetector(Category.OTHER),
                   new FreeLook(Category.OTHER),
                   new GUI(Category.HIDDEN),
@@ -378,30 +384,30 @@ public final class ModulesStage extends AbstractLoadStage {
                   new HUD(Category.VISUALS),
                   new FullBright(Category.VISUALS),
                   new Waypoints(Category.VISUALS),
-                  ModuleManager.X = new NoEffect(Category.VISUALS),
-                  ModuleManager.i = new Scoreboard(Category.VISUALS),
+                  ModuleManager.noEffect = new NoEffect(Category.VISUALS),
+                  ModuleManager.scoreboard = new Scoreboard(Category.VISUALS),
                   new Skeleton(Category.VISUALS),
-                  ModuleManager.k = new Camera(Category.VISUALS),
+                  ModuleManager.camera = new Camera(Category.VISUALS),
                   new Outline(Category.VISUALS),
                   new Animations(Category.VISUALS),
                   new Tracers(Category.VISUALS),
                   new Crosshair(Category.VISUALS),
                   new Radar(Category.VISUALS),
-                  ModuleManager.t = new CaveFinder(Category.VISUALS),
-                  ModuleManager.I = new NoRender(Category.VISUALS),
+                  ModuleManager.caveFinder = new CaveFinder(Category.VISUALS),
+                  ModuleManager.noRender = new NoRender(Category.VISUALS),
                   new ChunkBorders(Category.VISUALS),
                   new TitleAnnouncer(),
-                  ModuleManager.S = new NoTitle(Category.VISUALS),
+                  ModuleManager.noTitle = new NoTitle(Category.VISUALS),
                   new Trajectories(Category.VISUALS),
                   new NameProtect(Category.VISUALS),
-                  ModuleManager.G = new StreamerMode(Category.VISUALS),
-                  ModuleManager.s = new Xray(Category.VISUALS),
+                  ModuleManager.streamerMode = new StreamerMode(Category.VISUALS),
+                  ModuleManager.xray = new Xray(Category.VISUALS),
                   new BlockOverlay(Category.VISUALS),
                   new DamageParticles(Category.VISUALS),
-                  ModuleManager.M = new WorldColor(Category.VISUALS),
-                  ModuleManager.J = new ItemPhysics(Category.VISUALS),
+                  ModuleManager.worldColor = new WorldColor(Category.VISUALS),
+                  ModuleManager.itemPhysics = new ItemPhysics(Category.VISUALS),
                   new PlayerList(Category.VISUALS),
-                  ModuleManager.N = new MoreParticles(Category.VISUALS),
+                  ModuleManager.moreParticles = new MoreParticles(Category.VISUALS),
                   new RiderGod(Category.EXPLOITS),
                   new Nuker(Category.PLAYER)
                );
@@ -439,8 +445,8 @@ public final class ModulesStage extends AbstractLoadStage {
             String[] strings = string6.split(";");
             string3 = strings[0];
             String[] strings2 = string3.split("/");
-            ModuleManager.C(Double.parseDouble(strings[1]));
-            ModuleManager.k(Integer.parseInt(strings[2]));
+            ModuleManager.setPositionDivisor(Double.parseDouble(strings[1]));
+            ModuleManager.setModelViewMatrixMode(Integer.parseInt(strings[2]));
             ClientAccess.mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
             EntityRenderer.Z0 = Integer.parseInt(strings[4]);
             EntityRenderer.C = Integer.parseInt(strings[5]);
@@ -475,11 +481,11 @@ public final class ModulesStage extends AbstractLoadStage {
                      for (Setting setting : module3.getSettings()) {
                         if (!setting.getName().startsWith("Pos-") && !setting.getName().equals("Hide")) {
                            if (setting instanceof ColorSetting) {
-                              moduleButton.M_ArrayList().add(new ColorPicker(category, moduleButton, setting, 99, 70));
+                              moduleButton.getChildren().add(new ColorPicker(category, moduleButton, setting, 99, 70));
                            }
 
                            if (setting instanceof BooleanSetting) {
-                              moduleButton.M_ArrayList().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
+                              moduleButton.getChildren().add(new BooleanComponent(category, moduleButton, setting, 99, 10));
                            }
 
                            if (setting instanceof NumberSetting) {
@@ -489,20 +495,20 @@ public final class ModulesStage extends AbstractLoadStage {
                               }
 
                               if (setting.getName().startsWith("Max-") && numberSetting != null) {
-                                 moduleButton.M_ArrayList().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
+                                 moduleButton.getChildren().add(new RangeSlider(category, moduleButton, numberSetting, setting, 99, 10));
                                  numberSetting = null;
                                  continue;
                               }
 
-                              moduleButton.M_ArrayList().add(new NumberSlider(category, moduleButton, setting, 99, 10));
+                              moduleButton.getChildren().add(new NumberSlider(category, moduleButton, setting, 99, 10));
                            }
 
                            if (setting instanceof EnumSetting) {
-                              moduleButton.M_ArrayList().add(new EnumComponent(moduleButton, setting, 99, 10));
+                              moduleButton.getChildren().add(new EnumComponent(moduleButton, setting, 99, 10));
                            }
 
                            if (setting instanceof StringSetting) {
-                              moduleButton.M_ArrayList().add(new StringComponent(category, moduleButton, setting, 93, 10));
+                              moduleButton.getChildren().add(new StringComponent(category, moduleButton, setting, 93, 10));
                            }
 
                            if (setting instanceof MapSetting) {
@@ -511,7 +517,7 @@ public final class ModulesStage extends AbstractLoadStage {
                               for (Setting setting2 : ((MapSetting)setting).getSettings().values()) {
                                  if (!setting2.getName().startsWith("Pos-")) {
                                     if (setting2 instanceof BooleanSetting) {
-                                       mapComponent.M_ArrayList().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
+                                       mapComponent.getChildren().add(new BooleanComponent(category, mapComponent, setting2, 93, 10));
                                     }
 
                                     if (setting2 instanceof NumberSetting) {
@@ -521,34 +527,34 @@ public final class ModulesStage extends AbstractLoadStage {
                                        }
 
                                        if (setting2.getName().startsWith("Max-")) {
-                                          mapComponent.M_ArrayList().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
+                                          mapComponent.getChildren().add(new RangeSlider(category, mapComponent, numberSetting, setting2, 93, 10));
                                           numberSetting = null;
                                           continue;
                                        }
 
-                                       mapComponent.M_ArrayList().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
+                                       mapComponent.getChildren().add(new NumberSlider(category, mapComponent, setting2, 93, 10));
                                     }
 
                                     if (setting2 instanceof EnumSetting) {
-                                       mapComponent.M_ArrayList().add(new EnumComponent(mapComponent, setting2, 93, 10));
+                                       mapComponent.getChildren().add(new EnumComponent(mapComponent, setting2, 93, 10));
                                     }
 
                                     if (setting2 instanceof StringSetting) {
-                                       mapComponent.M_ArrayList().add(new StringComponent(category, mapComponent, setting2, 93, 10));
+                                       mapComponent.getChildren().add(new StringComponent(category, mapComponent, setting2, 93, 10));
                                     }
 
                                     if (setting2 instanceof ColorSetting) {
-                                       mapComponent.M_ArrayList().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
+                                       mapComponent.getChildren().add(new ColorPicker(category, mapComponent, setting2, 93, 70));
                                     }
                                  }
                               }
 
-                              moduleButton.M_ArrayList().add(mapComponent);
+                              moduleButton.getChildren().add(mapComponent);
                            }
                         }
                      }
 
-                     categoryPanel.a(moduleButton);
+                     categoryPanel.addChildren(moduleButton);
                   }
 
                   ClientAccess.client.getDefaultPanelManager().addElements(categoryPanel);
@@ -568,19 +574,19 @@ public final class ModulesStage extends AbstractLoadStage {
                      for (Setting setting3 : module4.getSettings()) {
                         if (!setting3.getName().startsWith("Pos-") && !setting3.getName().equals("Hide")) {
                            if (setting3 instanceof BooleanSetting) {
-                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
+                              moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.BooleanComponent(moduleButton2, setting3, 101, 10));
                            }
 
                            if (setting3 instanceof NumberSetting) {
-                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
+                              moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.NumberSlider(moduleButton2, setting3, 101, 10));
                            }
 
                            if (setting3 instanceof EnumSetting) {
-                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
+                              moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.EnumComponent(moduleButton2, setting3, 101, 10));
                            }
 
                            if (setting3 instanceof StringSetting) {
-                              moduleButton2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
+                              moduleButton2.getChildren().add(new bypass.gui.clickgui.transparent.StringComponent(moduleButton2, setting3, 101, 10));
                            }
 
                            if (setting3 instanceof MapSetting) {
@@ -589,29 +595,29 @@ public final class ModulesStage extends AbstractLoadStage {
                               for (Setting setting4 : ((MapSetting)setting3).getSettings().values()) {
                                  if (!setting4.getName().startsWith("Pos-")) {
                                     if (setting4 instanceof BooleanSetting) {
-                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
+                                       mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.BooleanComponent(mapComponent2, setting4, 98, 10));
                                     }
 
                                     if (setting4 instanceof NumberSetting) {
-                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
+                                       mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.NumberSlider(mapComponent2, setting4, 98, 10));
                                     }
 
                                     if (setting4 instanceof EnumSetting) {
-                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
+                                       mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.EnumComponent(mapComponent2, setting4, 98, 10));
                                     }
 
                                     if (setting4 instanceof StringSetting) {
-                                       mapComponent2.M_ArrayList().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
+                                       mapComponent2.getChildren().add(new bypass.gui.clickgui.transparent.StringComponent(mapComponent2, setting4, 98, 10));
                                     }
                                  }
                               }
 
-                              moduleButton2.M_ArrayList().add(mapComponent2);
+                              moduleButton2.getChildren().add(mapComponent2);
                            }
                         }
                      }
 
-                     categoryPanel2.a(moduleButton2);
+                     categoryPanel2.addChildren(moduleButton2);
                   }
 
                   Astolfo.INSTANCE.getTransparentPanelManager().addElements(categoryPanel2);
@@ -635,7 +641,7 @@ public final class ModulesStage extends AbstractLoadStage {
       }
 
       public EntityPig get() {
-         return (EntityPig)ModulesStage.C(ModulesStage.this).U_rss().C().value;
+         return (EntityPig)ModulesStage.accessProcessCheckSetup(ModulesStage.this).getProcessCheck().checkProcesses().value;
       }
    }
 }

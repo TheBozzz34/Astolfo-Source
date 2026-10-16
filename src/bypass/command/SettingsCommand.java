@@ -20,13 +20,13 @@ public final class SettingsCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       if (DisconnectHandler.disconnected) {
-         toasts.x("You must reconnect to Astolfo before loading a config");
+         toasts.danger("You must reconnect to Astolfo before loading a config");
       } else {
          switch (strings.length) {
             case 2:
                switch (strings[1]) {
                   case "folder":
-                     m(client.getDirectory());
+                     openFolder(client.getDirectory());
                      return;
                   default:
                      return;
@@ -37,24 +37,30 @@ public final class SettingsCommand extends Command {
                   case "load":
                      File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
                      if (!file.exists()) {
-                        client.getNotificationManager().i("Config manager", String.format("%s config doesnt exist", string), NotificationType.DANGER, 2500).K();
+                        client.getNotificationManager()
+                           .createNotification("Config manager", String.format("%s config doesnt exist", string), NotificationType.DANGER, 2500)
+                           .show();
                         return;
                      }
 
                      ConfigFiles.load(string);
                      client.setConfigName(string);
-                     client.getNotificationManager().i("Config manager", String.format("Loaded %s config", string), NotificationType.SUCCESS, 2500).K();
+                     client.getNotificationManager()
+                        .createNotification("Config manager", String.format("Loaded %s config", string), NotificationType.SUCCESS, 2500)
+                        .show();
                      break;
                   case "save":
                      ConfigFiles.save(ConfigFiles.serializeModules(), string);
                      client.setConfigName(string);
-                     client.getNotificationManager().i("Config manager", String.format("Saved %s config", string), NotificationType.SUCCESS, 2500).K();
+                     client.getNotificationManager()
+                        .createNotification("Config manager", String.format("Saved %s config", string), NotificationType.SUCCESS, 2500)
+                        .show();
                }
          }
       }
    }
 
-   public static void m(File file) {
+   public static void openFolder(File file) {
       String string = file.getAbsolutePath();
       if (Util.getOSType() == Util.EnumOS.OSX) {
          try {

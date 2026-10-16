@@ -15,29 +15,29 @@ import org.lwjgl.input.Keyboard;
 
 public final class DoubleJump extends Module {
    private final EnumSetting<DoubleJumpMode> mode = new EnumSetting<>("Mode", "Set your doublejump mode", DoubleJumpMode.NCP);
-   private boolean d;
-   private boolean T;
+   private boolean jumpPending;
+   private boolean airJumped;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (updateEvent.getState() == EventState.PRE) {
          switch ((DoubleJumpMode)this.mode.getValue()) {
             case NCP:
-               if (mc.thePlayer.isCollidedHorizontally && this.e()) {
+               if (mc.thePlayer.isCollidedHorizontally && this.isFalling()) {
                   if (mc.thePlayer.onGround) {
-                     this.d = true;
-                     this.T = false;
-                  } else if (!this.T) {
+                     this.jumpPending = true;
+                     this.airJumped = false;
+                  } else if (!this.airJumped) {
                      mc.thePlayer.jump();
-                     this.d = true;
-                     this.T = true;
+                     this.jumpPending = true;
+                     this.airJumped = true;
                   }
                } else if (mc.thePlayer.onGround) {
-                  this.T = false;
+                  this.airJumped = false;
                }
                break;
             case VANILLA:
-               if (Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && this.e()) {
+               if (Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode()) && this.isFalling()) {
                   mc.thePlayer.jumpTicks = 0;
                   mc.thePlayer.onGround = true;
                }
@@ -48,9 +48,9 @@ public final class DoubleJump extends Module {
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING
          && packetEvent.getPacket() instanceof C03PacketPlayer
-         && this.d
+         && this.jumpPending
          && this.mode.getValue() == DoubleJumpMode.NCP) {
-         this.d = false;
+         this.jumpPending = false;
       }
    };
 
@@ -70,12 +70,12 @@ public final class DoubleJump extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("Double Jump " + EnumChatFormatting.GRAY + DoubleJumpMode.T(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("Double Jump " + EnumChatFormatting.GRAY + DoubleJumpMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
-   private boolean e() {
+   private boolean isFalling() {
       return mc.thePlayer.motionY < -0.25;
    }
 }

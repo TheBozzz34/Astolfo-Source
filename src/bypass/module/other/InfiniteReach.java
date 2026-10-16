@@ -27,7 +27,7 @@ import org.lwjgl.opengl.GL11;
 public final class InfiniteReach extends Module {
    private final EnumSetting<InfiniteReachMode> mode = new EnumSetting<>("Mode", "Set your teleport mode", InfiniteReachMode.LINEAR);
    public static final NumberSetting<Float> range = new NumberSetting<>("Range", "Distance of blocks", 30.0F, 4.5F, 64.0F);
-   private List<Vector3> m;
+   private List<Vector3> lastPath;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
@@ -59,7 +59,7 @@ public final class InfiniteReach extends Module {
    };
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
-      if (renderEvent.getType() == RenderType.WORLD && this.m != null) {
+      if (renderEvent.getType() == RenderType.WORLD && this.lastPath != null) {
          GL11.glPushMatrix();
          GL11.glDisable(3553);
          GL11.glDisable(2896);
@@ -72,7 +72,7 @@ public final class InfiniteReach extends Module {
          GL11.glColor3f(1.0F, 1.0F, 1.0F);
          GL11.glBegin(3);
 
-         for (Vector3 vector3 : this.m) {
+         for (Vector3 vector3 : this.lastPath) {
             GL11.glVertex3d(
                vector3.getX() - mc.getRenderManager().viewerPosX, vector3.getY() - mc.getRenderManager().viewerPosY, vector3.getZ() - mc.getRenderManager().viewerPosZ
             );
@@ -100,12 +100,12 @@ public final class InfiniteReach extends Module {
       double e = 3.0 * Math.sin(Math.toRadians(mc.thePlayer.rotationYaw + 90.0F));
       switch ((InfiniteReachMode)this.mode.getValue()) {
          case LINEAR:
-            list = Z(
+            list = createLinearPath(
                mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, blockPos.getX() - d, Math.floor(blockPos.getY()) + 3.0, blockPos.getZ() - e, 5.5
             );
             break;
          case PATH_FIND:
-            list = TeleportPath.U(
+            list = TeleportPath.findPath(
                new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ),
                new Vector3(blockPos.getX(), Math.floor(blockPos.getY()) + 1.0, blockPos.getZ()),
                90
@@ -113,7 +113,7 @@ public final class InfiniteReach extends Module {
       }
 
       if (list.size() > 500 && this.mode.getValue() == InfiniteReachMode.PATH_FIND) {
-         list = Z(
+         list = createLinearPath(
             mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, blockPos.getX() - d, Math.floor(blockPos.getY()) + 3.0, blockPos.getZ() - e, 5.5
          );
       }
@@ -122,10 +122,10 @@ public final class InfiniteReach extends Module {
       mc.thePlayer.sendQueue.u(packetEvent.getPacket());
       Collections.reverse(list);
       list.forEach(object2 -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)object2).getX(), ((bypass.util.Vector3)object2).getY(), ((bypass.util.Vector3)object2).getZ(), true)));
-      this.m = list;
+      this.lastPath = list;
    }
 
-   public static List<Vector3> Y(double d, double d2, double d3) {
+   public static List<Vector3> createSteppedPathFromPlayer(double d, double d2, double d3) {
       ArrayList arrayList = new ArrayList();
       double e = mc.thePlayer.posX;
       double d4 = mc.thePlayer.posY;
@@ -171,9 +171,9 @@ public final class InfiniteReach extends Module {
       return arrayList;
    }
 
-   public static List<Vector3> Z(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+   public static List<Vector3> createLinearPath(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
       ArrayList arrayList = new ArrayList();
-      double e = Math.ceil(F(d, d2, d3, d4, d5, d6) / d7);
+      double e = Math.ceil(getDistance(d, d2, d3, d4, d5, d6) / d7);
       double d8 = d4 - d;
       double d9 = d5 - d2;
       double d10 = d6 - d3;
@@ -185,7 +185,7 @@ public final class InfiniteReach extends Module {
       return arrayList;
    }
 
-   private static double F(double d, double d2, double d3, double d4, double d5, double d6) {
+   private static double getDistance(double d, double d2, double d3, double d4, double d5, double d6) {
       double e = d - d4;
       double d7 = d2 - d5;
       double d8 = d3 - d6;

@@ -6,32 +6,32 @@ import bypass.module.Category;
 import bypass.module.Module;
 
 public class CategoryItem extends TabGuiItem {
-   private final Category b;
+   private final Category category;
 
    public CategoryItem(TabGui.Panel panel, Category category) {
       super(panel);
-      this.b = category;
+      this.category = category;
    }
 
-   public Category C() {
-      return this.b;
+   public Category getCategory() {
+      return this.category;
    }
 
    @Override
-   public String L() {
-      return this.b.getDisplayName();
+   public String getDisplayText() {
+      return this.category.getDisplayName();
    }
 
    @Override
    public void onPress() {
-      TabGui.Panel panel = new TabGui.Panel(this.s().getTabGui());
+      TabGui.Panel panel = new TabGui.Panel(this.getPanel().getTabGui());
       Astolfo.INSTANCE.getModuleManager().getList().forEach(moduleInfo -> {
-         if (moduleInfo instanceof Module && moduleInfo.getCategory() == this.b) {
+         if (moduleInfo instanceof Module && moduleInfo.getCategory() == this.category) {
             panel.addItem(new ModuleItem(panel, (Module)moduleInfo));
          }
       });
       if (panel.getItems().size() != 0) {
-         this.s().getTabGui().s(panel);
+         this.getPanel().getTabGui().addElement(panel);
       }
    }
 

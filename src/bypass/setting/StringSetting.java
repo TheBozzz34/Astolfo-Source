@@ -13,7 +13,7 @@ public final class StringSetting extends Setting<String> implements Comparable<S
 
    public StringSetting(String string, String string2, String string3) {
       super(string, string2, string3, SettingType.STRING);
-      if (!TypeUtil.c(string3)) {
+      if (!TypeUtil.isString(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
@@ -24,7 +24,7 @@ public final class StringSetting extends Setting<String> implements Comparable<S
 
    public StringSetting(String string, String string2, String string3, List<SettingAttribute> list) {
       super(string, string2, string3, SettingType.STRING, list);
-      if (!TypeUtil.c(string3)) {
+      if (!TypeUtil.isString(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {
@@ -35,7 +35,7 @@ public final class StringSetting extends Setting<String> implements Comparable<S
 
    public StringSetting(String string, String string2, String string3, SettingAttribute... settingAttributes) {
       super(string, string2, string3, SettingType.STRING, Arrays.asList(settingAttributes));
-      if (!TypeUtil.c(string3)) {
+      if (!TypeUtil.isString(string3)) {
          try {
             throw new InvalidValueException("Invalid value.");
          } catch (InvalidValueException invalidValueException) {

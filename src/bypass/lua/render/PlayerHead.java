@@ -44,7 +44,7 @@ public final class PlayerHead extends VarArgFunction {
          }
       }
 
-      Entity entity = WorldLibrary.X.get(l);
+      Entity entity = WorldLibrary.entitiesById.get(l);
       if (entity instanceof EntityPlayer) {
          AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entity;
          ClientAccess.mc.getTextureManager().bindTexture(abstractClientPlayer.getPlayerInfo().c());

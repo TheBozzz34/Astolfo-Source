@@ -6,10 +6,10 @@ import net.minecraft.realms.RealmsSharedConstants;
 public class VRNativeVersionProvider implements NativeVersionProvider {
    @Override
    public int getServerProtocolVersion() {
-      return this.R();
+      return this.getRealmsProtocolVersion();
    }
 
-   private int R() {
+   private int getRealmsProtocolVersion() {
       try {
          return RealmsSharedConstants.class.getField("e").getInt(null);
       } catch (IllegalAccessException | NoSuchFieldException value) {

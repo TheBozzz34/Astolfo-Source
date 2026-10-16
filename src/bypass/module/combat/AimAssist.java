@@ -29,8 +29,8 @@ public final class AimAssist extends Module {
    private final NumberSetting<Integer> fov = new NumberSetting<>("FOV", "Field of view", 360, 0, 360);
    private final NumberSetting<Integer> speed = new NumberSetting<>("Speed", "Speed of AimAssist", 1, 0, 10);
    private final BooleanSetting onMouse = new BooleanSetting("On-Mouse", "On mouse only", true);
-   private final Rotator c = new Rotator(false, 0.0F);
-   private int H;
+   private final Rotator rotator = new Rotator(false, 0.0F);
+   private int resetTicks;
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.WORLD) {
@@ -46,14 +46,14 @@ public final class AimAssist extends Module {
             return;
          }
 
-         this.H = 0;
+         this.resetTicks = 0;
          if (mc.objectMouseOver != null && mc.objectMouseOver.entityHit != null) {
             return;
          }
 
-         AimTarget aimTarget = this.l();
+         AimTarget aimTarget = this.findBestTarget();
          if (aimTarget != null) {
-            float[] floats = this.x(AimTarget.h(aimTarget));
+            float[] floats = this.getRotationDifference(AimTarget.rotationOf(aimTarget));
             int i = this.speed.getValue();
             int j = this.speed.getValue();
             if (floats[0] > 0.0F) {
@@ -66,10 +66,10 @@ public final class AimAssist extends Module {
 
             float f = mc.gameSettings.Zm * 0.6F + 0.2F;
             float g = f * f * f * 8.0F;
-            float f2 = i * g;
-            float f3 = j * g;
+            float h = i * g;
+            float f2 = j * g;
             byte b = 1;
-            mc.thePlayer.setAngles(f2, Math.abs(floats[1]) > 10.0F ? f3 * b : 0.0F);
+            mc.thePlayer.setAngles(h, Math.abs(floats[1]) > 10.0F ? f2 * b : 0.0F);
          }
       }
    };
@@ -79,32 +79,32 @@ public final class AimAssist extends Module {
       this.addSettings(this.checks, this.range, this.fov, this.speed, this.onMouse);
    }
 
-   private boolean u(EntityPlayer entityPlayer) {
+   private boolean isValidTarget(EntityPlayer entityPlayer) {
       if (!mc.thePlayer.canAttackPlayer(entityPlayer)) {
          return false;
-      } else if (client.getRelationManager().z(entityPlayer)) {
+      } else if (client.getRelationManager().isFriend(entityPlayer)) {
          return false;
       } else {
-         return GameUtil.O(mc.thePlayer, entityPlayer) && this.checks.getSetting("Teams").asBoolean()
+         return GameUtil.isOnSameTeam(mc.thePlayer, entityPlayer) && this.checks.getSetting("Teams").asBoolean()
             ? false
-            : entityPlayer != mc.thePlayer && (!GameUtil.S(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
+            : entityPlayer != mc.thePlayer && (!GameUtil.isFullyInvisible(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
       }
    }
 
-   public float[] x(Rotation rotation) {
+   public float[] getRotationDifference(Rotation rotation) {
       return new float[]{MathHelper.wrapAngleTo180_float(mc.thePlayer.rotationYaw) - rotation.getYaw(), mc.thePlayer.rotationPitch - rotation.getPitch()};
    }
 
-   private AimTarget l() {
+   private AimTarget findBestTarget() {
       AimTarget aimTarget = null;
       float f = this.fov.getValue().intValue() / 2.0F;
 
       for (EntityPlayer entityPlayer : mc.theWorld.playerEntities) {
-         if (this.u(entityPlayer)) {
-            AimTarget aimTarget2 = this.F(entityPlayer);
-            if (aimTarget2 != null && AimTarget.R(aimTarget2) < f) {
+         if (this.isValidTarget(entityPlayer)) {
+            AimTarget aimTarget2 = this.createAimTarget(entityPlayer);
+            if (aimTarget2 != null && AimTarget.angleDistanceOf(aimTarget2) < f) {
                aimTarget = aimTarget2;
-               f = AimTarget.R(aimTarget2);
+               f = AimTarget.angleDistanceOf(aimTarget2);
             }
          }
       }
@@ -112,12 +112,12 @@ public final class AimAssist extends Module {
       return aimTarget;
    }
 
-   private AimTarget F(EntityPlayer entityPlayer) {
+   private AimTarget createAimTarget(EntityPlayer entityPlayer) {
       double d = this.range.asDouble();
       if (mc.thePlayer.getDistanceToEntity(entityPlayer) <= d) {
          Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
          Vector3d vector3d2 = new Vector3d(entityPlayer.posX, entityPlayer.posY + entityPlayer.height * 0.5 / 1.0, entityPlayer.posZ);
-         Rotation rotation = this.c.rotationTo(vector3d2, vector3d);
+         Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
          return new AimTarget(entityPlayer, rotation, (float)KillAura.rotationDistance(rotation));
       } else {
          return null;

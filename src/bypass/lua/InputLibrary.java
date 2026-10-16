@@ -13,20 +13,20 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 
 public class InputLibrary extends TwoArgFunction implements ClientAccess {
-   public static final OneArgFunction c = new IsKeyDown();
-   public static final OneArgFunction w = new GetKeyName();
-   public static final OneArgFunction o = new GetKeyNumber();
-   public static final ZeroArgFunction n = new GetScroll();
-   public static final OneArgFunction L = new IsMouseDown();
+   public static final OneArgFunction isKeyDownFunction = new IsKeyDown();
+   public static final OneArgFunction getKeyNameFunction = new GetKeyName();
+   public static final OneArgFunction getKeyNumberFunction = new GetKeyNumber();
+   public static final ZeroArgFunction getScrollFunction = new GetScroll();
+   public static final OneArgFunction isMouseDownFunction = new IsMouseDown();
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       LuaTable luaTable = LuaValue.tableOf();
-      luaTable.set("is_key_down", c);
-      luaTable.set("is_mouse_down", L);
-      luaTable.set("get_key_name", w);
-      luaTable.set("get_key_number", o);
-      luaTable.set("get_scroll", n);
+      luaTable.set("is_key_down", isKeyDownFunction);
+      luaTable.set("is_mouse_down", isMouseDownFunction);
+      luaTable.set("get_key_name", getKeyNameFunction);
+      luaTable.set("get_key_number", getKeyNumberFunction);
+      luaTable.set("get_scroll", getScrollFunction);
       luaValue2.set("input", luaTable);
       return luaTable;
    }

@@ -79,14 +79,16 @@ public final class Skeleton extends Module {
    }
 
    private boolean shouldRender(EntityPlayer entityPlayer) {
-      return entityPlayer != mc.thePlayer && !entityPlayer.isPlayerSleeping() && (!GameUtil.S(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
+      return entityPlayer != mc.thePlayer
+         && !entityPlayer.isPlayerSleeping()
+         && (!GameUtil.isFullyInvisible(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
    }
 
    private void drawSkeleton(EntityPlayer entityPlayer, double d, double d2, double d3) {
       float[][] floatss = modelRotations.get(entityPlayer);
       if (floatss != null) {
          int i = this.color.getValue().getRGB();
-         if (client.getRelationManager().z(entityPlayer)) {
+         if (client.getRelationManager().isFriend(entityPlayer)) {
             i = new Color(15, 176, 245, 255).getRGB();
          }
 

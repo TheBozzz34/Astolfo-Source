@@ -28,7 +28,7 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
       this.valueClass = object.getClass();
       this.type = settingType;
       Parsers parsers = new Parsers();
-      this.parser = parsers.get(this.getType().x());
+      this.parser = parsers.get(this.getType().getValueClass());
       this.previousValue = (T)object;
       this.attributes = new ArrayList<>();
    }
@@ -37,8 +37,8 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
       this(string, string2, (T)object, settingType);
       this.attributes = list != null ? list : new ArrayList<>();
       this.attributes.sort((settingAttribute, settingAttribute2) -> {
-         int i = settingAttribute.getPriority().h();
-         int j = settingAttribute2.getPriority().h();
+         int i = settingAttribute.getPriority().getLevel();
+         int j = settingAttribute2.getPriority().getLevel();
          return Integer.compare(i, j);
       });
    }
@@ -98,7 +98,7 @@ public class Setting<T> implements Value<T>, Serializable, SelfTyped<Setting<?>>
          Optional optional = this.parser.parse(string, this.getValueClass());
          optional.ifPresent((java.util.function.Consumer<T>)this::setValue);
       } else {
-         throw new UnsupportedOperationException("There is not parser for " + this.type.l() + " options");
+         throw new UnsupportedOperationException("There is not parser for " + this.type.getTypeName() + " options");
       }
    }
 

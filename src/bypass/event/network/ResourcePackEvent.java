@@ -3,13 +3,13 @@ package bypass.event.network;
 import bypass.event.CancellableEvent;
 
 public class ResourcePackEvent extends CancellableEvent {
-   private String x;
+   private String hash;
 
    public ResourcePackEvent(String string) {
-      this.x = string;
+      this.hash = string;
    }
 
-   public String Q() {
-      return this.x;
+   public String getHash() {
+      return this.hash;
    }
 }

@@ -7,14 +7,14 @@ public enum PhaseMode {
    VANILLA("Vanilla"),
    PACKETLESS("Packetless");
 
-   private String F;
-   private static final PhaseMode[] A = new PhaseMode[]{VERTICAL, FULLBLOCK, SKIP, VANILLA, PACKETLESS};
+   private String displayName;
+   private static final PhaseMode[] VALUES = new PhaseMode[]{VERTICAL, FULLBLOCK, SKIP, VANILLA, PACKETLESS};
 
    PhaseMode(String string2) {
-      this.F = string2;
+      this.displayName = string2;
    }
 
-   public static String G(PhaseMode phaseMode) {
-      return phaseMode.F;
+   public static String displayNameOf(PhaseMode phaseMode) {
+      return phaseMode.displayName;
    }
 }

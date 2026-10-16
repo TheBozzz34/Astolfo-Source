@@ -13,8 +13,8 @@ public class ServerCommandHandler extends PacketHandler<ServerCommand> {
 
    public void handle(ServerCommand serverCommand, PacketOutput packetOutput) {
       if (serverCommand.type == ServerCommandType.A) {
-         TitleAnnouncer.D = serverCommand.text;
-         TitleAnnouncer.d.reset();
+         TitleAnnouncer.pendingTitle = serverCommand.text;
+         TitleAnnouncer.titleTimer.reset();
       } else if (serverCommand.type == ServerCommandType.C) {
          if (mc.thePlayer != null) {
             mc.thePlayer.playSound("mob.ghast.scream", 4.0F, 1.0F);

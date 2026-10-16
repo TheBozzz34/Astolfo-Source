@@ -15,23 +15,23 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.StringUtils;
 
 public final class BotDetector extends HiddenModule {
-   public static final ArrayList<EntityLivingBase> w = new ArrayList<>();
-   public static final ArrayList<EntityLivingBase> E = new ArrayList<>();
+   public static final ArrayList<EntityLivingBase> bots = new ArrayList<>();
+   public static final ArrayList<EntityLivingBase> damagedPlayers = new ArrayList<>();
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
-      E.clear();
-      w.clear();
+      damagedPlayers.clear();
+      bots.clear();
    };
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (updateEvent.getState() == EventState.PRE) {
-         if (!w.isEmpty()) {
-            w.clear();
+         if (!bots.isEmpty()) {
+            bots.clear();
          }
 
          for (Entity entity : mc.theWorld.loadedEntityList) {
-            if (entity instanceof EntityPlayer && !w.contains(entity) && entity != mc.thePlayer && this.f((EntityPlayer)entity)) {
-               w.add((EntityLivingBase)entity);
+            if (entity instanceof EntityPlayer && !bots.contains(entity) && entity != mc.thePlayer && this.isBot((EntityPlayer)entity)) {
+               bots.add((EntityLivingBase)entity);
             }
          }
       }
@@ -41,7 +41,7 @@ public final class BotDetector extends HiddenModule {
       client.getEventBus().subscribe(this);
    }
 
-   private boolean f(EntityPlayer entityPlayer) {
+   private boolean isBot(EntityPlayer entityPlayer) {
       if (GameUtil.isOnServer("syuu")) {
          return false;
       }
@@ -60,9 +60,9 @@ public final class BotDetector extends HiddenModule {
             return true;
          }
 
-         if (abstractClientPlayer.getPlayerInfo() != null && abstractClientPlayer.getPlayerInfo().getResponseTime() > 1 && !E.contains(abstractClientPlayer)) {
+         if (abstractClientPlayer.getPlayerInfo() != null && abstractClientPlayer.getPlayerInfo().getResponseTime() > 1 && !damagedPlayers.contains(abstractClientPlayer)) {
             if (abstractClientPlayer.hurtTime > 0) {
-               E.add(abstractClientPlayer);
+               damagedPlayers.add(abstractClientPlayer);
                return false;
             }
 

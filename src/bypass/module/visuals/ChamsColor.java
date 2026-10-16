@@ -16,26 +16,26 @@ public enum ChamsColor {
    RAINBOW(null),
    WHITE(Color.WHITE);
 
-   private Color x;
-   private static final ChamsColor[] S = new ChamsColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
+   private Color color;
+   private static final ChamsColor[] VALUES = new ChamsColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
 
    ChamsColor(Color color) {
-      this.x = color;
+      this.color = color;
    }
 
-   public void o(Color color) {
-      this.x = color;
+   public void setColor(Color color) {
+      this.color = color;
    }
 
-   public Color d() {
-      if (this.x == null) {
-         return this.X(Minecraft.getSystemTime(), 1.0F);
+   public Color getColor() {
+      if (this.color == null) {
+         return this.getRainbowColor(Minecraft.getSystemTime(), 1.0F);
       } else {
-         return this == DEFAULT ? Astolfo.INSTANCE.getColorSetting().getValue() : this.x;
+         return this == DEFAULT ? Astolfo.INSTANCE.getColorSetting().getValue() : this.color;
       }
    }
 
-   private Color X(long l, float f) {
+   private Color getRainbowColor(long l, float f) {
       float g = 1.0F - MathHelper.abs(MathHelper.sin((float)l % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.5F);
       long m = Long.parseLong(Integer.toHexString(Color.HSBtoRGB(g, 0.5F, 1.0F)), 16);
       Color color = new Color((int)m);

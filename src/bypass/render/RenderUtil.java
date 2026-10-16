@@ -19,8 +19,8 @@ public final class RenderUtil {
       end2D();
    }
 
-   @ScriptName(j = "drw")
-   public static void j(double d, double d2, double d3, double d4, int i, int j, int k, int l) {
+   @ScriptName("drw")
+   public static void drawRectRgba(double d, double d2, double d3, double d4, int i, int j, int k, int l) {
       begin2D();
       GL11.glColor4f(i / 255.0F, j / 255.0F, k / 255.0F, l / 255.0F);
       rectVertices(d, d2, d3, d4);
@@ -272,14 +272,14 @@ public final class RenderUtil {
    }
 
    public static void rectVertices(double d, double d2, double d3, double d4) {
-      a(d, d2, d3, d4, 7);
+      drawQuadVertices(d, d2, d3, d4, 7);
    }
 
    public static void rectOutlineVertices(double d, double d2, double d3, double d4) {
-      a(d, d2, d3, d4, 2);
+      drawQuadVertices(d, d2, d3, d4, 2);
    }
 
-   private static void a(double d, double d2, double d3, double d4, int i) {
+   private static void drawQuadVertices(double d, double d2, double d3, double d4, int i) {
       GL11.glBegin(i);
       GL11.glVertex2d(d, d4);
       GL11.glVertex2d(d3, d4);
@@ -330,14 +330,14 @@ public final class RenderUtil {
       end2D();
    }
 
-   public static void c(float f, float g, float h, float f2, float f3, int i) {
+   public static void drawLineOutline(float f, float g, float h, float f2, float f3, int i) {
       drawLine(f, g, f2, g + h, f2, i);
       drawLine(f, g, f2 + f3, g + h, f2 + f3, i);
       drawLine(f, g, f2 - 0.5F, g, f2 + f3 + 1.0F, i);
       drawLine(f, g + h, f2 - 0.5F, g + h, f2 + f3 + 1.0F, i);
    }
 
-   public static void O(float f, float g, float h, float f2, float f3, int i) {
+   public static void drawLineOutlineTight(float f, float g, float h, float f2, float f3, int i) {
       drawLine(f, g, f2, g + h, f2, i);
       drawLine(f, g, f2 + f3, g + h, f2 + f3, i);
       drawLine(f, g, f2, g, f2 + f3 + 0.5F, i);
@@ -359,14 +359,14 @@ public final class RenderUtil {
    }
 
    public static void setColor(int i) {
-      E(i, i, i, i);
+      applyColorChannels(i, i, i, i);
    }
 
-   public static void l(int i, int j, int k, int l) {
-      E(i, j, k, l);
+   public static void setColorChannels(int i, int j, int k, int l) {
+      applyColorChannels(i, j, k, l);
    }
 
-   private static void E(int i, int j, int k, int l) {
+   private static void applyColorChannels(int i, int j, int k, int l) {
       float f = (i >> 16 & 0xFF) / 255.0F;
       float g = (j >> 8 & 0xFF) / 255.0F;
       float h = (k & 0xFF) / 255.0F;

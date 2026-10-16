@@ -17,10 +17,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public final class AuthUtil {
-   private static final FingerprintRegistry m = new DefaultFingerprintRegistry();
-   private static final HwidBuilder M = new HwidOptions().P(true).i(true).J(true).O(true).R(true).d(true).H();
+   private static final FingerprintRegistry fingerprintRegistry = new DefaultFingerprintRegistry();
+   private static final HwidBuilder hwidBuilder = new HwidOptions()
+      .withUsername(true)
+      .withCpu(true)
+      .withBaseboard(true)
+      .withGpu(true)
+      .withMemory(true)
+      .withDisk(true)
+      .build();
 
-   private static void Y(HttpURLConnection httpURLConnection, StringBuilder stringBuilder) {
+   private static void readResponse(HttpURLConnection httpURLConnection, StringBuilder stringBuilder) {
       try {
          InputStream inputStream;
          if (httpURLConnection.getResponseCode() == 200) {
@@ -46,26 +53,26 @@ public final class AuthUtil {
       }
    }
 
-   public static String g(AuthHttpRequest authHttpRequest) {
-      return I(authHttpRequest, Proxy.NO_PROXY);
+   public static String httpGet(AuthHttpRequest authHttpRequest) {
+      return httpGetWithProxy(authHttpRequest, Proxy.NO_PROXY);
    }
 
-   public static String I(AuthHttpRequest authHttpRequest, Proxy proxy) {
+   public static String httpGetWithProxy(AuthHttpRequest authHttpRequest, Proxy proxy) {
       try {
-         String string = authHttpRequest.h();
-         URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
-         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         String string = authHttpRequest.buildBody();
+         URL url2 = new URL(authHttpRequest.url + (string.isEmpty() ? "" : "?" + string));
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url2.openConnection(proxy);
          httpURLConnection.setRequestMethod("GET");
-         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
-         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
-         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.userAgent);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.accept);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.contentType);
 
-         for (int j = 0; j < authHttpRequest.i.length; j++) {
-            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
+         for (int i = 0; i < authHttpRequest.headerNames.length; i++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.headerNames[i], authHttpRequest.headerValues[i]);
          }
 
          StringBuilder stringBuilder = new StringBuilder();
-         Y(httpURLConnection, stringBuilder);
+         readResponse(httpURLConnection, stringBuilder);
          return stringBuilder.toString();
       } catch (Exception exception) {
          NullPointerException nullPointerException = new NullPointerException();
@@ -74,53 +81,53 @@ public final class AuthUtil {
       }
    }
 
-   public static String Y(AuthHttpRequest authHttpRequest) {
+   public static String httpGetOrError(AuthHttpRequest authHttpRequest) {
       try {
-         String string = authHttpRequest.h();
-         URL url = new URL(authHttpRequest.v + (string.isEmpty() ? "" : "?" + string));
-         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(Proxy.NO_PROXY);
+         String string = authHttpRequest.buildBody();
+         URL url2 = new URL(authHttpRequest.url + (string.isEmpty() ? "" : "?" + string));
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url2.openConnection(Proxy.NO_PROXY);
          httpURLConnection.setRequestMethod("GET");
-         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
-         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
-         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.userAgent);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.accept);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.contentType);
 
-         for (int j = 0; j < authHttpRequest.i.length; j++) {
-            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
+         for (int i = 0; i < authHttpRequest.headerNames.length; i++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.headerNames[i], authHttpRequest.headerValues[i]);
          }
 
          StringBuilder stringBuilder = new StringBuilder();
-         Y(httpURLConnection, stringBuilder);
+         readResponse(httpURLConnection, stringBuilder);
          return stringBuilder.toString();
       } catch (IOException ioException) {
          return ioException.getMessage();
       }
    }
 
-   public static String k(AuthHttpRequest authHttpRequest) {
-      return L(authHttpRequest, Proxy.NO_PROXY);
+   public static String httpPost(AuthHttpRequest authHttpRequest) {
+      return httpPostWithProxy(authHttpRequest, Proxy.NO_PROXY);
    }
 
-   public static String L(AuthHttpRequest authHttpRequest, Proxy proxy) {
+   public static String httpPostWithProxy(AuthHttpRequest authHttpRequest, Proxy proxy) {
       try {
-         URL url = new URL(authHttpRequest.v);
-         HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection(proxy);
+         URL url2 = new URL(authHttpRequest.url);
+         HttpURLConnection httpURLConnection = (HttpURLConnection)url2.openConnection(proxy);
          httpURLConnection.setRequestMethod("POST");
-         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.F);
-         httpURLConnection.setRequestProperty("Accept", authHttpRequest.P);
-         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.u);
+         httpURLConnection.setRequestProperty("User-Agent", authHttpRequest.userAgent);
+         httpURLConnection.setRequestProperty("Accept", authHttpRequest.accept);
+         httpURLConnection.setRequestProperty("Content-Type", authHttpRequest.contentType);
 
-         for (int j = 0; j < authHttpRequest.i.length; j++) {
-            httpURLConnection.setRequestProperty(authHttpRequest.i[j], authHttpRequest.n[j]);
+         for (int i = 0; i < authHttpRequest.headerNames.length; i++) {
+            httpURLConnection.setRequestProperty(authHttpRequest.headerNames[i], authHttpRequest.headerValues[i]);
          }
 
          httpURLConnection.setDoInput(true);
          httpURLConnection.setDoOutput(true);
          DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-         dataOutputStream.writeBytes(authHttpRequest.h());
+         dataOutputStream.writeBytes(authHttpRequest.buildBody());
          dataOutputStream.flush();
          dataOutputStream.close();
          StringBuilder stringBuilder = new StringBuilder();
-         Y(httpURLConnection, stringBuilder);
+         readResponse(httpURLConnection, stringBuilder);
          return stringBuilder.toString().replace("\n", "");
       } catch (Exception exception) {
          NullPointerException nullPointerException = new NullPointerException();
@@ -129,15 +136,15 @@ public final class AuthUtil {
       }
    }
 
-   public static void v(String string) {
+   public static void openUrl(String string) {
       try {
-         u(new URI(string));
+         browseUri(new URI(string));
       } catch (URISyntaxException uriSyntaxException) {
          uriSyntaxException.printStackTrace();
       }
    }
 
-   private static void u(URI uri) {
+   private static void browseUri(URI uri) {
       try {
          Desktop.getDesktop().browse(uri);
       } catch (IOException ioException) {
@@ -146,7 +153,7 @@ public final class AuthUtil {
    }
 
    public static String getHwid() {
-      return md5(M.J());
+      return md5(hwidBuilder.getRawHwid());
    }
 
    public static String md5(String string) {
@@ -171,6 +178,6 @@ public final class AuthUtil {
    }
 
    static {
-      m.e();
+      fingerprintRegistry.init();
    }
 }

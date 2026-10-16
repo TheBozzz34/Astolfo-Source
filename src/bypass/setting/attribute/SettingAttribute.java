@@ -3,8 +3,8 @@ package bypass.setting.attribute;
 import bypass.event.Cancellable;
 
 public class SettingAttribute implements Cancellable {
-   private boolean D;
-   private AttributePriority T;
+   private boolean cancelled;
+   private AttributePriority priority;
 
    public SettingAttribute(AttributePriority attributePriority) {
       this.setPriority(attributePriority);
@@ -12,24 +12,24 @@ public class SettingAttribute implements Cancellable {
 
    @Override
    public void cancel() {
-      this.D = true;
+      this.cancelled = true;
    }
 
    @Override
    public boolean isCancelled() {
-      return this.D;
+      return this.cancelled;
    }
 
    @Override
    public void setCancelled(boolean bl) {
-      this.D = bl;
+      this.cancelled = bl;
    }
 
    public AttributePriority getPriority() {
-      return this.T;
+      return this.priority;
    }
 
    public void setPriority(AttributePriority attributePriority) {
-      this.T = attributePriority;
+      this.priority = attributePriority;
    }
 }

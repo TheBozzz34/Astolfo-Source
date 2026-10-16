@@ -6,43 +6,43 @@ import java.util.List;
 import net.minecraft.item.ItemFishFood;
 
 public class JvmArgumentsCheck {
-   private final StringListHolder U;
-   private boolean Q;
-   private boolean Y;
+   private final StringListHolder patternList;
+   private boolean flag1;
+   private boolean agentFound;
 
    public JvmArgumentsCheck(StringListHolder stringListHolder) {
-      this.U = stringListHolder;
+      this.patternList = stringListHolder;
    }
 
-   public Holder V() {
+   public Holder checkJvmArguments() {
       Holder holder = new Holder();
       holder.value = new ItemFishFood(false);
       List list = ManagementFactory.getRuntimeMXBean().getInputArguments();
-      this.l(true);
+      this.setFlag1(true);
 
       for (Object object : list) {
          String string = (String)object;
-         for (String string2 : this.U.A().L().getValue()) {
+         for (String string2 : this.patternList.getStringContainer().getOwnedContainer().getValue()) {
             if (string.equalsIgnoreCase(String.format("-javaagent:%s", "astolfo-agent.jar"))) {
-               this.Y = true;
+               this.agentFound = true;
             } else if (string.startsWith("-javaagent:") && string.endsWith("/astolfo-agent.jar")) {
-               this.Y = true;
+               this.agentFound = true;
             } else if (string.contains(string2) && (holder.value = new ItemFishFood(true)) != null) {
             }
          }
       }
 
-      if (!this.Y && (holder.value = new ItemFishFood(true)) != null) {
+      if (!this.agentFound && (holder.value = new ItemFishFood(true)) != null) {
       }
 
       return holder;
    }
 
-   public void l(boolean bl) {
-      this.Q = bl;
+   public void setFlag1(boolean bl) {
+      this.flag1 = bl;
    }
 
-   public boolean U() {
-      return this.Q;
+   public boolean isFlag1() {
+      return this.flag1;
    }
 }

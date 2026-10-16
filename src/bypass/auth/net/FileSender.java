@@ -11,20 +11,20 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 
 public class FileSender implements Connection {
-   private final ByteBuffer O = ByteBuffer.allocateDirect(8);
-   private SocketChannel b;
+   private final ByteBuffer headerBuffer = ByteBuffer.allocateDirect(8);
+   private SocketChannel socketChannel;
 
    @Override
    public void open(SocketChannel socketChannel) throws IOException {
       socketChannel.configureBlocking(true);
-      this.b = socketChannel;
+      this.socketChannel = socketChannel;
    }
 
-   public void v(Path path, long l) throws IOException {
-      this.y(path, path.getFileName().toString(), l);
+   public void sendFile(Path path, long l) throws IOException {
+      this.sendNamedFile(path, path.getFileName().toString(), l);
    }
 
-   public void y(Path path, String string, long l) throws IOException {
+   public void sendNamedFile(Path path, String string, long l) throws IOException {
       if (Files.isDirectory(path)) {
          throw new NotAFileException(path.toString());
       }
@@ -32,25 +32,25 @@ public class FileSender implements Connection {
       try (FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.READ)) {
          int i = string.length();
          long m = fileChannel.size();
-         ((Buffer)this.O).clear();
-         this.O.putInt(i);
-         this.O.putInt((int)m);
-         ((Buffer)this.O).flip();
-         this.b.write(this.O);
+         ((Buffer)this.headerBuffer).clear();
+         this.headerBuffer.putInt(i);
+         this.headerBuffer.putInt((int)m);
+         ((Buffer)this.headerBuffer).flip();
+         this.socketChannel.write(this.headerBuffer);
          ByteBuffer byteBuffer = ByteBuffer.allocate(i);
          byteBuffer.put(string.getBytes(StandardCharsets.UTF_8));
          ((Buffer)byteBuffer).flip();
-         this.b.write(byteBuffer);
+         this.socketChannel.write(byteBuffer);
          long n = 0L;
 
          while (n < m) {
-            n += fileChannel.transferTo(n, l, this.b);
+            n += fileChannel.transferTo(n, l, this.socketChannel);
          }
       }
    }
 
    @Override
    public void close() throws IOException {
-      this.b.close();
+      this.socketChannel.close();
    }
 }

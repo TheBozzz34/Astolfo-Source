@@ -11,61 +11,61 @@ import java.util.LinkedHashSet;
 import net.minecraft.client.gui.GuiScreen;
 
 public class AltManager extends JsonFileManager<Alt, JsonObject> {
-   public static int o;
+   public static int unbannedCount;
 
    public AltManager(File file) {
       super(file, "alts.json");
    }
 
-   public void t(String string, JsonObject jsonObject) {
+   public void loadEntry(String string, JsonObject jsonObject) {
       String string2 = new String(Base64.getDecoder().decode(jsonObject.get("password").getAsString().getBytes()));
       String string3 = jsonObject.get("display").getAsString();
       String string4 = jsonObject.has("accessToken") ? jsonObject.get("accessToken").getAsString() : null;
       String string5 = jsonObject.get("clientToken").getAsString();
       boolean bl = jsonObject.get("banned").getAsBoolean();
       Alt alt = new Alt(string, string2, string3, string5, string4);
-      alt.N = bl;
-      if (jsonObject.has("banExpiry") && alt.N) {
+      alt.banned = bl;
+      if (jsonObject.has("banExpiry") && alt.banned) {
          long l = jsonObject.get("banExpiry").getAsLong();
-         long n = alt.m - System.currentTimeMillis();
-         if (n < 0L) {
-            alt.m = l;
+         long m = alt.banExpiry - System.currentTimeMillis();
+         if (m < 0L) {
+            alt.banExpiry = l;
          } else {
-            o++;
-            alt.N = false;
+            unbannedCount++;
+            alt.banned = false;
          }
       }
 
       if (jsonObject.has("favorite")) {
-         alt.Y = jsonObject.get("favorite").getAsBoolean();
+         alt.favorite = jsonObject.get("favorite").getAsBoolean();
       }
 
       if (jsonObject.has("failedLogin")) {
-         alt.I = jsonObject.get("failedLogin").getAsBoolean();
+         alt.failedLogin = jsonObject.get("failedLogin").getAsBoolean();
       }
 
       if (jsonObject.has("microsoft")) {
-         alt.F = jsonObject.get("microsoft").getAsBoolean();
+         alt.microsoft = jsonObject.get("microsoft").getAsBoolean();
       }
 
       if (jsonObject.has("refreshToken")) {
-         alt.Z = jsonObject.get("refreshToken").getAsString();
+         alt.refreshToken = jsonObject.get("refreshToken").getAsString();
       }
 
-      this.C.add(alt);
+      this.items.add(alt);
    }
 
    @Override
-   public void I() {
+   public void loadDefaults() {
    }
 
-   public void r(File file) {
+   public void importFromFile(File file) {
       try {
-         int i = this.C.size();
+         int i = this.items.size();
          ArrayList arrayList = new ArrayList(i);
          FileUtil.writeLines(file, arrayList);
          if (!((String)arrayList.get(0)).contains(":")) {
-            Toasts.TOASTS.k("Import", "Failed to import file");
+            Toasts.TOASTS.dangerMessage("Import", "Failed to import file");
             return;
          }
 
@@ -82,25 +82,25 @@ public class AltManager extends JsonFileManager<Alt, JsonObject> {
                case 0:
                   break;
                case 1:
-                  this.C.add(new Alt(strings2[0], ""));
+                  this.items.add(new Alt(strings2[0], ""));
                   break;
                case 2:
-                  this.C.add(new Alt(strings2[0], strings2[1]));
+                  this.items.add(new Alt(strings2[0], strings2[1]));
                   break;
                default:
-                  this.C.add(new Alt(strings2[0], strings2[1], strings2[2]));
+                  this.items.add(new Alt(strings2[0], strings2[1], strings2[2]));
             }
          }
 
-         Toasts.TOASTS.B("Import", "Imported " + (this.C.size() - i) + " accounts and resolved " + this.N() + " duplicates");
+         Toasts.TOASTS.infoMessage("Import", "Imported " + (this.items.size() - i) + " accounts and resolved " + this.removeDuplicates() + " duplicates");
       } catch (Exception exception) {
-         Toasts.TOASTS.k("Import", "Failed to import file");
+         Toasts.TOASTS.dangerMessage("Import", "Failed to import file");
       }
    }
 
-   public void O() {
+   public void importFromClipboard() {
       try {
-         int i = this.C.size();
+         int i = this.items.size();
          String string = GuiScreen.getClipboardString();
          String[] strings = string.split("\\r?\\n");
 
@@ -116,53 +116,53 @@ public class AltManager extends JsonFileManager<Alt, JsonObject> {
                case 0:
                   break;
                case 1:
-                  this.C.add(new Alt(strings3[0], ""));
+                  this.items.add(new Alt(strings3[0], ""));
                   break;
                case 2:
-                  this.C.add(new Alt(strings3[0], strings3[1]));
+                  this.items.add(new Alt(strings3[0], strings3[1]));
                   break;
                default:
-                  this.C.add(new Alt(strings3[0], strings3[1], strings3[2]));
+                  this.items.add(new Alt(strings3[0], strings3[1], strings3[2]));
             }
          }
 
-         Toasts.TOASTS.B("Import", "Imported " + (this.C.size() - i) + " accounts and resolved " + this.N() + " duplicates");
+         Toasts.TOASTS.infoMessage("Import", "Imported " + (this.items.size() - i) + " accounts and resolved " + this.removeDuplicates() + " duplicates");
       } catch (Exception exception) {
-         Toasts.TOASTS.k("Import", "Failed to import clipboard");
+         Toasts.TOASTS.dangerMessage("Import", "Failed to import clipboard");
       }
    }
 
-   public int N() {
-      int i = this.C.size();
-      LinkedHashSet linkedHashSet = new LinkedHashSet<>(this.C);
-      this.C.clear();
-      this.C.addAll(linkedHashSet);
-      return i - this.C.size();
+   public int removeDuplicates() {
+      int i = this.items.size();
+      LinkedHashSet linkedHashSet = new LinkedHashSet<>(this.items);
+      this.items.clear();
+      this.items.addAll(linkedHashSet);
+      return i - this.items.size();
    }
 
    public int removeMojang() {
-      int i = this.C.size();
-      this.C.removeIf(alt -> !alt.F);
-      return i - this.C.size();
+      int i = this.items.size();
+      this.items.removeIf(alt -> !alt.microsoft);
+      return i - this.items.size();
    }
 
    public int removeBanned(boolean bl) {
-      int i = this.C.size();
-      this.C.removeIf(alt -> alt.N && (alt.m == -1L || bl) && !alt.Y);
-      return i - this.C.size();
+      int i = this.items.size();
+      this.items.removeIf(alt -> alt.banned && (alt.banExpiry == -1L || bl) && !alt.favorite);
+      return i - this.items.size();
    }
 
    public int removeFailedLogins() {
-      int i = this.C.size();
-      this.C.removeIf(alt -> alt.I && !alt.Y);
-      return i - this.C.size();
+      int i = this.items.size();
+      this.items.removeIf(alt -> alt.failedLogin && !alt.favorite);
+      return i - this.items.size();
    }
 
-   public ArrayList<Alt> e() {
+   public ArrayList<Alt> getUsableAlts() {
       ArrayList arrayList = new ArrayList();
 
-      for (Alt alt : this.C) {
-         if (!alt.N && !alt.I && !alt.Y) {
+      for (Alt alt : this.items) {
+         if (!alt.banned && !alt.failedLogin && !alt.favorite) {
             arrayList.add(alt);
          }
       }

@@ -54,9 +54,9 @@ public final class Chams extends Module {
       .build();
    private final EnumSetting<ChamsColorMode> vColorMode = new EnumSetting<>("V-Color-Mode", "color mode", ChamsColorMode.SOLID);
    private final EnumSetting<ChamsColorMode> hColorMode = new EnumSetting<>("H-Color-Mode", "color mode", ChamsColorMode.SOLID);
-   private final ColorSetting vColor = new ColorSetting("V-Color", "Visible color", ChamsColor.PINK.d());
-   private final ColorSetting hColor = new ColorSetting("H-Color", "Hidden color", ChamsColor.BLUE.d());
-   private final ColorSetting hTimeColor = new ColorSetting("HTime-Color", "poop", ChamsColor.RED.d());
+   private final ColorSetting vColor = new ColorSetting("V-Color", "Visible color", ChamsColor.PINK.getColor());
+   private final ColorSetting hColor = new ColorSetting("H-Color", "Hidden color", ChamsColor.BLUE.getColor());
+   private final ColorSetting hTimeColor = new ColorSetting("HTime-Color", "poop", ChamsColor.RED.getColor());
    private final BooleanSetting lightning = new BooleanSetting("Lightning", "Disable lighting", false);
    private final BooleanSetting solid = new BooleanSetting("Solid", "solid chams", true);
    private final BooleanSetting hands = new BooleanSetting("Hands", "Color hands", true);

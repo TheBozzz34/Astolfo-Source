@@ -4,36 +4,36 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 
 public class PasswordField extends GuiTextField {
-   private boolean P = false;
-   private boolean V = false;
+   private boolean passwordMode = false;
+   private boolean revealed = false;
 
    public PasswordField(int i, int j, int k, int l, int m) {
       super(i, Minecraft.getMinecraft().fontRendererObj, j, k, l, m);
    }
 
-   public void Z(boolean bl) {
-      this.P = bl;
+   public void setPasswordMode(boolean bl) {
+      this.passwordMode = bl;
    }
 
-   public void L(boolean bl) {
-      if (!this.P) {
-         this.V = true;
+   public void setRevealed(boolean bl) {
+      if (!this.passwordMode) {
+         this.revealed = true;
       }
 
-      this.V = bl;
+      this.revealed = bl;
    }
 
-   public boolean R() {
-      return !this.P ? true : this.V;
+   public boolean isTextShown() {
+      return !this.passwordMode ? true : this.revealed;
    }
 
-   public boolean g() {
-      return this.P;
+   public boolean isPasswordMode() {
+      return this.passwordMode;
    }
 
    @Override
    public void drawTextBox() {
-      boolean bl = this.P && !this.V;
+      boolean bl = this.passwordMode && !this.revealed;
       String string = "";
       if (bl) {
          string = this.getText();

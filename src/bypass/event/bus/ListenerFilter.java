@@ -11,11 +11,11 @@ public interface ListenerFilter<A extends AnnotatedElement> {
 
    boolean listensTo(A annotatedElement, Class<? extends Event> class2);
 
-   static FieldListenerFilter W() {
+   static FieldListenerFilter forFields() {
       return new FieldListenerFilter();
    }
 
-   static MethodListenerFilter q() {
+   static MethodListenerFilter forMethods() {
       return new MethodListenerFilter();
    }
 }

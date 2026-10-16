@@ -3,11 +3,11 @@ package bypass.auth.net.scramble;
 import java.nio.ByteBuffer;
 
 public final class RecursiveSwapScrambler implements Scrambler {
-   private static void o(byte[] bytes, int i, int j) {
+   private static void swapRecursive(byte[] bytes, int i, int j) {
       int k = j / 2;
       if (k > 1) {
-         o(bytes, i, k);
-         o(bytes, i + k, j - k);
+         swapRecursive(bytes, i, k);
+         swapRecursive(bytes, i + k, j - k);
       } else if (k == 1) {
          byte b = bytes[i + k];
          bytes[i + k] = bytes[i];
@@ -16,8 +16,8 @@ public final class RecursiveSwapScrambler implements Scrambler {
    }
 
    @Override
-   public void B(ByteBuffer byteBuffer) {
+   public void scramble(ByteBuffer byteBuffer) {
       byte[] bytes = byteBuffer.array();
-      o(bytes, 0, bytes.length);
+      swapRecursive(bytes, 0, bytes.length);
    }
 }

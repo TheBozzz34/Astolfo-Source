@@ -126,7 +126,7 @@ public final class AutoHypixel extends Module {
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (!GameUtil.isOnHypixel()) {
-         toasts.B("AutoHypixel disable", "Disabling AutoHypixel due to being in other server");
+         toasts.infoMessage("AutoHypixel disable", "Disabling AutoHypixel due to being in other server");
          this.setEnabled(false);
       } else {
          if (updateEvent.getState() == EventState.PRE && cooldownTicks > 0) {
@@ -167,7 +167,7 @@ public final class AutoHypixel extends Module {
                   && !string2.equals(entityPlayer2.getName())
                   && entityPlayer2.posY < pitSpawnY
                   && !bountiedPlayers.contains(entityPlayer2)
-                  && !client.getRelationManager().z(entityPlayer2)
+                  && !client.getRelationManager().isFriend(entityPlayer2)
                   && entityPlayer2 != mc.thePlayer) {
                   String string3 = StringUtils.stripControlCodes(string2.replace("g", ""));
 
@@ -176,7 +176,7 @@ public final class AutoHypixel extends Module {
                      if (i >= autoPit.getSetting("Bounty").asInt()) {
                         bountiedPlayers.add(entityPlayer2);
                         if (autoPit.getSetting("Bounty-Notifier").asBoolean()) {
-                           toasts.B("Found bountied player", String.format("%s has %s bounty", entityPlayer2.getName(), string2));
+                           toasts.infoMessage("Found bountied player", String.format("%s has %s bounty", entityPlayer2.getName(), string2));
                         }
                      }
                   } catch (NumberFormatException numberFormatException) {
@@ -186,7 +186,7 @@ public final class AutoHypixel extends Module {
 
             if (this.actionTimer.hasElapsed(10000.0F) && autoPit.getSetting("Bounty-Finder").asBoolean() && bountiedPlayers.isEmpty()) {
                mc.thePlayer.sendChatMessage("/play pit");
-               toasts.D("Joining new pit game");
+               toasts.info("Joining new pit game");
             }
 
             this.bountyScanTimer.reset();
@@ -220,7 +220,7 @@ public final class AutoHypixel extends Module {
             if (autoChecker.getSetting("Auto-API-Key").asBoolean() && s02PacketChat.getChatComponent().getUnformattedText().contains("Your new API key is ")) {
                String[] strings = s02PacketChat.getChatComponent().getUnformattedText().split("Your new API key is ");
                ((StringSetting)autoChecker.getSetting("API-Key")).setValue(strings[1]);
-               toasts.g("Auto-Stats", "Gathered new API key");
+               toasts.successMessage("Auto-Stats", "Gathered new API key");
                packetEvent.cancel();
                this.apiKeyReceived = true;
                this.apiKeyRequested = false;
@@ -235,7 +235,7 @@ public final class AutoHypixel extends Module {
                   ClickEvent clickEvent = iChatComponent.getChatStyle().getChatClickEvent();
                   if (clickEvent != null && clickEvent.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent.getValue().contains("/play")) {
                      this.pendingPlayCommand = clickEvent.getValue();
-                     toasts.G("Joining game", "Joining game in " + this.delay.getValue() / 1000 + " seconds", this.delay.getValue());
+                     toasts.infoTimed("Joining game", "Joining game in " + this.delay.getValue() / 1000 + " seconds", this.delay.getValue());
                      this.playTimer.reset();
                   }
                }
@@ -244,7 +244,7 @@ public final class AutoHypixel extends Module {
             if (this.autoCraft.getSetting("Enabled").asBoolean()) {
                for (IChatComponent iChatComponent2 : s02PacketChat.getChatComponent()) {
                   ClickEvent clickEvent2 = iChatComponent2.getChatStyle().getChatClickEvent();
-                  if (clickEvent2 != null && clickEvent2.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent2.getValue() != null && !AutoArmor.c()) {
+                  if (clickEvent2 != null && clickEvent2.getAction() == ClickEvent.Action.RUN_COMMAND && clickEvent2.getValue() != null && !AutoArmor.isInventoryFull()) {
                      if (clickEvent2.getValue().contains("item IRON_INGOTS") && this.autoCraft.getSetting("Iron-Pack").asBoolean()) {
                         mc.thePlayer.sendChatMessage(clickEvent2.getValue());
                         this.actionTimer.reset();
@@ -339,7 +339,7 @@ public final class AutoHypixel extends Module {
                   .sendQueue
                   .u(new C03PacketPlayer.C06PacketPlayerPosLook(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ(), s08PacketPlayerPosLook.getYaw(), s08PacketPlayerPosLook.getPitch(), false));
 
-               for (Vector3 vector3 : PathFinder.i(
+               for (Vector3 vector3 : PathFinder.findPath(
                   new Vector3(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ()), new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), 8.9
                )) {
                   mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));

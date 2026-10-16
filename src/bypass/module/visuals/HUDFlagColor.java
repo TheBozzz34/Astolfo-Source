@@ -7,18 +7,18 @@ public enum HUDFlagColor {
    WHITE(Color.WHITE),
    PINK(new Color(247, 168, 184));
 
-   private Color j;
-   private static final HUDFlagColor[] P = new HUDFlagColor[]{BLUE, WHITE, PINK};
+   private Color color;
+   private static final HUDFlagColor[] VALUES = new HUDFlagColor[]{BLUE, WHITE, PINK};
 
    HUDFlagColor(Color color) {
-      this.j = color;
+      this.color = color;
    }
 
-   public Color m() {
-      return this.j;
+   public Color getColor() {
+      return this.color;
    }
 
-   public static Color s(HUDFlagColor hudFlagColor) {
-      return hudFlagColor.j;
+   public static Color colorOf(HUDFlagColor hudFlagColor) {
+      return hudFlagColor.color;
    }
 }

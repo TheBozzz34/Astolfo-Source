@@ -13,81 +13,86 @@ import net.minecraft.client.gui.GuiMainMenu;
 import org.lwjgl.input.Keyboard;
 
 public class ModuleButton extends Container {
-   private final CategoryPanel h;
-   private final Module p;
-   private int d = 0;
-   private boolean u;
+   private final CategoryPanel categoryPanel;
+   private final Module module;
+   private int openTicks = 0;
+   private boolean listeningForBind;
 
    public ModuleButton(CategoryPanel categoryPanel, Module module, int i, int j) {
       super(module.getName(), 0.0F, 0.0F, i, j);
-      this.h = categoryPanel;
-      this.p = module;
+      this.categoryPanel = categoryPanel;
+      this.module = module;
    }
 
    @Override
-   public void l(int i) {
-      if (this.h.s_boolean()) {
+   public void onClick(int i) {
+      if (this.categoryPanel.isExpanded()) {
          if (i == 0) {
-            this.p.setEnabled(!this.p.isEnabled());
+            this.module.setEnabled(!this.module.isEnabled());
          }
 
-         if (i == 1 && DefaultClickGuiScreen.B && Keyboard.isKeyDown(42)) {
-            this.u = !this.u;
+         if (i == 1 && DefaultClickGuiScreen.showKeybinds && Keyboard.isKeyDown(42)) {
+            this.listeningForBind = !this.listeningForBind;
             return;
          }
 
-         if (i == 1 && this.d > 0 && !this.M_ArrayList().isEmpty()) {
-            this.u(!this.s_boolean());
-            if (this.s_boolean()) {
-               this.U.backwards().rewind().start();
+         if (i == 1 && this.openTicks > 0 && !this.getChildren().isEmpty()) {
+            this.setExpanded(!this.isExpanded());
+            if (this.isExpanded()) {
+               this.expandAnimation.backwards().rewind().start();
             } else {
-               this.U.forwards().rewind().start();
+               this.expandAnimation.forwards().rewind().start();
             }
          }
       }
    }
 
    @Override
-   public void P(char c, int i) {
-      if (DefaultClickGuiScreen.B) {
-         if (this.u && i == 1) {
-            this.u = false;
+   public void onKeyTyped(char c, int i) {
+      if (DefaultClickGuiScreen.showKeybinds) {
+         if (this.listeningForBind && i == 1) {
+            this.listeningForBind = false;
          }
 
-         if (this.u) {
-            this.p.setKey(i);
-            this.u = false;
+         if (this.listeningForBind) {
+            this.module.setKey(i);
+            this.listeningForBind = false;
          }
       }
 
-      super.P(c, i);
+      super.onKeyTyped(c, i);
    }
 
    @Override
    public void render(int i, int j) {
-      int k = this.u();
+      int k = this.getExpandedHeight();
       boolean bl = HUD.gui.getSetting("Left-Align").asBoolean();
-      int l = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.h.c().getColor() : client.getColorSetting().getValue().getRGB();
-      if (this.p.isEnabled()) {
-         if (this.G(i, j)) {
-            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(l).darker().getRGB());
+      int l = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.categoryPanel.getCategory().getColor() : client.getColorSetting().getValue().getRGB();
+      if (this.module.isEnabled()) {
+         if (this.isHovered(i, j)) {
+            RenderUtil.drawRect(
+               this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(l).darker().getRGB()
+            );
          } else {
-            RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), l);
+            RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), l);
          }
-      } else if (this.G(i, j - 1)) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), new Color(52, 52, 52).getRGB());
+      } else if (this.isHovered(i, j - 1)) {
+         RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(52, 52, 52).getRGB());
       }
 
-      if (this.s_boolean()) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + k, new Color(37, 37, 37).darker().getRGB());
+      if (this.isExpanded()) {
+         RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + k, new Color(37, 37, 37).darker().getRGB());
       }
 
-      if (DefaultClickGuiScreen.B && (this.p.getKey() != 0 || this.u)) {
+      if (DefaultClickGuiScreen.showKeybinds && (this.module.getKey() != 0 || this.listeningForBind)) {
          try {
-            String string = String.format("[%s]", this.u ? "..." : Keyboard.getKeyName(this.p.getKey()));
+            String string = String.format("[%s]", this.listeningForBind ? "..." : Keyboard.getKeyName(this.module.getKey()));
             GuiMainMenu.m
                .drawString(
-                  string, bl ? this.M() + this.x() - GuiMainMenu.m.getStringWidth(string) - 2.0F : this.M() + 3.0F, this.E_float() + 2.0F, Color.GRAY.getRGB()
+                  string,
+                  bl ? this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string) - 2.0F : this.getX() + 3.0F,
+                  this.getYPos() + 2.0F,
+                  Color.GRAY.getRGB()
                );
          } catch (Exception exception) {
          }
@@ -95,39 +100,40 @@ public class ModuleButton extends Container {
 
       GuiMainMenu.m
          .drawString(
-            this.p.getName().toLowerCase(),
-            bl ? this.M() + 3.0F : this.M() + this.x() - GuiMainMenu.m.getStringWidth(this.p.getName().toLowerCase(), true) - 3.0F,
-            this.E_float() + 3.0F,
-            this.s_boolean() && this.p.isEnabled() ? l : 13421772
+            this.module.getName().toLowerCase(),
+            bl ? this.getX() + 3.0F : this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(this.module.getName().toLowerCase(), true) - 3.0F,
+            this.getYPos() + 3.0F,
+            this.isExpanded() && this.module.isEnabled() ? l : 13421772
          );
-      if (this.s_boolean()) {
+      if (this.isExpanded()) {
          int n = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof Component) {
-               ((Component)element).r(this.M() + 2.0F, this.E_float() + n + 15.0F);
-               if (this.s_boolean()) {
+               ((Component)element).setPosition(this.getX() + 2.0F, this.getYPos() + n + 15.0F);
+               if (this.isExpanded()) {
                   element.render(i, j);
                }
 
-               n += ((Component)element).Y() + (element instanceof MapComponent && ((MapComponent)element).s_boolean() ? ((MapComponent)element).i() : 0);
+               n += ((Component)element).getHeight()
+                  + (element instanceof MapComponent && ((MapComponent)element).isExpanded() ? ((MapComponent)element).getChildrenHeight() : 0);
             }
          }
       }
 
-      if (this.h.s_boolean()) {
-         this.d++;
+      if (this.categoryPanel.isExpanded()) {
+         this.openTicks++;
       } else {
-         this.d = 0;
+         this.openTicks = 0;
       }
    }
 
-   public int c() {
+   public int getSettingsHeight() {
       int i = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SettingComponent || element instanceof SettingContainer) {
-               i += ((Component)element).Y();
+               i += ((Component)element).getHeight();
             }
          }
       }
@@ -135,24 +141,24 @@ public class ModuleButton extends Container {
       return i + 18;
    }
 
-   public int u() {
-      int j = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+   public int getExpandedHeight() {
+      int i = 0;
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof SettingComponent || element instanceof SettingContainer) {
-               j += ((Component)element).Y();
+               i += ((Component)element).getHeight();
             }
 
             if (element instanceof MapComponent) {
-               j += ((MapComponent)element).i();
+               i += ((MapComponent)element).getChildrenHeight();
             }
          }
       }
 
-      return j + 18;
+      return i + 18;
    }
 
-   public CategoryPanel O() {
-      return this.h;
+   public CategoryPanel getParent() {
+      return this.categoryPanel;
    }
 }

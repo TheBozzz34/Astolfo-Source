@@ -27,41 +27,41 @@ public final class Step extends Module {
    private final NumberSetting<Float> height = new NumberSetting<>("Height", "Amount to step", 1.0F, 1.0F, 2.5F);
    private final NumberSetting<Integer> motionTick = new NumberSetting<>("Motion-Tick", "Motion-Tick", 2, 1, 5);
    private final BooleanSetting reverse = new BooleanSetting("Reverse", "Reverse step", false);
-   private final Stopwatch Y = new Stopwatch();
-   private int V;
+   private final Stopwatch stepTimer = new Stopwatch();
+   private int motionTicks;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE && this.reverse.getValue() && mc.thePlayer.onGround && !mc.thePlayer.isInWater() && NoFall.P_boolean()) {
          mc.thePlayer.motionY = -9.99;
       }
    };
-   private boolean t;
+   private boolean timerModified;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING && packetEvent.getPacket() instanceof C03PacketPlayer) {
-         if (this.V >= 0) {
-            this.V++;
+         if (this.motionTicks >= 0) {
+            this.motionTicks++;
          }
 
-         if (this.V <= -1 && !client.getModuleManager().get(Flight.class).isEnabled() && this.t) {
+         if (this.motionTicks <= -1 && !client.getModuleManager().get(Flight.class).isEnabled() && this.timerModified) {
             mc.timer.timerSpeed = 1.0F;
-            this.t = false;
+            this.timerModified = false;
          }
 
-         if (this.mode.getValue() == StepMode.MOTION && this.V >= this.motionTick.getValue()) {
+         if (this.mode.getValue() == StepMode.MOTION && this.motionTicks >= this.motionTick.getValue()) {
             mc.timer.timerSpeed = 1.0F;
-            this.V = -1;
+            this.motionTicks = -1;
          }
 
-         if (R > 0) {
-            R--;
+         if (stepCooldown > 0) {
+            stepCooldown--;
          }
       }
    };
-   public static int R;
-   public double[] u = new double[]{
+   public static int stepCooldown;
+   public double[] oneAndHalfBlockOffsets = new double[]{
       0.4199935232546, 0.75323672435624, 1.0 + Math.random() / 10000.0, 1.0 + Math.random() / 100.0, 0.98 + Math.random() / 1000.0
    };
    @EventHandler(StepEvent.class)
@@ -104,7 +104,7 @@ public final class Step extends Module {
                         } else if (d2 == 1.5) {
                            b = 6;
                            f = 0.4F;
-                           doubles = this.u;
+                           doubles = this.oneAndHalfBlockOffsets;
                         } else if (d2 > 1.5 && d2 <= 2.0) {
                            doubles = new double[]{
                               0.400000005960464,
@@ -140,9 +140,9 @@ public final class Step extends Module {
                            mc.timer.timerSpeed = 0.38F;
                         }
 
-                        this.t = true;
-                        if (this.V == -1) {
-                           this.V = 0;
+                        this.timerModified = true;
+                        if (this.motionTicks == -1) {
+                           this.motionTicks = 0;
                         }
 
                         for (double d4 : doubles) {
@@ -165,8 +165,8 @@ public final class Step extends Module {
                               );
                         }
 
-                        R = 0;
-                        this.Y.reset();
+                        stepCooldown = 0;
+                        this.stepTimer.reset();
                      }
                   }
                   break;
@@ -193,8 +193,8 @@ public final class Step extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + StepMode.l(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + StepMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 }

@@ -18,7 +18,7 @@ public interface EventBus {
 
    <E extends Event> E publishIgnoringFilters(E event);
 
-   static <A extends AnnotatedElement> EventBusBuilder<A> p() {
+   static <A extends AnnotatedElement> EventBusBuilder<A> builder() {
       return new EventBusBuilder<>();
    }
 }

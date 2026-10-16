@@ -12,15 +12,15 @@ public class ChatCommand extends Command {
       switch (strings.length) {
          case 2:
             if (strings[1].equalsIgnoreCase("enabled")) {
-               ChatManager.D(!ChatManager.g());
-               chat.I("Astolfo Chat has been set to " + ChatManager.g());
+               ChatManager.setChatEnabled(!ChatManager.isChatEnabled());
+               chat.print("Astolfo Chat has been set to " + ChatManager.isChatEnabled());
             } else if (strings[1].equals("pings")) {
-               ChatManager.x(!ChatManager.X());
-               chat.I("Astolfo Chat pings has been set to " + ChatManager.X());
+               ChatManager.setPingsEnabled(!ChatManager.isPingsEnabled());
+               chat.print("Astolfo Chat pings has been set to " + ChatManager.isPingsEnabled());
             }
             break;
          default:
-            chat.I(this.getName() + ": " + this.getUsage());
+            chat.print(this.getName() + ": " + this.getUsage());
       }
    }
 }

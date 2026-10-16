@@ -14,16 +14,16 @@ import net.minecraft.util.EnumChatFormatting;
 public final class Reach extends Module {
    private final NumberSetting<Double> minBlocks = new NumberSetting<>("Min-Blocks", "Randomizes reach on hit", 3.25, 3.0, 6.0);
    private final NumberSetting<Double> maxBlocks = new NumberSetting<>("Max-Blocks", "Randomizes reach on hit", 3.65, 3.0, 6.0);
-   public double s;
+   public double currentReach;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (mc.thePlayer.swingProgressInt == 3) {
-         this.s = RandomUtils.nextDouble(this.minBlocks.asDouble(), this.maxBlocks.asDouble());
+         this.currentReach = RandomUtils.nextDouble(this.minBlocks.asDouble(), this.maxBlocks.asDouble());
       }
    };
    @EventHandler(ReachEvent.class)
-   private Listener<ReachEvent> onReach = reachEvent -> reachEvent.setReach(this.s);
+   private Listener<ReachEvent> onReach = reachEvent -> reachEvent.setReach(this.currentReach);
 
    public Reach(Category category) {
       super(category);
@@ -31,7 +31,7 @@ public final class Reach extends Module {
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       this.setDisplayName(
          this.getName()
             + " "
@@ -40,6 +40,6 @@ public final class Reach extends Module {
             + "-"
             + MathUtil.ONE_DECIMAL.format(this.maxBlocks.getValue())
       );
-      super.p();
+      super.updateDisplayName();
    }
 }

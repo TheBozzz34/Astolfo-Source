@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class SkinTexture {
    @SerializedName("url")
    @Expose
-   private String G;
+   private String url;
 
-   public String j() {
-      return this.G;
+   public String getUrl() {
+      return this.url;
    }
 
-   public void h(String string) {
-      this.G = string;
+   public void setUrl(String string) {
+      this.url = string;
    }
 }

@@ -4,49 +4,49 @@ import bypass.ClientChat;
 import bypass.module.other.HackerDetector;
 
 public abstract class AbstractCheck implements Check {
-   private final String D;
-   private final CheckType P;
-   public int T;
+   private final String name;
+   private final CheckType checkType;
+   public int violations;
 
    public AbstractCheck(String string, CheckType checkType) {
-      this.D = string;
-      this.P = checkType;
+      this.name = string;
+      this.checkType = checkType;
    }
 
-   public void w(int i) {
-      this.T -= i;
-      if (this.T <= 0) {
-         this.T = 0;
+   public void removeViolations(int i) {
+      this.violations -= i;
+      if (this.violations <= 0) {
+         this.violations = 0;
       }
    }
 
-   public void c(String string, int i) {
-      this.T += i;
+   public void addViolations(String string, int i) {
+      this.violations += i;
       if (HackerDetector.debug.getValue()) {
-         ClientChat.CHAT.I(String.format("%s has flagged %s (vl: %s)", string, this.D, this.T));
+         ClientChat.CHAT.print(String.format("%s has flagged %s (vl: %s)", string, this.name, this.violations));
       }
    }
 
-   public void x(String string) {
-      this.c(string, 1);
+   public void flag(String string) {
+      this.addViolations(string, 1);
    }
 
    @Override
-   public String A() {
-      return this.D;
+   public String getName() {
+      return this.name;
    }
 
    @Override
-   public CheckType D() {
-      return this.P;
+   public CheckType getCheckType() {
+      return this.checkType;
    }
 
    @Override
-   public int p() {
+   public int getMaxViolations() {
       return 30;
    }
 
    public void D_void() {
-      this.T = 0;
+      this.violations = 0;
    }
 }

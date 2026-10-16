@@ -6,24 +6,24 @@ import com.google.gson.JsonObject;
 import java.util.Base64;
 
 public class AlteningAccount implements JsonSerializable {
-   private final String f;
-   private final boolean g;
+   private final String token;
+   private final boolean addAccount;
 
    public AlteningAccount(String string, boolean bl) {
-      this.f = string;
-      this.g = bl;
+      this.token = string;
+      this.addAccount = bl;
    }
 
    @Override
-   public String c() {
+   public String getKey() {
       return "altening";
    }
 
    @Override
-   public JsonElement V() {
+   public JsonElement toJson() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("token", Base64.getEncoder().encodeToString(this.f.getBytes()));
-      jsonObject.addProperty("addAccount", this.g);
+      jsonObject.addProperty("token", Base64.getEncoder().encodeToString(this.token.getBytes()));
+      jsonObject.addProperty("addAccount", this.addAccount);
       return jsonObject;
    }
 }

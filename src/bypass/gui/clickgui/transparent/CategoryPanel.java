@@ -10,63 +10,66 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.util.ResourceLocation;
 
 public class CategoryPanel extends Container {
-   private Category u;
-   private static final Color C = new Color(38, 37, 38);
-   private static final Color W = new Color(26, 26, 26);
+   private Category category;
+   private static final Color lightColor = new Color(38, 37, 38);
+   private static final Color darkColor = new Color(26, 26, 26);
 
    public CategoryPanel(Category category, int i, int j, int k, int l) {
       super(category.getDisplayName(), i, j, k, l);
-      this.u = category;
-      this.F(true);
+      this.category = category;
+      this.setDraggable(true);
    }
 
    @Override
    public void render(int i, int j) {
-      int k = this.Q() + 4;
-      RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y() + 6.0F, client.getColor().getRGB());
-      client.getCustomFontRenderer().drawStringWithShadow(this.u.getDisplayName(), this.M() + 2.0F, this.E_float() + 2.0F, Color.WHITE.getRGB());
-      RenderUtil.setColor(this.s_boolean() ? client.getColor().brighter().getRGB() : new Color(55, 55, 55).getRGB());
+      int k = this.getModulesHeight() + 4;
+      RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight() + 6.0F, client.getColor().getRGB());
+      client.getCustomFontRenderer().drawStringWithShadow(this.category.getDisplayName(), this.getX() + 2.0F, this.getYPos() + 2.0F, Color.WHITE.getRGB());
+      RenderUtil.setColor(this.isExpanded() ? client.getColor().brighter().getRGB() : new Color(55, 55, 55).getRGB());
       Minecraft.getMinecraft()
          .getTextureManager()
-         .bindTexture(new ResourceLocation(String.format("client/categories/%s.png", this.u.getDisplayName().toLowerCase())));
-      Gui.drawModalRectWithCustomSizedTexture((int)(this.M() + this.x() - 10.0F), (int)this.E_float() + 4, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
-      if (this.s_boolean() || this.U.isRunning()) {
+         .bindTexture(new ResourceLocation(String.format("client/categories/%s.png", this.category.getDisplayName().toLowerCase())));
+      Gui.drawModalRectWithCustomSizedTexture((int)(this.getX() + this.getWidth() - 10.0F), (int)this.getYPos() + 4, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
+      if (this.isExpanded() || this.expandAnimation.isRunning()) {
          int l = 0;
 
-         for (Element element : this.M_ArrayList()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ModuleButton) {
                ModuleButton moduleButton = (ModuleButton)element;
-               moduleButton.r(this.M(), this.E_float() + l + 17.0F);
-               if (this.s_boolean()) {
+               moduleButton.setPosition(this.getX(), this.getYPos() + l + 17.0F);
+               if (this.isExpanded()) {
                   moduleButton.render(i, j);
                }
 
-               l += !moduleButton.s_boolean() ? 15 : moduleButton.d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
-               l = (int)(l - this.U.getValue(0.0, l));
+               l += !moduleButton.isExpanded()
+                  ? 15
+                  : moduleButton.getExpandedHeight() + (this.hasExpandedMap((ModuleButton)element) ? this.getMapComponentsHeight((ModuleButton)element) : 0);
+               l = (int)(l - this.expandAnimation.getValue(0.0, l));
             }
          }
       }
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
       if (i == 1) {
-         this.u(!this.s_boolean());
-         if (this.s_boolean()) {
-            this.U.backwards().rewind().start();
+         this.setExpanded(!this.isExpanded());
+         if (this.isExpanded()) {
+            this.expandAnimation.backwards().rewind().start();
          } else {
-            this.U.forwards().rewind().start();
+            this.expandAnimation.forwards().rewind().start();
          }
       }
    }
 
-   private int Q() {
+   private int getModulesHeight() {
       int i = 0;
-      if (this.s_boolean()) {
-         for (Element element : this.M_ArrayList()) {
+      if (this.isExpanded()) {
+         for (Element element : this.getChildren()) {
             if (element instanceof ModuleButton) {
-               if (((ModuleButton)element).s_boolean()) {
-                  i += ((ModuleButton)element).d() + (this.h((ModuleButton)element) ? this.N((ModuleButton)element) : 0);
+               if (((ModuleButton)element).isExpanded()) {
+                  i += ((ModuleButton)element).getExpandedHeight()
+                     + (this.hasExpandedMap((ModuleButton)element) ? this.getMapComponentsHeight((ModuleButton)element) : 0);
                } else {
                   i += 15;
                }
@@ -77,10 +80,10 @@ public class CategoryPanel extends Container {
       return i;
    }
 
-   private boolean h(ModuleButton moduleButton) {
-      if (!moduleButton.M_ArrayList().isEmpty()) {
-         for (Element element : moduleButton.M_ArrayList()) {
-            if (element instanceof MapComponent && ((MapComponent)element).s_boolean()) {
+   private boolean hasExpandedMap(ModuleButton moduleButton) {
+      if (!moduleButton.getChildren().isEmpty()) {
+         for (Element element : moduleButton.getChildren()) {
+            if (element instanceof MapComponent && ((MapComponent)element).isExpanded()) {
                return true;
             }
          }
@@ -89,12 +92,12 @@ public class CategoryPanel extends Container {
       return false;
    }
 
-   private int N(ModuleButton moduleButton) {
+   private int getMapComponentsHeight(ModuleButton moduleButton) {
       int i = 0;
-      if (!moduleButton.M_ArrayList().isEmpty()) {
-         for (Element element : moduleButton.M_ArrayList()) {
+      if (!moduleButton.getChildren().isEmpty()) {
+         for (Element element : moduleButton.getChildren()) {
             if (element instanceof MapComponent) {
-               i += ((MapComponent)element).d();
+               i += ((MapComponent)element).getChildrenHeight();
             }
          }
       }
@@ -102,7 +105,7 @@ public class CategoryPanel extends Container {
       return i;
    }
 
-   public Category p() {
-      return this.u;
+   public Category getCategory() {
+      return this.category;
    }
 }

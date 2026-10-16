@@ -3,67 +3,67 @@ package bypass.util;
 import java.util.ArrayList;
 
 public class PathNode {
-   private Vector3 B;
-   private PathNode e;
-   private ArrayList<Vector3> c;
-   private double P;
-   private double a;
-   private double o;
+   private Vector3 position;
+   private PathNode parent;
+   private ArrayList<Vector3> path;
+   private double distanceToGoalSq;
+   private double stepCost;
+   private double totalCost;
 
    public PathNode(Vector3 vector3, PathNode pathNode, ArrayList<Vector3> arrayList, double d, double d2, double d3) {
-      this.B = vector3;
-      this.e = pathNode;
-      this.c = arrayList;
-      this.P = d;
-      this.a = d2;
-      this.o = d3;
+      this.position = vector3;
+      this.parent = pathNode;
+      this.path = arrayList;
+      this.distanceToGoalSq = d;
+      this.stepCost = d2;
+      this.totalCost = d3;
    }
 
-   public Vector3 K() {
-      return this.B;
+   public Vector3 getPosition() {
+      return this.position;
    }
 
-   public void p(Vector3 vector3) {
-      this.B = vector3;
+   public void setPosition(Vector3 vector3) {
+      this.position = vector3;
    }
 
-   public PathNode b() {
-      return this.e;
+   public PathNode getParent() {
+      return this.parent;
    }
 
-   public void u(PathNode pathNode) {
-      this.e = pathNode;
+   public void setParent(PathNode pathNode) {
+      this.parent = pathNode;
    }
 
-   public ArrayList<Vector3> l() {
-      return this.c;
+   public ArrayList<Vector3> getPath() {
+      return this.path;
    }
 
-   public void t(ArrayList<Vector3> arrayList) {
-      this.c = arrayList;
+   public void setPath(ArrayList<Vector3> arrayList) {
+      this.path = arrayList;
    }
 
-   public double M() {
-      return this.P;
+   public double getDistanceToGoalSq() {
+      return this.distanceToGoalSq;
    }
 
-   public void y(double d) {
-      this.P = d;
+   public void setDistanceToGoalSq(double d) {
+      this.distanceToGoalSq = d;
    }
 
-   public double u() {
-      return this.a;
+   public double getStepCost() {
+      return this.stepCost;
    }
 
-   public void b(double d) {
-      this.a = d;
+   public void setStepCost(double d) {
+      this.stepCost = d;
    }
 
-   public double d() {
-      return this.o;
+   public double getTotalCost() {
+      return this.totalCost;
    }
 
-   public void S(double d) {
-      this.o = d;
+   public void setTotalCost(double d) {
+      this.totalCost = d;
    }
 }

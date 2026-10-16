@@ -11,15 +11,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 public final class RaycastUtil implements ClientAccess {
-   public static Entity r(double d, EntityFilter entityFilter) {
-      return L(d, RotationUtil.A.r(), RotationUtil.A.z(), entityFilter);
+   public static Entity raycastEntity(double d, EntityFilter entityFilter) {
+      return raycastEntityAt(d, RotationUtil.serverRotation.getYaw(), RotationUtil.serverRotation.getPitch(), entityFilter);
    }
 
-   private static Entity L(double d, float f, float g, EntityFilter entityFilter) {
+   private static Entity raycastEntityAt(double d, float f, float g, EntityFilter entityFilter) {
       Entity entity = null;
       double e = mc.playerController.getBlockReachDistance();
       double d2 = e;
-      MovingObjectPosition movingObjectPosition = H(e, f, g);
+      MovingObjectPosition movingObjectPosition = rayTraceBlocks(e, f, g);
       Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
       if (mc.playerController.L()) {
          e = 6.0;
@@ -42,7 +42,7 @@ public final class RaycastUtil implements ClientAccess {
 
       for (Object object : list) {
          Entity entity2 = (Entity)object;
-         if (entityFilter.j(entity2)) {
+         if (entityFilter.matches(entity2)) {
             float h = entity2.getCollisionBorderSize();
             AxisAlignedBB axisAlignedBB = entity2.getEntityBoundingBox().expand(h, h, h);
             MovingObjectPosition movingObjectPosition2 = axisAlignedBB.calculateIntercept(vec3, vec33);
@@ -73,7 +73,7 @@ public final class RaycastUtil implements ClientAccess {
       return entity;
    }
 
-   private static MovingObjectPosition H(double d, float f, float g) {
+   private static MovingObjectPosition rayTraceBlocks(double d, float f, float g) {
       Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
       Vec3 vec32 = mc.thePlayer.getVectorForRotation(g, f);
       Vec3 vec33 = vec3.addVector(vec32.xCoord * d, vec32.yCoord * d, vec32.zCoord * d);

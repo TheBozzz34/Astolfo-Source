@@ -13,7 +13,7 @@ public enum AttributePriority {
       this.level = k;
    }
 
-   public int h() {
+   public int getLevel() {
       return this.level;
    }
 }

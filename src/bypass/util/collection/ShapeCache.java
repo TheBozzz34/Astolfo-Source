@@ -8,33 +8,33 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class ShapeCache {
-   private static Map<Object, Map<Object, Map<Map, Map>>> m = new HashMap<>();
-   private static ReadWriteLock G = new ReentrantReadWriteLock();
-   private static Lock E = G.readLock();
-   private static Lock Z = G.writeLock();
-   public static final String O = new String("All values match");
+   private static Map<Object, Map<Object, Map<Map, Map>>> cache = new HashMap<>();
+   private static ReadWriteLock lockPair = new ReentrantReadWriteLock();
+   private static Lock readLock = lockPair.readLock();
+   private static Lock writeLock = lockPair.writeLock();
+   public static final String ALL_VALUES_MATCH = new String("All values match");
 
-   public static void g() {
-      Z.lock();
+   public static void clear() {
+      writeLock.lock();
 
       try {
-         m.clear();
+         cache.clear();
       } finally {
-         Z.unlock();
+         writeLock.unlock();
       }
    }
 
-   public static boolean j(Object object) {
-      return b(object, O);
+   public static boolean registerAllValues(Object object) {
+      return register(object, ALL_VALUES_MATCH);
    }
 
-   public static boolean b(Object object, Object object2) {
-      Z.lock();
+   public static boolean register(Object object, Object object2) {
+      writeLock.lock();
 
       try {
-         Map map = m.get(object);
+         Map map = cache.get(object);
          if (map == null) {
-            m.put(object, map = new HashMap());
+            cache.put(object, map = new HashMap());
          }
 
          if (map.get(object2) != null) {
@@ -44,24 +44,24 @@ public class ShapeCache {
          map.put(object2, new IdentityHashMap());
          return true;
       } finally {
-         Z.unlock();
+         writeLock.unlock();
       }
    }
 
-   public static <K, V> Map<K, V> v(Map<K, V> map, K object, Object object2) {
-      E.lock();
+   public static <K, V> Map<K, V> getDerivedMap(Map<K, V> map, K object, Object object2) {
+      readLock.lock();
 
       Map map2;
       Map map3;
       try {
-         map2 = m.get(object);
+         map2 = cache.get(object);
          if (map2 == null) {
             return null;
          }
 
          map3 = (Map)map2.get(object2);
          if (map3 == null) {
-            if (object2 != MapShape.REMOVED && map2.get(O) == null) {
+            if (object2 != MapShape.REMOVED && map2.get(ALL_VALUES_MATCH) == null) {
                return null;
             }
          } else {
@@ -71,7 +71,7 @@ public class ShapeCache {
             }
          }
       } finally {
-         E.unlock();
+         readLock.unlock();
       }
 
       HashMap hashMap = new HashMap((int)((map.size() + 1) / 0.75F));
@@ -82,7 +82,7 @@ public class ShapeCache {
          hashMap.put(object, object2);
       }
 
-      Z.lock();
+      writeLock.lock();
 
       try {
          if (map3 == null) {
@@ -100,7 +100,7 @@ public class ShapeCache {
          map3.put(map, hashMap);
          return hashMap;
       } finally {
-         Z.unlock();
+         writeLock.unlock();
       }
    }
 }

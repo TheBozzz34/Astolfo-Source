@@ -15,7 +15,7 @@ public final class UserDirectoryValidator implements FingerprintValidator<String
       File[] files = file.listFiles();
       if (files != null || files.length != 0) {
          for (File file2 : files) {
-            if (file2.isDirectory() && ((String)fingerprintEntry.z()).contains(file2.getName())) {
+            if (file2.isDirectory() && ((String)fingerprintEntry.getValue()).contains(file2.getName())) {
                bl = true;
                break;
             }

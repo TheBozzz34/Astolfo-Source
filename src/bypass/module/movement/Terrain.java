@@ -20,14 +20,14 @@ import net.minecraft.util.MathHelper;
 public final class Terrain extends Module {
    private final BooleanSetting fastIce = new BooleanSetting("Fast-Ice", "Goes fast on ice", true);
    private final BooleanSetting fastLadder = new BooleanSetting("Fast-Ladder", "Pushes you up when about to ladder", true);
-   private static final Block[] e = new Block[]{Blocks.ice, Blocks.packed_ice};
+   private static final Block[] iceBlocks = new Block[]{Blocks.ice, Blocks.packed_ice};
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE
          && this.fastLadder.getValue()
          && mc.thePlayer.isOnLadder()
          && mc.gameSettings.keyBindForward.pressed
-         && S(mc.thePlayer) < 1) {
+         && getHeightAboveGround(mc.thePlayer) < 1) {
          mc.thePlayer.motionY = 0.5;
       }
    };
@@ -35,11 +35,11 @@ public final class Terrain extends Module {
    private Listener<MoveEvent> onMove = moveEvent -> {
       Block block = GameUtil.getBlockAtPlayer(-0.1);
       if (!this.fastIce.getValue() || !(block instanceof BlockIce) && !(block instanceof BlockPackedIce)) {
-         this.f(0.98F);
+         this.setIceSlipperiness(0.98F);
       } else {
          moveEvent.setX(moveEvent.getX() * 2.0);
          moveEvent.setZ(moveEvent.getZ() * 2.0);
-         this.f(0.6F);
+         this.setIceSlipperiness(0.6F);
       }
    };
 
@@ -51,20 +51,20 @@ public final class Terrain extends Module {
 
    @Override
    public void onDisable() {
-      this.f(0.98F);
+      this.setIceSlipperiness(0.98F);
       super.onDisable();
    }
 
-   private void f(float f) {
-      for (Block block : e) {
+   private void setIceSlipperiness(float f) {
+      for (Block block : iceBlocks) {
          block.slipperiness = f;
       }
    }
 
-   public static int S(EntityPlayer entityPlayer) {
+   public static int getHeightAboveGround(EntityPlayer entityPlayer) {
       for (int i = MathHelper.floor_double(entityPlayer.posY); i > 0; i--) {
          BlockPos blockPos = new BlockPos(MathHelper.floor_double(entityPlayer.posX), i, MathHelper.floor_double(entityPlayer.posZ));
-         if (V(mc.theWorld.getBlockState(blockPos).getBlock())) {
+         if (isSolidGround(mc.theWorld.getBlockState(blockPos).getBlock())) {
             return MathHelper.floor_double(entityPlayer.posY) - i - 1;
          }
       }
@@ -72,7 +72,7 @@ public final class Terrain extends Module {
       return -1;
    }
 
-   private static boolean V(Block block) {
+   private static boolean isSolidGround(Block block) {
       return block != Blocks.air
          && block != Blocks.tallgrass
          && block != Blocks.deadbush

@@ -17,28 +17,28 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ServerPinger {
-   private static final Logger X = LogManager.getLogger();
-   private final List<NetworkManager> j = Collections.synchronizedList(Lists.newArrayList());
+   private static final Logger logger = LogManager.getLogger();
+   private final List<NetworkManager> connections = Collections.synchronizedList(Lists.newArrayList());
 
-   public void F(String string, ServerPingData serverPingData) throws UnknownHostException {
+   public void ping(String string, ServerPingData serverPingData) throws UnknownHostException {
       if (string != null && !string.startsWith("0.0.0.0") && !string.isEmpty()) {
          RealmsServerAddress realmsServerAddress = RealmsServerAddress.parseString(string);
          NetworkManager networkManager = NetworkManager.createNetworkManagerAndConnect(InetAddress.getByName(realmsServerAddress.getHost()), realmsServerAddress.getPort(), false);
-         this.j.add(networkManager);
+         this.connections.add(networkManager);
          networkManager.setNetHandler(new ServerPingHandler(this, serverPingData, networkManager, string));
 
          try {
             networkManager.sendPacket(new C00Handshake(RealmsSharedConstants.e, realmsServerAddress.getHost(), realmsServerAddress.getPort(), EnumConnectionState.STATUS));
             networkManager.sendPacket(new C00PacketServerQuery());
          } catch (Throwable throwable) {
-            X.error(throwable);
+            logger.error(throwable);
          }
       }
    }
 
-   public void o() {
-      synchronized (this.j) {
-         Iterator iterator2 = this.j.iterator();
+   public void tick() {
+      synchronized (this.connections) {
+         Iterator iterator2 = this.connections.iterator();
 
          while (iterator2.hasNext()) {
             NetworkManager networkManager = (NetworkManager)iterator2.next();
@@ -52,9 +52,9 @@ public class ServerPinger {
       }
    }
 
-   public void x() {
-      synchronized (this.j) {
-         Iterator iterator2 = this.j.iterator();
+   public void cancelAll() {
+      synchronized (this.connections) {
+         Iterator iterator2 = this.connections.iterator();
 
          while (iterator2.hasNext()) {
             NetworkManager networkManager = (NetworkManager)iterator2.next();
@@ -66,7 +66,7 @@ public class ServerPinger {
       }
    }
 
-   public static Logger P() {
-      return X;
+   public static Logger getLogger() {
+      return logger;
    }
 }

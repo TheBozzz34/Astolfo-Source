@@ -4,5 +4,5 @@ public enum ChamsColorMode {
    SOLID,
    BREATH;
 
-   private static final ChamsColorMode[] e = new ChamsColorMode[]{SOLID, BREATH};
+   private static final ChamsColorMode[] VALUES = new ChamsColorMode[]{SOLID, BREATH};
 }

@@ -8,34 +8,34 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class DefaultCheckRegistry implements CheckRegistry {
-   private final CopyOnWriteArrayList<StageCheck> C;
-   private final CopyOnWriteArrayList<VerdictProcessor> p;
-   private final VerdictResolver y;
+   private final CopyOnWriteArrayList<StageCheck> checks;
+   private final CopyOnWriteArrayList<VerdictProcessor> processors;
+   private final VerdictResolver resolver;
 
    public DefaultCheckRegistry(Set<StageCheck> set, VerdictResolver verdictResolver) {
       Objects.requireNonNull(verdictResolver, "");
-      this.C = new CopyOnWriteArrayList<>();
-      this.p = new CopyOnWriteArrayList<>();
-      this.y = verdictResolver;
-      if (this.p(set)) {
-         this.C.addAll(set.stream().sorted().collect(Collectors.toList()));
+      this.checks = new CopyOnWriteArrayList<>();
+      this.processors = new CopyOnWriteArrayList<>();
+      this.resolver = verdictResolver;
+      if (this.isNonEmpty(set)) {
+         this.checks.addAll(set.stream().sorted().collect(Collectors.toList()));
       }
    }
 
-   private boolean p(Set<StageCheck> set) {
+   private boolean isNonEmpty(Set<StageCheck> set) {
       return set != null && !set.isEmpty();
    }
 
    @Override
-   public Verdict u(CheckRequest checkRequest) {
-      return this.y.v(checkRequest.Y(this.P(), this.i()));
+   public Verdict resolve(CheckRequest checkRequest) {
+      return this.resolver.resolve(checkRequest.createContext(this.getChecks(), this.getProcessors()));
    }
 
    @Override
-   public boolean S(StageCheck stageCheck) {
+   public boolean addCheck(StageCheck stageCheck) {
       Objects.requireNonNull(stageCheck, "");
-      if (this.C.addIfAbsent(stageCheck)) {
-         Collections.sort(this.C);
+      if (this.checks.addIfAbsent(stageCheck)) {
+         Collections.sort(this.checks);
          return true;
       } else {
          return false;
@@ -43,28 +43,28 @@ public class DefaultCheckRegistry implements CheckRegistry {
    }
 
    @Override
-   public boolean L(StageCheck stageCheck) {
+   public boolean removeCheck(StageCheck stageCheck) {
       Objects.requireNonNull(stageCheck, "");
-      return this.C.remove(stageCheck);
+      return this.checks.remove(stageCheck);
    }
 
    @Override
-   public List<StageCheck> P() {
-      return Collections.unmodifiableList(this.C);
+   public List<StageCheck> getChecks() {
+      return Collections.unmodifiableList(this.checks);
    }
 
    @Override
-   public boolean h(VerdictProcessor verdictProcessor) {
-      return this.p.addIfAbsent(verdictProcessor);
+   public boolean addProcessor(VerdictProcessor verdictProcessor) {
+      return this.processors.addIfAbsent(verdictProcessor);
    }
 
    @Override
-   public boolean P(VerdictProcessor verdictProcessor) {
-      return this.p.remove(verdictProcessor);
+   public boolean removeProcessor(VerdictProcessor verdictProcessor) {
+      return this.processors.remove(verdictProcessor);
    }
 
    @Override
-   public List<VerdictProcessor> i() {
-      return Collections.unmodifiableList(this.p);
+   public List<VerdictProcessor> getProcessors() {
+      return Collections.unmodifiableList(this.processors);
    }
 }

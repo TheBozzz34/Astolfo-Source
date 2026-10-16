@@ -8,45 +8,45 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Consumer;
 
 public class QueuedFileSender extends FileSender {
-   private final BlockingQueue<FileSendRequest> z = new LinkedBlockingQueue<>();
-   private final Consumer<IOException> c;
-   private Thread u;
+   private final BlockingQueue<FileSendRequest> sendQueue = new LinkedBlockingQueue<>();
+   private final Consumer<IOException> errorHandler;
+   private Thread senderThread;
 
    public QueuedFileSender(Consumer<IOException> consumer) {
-      this.c = consumer;
+      this.errorHandler = consumer;
    }
 
    @Override
    public void open(SocketChannel socketChannel) throws IOException {
       super.open(socketChannel);
-      this.u = new Thread(() -> {
+      this.senderThread = new Thread(() -> {
          while (!Thread.currentThread().isInterrupted()) {
             FileSendRequest fileSendRequest;
             try {
-               fileSendRequest = this.z.take();
+               fileSendRequest = this.sendQueue.take();
             } catch (InterruptedException interruptedException) {
                interruptedException.printStackTrace();
                return;
             }
 
             try {
-               super.y(fileSendRequest.q, fileSendRequest.X, fileSendRequest.g);
+               super.sendNamedFile(fileSendRequest.path, fileSendRequest.fileName, fileSendRequest.chunkSize);
             } catch (IOException ioException) {
-               this.c.accept(ioException);
+               this.errorHandler.accept(ioException);
             }
          }
       });
-      this.u.start();
+      this.senderThread.start();
    }
 
    @Override
-   public void y(Path path, String string, long l) {
-      this.z.add(new FileSendRequest(string, path, l));
+   public void sendNamedFile(Path path, String string, long l) {
+      this.sendQueue.add(new FileSendRequest(string, path, l));
    }
 
    @Override
    public void close() throws IOException {
-      this.u.interrupt();
+      this.senderThread.interrupt();
       super.close();
    }
 }

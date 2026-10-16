@@ -21,39 +21,39 @@ import org.apache.commons.lang3.StringUtils;
 
 public final class AutoFish extends Module {
    private final EnumSetting<AutoFishMode> mode = new EnumSetting<>("Mode", "Set your AutoFish mode", AutoFishMode.SOUND);
-   private boolean l;
-   private boolean A;
+   private boolean fishBiting;
+   private boolean rodCast;
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE) {
          boolean bl = this.a_boolean();
          if (bl) {
-            if (!this.A) {
+            if (!this.rodCast) {
                if (mc.objectMouseOver.getBlockPos() != null && mc.theWorld.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock() instanceof BlockLiquid) {
                   mc.rightClickMouse();
                }
             } else {
-               EntityFishHook entityFishHook = this.a();
+               EntityFishHook entityFishHook = this.getFishHook();
                if (entityFishHook != null) {
                   switch ((AutoFishMode)this.mode.getValue()) {
                      case MOTION:
                         if (entityFishHook.isInWater() && entityFishHook.ticksExisted > 30 && entityFishHook.motionY <= -0.06) {
-                           this.l = true;
+                           this.fishBiting = true;
                         }
                      case TEXT:
                         if (!StringUtils.isEmpty(mc.ingameGUI.displayedSubTitle) && mc.ingameGUI.displayedSubTitle.toLowerCase().contains("reel")) {
-                           this.l = true;
+                           this.fishBiting = true;
                         }
                   }
                }
             }
 
-            if (this.l) {
-               toasts.g("Found fish", "Caught fish!");
+            if (this.fishBiting) {
+               toasts.successMessage("Found fish", "Caught fish!");
                mc.rightClickMouse();
-               this.l = this.A = false;
+               this.fishBiting = this.rodCast = false;
             }
          }
       }
@@ -69,7 +69,7 @@ public final class AutoFish extends Module {
 
                S29PacketSoundEffect s29PacketSoundEffect = (S29PacketSoundEffect)packetEvent.getPacket();
                if ((s29PacketSoundEffect.getSoundName().equals("random.splash") || s29PacketSoundEffect.getSoundName().equals("game.neutral.swim.splash")) && mc.thePlayer.fishEntity != null) {
-                  this.l = true;
+                  this.fishBiting = true;
                }
             }
             break;
@@ -77,12 +77,12 @@ public final class AutoFish extends Module {
             if (packetEvent.getPacket() instanceof C08PacketPlayerBlockPlacement) {
                boolean bl = this.a_boolean();
                if (bl && ((C08PacketPlayerBlockPlacement)packetEvent.getPacket()).getPlacedBlockDirection() == 255) {
-                  this.A = !this.A;
+                  this.rodCast = !this.rodCast;
                }
             }
 
             if (packetEvent.getPacket() instanceof C09PacketHeldItemChange) {
-               this.A = false;
+               this.rodCast = false;
             }
       }
    };
@@ -93,13 +93,13 @@ public final class AutoFish extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("Auto Fish " + EnumChatFormatting.GRAY + AutoFishMode.m(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("Auto Fish " + EnumChatFormatting.GRAY + AutoFishMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
-   private EntityFishHook a() {
-      if (this.A) {
+   private EntityFishHook getFishHook() {
+      if (this.rodCast) {
          if (mc.thePlayer.fishEntity != null) {
             return mc.thePlayer.fishEntity;
          }

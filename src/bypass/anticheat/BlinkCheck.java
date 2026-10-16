@@ -7,45 +7,45 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class BlinkCheck extends MovementCheck {
-   private double J;
-   private double M;
-   private double R;
-   private final Stopwatch W = new Stopwatch();
-   private final List<Integer> V = new ArrayList<>(10);
+   private double lastX;
+   private double lastZ;
+   private double lastY;
+   private final Stopwatch moveTimer = new Stopwatch();
+   private final List<Integer> moveIntervals = new ArrayList<>(10);
 
    public BlinkCheck() {
       super("Blink");
    }
 
    @Override
-   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
-      double e = Math.hypot(d - this.J, d3 - this.M);
-      double d4 = Math.abs(this.R - d2);
+   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      double e = Math.hypot(d - this.lastX, d3 - this.lastZ);
+      double d4 = Math.abs(this.lastY - d2);
       if (e <= 0.4) {
-         this.W.reset();
-         this.V.clear();
+         this.moveTimer.reset();
+         this.moveIntervals.clear();
       } else {
-         double d5 = this.A(this.V);
-         if (this.W.hasElapsed((float)(d5 + 500.0)) && entityPlayer.isSprinting() && ServerRotationTracker.g() < 1000L) {
+         double d5 = this.getAverage(this.moveIntervals);
+         if (this.moveTimer.hasElapsed((float)(d5 + 500.0)) && entityPlayer.isSprinting() && ServerRotationTracker.getTimeSinceTimeUpdate() < 1000L) {
             if (e > 5.0 && e < 50.0 && d4 < 5.0) {
-               this.c(entityPlayer.getName(), (int)(e / 5.0));
-               this.W.reset();
+               this.addViolations(entityPlayer.getName(), (int)(e / 5.0));
+               this.moveTimer.reset();
             }
 
-            this.V.clear();
+            this.moveIntervals.clear();
          }
 
-         this.V.add((int)this.W.getElapsed());
+         this.moveIntervals.add((int)this.moveTimer.getElapsed());
       }
 
-      this.W.reset();
-      this.J = d;
-      this.M = d3;
-      this.R = d2;
-      return this.T;
+      this.moveTimer.reset();
+      this.lastX = d;
+      this.lastZ = d3;
+      this.lastY = d2;
+      return this.violations;
    }
 
-   private double A(List<Integer> list) {
+   private double getAverage(List<Integer> list) {
       Integer integer = 0;
       if (list.isEmpty()) {
          return integer.intValue();
@@ -59,7 +59,7 @@ public class BlinkCheck extends MovementCheck {
    }
 
    @Override
-   public int p() {
+   public int getMaxViolations() {
       return 10;
    }
 }

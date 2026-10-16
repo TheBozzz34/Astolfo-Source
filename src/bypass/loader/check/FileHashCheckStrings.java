@@ -5,20 +5,20 @@ import javax.crypto.spec.SecretKeySpec;
 import sun.misc.BASE64Decoder;
 
 public class FileHashCheckStrings {
-   public static String l = "ARCFOUR";
-   public static String h = "Aw2OgNgtvup2XlDe";
+   public static String algorithm = "ARCFOUR";
+   public static String key = "Aw2OgNgtvup2XlDe";
 
-   public static String s(String string) {
+   public static String decrypt(String string) {
       String string2 = "yoeWyJ6Pn2HzUCR1QgtbTw==";
 
       String string3;
       try {
-         Cipher cipher = Cipher.getInstance(l);
-         SecretKeySpec secretKeySpec = new SecretKeySpec(h.getBytes(), l);
+         Cipher cipher = Cipher.getInstance(algorithm);
+         SecretKeySpec secretKeySpec = new SecretKeySpec(key.getBytes(), algorithm);
          cipher.init(2, secretKeySpec);
          byte[] bytes = new BASE64Decoder().decodeBuffer(string2);
          byte[] bytes2 = cipher.doFinal(bytes);
-         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, l);
+         SecretKeySpec secretKeySpec2 = new SecretKeySpec(bytes2, algorithm);
          cipher.init(2, secretKeySpec2);
          byte[] bytes3 = new BASE64Decoder().decodeBuffer(string);
          byte[] bytes4 = cipher.doFinal(bytes3);

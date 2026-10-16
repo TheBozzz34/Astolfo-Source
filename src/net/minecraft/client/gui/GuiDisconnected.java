@@ -68,8 +68,8 @@ public class GuiDisconnected extends GuiScreen {
       GuiButton guiButton = new GuiButton(
          2, this.width / 2 - 100, this.height / 2 + 42 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, 100, 20, "Reconnect with alt"
       );
-      AlteningScreen.W().d(AlteningScreen.b);
-      if ((AlteningScreen.W().O().equals("nono") || AlteningScreen.W().O().isEmpty()) && b == 0) {
+      AlteningScreen.getAlteningApi().setApiKey(AlteningScreen.apiKey);
+      if ((AlteningScreen.getAlteningApi().getApiKey().equals("nono") || AlteningScreen.getAlteningApi().getApiKey().isEmpty()) && b == 0) {
          guiButton.enabled = false;
       }
 
@@ -119,17 +119,17 @@ public class GuiDisconnected extends GuiScreen {
                   }
                }
 
-               alt2.m = calendar.getTime().getTime();
-               if (!alt2.N) {
-                  Toasts.TOASTS.X("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.j + " is now marked as temporarily banned");
+               alt2.banExpiry = calendar.getTime().getTime();
+               if (!alt2.banned) {
+                  Toasts.TOASTS.warningMessage("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.username + " is now marked as temporarily banned");
                }
 
-               alt2.N = true;
+               alt2.banned = true;
             }
 
-            if (string.contains("You are permanently banned") && !alt2.N) {
-               alt2.N = true;
-               Toasts.TOASTS.X("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.j + " is now marked as banned");
+            if (string.contains("You are permanently banned") && !alt2.banned) {
+               alt2.banned = true;
+               Toasts.TOASTS.warningMessage("Marked account as banned", AltLogin.AUTH.lastLoggedAlt.username + " is now marked as banned");
             }
          }
       }
@@ -154,9 +154,9 @@ public class GuiDisconnected extends GuiScreen {
    public void updateScreen() {
       if (this.Y != null && !this.Y.isEmpty() && this.V) {
          Alt alt = new Alt(this.Y, "");
-         AltLogin.AUTH.A(alt);
+         AltLogin.AUTH.loginAlt(alt);
          List list = Astolfo.INSTANCE.getAltManager().getList();
-         if (AlteningScreen.f) {
+         if (AlteningScreen.addToAltList) {
             list.add(alt);
          }
 
@@ -190,19 +190,19 @@ public class GuiDisconnected extends GuiScreen {
          this.c = this.mc.session.getUsername();
          switch (b) {
             case 0:
-               if (AlteningScreen.W().O().equals("nono") || AlteningScreen.W().O().isEmpty()) {
+               if (AlteningScreen.getAlteningApi().getApiKey().equals("nono") || AlteningScreen.getAlteningApi().getApiKey().isEmpty()) {
                   this.R.enabled = false;
                }
 
                try {
                   this.N = false;
-                  if (AlteningScreen.r().V().equals(AccountType.MOJANG)) {
-                     AlteningScreen.r().g(AccountType.THEALTENING);
+                  if (AlteningScreen.getAuthServiceSwitcher().getAccountType().equals(AccountType.MOJANG)) {
+                     AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.THEALTENING);
                   }
 
-                  FileUtil.w.execute(() -> {
+                  FileUtil.executor.execute(() -> {
                      try {
-                        this.Y = AlteningScreen.W().i(AlteningScreen.W().t()).f();
+                        this.Y = AlteningScreen.getAlteningApi().generateAccount(AlteningScreen.getAlteningApi().getLicense()).getToken();
                      } catch (IOException ioException) {
                         this.Y = "";
                         this.N = true;
@@ -219,32 +219,32 @@ public class GuiDisconnected extends GuiScreen {
                this.R.enabled = true;
                Alt alt = Astolfo.INSTANCE.getAltManager().getList().get(RandomUtils.RANDOM.nextInt(Astolfo.INSTANCE.getAltManager().getList().size()));
                if (alt != null) {
-                  AltLogin.AUTH.A(alt);
+                  AltLogin.AUTH.loginAlt(alt);
                   this.V = true;
                }
                break;
             case 2:
                this.R.enabled = true;
-               if (AlteningScreen.r().V().equals(AccountType.THEALTENING)) {
+               if (AlteningScreen.getAuthServiceSwitcher().getAccountType().equals(AccountType.THEALTENING)) {
                   try {
-                     AlteningScreen.r().g(AccountType.MOJANG);
+                     AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.MOJANG);
                   } catch (NoSuchFieldException | IllegalAccessException value2) {
                      value2.printStackTrace();
                   }
                }
 
-               ArrayList arrayList = Astolfo.INSTANCE.getAltManager().e();
+               ArrayList arrayList = Astolfo.INSTANCE.getAltManager().getUsableAlts();
                if (arrayList.size() > 0) {
                   Alt alt2 = (Alt)arrayList.get(0);
                   if (alt2 != null) {
-                     AltLogin.AUTH.A(alt2);
+                     AltLogin.AUTH.loginAlt(alt2);
                      this.V = true;
                   }
                }
                break;
             case 3:
                this.R.enabled = true;
-               AltLogin.AUTH.A(new Alt(RandomStringUtils.random(8, true, false), ""));
+               AltLogin.AUTH.loginAlt(new Alt(RandomStringUtils.random(8, true, false), ""));
                break;
             case 4:
                this.R.enabled = true;
@@ -252,7 +252,7 @@ public class GuiDisconnected extends GuiScreen {
                try {
                   String string = GuiScreen.getClipboardString();
                   String[] strings = string.split(":");
-                  AltLogin.AUTH.A(new Alt(strings[0], strings[1]));
+                  AltLogin.AUTH.loginAlt(new Alt(strings[0], strings[1]));
                } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
                }
          }

@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public class SocketConnection implements Connection {
-   public final PacketConnection C;
-   public final ConnectionHandlerFactory K;
-   private SocketChannel T;
+   public final PacketConnection packetConnection;
+   public final ConnectionHandlerFactory handlerFactory;
+   private SocketChannel socketChannel;
 
    public SocketConnection(
       ConnectionListener connectionListener,
@@ -20,16 +20,16 @@ public class SocketConnection implements Connection {
       Consumer<IOException> consumer,
       Runnable runnable
    ) {
-      this.C = new PacketConnection(connectionListener, map, map2, packetOutput, () -> {
-         this.O(consumer);
+      this.packetConnection = new PacketConnection(connectionListener, map, map2, packetOutput, () -> {
+         this.registerChannel(consumer);
          runnable.run();
       });
-      this.K = connectionHandlerFactory;
+      this.handlerFactory = connectionHandlerFactory;
    }
 
-   private void O(Consumer<IOException> consumer) {
+   private void registerChannel(Consumer<IOException> consumer) {
       try {
-         this.K.y(this.C).c(this.T);
+         this.handlerFactory.createHandler(this.packetConnection).handleConnected(this.socketChannel);
       } catch (IOException ioException) {
          consumer.accept(ioException);
       }
@@ -37,13 +37,13 @@ public class SocketConnection implements Connection {
 
    @Override
    public void open(SocketChannel socketChannel) throws IOException {
-      this.T = socketChannel;
-      this.C.g(socketChannel);
+      this.socketChannel = socketChannel;
+      this.packetConnection.start(socketChannel);
    }
 
    @Override
    public void close() throws IOException {
-      this.C.close();
-      this.T.close();
+      this.packetConnection.close();
+      this.socketChannel.close();
    }
 }

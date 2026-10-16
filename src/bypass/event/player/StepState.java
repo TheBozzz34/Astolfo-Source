@@ -5,5 +5,5 @@ public enum StepState {
    BEFORE,
    POST;
 
-   private static final StepState[] Z = new StepState[]{PRE, BEFORE, POST};
+   private static final StepState[] VALUES = new StepState[]{PRE, BEFORE, POST};
 }

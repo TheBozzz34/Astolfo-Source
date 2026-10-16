@@ -28,77 +28,79 @@ import org.lwjgl.input.Keyboard;
 import oshi.SystemInfo;
 
 public class AddAltScreen extends GuiScreen {
-   private GuiScreen a;
-   private GuiTextField n;
-   private PasswordField K;
-   private Checkbox d;
-   private Checkbox V;
-   private final Alt P;
-   private boolean l;
-   private GuiButton f;
-   private HttpServer y;
+   private GuiScreen parentScreen;
+   private GuiTextField usernameField;
+   private PasswordField passwordField;
+   private Checkbox hidePasswordCheckbox;
+   private Checkbox microsoftCheckbox;
+   private final Alt editedAlt;
+   private boolean microsoftDefault;
+   private GuiButton saveButton;
+   private HttpServer callbackServer;
 
    public AddAltScreen(GuiScreen guiScreen) {
       this(guiScreen, null);
    }
 
    public AddAltScreen(GuiScreen guiScreen, Alt alt) {
-      this.a = guiScreen;
-      this.P = alt;
-      if (alt != null && alt.F) {
-         this.l = true;
+      this.parentScreen = guiScreen;
+      this.editedAlt = alt;
+      if (alt != null && alt.microsoft) {
+         this.microsoftDefault = true;
       }
    }
 
    @Override
    public void updateScreen() {
-      this.n.updateCursorCounter();
-      this.K.updateCursorCounter();
+      this.usernameField.updateCursorCounter();
+      this.passwordField.updateCursorCounter();
    }
 
    @Override
    public void onGuiClosed() {
       Keyboard.enableRepeatEvents(false);
-      if (this.y != null) {
-         this.y.stop(0);
+      if (this.callbackServer != null) {
+         this.callbackServer.stop(0);
       }
    }
 
    @Override
    public void initGui() {
       Keyboard.enableRepeatEvents(true);
-      this.buttonList.add(this.f = new GuiButton(0, this.width / 2 - 125, this.height / 6 + 150, 120, 20, "Save Alt"));
+      this.buttonList.add(this.saveButton = new GuiButton(0, this.width / 2 - 125, this.height / 6 + 150, 120, 20, "Save Alt"));
       this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height / 6 + 150, 120, 20, "Cancel"));
-      this.n = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, this.height / 6 + 35, 200, 20);
-      this.n.setFocused(true);
-      if (!this.q()) {
-         this.n.setText(this.P.j);
+      this.usernameField = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, this.height / 6 + 35, 200, 20);
+      this.usernameField.setFocused(true);
+      if (!this.isNewAlt()) {
+         this.usernameField.setText(this.editedAlt.username);
       }
 
-      this.n.setMaxStringLength(128);
-      this.K = new PasswordField(4, this.width / 2 - 100, this.height / 6 + 80, 200, 20);
-      if (!this.q() && this.P.z != null) {
-         this.K.setText(this.P.z);
+      this.usernameField.setMaxStringLength(128);
+      this.passwordField = new PasswordField(4, this.width / 2 - 100, this.height / 6 + 80, 200, 20);
+      if (!this.isNewAlt() && this.editedAlt.password != null) {
+         this.passwordField.setText(this.editedAlt.password);
       }
 
-      this.K.setMaxStringLength(128);
+      this.passwordField.setMaxStringLength(128);
       String string = "Hide password";
-      this.d = new Checkbox(string, this.width / 2 - (125 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 6 + 115, true);
+      this.hidePasswordCheckbox = new Checkbox(string, this.width / 2 - (125 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 6 + 115, true);
       String string2 = "Microsoft";
-      this.V = new Checkbox(string2, this.width / 2 - (-120 + this.fontRendererObj.getStringWidth(string2)) / 2, this.height / 6 + 115, this.l);
+      this.microsoftCheckbox = new Checkbox(
+         string2, this.width / 2 - (-120 + this.fontRendererObj.getStringWidth(string2)) / 2, this.height / 6 + 115, this.microsoftDefault
+      );
    }
 
    @Override
    public void actionPerformed(GuiButton button) {
       if (button.id == 0) {
-         if (this.V.a()) {
+         if (this.microsoftCheckbox.isChecked()) {
             this.startMSThread();
          } else {
-            this.H();
-            this.mc.displayGuiScreen(this.a);
+            this.saveAlt();
+            this.mc.displayGuiScreen(this.parentScreen);
          }
       } else if (button.id == 1) {
-         this.mc.displayGuiScreen(this.a);
+         this.mc.displayGuiScreen(this.parentScreen);
       }
    }
 
@@ -106,25 +108,25 @@ public class AddAltScreen extends GuiScreen {
       new Thread(
             () -> {
                try {
-                  this.y = HttpServer.create(new InetSocketAddress(59125), 0);
-                  this.y.createContext("/", httpExchange -> {
+                  this.callbackServer = HttpServer.create(new InetSocketAddress(59125), 0);
+                  this.callbackServer.createContext("/", httpExchange -> {
                      try {
                         httpExchange.getResponseHeaders().add("Location", "http://localhost:59125/end");
                         httpExchange.sendResponseHeaders(302, -1L);
-                        new Thread(() -> this.q(httpExchange.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
+                        new Thread(() -> this.handleMicrosoftCallback(httpExchange.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
                      } catch (Throwable throwable) {
                         System.out.println("Unable to process request 'auth' on MS auth server");
 
                         try {
-                           if (this.y != null) {
-                              this.y.stop(0);
+                           if (this.callbackServer != null) {
+                              this.callbackServer.stop(0);
                            }
                         } catch (Throwable throwable2) {
                            System.out.println("Unable to stop fail-requested MS auth server");
                         }
                      }
                   });
-                  this.y
+                  this.callbackServer
                      .createContext(
                         "/end",
                         httpExchange2 -> {
@@ -139,8 +141,8 @@ public class AddAltScreen extends GuiScreen {
                               outputStream.close();
 
                               try {
-                                 if (this.y != null) {
-                                    this.y.stop(0);
+                                 if (this.callbackServer != null) {
+                                    this.callbackServer.stop(0);
                                  }
                               } catch (Throwable throwable3) {
                                  System.out.println("Unable to stop MS auth server");
@@ -149,8 +151,8 @@ public class AddAltScreen extends GuiScreen {
                               System.out.println("Unable to process request 'end' on MS auth server");
 
                               try {
-                                 if (this.y != null) {
-                                    this.y.stop(0);
+                                 if (this.callbackServer != null) {
+                                    this.callbackServer.stop(0);
                                  }
                               } catch (Throwable throwable5) {
                                  System.out.println("Unable to stop fail-requested MS auth server");
@@ -158,8 +160,8 @@ public class AddAltScreen extends GuiScreen {
                            }
                         }
                      );
-                  this.y.start();
-                  e(
+                  this.callbackServer.start();
+                  openInBrowser(
                      new URI(
                         "https://login.live.com/oauth20_authorize.srf?client_id=54fd49e4-2103-4044-9603-2b028c814ec3&response_type=code&scope=XboxLive.signin%20XboxLive.offline_access&redirect_uri=http://localhost:59125&prompt=consent"
                      )
@@ -169,8 +171,8 @@ public class AddAltScreen extends GuiScreen {
                   System.out.println("Unable to start MS auth server");
 
                   try {
-                     if (this.y != null) {
-                        this.y.stop(0);
+                     if (this.callbackServer != null) {
+                        this.callbackServer.stop(0);
                      }
                   } catch (Throwable throwable7) {
                      System.out.println("Unable to stop fail-started MS auth server");
@@ -182,7 +184,7 @@ public class AddAltScreen extends GuiScreen {
          .start();
    }
 
-   private void q(String string) {
+   private void handleMicrosoftCallback(String string) {
       try {
          if (string == null) {
             throw new NullPointerException("query=null");
@@ -196,57 +198,57 @@ public class AddAltScreen extends GuiScreen {
             throw new IllegalStateException("query=" + string);
          }
 
-         Pair pair = MicrosoftAuth.X(string.replace("code=", ""));
+         Pair pair = MicrosoftAuth.exchangeAuthCode(string.replace("code=", ""));
          String string2 = (String)pair.getRight();
-         String string3 = MicrosoftAuth.x((String)pair.getLeft());
-         Pair pair2 = MicrosoftAuth.Q(string3);
-         String string4 = MicrosoftAuth.P((String)pair2.getRight(), (String)pair2.getLeft());
+         String string3 = MicrosoftAuth.authXboxLive((String)pair.getLeft());
+         Pair pair2 = MicrosoftAuth.authXsts(string3);
+         String string4 = MicrosoftAuth.authMinecraft((String)pair2.getRight(), (String)pair2.getLeft());
          MicrosoftAuth.I_void(string4);
-         Pair pair3 = MicrosoftAuth.m(string4);
+         Pair pair3 = MicrosoftAuth.getProfile(string4);
          this.mc.session = new Session((String)pair3.getRight(), ((UUID)pair3.getLeft()).toString(), string4, "mojang");
          Alt alt = new Alt((String)pair3.getRight(), "");
-         alt.U = ((UUID)pair3.getLeft()).toString();
-         alt.o = (String)pair3.getRight();
-         alt.y = string4;
-         alt.Z = string2;
-         alt.F = true;
+         alt.clientToken = ((UUID)pair3.getLeft()).toString();
+         alt.displayName = (String)pair3.getRight();
+         alt.accessToken = string4;
+         alt.refreshToken = string2;
+         alt.microsoft = true;
          List list = Astolfo.INSTANCE.getAltManager().getList();
          int i = list.size();
-         if (!this.q()) {
-            i = list.indexOf(this.P);
+         if (!this.isNewAlt()) {
+            i = list.indexOf(this.editedAlt);
             list.remove(i);
          }
 
          list.add(i, alt);
-         Toasts.TOASTS.g("Microsoft Account", "Logged successfully to " + (String)pair3.getRight());
-         this.mc.displayGuiScreen(this.a);
+         Toasts.TOASTS.successMessage("Microsoft Account", "Logged successfully to " + (String)pair3.getRight());
+         this.mc.displayGuiScreen(this.parentScreen);
       } catch (Throwable throwable) {
          if (throwable instanceof AuthException) {
             AuthException authException = (AuthException)throwable;
-            if (authException.U().equals("ias.msauth.error.gamenotowned")) {
-               Toasts.TOASTS.k("Microsoft Account", "This account does not own Minecraft");
+            if (authException.getErrorKey().equals("ias.msauth.error.gamenotowned")) {
+               Toasts.TOASTS.dangerMessage("Microsoft Account", "This account does not own Minecraft");
             }
 
-            if (authException.U().equals("ias.msauth.error.noxbox")) {
-               Toasts.TOASTS.k("Microsoft Account", "This account does not have a Xbox account setup");
+            if (authException.getErrorKey().equals("ias.msauth.error.noxbox")) {
+               Toasts.TOASTS.dangerMessage("Microsoft Account", "This account does not have a Xbox account setup");
             }
          }
 
          if (throwable instanceof IllegalArgumentException) {
             IllegalArgumentException illegalArgumentException = (IllegalArgumentException)throwable;
             if (illegalArgumentException.getMessage().contains("getProfile response:")) {
-               Toasts.TOASTS.k("Microsoft Account", "This account does not have a Minecraft name set");
+               Toasts.TOASTS.dangerMessage("Microsoft Account", "This account does not have a Minecraft name set");
             }
          }
 
-         this.y.stop(0);
-         this.y = null;
+         this.callbackServer.stop(0);
+         this.callbackServer = null;
          throwable.printStackTrace();
          System.out.println("Unable");
       }
    }
 
-   public static void e(URI uri) throws IOException {
+   public static void openInBrowser(URI uri) throws IOException {
       switch (SystemInfo.getCurrentPlatformEnum()) {
          case MACOSX:
             Desktop.getDesktop().browse(uri);
@@ -273,23 +275,23 @@ public class AddAltScreen extends GuiScreen {
       }
    }
 
-   private void H() {
+   private void saveAlt() {
       List list = Astolfo.INSTANCE.getAltManager().getList();
       int i = list.size();
-      if (!this.q()) {
-         i = list.indexOf(this.P);
+      if (!this.isNewAlt()) {
+         i = list.indexOf(this.editedAlt);
          list.remove(i);
       }
 
-      if (this.n.getText().contains(":")) {
-         String[] strings = this.n.getText().split(":");
+      if (this.usernameField.getText().contains(":")) {
+         String[] strings = this.usernameField.getText().split(":");
          if (strings.length == 2) {
             Alt alt = new Alt(strings[0], strings[1]);
             AltLogin.AUTH.login(alt, false);
             list.add(i, alt);
          }
       } else {
-         Alt alt2 = new Alt(this.n.getText(), this.K.getText());
+         Alt alt2 = new Alt(this.usernameField.getText(), this.passwordField.getText());
          AltLogin.AUTH.login(alt2, false);
          list.add(i, alt2);
       }
@@ -298,21 +300,21 @@ public class AddAltScreen extends GuiScreen {
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
       if (typedChar == '\t') {
-         this.n.setFocused(this.K.isFocused());
-         this.K.setFocused(!this.n.isFocused());
+         this.usernameField.setFocused(this.passwordField.isFocused());
+         this.passwordField.setFocused(!this.usernameField.isFocused());
       }
 
-      if (this.n.isFocused()) {
-         this.n.textboxKeyTyped(typedChar, keyCode);
+      if (this.usernameField.isFocused()) {
+         this.usernameField.textboxKeyTyped(typedChar, keyCode);
          if (typedChar == '\r') {
-            this.H();
-            this.mc.displayGuiScreen(this.a);
+            this.saveAlt();
+            this.mc.displayGuiScreen(this.parentScreen);
          }
-      } else if (this.K.isFocused()) {
-         this.K.textboxKeyTyped(typedChar, keyCode);
+      } else if (this.passwordField.isFocused()) {
+         this.passwordField.textboxKeyTyped(typedChar, keyCode);
          if (typedChar == '\r') {
-            this.H();
-            this.mc.displayGuiScreen(this.a);
+            this.saveAlt();
+            this.mc.displayGuiScreen(this.parentScreen);
          }
       }
 
@@ -322,10 +324,10 @@ public class AddAltScreen extends GuiScreen {
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
       super.mouseClicked(mouseX, mouseY, mouseButton);
-      this.n.mouseClicked(mouseX, mouseY, mouseButton);
-      this.K.mouseClicked(mouseX, mouseY, mouseButton);
-      this.d.b(mouseX, mouseY, mouseButton);
-      this.V.b(mouseX, mouseY, mouseButton);
+      this.usernameField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.passwordField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.hidePasswordCheckbox.handleMouseClick(mouseX, mouseY, mouseButton);
+      this.microsoftCheckbox.handleMouseClick(mouseX, mouseY, mouseButton);
    }
 
    @Override
@@ -333,28 +335,28 @@ public class AddAltScreen extends GuiScreen {
       this.drawDefaultBackground();
       this.d(
          this.fontRendererObj,
-         this.q() ? (this.y != null ? "Waiting for Microsoft login (browser)" : "Add an account") : "Edit an account",
+         this.isNewAlt() ? (this.callbackServer != null ? "Waiting for Microsoft login (browser)" : "Add an account") : "Edit an account",
          this.width / 2,
          30,
          -1
       );
       String string = "Username or email:";
-      this.K.setVisible(true);
-      if (this.n.getText().contains("@")) {
+      this.passwordField.setVisible(true);
+      if (this.usernameField.getText().contains("@")) {
          string = "Email:";
-         if (this.n.getText().contains(":")) {
+         if (this.usernameField.getText().contains(":")) {
             string = "Email and password:";
-            this.K.setVisible(false);
+            this.passwordField.setVisible(false);
          }
-      } else if (this.n.getText().contains(":")) {
+      } else if (this.usernameField.getText().contains(":")) {
          string = "Username and password:";
-         this.K.setVisible(false);
+         this.passwordField.setVisible(false);
       }
 
-      this.f.displayString = this.V.a() ? "Login" : "Save Alt";
-      this.f.enabled = this.y == null;
-      if (!this.V.a()) {
-         if (this.K.getVisible()) {
+      this.saveButton.displayString = this.microsoftCheckbox.isChecked() ? "Login" : "Save Alt";
+      this.saveButton.enabled = this.callbackServer == null;
+      if (!this.microsoftCheckbox.isChecked()) {
+         if (this.passwordField.getVisible()) {
             this.I(this.fontRendererObj, "*Password:", this.width / 2 - 100, this.height / 6 + 68, -1);
          }
 
@@ -362,17 +364,17 @@ public class AddAltScreen extends GuiScreen {
       }
 
       this.d(this.fontRendererObj, "*Leave blank for offline account", this.width / 2, this.height / 6 + 180, -1);
-      this.K.Z(this.d.a());
-      this.n.setVisible(!this.V.a());
-      this.K.setVisible(!this.V.a());
-      this.n.drawTextBox();
-      this.K.drawTextBox();
-      this.d.E(mouseX, mouseY);
-      this.V.E(mouseX, mouseY);
+      this.passwordField.setPasswordMode(this.hidePasswordCheckbox.isChecked());
+      this.usernameField.setVisible(!this.microsoftCheckbox.isChecked());
+      this.passwordField.setVisible(!this.microsoftCheckbox.isChecked());
+      this.usernameField.drawTextBox();
+      this.passwordField.drawTextBox();
+      this.hidePasswordCheckbox.drawCheckbox(mouseX, mouseY);
+      this.microsoftCheckbox.drawCheckbox(mouseX, mouseY);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   private boolean q() {
-      return this.P == null;
+   private boolean isNewAlt() {
+      return this.editedAlt == null;
    }
 }

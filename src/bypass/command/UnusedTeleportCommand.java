@@ -29,16 +29,16 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public final class UnusedTeleportCommand extends Command {
-   private double C;
-   private double h;
-   private double X;
-   private String E = "";
-   private int z;
-   private boolean p;
-   private boolean s;
-   private BlockPos T;
-   private final Stopwatch Q = new Stopwatch();
-   public static int W;
+   private double targetX;
+   private double targetY;
+   private double targetZ;
+   private String targetName = "";
+   private int stage;
+   private boolean ready;
+   private boolean toSpawnPoint;
+   private BlockPos lastPosition;
+   private final Stopwatch cooldown = new Stopwatch();
+   public static int riderGodTeleports;
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
@@ -48,70 +48,80 @@ public final class UnusedTeleportCommand extends Command {
             return;
          }
 
-         if (this.z == 1 && !this.Q.hasElapsed(6000.0F) || !this.p && packetEvent.getPacket() instanceof C03PacketPlayer) {
+         if (this.stage == 1 && !this.cooldown.hasElapsed(6000.0F) || !this.ready && packetEvent.getPacket() instanceof C03PacketPlayer) {
             packetEvent.cancel();
          }
-      } else if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook && !this.p) {
-         this.p = true;
+      } else if (packetEvent.getPacket() instanceof S08PacketPlayerPosLook && !this.ready) {
+         this.ready = true;
       }
    };
    @EventHandler(MotionEvent.class)
    private final Listener<MotionEvent> onMotion = motionEvent -> {
-      if (this.p) {
+      if (this.ready) {
          boolean bl = client.getModuleManager().get(RiderGod.class).isEnabled();
-         if (!this.E.isEmpty()) {
-            EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName(this.E);
+         if (!this.targetName.isEmpty()) {
+            EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName(this.targetName);
             if (entityPlayer != null) {
                if (entityPlayer.ridingEntity != null) {
-                  this.C = entityPlayer.ridingEntity.posX;
-                  this.h = entityPlayer.ridingEntity.posY;
-                  this.X = entityPlayer.ridingEntity.posZ;
+                  this.targetX = entityPlayer.ridingEntity.posX;
+                  this.targetY = entityPlayer.ridingEntity.posY;
+                  this.targetZ = entityPlayer.ridingEntity.posZ;
                } else {
-                  this.C = entityPlayer.posX;
-                  this.h = entityPlayer.posY;
-                  this.X = entityPlayer.posZ;
+                  this.targetX = entityPlayer.posX;
+                  this.targetY = entityPlayer.posY;
+                  this.targetZ = entityPlayer.posZ;
                }
             }
          }
 
-         if (this.s && mc.theWorld.getSpawnPoint() != null) {
-            this.C = mc.theWorld.getSpawnPoint().getX();
-            this.h = 128.0;
-            this.X = mc.theWorld.getSpawnPoint().getZ();
-            this.s = false;
+         if (this.toSpawnPoint && mc.theWorld.getSpawnPoint() != null) {
+            this.targetX = mc.theWorld.getSpawnPoint().getX();
+            this.targetY = 128.0;
+            this.targetZ = mc.theWorld.getSpawnPoint().getZ();
+            this.toSpawnPoint = false;
          }
 
-         this.T = mc.thePlayer.getPosition();
-         double d = mc.thePlayer.posY - this.h;
+         this.lastPosition = mc.thePlayer.getPosition();
+         double d = mc.thePlayer.posY - this.targetY;
          if (bl) {
-            mc.thePlayer.setPosition(this.C, this.h, this.X);
+            mc.thePlayer.setPosition(this.targetX, this.targetY, this.targetZ);
          } else {
-            boolean bl2 = d < -30.0 && mc.thePlayer.posY > 40.0 && this.E.isEmpty() && !ScoreboardTracker.r();
+            boolean bl2 = d < -30.0 && mc.thePlayer.posY > 40.0 && this.targetName.isEmpty() && !ScoreboardTracker.isInGame();
             if (bl2) {
-               this.m(
-                  InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, 8.9),
+               this.sendPathPackets(
+                  InfiniteReach.createLinearPath(
+                     mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, 8.9
+                  ),
                   bl
                );
-               this.m(InfiniteReach.Z(mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, this.C, this.h, this.X, 8.9), bl);
+               this.sendPathPackets(
+                  InfiniteReach.createLinearPath(mc.thePlayer.posX, mc.thePlayer.posY + 50.0, mc.thePlayer.posZ, this.targetX, this.targetY, this.targetZ, 8.9),
+                  bl
+               );
             } else {
-               this.m(PathFinder.i(new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(this.C, this.h, this.X), 8.9), bl);
+               this.sendPathPackets(
+                  PathFinder.findPath(
+                     new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), new Vector3(this.targetX, this.targetY, this.targetZ), 8.9
+                  ),
+                  bl
+               );
             }
          }
 
-         mc.thePlayer.setPosition(this.C, this.h, this.X);
+         mc.thePlayer.setPosition(this.targetX, this.targetY, this.targetZ);
          client.getEventBus().unsubscribe(this);
          mc.thePlayer.motionX = 0.0;
          mc.thePlayer.motionZ = 0.0;
          mc.thePlayer.fallDistance = 0.0F;
-         this.E = "";
+         this.targetName = "";
          if (HUD.isPowerBranding()) {
-            f("TP~~");
+            printPowerMessage("TP~~");
          } else {
-            toasts.g("Teleported", "Successfully teleported");
+            toasts.successMessage("Teleported", "Successfully teleported");
          }
 
          if (bl) {
-            W++;
+            riderGodTeleports++;
          }
       }
    };
@@ -134,79 +144,79 @@ public final class UnusedTeleportCommand extends Command {
                client.getEventBus().unsubscribe(this);
             } else if (strings[1].equalsIgnoreCase("teammate")) {
                if (mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() == Items.compass) {
-                  this.s = true;
-                  this.c("teammate");
+                  this.toSpawnPoint = true;
+                  this.prepareTeleport("teammate");
                   client.getEventBus().subscribe(this);
                } else {
-                  toasts.x("You must hold your compass to use this");
+                  toasts.danger("You must hold your compass to use this");
                }
             } else if (strings[1].equalsIgnoreCase("back")) {
-               if (this.T != null) {
-                  this.C = this.T.getX();
-                  this.h = 128.0;
-                  this.X = this.T.getZ();
-                  this.c("back");
+               if (this.lastPosition != null) {
+                  this.targetX = this.lastPosition.getX();
+                  this.targetY = 128.0;
+                  this.targetZ = this.lastPosition.getZ();
+                  this.prepareTeleport("back");
                   client.getEventBus().subscribe(this);
                } else {
-                  toasts.x("Theres no registered last position");
+                  toasts.danger("Theres no registered last position");
                }
             } else {
                EntityPlayer entityPlayer = mc.theWorld.getPlayerEntityByName(strings[1]);
                boolean bl = false;
                if (entityPlayer != null) {
-                  this.C = entityPlayer.posX;
-                  this.h = entityPlayer.posY;
-                  this.X = entityPlayer.posZ;
-                  this.E = entityPlayer.getName();
+                  this.targetX = entityPlayer.posX;
+                  this.targetY = entityPlayer.posY;
+                  this.targetZ = entityPlayer.posZ;
+                  this.targetName = entityPlayer.getName();
                } else {
                   BlockPos blockPos = PlayerListTracker.lastPositions.get(strings[1]);
                   if (blockPos == null) {
-                     toasts.x("Couldn't find this player");
+                     toasts.danger("Couldn't find this player");
                      break;
                   }
 
                   if (mc.thePlayer.getDistance(blockPos.getX(), blockPos.getY(), blockPos.getZ()) > 2000.0) {
-                     toasts.x(strings[1] + " last position was too far away");
+                     toasts.danger(strings[1] + " last position was too far away");
                      break;
                   }
 
-                  this.C = blockPos.getX();
-                  this.h = 128.0;
-                  this.X = blockPos.getZ();
-                  this.E = strings[1];
+                  this.targetX = blockPos.getX();
+                  this.targetY = 128.0;
+                  this.targetZ = blockPos.getZ();
+                  this.targetName = strings[1];
                   bl = true;
                }
 
-               if (this.o()) {
-                  toasts.x("You must be on a boat to TP");
+               if (this.cannotTeleport()) {
+                  toasts.danger("You must be on a boat to TP");
                   return;
                }
 
                client.getEventBus().subscribe(this);
-               this.c(bl ? "tracked" : "found");
+               this.prepareTeleport(bl ? "tracked" : "found");
             }
             break;
          case 3:
-            if (this.o()) {
-               toasts.x("You must be on a boat to to TP");
+            if (this.cannotTeleport()) {
+               toasts.danger("You must be on a boat to to TP");
                return;
             }
 
             try {
                double d = Double.parseDouble(strings[1]);
                double e = Double.parseDouble(strings[2]);
-               this.C = d;
-               this.h = 128.0;
-               this.X = e;
+               this.targetX = d;
+               this.targetY = 128.0;
+               this.targetZ = e;
                client.getEventBus().subscribe(this);
-               this.c("");
+               this.prepareTeleport("");
             } catch (NumberFormatException numberFormatException) {
-               ClientChat.CHAT.f("put cords correctly noob");
+               ClientChat.CHAT.printError("put cords correctly noob");
             }
             break;
          case 4:
-            if (this.o()) {
-               toasts.x("You must be on a boat to TP");
+            if (this.cannotTeleport()) {
+               toasts.danger("You must be on a boat to TP");
                return;
             }
 
@@ -214,13 +224,13 @@ public final class UnusedTeleportCommand extends Command {
                double d2 = Double.parseDouble(strings[1]);
                double d3 = Double.parseDouble(strings[2]);
                double d4 = Double.parseDouble(strings[3]);
-               this.C = d2;
-               this.h = d3;
-               this.X = d4;
+               this.targetX = d2;
+               this.targetY = d3;
+               this.targetZ = d4;
                client.getEventBus().subscribe(this);
-               this.c("");
+               this.prepareTeleport("");
             } catch (NumberFormatException numberFormatException2) {
-               ClientChat.CHAT.f("put cords correctly noob");
+               ClientChat.CHAT.printError("put cords correctly noob");
             }
             break;
          case 5:
@@ -229,64 +239,64 @@ public final class UnusedTeleportCommand extends Command {
                   double d5 = Double.parseDouble(strings[2]);
                   double d6 = Double.parseDouble(strings[3]);
                   double d7 = Double.parseDouble(strings[4]);
-                  this.C = d5;
-                  this.h = d6;
-                  this.X = d7;
+                  this.targetX = d5;
+                  this.targetY = d6;
+                  this.targetZ = d7;
                } catch (NumberFormatException numberFormatException3) {
                }
             }
             break;
          default:
-            ClientChat.CHAT.I(this.getName() + ": " + this.getUsage());
+            ClientChat.CHAT.print(this.getName() + ": " + this.getUsage());
       }
    }
 
-   private void c(String string) {
-      this.z = 0;
-      this.p = false;
+   private void prepareTeleport(String string) {
+      this.stage = 0;
+      this.ready = false;
       if (client.getModuleManager().get(RiderGod.class).isEnabled()) {
-         this.p = true;
+         this.ready = true;
       }
 
       mc.thePlayer.motionX = 0.0;
       mc.thePlayer.motionZ = 0.0;
       if (HUD.isPowerBranding()) {
          if (string.equals("tracked") || string.equals("found")) {
-            q(
+            printPrefixed(
                "LookTP",
                String.format(
                   "§a目标 §c%s §a距离 §c%s §b米 §a坐标§bX:§f%s §bY:§f%s §bZ:§f%s",
-                  this.E,
-                  (int)mc.thePlayer.getDistance(this.C, this.h, this.X),
-                  (int)this.C,
-                  (int)this.h,
-                  (int)this.X
+                  this.targetName,
+                  (int)mc.thePlayer.getDistance(this.targetX, this.targetY, this.targetZ),
+                  (int)this.targetX,
+                  (int)this.targetY,
+                  (int)this.targetZ
                )
             );
          }
 
-         f(EnumChatFormatting.GREEN + "TP" + EnumChatFormatting.WHITE + " : " + EnumChatFormatting.AQUA + "Please wait Server Lag!");
+         printPowerMessage(EnumChatFormatting.GREEN + "TP" + EnumChatFormatting.WHITE + " : " + EnumChatFormatting.AQUA + "Please wait Server Lag!");
       } else {
          switch (string) {
             case "tracked":
-               toasts.B("Getting ready", "Teleporting to " + this.E + " last position soon");
+               toasts.infoMessage("Getting ready", "Teleporting to " + this.targetName + " last position soon");
                break;
             case "found":
-               toasts.B("Getting ready", "Teleporting to " + this.E + " soon");
+               toasts.infoMessage("Getting ready", "Teleporting to " + this.targetName + " soon");
                break;
             case "teammate":
-               toasts.B("Getting ready", "Teleporting to your teammates soon");
+               toasts.infoMessage("Getting ready", "Teleporting to your teammates soon");
                break;
             case "back":
-               toasts.B("Getting ready", "Teleporting to your last position");
+               toasts.infoMessage("Getting ready", "Teleporting to your last position");
                break;
             default:
-               toasts.B("Getting ready", "Teleporting to [" + this.C + " " + this.h + " " + this.X + "] soon");
+               toasts.infoMessage("Getting ready", "Teleporting to [" + this.targetX + " " + this.targetY + " " + this.targetZ + "] soon");
          }
       }
    }
 
-   public static void q(String string, String string2) {
+   public static void printPrefixed(String string, String string2) {
       mc.ingameGUI
          .getChatGUI()
          .printChatMessage(
@@ -304,7 +314,7 @@ public final class UnusedTeleportCommand extends Command {
          );
    }
 
-   public static void f() {
+   public static void sendFakeJump() {
       mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42F, mc.thePlayer.posZ, false));
       mc.thePlayer
          .sendQueue
@@ -325,11 +335,11 @@ public final class UnusedTeleportCommand extends Command {
          );
    }
 
-   public static void f(String string) {
-      q("Power", string);
+   public static void printPowerMessage(String string) {
+      printPrefixed("Power", string);
    }
 
-   private void m(List<Vector3> list, boolean bl) {
+   private void sendPathPackets(List<Vector3> list, boolean bl) {
       double d = mc.thePlayer.posY;
       double e = 0.0;
 
@@ -353,7 +363,7 @@ public final class UnusedTeleportCommand extends Command {
       }
    }
 
-   private boolean o() {
+   private boolean cannotTeleport() {
       return !GameUtil.isOnHypixel() || !mc.thePlayer.E() && mc.thePlayer.ticksExisted > 30;
    }
 }

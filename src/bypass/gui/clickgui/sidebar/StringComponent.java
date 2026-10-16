@@ -10,39 +10,39 @@ import net.minecraft.util.StringUtils;
 import org.lwjgl.input.Mouse;
 
 public class StringComponent extends SidebarSettingComponent {
-   private boolean T;
+   private boolean focused;
 
    public StringComponent(ModuleButton moduleButton, Setting setting, float f, float g, int i, int j) {
       super(moduleButton, setting, f, g, i, j);
    }
 
    @Override
-   public void l(int i) {
-      if (i == 0 && this.y()) {
-         this.T = true;
+   public void onClick(int i) {
+      if (i == 0 && this.isVisible()) {
+         this.focused = true;
       }
    }
 
    @Override
    public void render(int i, int j) {
-      if (Mouse.isButtonDown(0) && !this.G(i, j)) {
-         this.T = false;
+      if (Mouse.isButtonDown(0) && !this.isHovered(i, j)) {
+         this.focused = false;
       }
 
       RenderUtil.drawRect(
-         this.M(),
-         this.E_float() + this.Y() + 1.0F,
-         this.M() + this.x(),
-         this.E_float() + this.Y() + 2.0F,
-         this.T ? client.getSidebarGui().U() : Color.WHITE.getRGB()
+         this.getX(),
+         this.getYPos() + this.getHeight() + 1.0F,
+         this.getX() + this.getWidth(),
+         this.getYPos() + this.getHeight() + 2.0F,
+         this.focused ? client.getSidebarGui().getPulseColor() : Color.WHITE.getRGB()
       );
-      client.getCustomFontRenderer().drawStringWithShadow(this.c().getValue() + "...", this.M(), this.E_float() + 1.0F, -1);
+      client.getCustomFontRenderer().drawStringWithShadow(this.getStringSetting().getValue() + "...", this.getX(), this.getYPos() + 1.0F, -1);
    }
 
    @Override
-   public void P(char c, int i) {
-      if (this.T) {
-         StringSetting stringSetting = this.c();
+   public void onKeyTyped(char c, int i) {
+      if (this.focused) {
+         StringSetting stringSetting = this.getStringSetting();
          if (GuiScreen.isKeyComboCtrlV(i)) {
             stringSetting.setValue(stringSetting.getValue() + GuiScreen.getClipboardString());
          } else {
@@ -58,16 +58,16 @@ public class StringComponent extends SidebarSettingComponent {
                   }
             }
 
-            super.P(c, i);
+            super.onKeyTyped(c, i);
          }
       }
    }
 
-   public boolean q() {
-      return this.T;
+   public boolean isFocused() {
+      return this.focused;
    }
 
-   public StringSetting c() {
-      return (StringSetting)this.H();
+   public StringSetting getStringSetting() {
+      return (StringSetting)this.getSetting();
    }
 }

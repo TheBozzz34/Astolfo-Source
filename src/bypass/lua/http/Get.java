@@ -10,7 +10,7 @@ import org.luaj.vm2.lib.OneArgFunction;
 public final class Get extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
-      if (!ScriptManager.N.t()) {
+      if (!ScriptManager.unsafeFunctions.isEnabled()) {
          return valueOf(false);
       }
 
@@ -18,12 +18,12 @@ public final class Get extends OneArgFunction {
          return valueOf(false);
       }
 
-      HttpRequest httpRequest = new HttpRequest().g(luaValue.checkjstring());
-      httpRequest.W("Astolfo-User");
-      httpRequest.V(AuthUtil.getHwid());
-      httpRequest.T("Astolfo-Client");
-      httpRequest.i("");
-      httpRequest.S("");
+      HttpRequest httpRequest = new HttpRequest().setUrl(luaValue.checkjstring());
+      httpRequest.setHeaderKeys("Astolfo-User");
+      httpRequest.setHeaderValues(AuthUtil.getHwid());
+      httpRequest.setUserAgent("Astolfo-Client");
+      httpRequest.setAccept("");
+      httpRequest.setContentType("");
       String string = HttpUtil.get(httpRequest);
       return valueOf(string);
    }

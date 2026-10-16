@@ -24,15 +24,15 @@ public class SettingExamples {
       .add("test_8", new BooleanSetting("Boolean", "desc", true))
       .build();
    public static ListSetting list = new ListSettingBuilder("List")
-      .R()
-      .p(new NumberSetting<>("Byte", "desc", (byte)1))
-      .p(new NumberSetting<>("Double", "desc", 1.0))
-      .p(new NumberSetting<>("Float", "desc", 1.0F))
-      .p(new NumberSetting<>("Integer", "desc", 1))
-      .p(new NumberSetting<>("Long", "desc", 1L))
-      .p(new NumberSetting<>("Short", "desc", (short)1))
-      .p(new StringSetting("String", "desc", "Example"))
-      .p(new BooleanSetting("Boolean", "desc", true))
+      .withEmptyList()
+      .addSetting(new NumberSetting<>("Byte", "desc", (byte)1))
+      .addSetting(new NumberSetting<>("Double", "desc", 1.0))
+      .addSetting(new NumberSetting<>("Float", "desc", 1.0F))
+      .addSetting(new NumberSetting<>("Integer", "desc", 1))
+      .addSetting(new NumberSetting<>("Long", "desc", 1L))
+      .addSetting(new NumberSetting<>("Short", "desc", (short)1))
+      .addSetting(new StringSetting("String", "desc", "Example"))
+      .addSetting(new BooleanSetting("Boolean", "desc", true))
       .build();
    public static NumberSetting<Byte> byteSetting = new NumberSetting<>("Byte", "desc", (byte)1);
    public static NumberSetting<Double> doubleSetting = new NumberSetting<>("Double", "desc", 1.0);

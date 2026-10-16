@@ -21,7 +21,9 @@ public final class PackSpoofer extends Module {
          mc.thePlayer
             .sendQueue
             .addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.r() == null ? "" : s48PacketResourcePackSend.r(), C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED));
-         client.getNotificationManager().i("Pack spoofed", String.format("Pack spoofed (%s - %s)", s48PacketResourcePackSend.R(), s48PacketResourcePackSend.r()), NotificationType.SUCCESS, 3500).K();
+         client.getNotificationManager()
+            .createNotification("Pack spoofed", String.format("Pack spoofed (%s - %s)", s48PacketResourcePackSend.R(), s48PacketResourcePackSend.r()), NotificationType.SUCCESS, 3500)
+            .show();
          packetEvent.cancel();
       }
    };

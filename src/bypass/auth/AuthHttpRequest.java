@@ -1,76 +1,76 @@
 package bypass.auth;
 
 public class AuthHttpRequest {
-   public String v;
-   public String s;
-   public String F;
-   public String P;
-   public String u;
-   public String[] X = new String[0];
-   public String[] E = new String[0];
-   public String[] i = new String[0];
-   public String[] n = new String[0];
+   public String url;
+   public String rawBody;
+   public String userAgent;
+   public String accept;
+   public String contentType;
+   public String[] paramNames = new String[0];
+   public String[] paramValues = new String[0];
+   public String[] headerNames = new String[0];
+   public String[] headerValues = new String[0];
 
    public AuthHttpRequest() {
-      this.v("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13");
-      this.U("application/json");
-      this.F("application/json");
+      this.setUserAgent("Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13");
+      this.setAccept("application/json");
+      this.setContentType("application/json");
    }
 
-   public AuthHttpRequest r(String string) {
-      this.v = string;
+   public AuthHttpRequest setUrl(String string) {
+      this.url = string;
       return this;
    }
 
-   public AuthHttpRequest v(String string) {
-      this.F = string;
+   public AuthHttpRequest setUserAgent(String string) {
+      this.userAgent = string;
       return this;
    }
 
-   public AuthHttpRequest U(String string) {
-      this.P = string;
+   public AuthHttpRequest setAccept(String string) {
+      this.accept = string;
       return this;
    }
 
-   public AuthHttpRequest F(String string) {
-      this.u = string;
+   public AuthHttpRequest setContentType(String string) {
+      this.contentType = string;
       return this;
    }
 
-   public AuthHttpRequest a(String... strings) {
-      this.X = strings;
+   public AuthHttpRequest setParamNames(String... strings) {
+      this.paramNames = strings;
       return this;
    }
 
-   public AuthHttpRequest O(String... strings) {
-      this.E = strings;
+   public AuthHttpRequest setParamValues(String... strings) {
+      this.paramValues = strings;
       return this;
    }
 
-   public AuthHttpRequest y(String string) {
-      this.s = string;
+   public AuthHttpRequest setRawBody(String string) {
+      this.rawBody = string;
       return this;
    }
 
-   public AuthHttpRequest d(String... strings) {
-      this.i = strings;
+   public AuthHttpRequest setHeaderNames(String... strings) {
+      this.headerNames = strings;
       return this;
    }
 
-   public AuthHttpRequest y(String... strings) {
-      this.n = strings;
+   public AuthHttpRequest setHeaderValues(String... strings) {
+      this.headerValues = strings;
       return this;
    }
 
-   public String h() {
-      if (this.s != null) {
-         return this.s;
+   public String buildBody() {
+      if (this.rawBody != null) {
+         return this.rawBody;
       }
 
       StringBuilder stringBuilder = new StringBuilder();
 
-      for (int i = 0; i < this.X.length; i++) {
-         stringBuilder.append(this.X[i]).append("=").append(this.E[i]).append("&");
+      for (int i = 0; i < this.paramNames.length; i++) {
+         stringBuilder.append(this.paramNames[i]).append("=").append(this.paramValues[i]).append("&");
       }
 
       return stringBuilder.toString();

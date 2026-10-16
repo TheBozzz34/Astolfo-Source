@@ -18,20 +18,20 @@ import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public abstract class AbstractFabricPlatform implements ViaPlatform<UUID> {
-   private final Logger e = new JLoggerToLog4j(LogManager.getLogger("ViaVersion"));
-   private final VRViaConfig S = new VRViaConfig();
-   private final ViaAPI<UUID> N = new VRViaAPI();
+   private final Logger logger = new JLoggerToLog4j(LogManager.getLogger("ViaVersion"));
+   private final VRViaConfig config = new VRViaConfig();
+   private final ViaAPI<UUID> api = new VRViaAPI();
 
-   public abstract ExecutorService O();
+   public abstract ExecutorService getAsyncExecutor();
 
-   public abstract EventLoop I();
+   public abstract EventLoop getEventLoop();
 
-   public FutureTaskId l(Runnable runnable) {
-      return new FutureTaskId(this.I().submit(runnable).addListener(this.errorLogger()));
+   public FutureTaskId runOnEventLoop(Runnable runnable) {
+      return new FutureTaskId(this.getEventLoop().submit(runnable).addListener(this.errorLogger()));
    }
 
    public FutureTaskId runAsync(Runnable runnable) {
-      return new FutureTaskId(CompletableFuture.runAsync(runnable, this.O()).exceptionally(throwable -> {
+      return new FutureTaskId(CompletableFuture.runAsync(runnable, this.getAsyncExecutor()).exceptionally(throwable -> {
          if (!(throwable instanceof CancellationException)) {
             throwable.printStackTrace();
          }
@@ -41,11 +41,13 @@ public abstract class AbstractFabricPlatform implements ViaPlatform<UUID> {
    }
 
    public FutureTaskId runSync(Runnable runnable, long l) {
-      return new FutureTaskId(this.I().schedule(() -> this.runSync(runnable), l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
+      return new FutureTaskId(this.getEventLoop().schedule(() -> this.runSync(runnable), l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
    }
 
    public FutureTaskId runRepeatingSync(Runnable runnable, long l) {
-      return new FutureTaskId(this.I().scheduleAtFixedRate(() -> this.runSync(runnable), 0L, l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger()));
+      return new FutureTaskId(
+         this.getEventLoop().scheduleAtFixedRate(() -> this.runSync(runnable), 0L, l * 50L, TimeUnit.MILLISECONDS).addListener(this.errorLogger())
+      );
    }
 
    public <T extends Future<?>> GenericFutureListener<T> errorLogger() {
@@ -67,17 +69,17 @@ public abstract class AbstractFabricPlatform implements ViaPlatform<UUID> {
 
    @Override
    public Logger getLogger() {
-      return this.e;
+      return this.logger;
    }
 
    @Override
    public ViaVersionConfig getConf() {
-      return this.S;
+      return this.config;
    }
 
    @Override
    public ViaAPI<UUID> getApi() {
-      return this.N;
+      return this.api;
    }
 
    @Override

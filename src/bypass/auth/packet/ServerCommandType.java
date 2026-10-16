@@ -6,5 +6,5 @@ public enum ServerCommandType {
    C,
    D;
 
-   private static final ServerCommandType[] H = new ServerCommandType[]{A, B, C, D};
+   private static final ServerCommandType[] VALUES = new ServerCommandType[]{A, B, C, D};
 }

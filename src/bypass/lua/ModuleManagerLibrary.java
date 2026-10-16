@@ -22,33 +22,33 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public class ModuleManagerLibrary extends TwoArgFunction implements ClientAccess {
-   private Module p;
-   public final TwoArgFunction J = new ModuleManagerLibrary.aoq();
-   public static final OneArgFunction f = new GetSettingFunction();
-   public static final VarArgFunction j = new Option();
-   public static final VarArgFunction W = new SetOption2();
-   public static final OneArgFunction G = new IsModuleOn4();
-   public static final ThreeArgFunction c = new RegisterBoolean();
-   public static final VarArgFunction A = new RegisterNumber3();
+   private Module ownerModule;
+   public final TwoArgFunction registerFunction = new ModuleManagerLibrary.aoq();
+   public static final OneArgFunction getSettingFunction = new GetSettingFunction();
+   public static final VarArgFunction optionFunction = new Option();
+   public static final VarArgFunction setOptionFunction = new SetOption2();
+   public static final OneArgFunction isModuleOnFunction = new IsModuleOn4();
+   public static final ThreeArgFunction registerBooleanFunction = new RegisterBoolean();
+   public static final VarArgFunction registerNumberFunction = new RegisterNumber3();
 
    public ModuleManagerLibrary(Module module) {
-      this.p = module;
+      this.ownerModule = module;
    }
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
       LuaTable luaTable = LuaValue.tableOf();
-      luaTable.set("register", this.J);
-      luaTable.set("register_boolean", c);
-      luaTable.set("register_number", A);
-      luaTable.set("option", j);
-      luaTable.set("set_option", W);
-      luaTable.set("is_module_on", G);
+      luaTable.set("register", this.registerFunction);
+      luaTable.set("register_boolean", registerBooleanFunction);
+      luaTable.set("register_number", registerNumberFunction);
+      luaTable.set("option", optionFunction);
+      luaTable.set("set_option", setOptionFunction);
+      luaTable.set("is_module_on", isModuleOnFunction);
       luaValue2.set("module_manager", luaTable);
       return luaTable;
    }
 
-   private static void R(LuaValue luaValue, Setting<?> setting) {
+   private static void applyLuaValue(LuaValue luaValue, Setting<?> setting) {
       if (luaValue.isnumber()) {
          if (setting.getType() == SettingType.NUMBER) {
             NumberSetting numberSetting = (NumberSetting)setting;
@@ -78,12 +78,12 @@ public class ModuleManagerLibrary extends TwoArgFunction implements ClientAccess
       }
    }
 
-   public static Module T(ModuleManagerLibrary moduleManagerLibrary) {
-      return moduleManagerLibrary.p;
+   public static Module getOwnerModule(ModuleManagerLibrary moduleManagerLibrary) {
+      return moduleManagerLibrary.ownerModule;
    }
 
-   public static void c(LuaValue luaValue, Setting setting) {
-      R(luaValue, setting);
+   public static void applyLuaValueToSetting(LuaValue luaValue, Setting setting) {
+      applyLuaValue(luaValue, setting);
    }
 
    public class aoq extends TwoArgFunction {
@@ -106,7 +106,7 @@ public class ModuleManagerLibrary extends TwoArgFunction implements ClientAccess
          }
 
          if (string != null && luaTable != null) {
-            ModuleManagerLibrary.T(ModuleManagerLibrary.this).o = luaTable;
+            ModuleManagerLibrary.getOwnerModule(ModuleManagerLibrary.this).registeredScriptTable = luaTable;
             return valueOf(true);
          } else {
             return valueOf(false);

@@ -25,7 +25,7 @@ public final class HideCommand extends Command {
             if (moduleInfo2 instanceof Module) {
                ((Module)moduleInfo2).setHidden(false);
             } else {
-               chat.f("Module not found");
+               chat.printError("Module not found");
             }
          }
       }

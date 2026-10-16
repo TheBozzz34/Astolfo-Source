@@ -6,7 +6,7 @@ public final class HypixelServer extends Server {
    }
 
    @Override
-   public boolean m() {
+   public boolean isBrandValid() {
       return mc.thePlayer.getClientBrand().toLowerCase().contains("hypixel");
    }
 }

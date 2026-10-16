@@ -11,9 +11,9 @@ public final class IsFriend extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
-         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         Entity entity = WorldLibrary.entitiesById.get(luaValue.checkint());
          if (entity instanceof EntityLivingBase) {
-            return valueOf(ClientAccess.client.getRelationManager().z(entity));
+            return valueOf(ClientAccess.client.getRelationManager().isFriend(entity));
          }
       }
 

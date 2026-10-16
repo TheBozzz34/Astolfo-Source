@@ -4,5 +4,5 @@ public enum FastUseMode {
    VANILLA,
    SENTINEL;
 
-   private static final FastUseMode[] F = new FastUseMode[]{VANILLA, SENTINEL};
+   private static final FastUseMode[] VALUES = new FastUseMode[]{VANILLA, SENTINEL};
 }

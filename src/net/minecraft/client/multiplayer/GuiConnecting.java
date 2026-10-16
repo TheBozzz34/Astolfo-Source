@@ -102,13 +102,13 @@ public class GuiConnecting extends GuiScreen {
    }
 
    private InetAddress a(String string) throws UnknownHostException {
-      VFAddressParser vfAddressParser = new VFAddressParser().c(string);
-      if (vfAddressParser.m == null) {
+      VFAddressParser vfAddressParser = new VFAddressParser().parse(string);
+      if (vfAddressParser.viaSuffix == null) {
          return InetAddress.getByName(string);
       }
 
-      InetAddress inetAddress = InetAddress.getByName(vfAddressParser.p);
-      return InetAddress.getByAddress(inetAddress.getHostName() + "." + vfAddressParser.m, inetAddress.getAddress());
+      InetAddress inetAddress = InetAddress.getByName(vfAddressParser.serverAddress);
+      return InetAddress.getByAddress(inetAddress.getHostName() + "." + vfAddressParser.viaSuffix, inetAddress.getAddress());
    }
 
    @Override

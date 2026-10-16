@@ -11,13 +11,13 @@ public enum BaseColor {
    ORANGE(new Color(243, 156, 18)),
    WHITE(Color.WHITE);
 
-   private Color u;
+   private Color color;
 
    BaseColor(Color color) {
-      this.u = color;
+      this.color = color;
    }
 
-   public Color z() {
-      return this.u;
+   public Color getColor() {
+      return this.color;
    }
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class HolyAndPirateKillMessages {
    public HolyAndPirateKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was smote from afar by (\\w{1,16}).*",

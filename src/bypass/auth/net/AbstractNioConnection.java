@@ -6,15 +6,15 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
 public abstract class AbstractNioConnection implements NioConnection {
-   public Selector K;
+   public Selector selector;
 
    @Override
-   public void g(SocketChannel socketChannel) throws IOException {
-      this.K = Selector.open();
+   public void start(SocketChannel socketChannel) throws IOException {
+      this.selector = Selector.open();
    }
 
    @Override
-   public void p(SocketChannel socketChannel, int i) throws ClosedChannelException {
-      socketChannel.register(this.K, i);
+   public void registerChannel(SocketChannel socketChannel, int i) throws ClosedChannelException {
+      socketChannel.register(this.selector, i);
    }
 }

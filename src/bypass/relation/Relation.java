@@ -4,37 +4,37 @@ import bypass.manager.JsonSerializable;
 import com.google.gson.JsonObject;
 
 public class Relation implements JsonSerializable<JsonObject> {
-   private final String u;
-   private final String P;
-   private final boolean X;
+   private final String name;
+   private final String nickname;
+   private final boolean friend;
 
    public Relation(String string, String string2, boolean bl) {
-      this.u = string;
-      this.P = string2.trim().equals("") ? string : string2;
-      this.X = bl;
+      this.name = string;
+      this.nickname = string2.trim().equals("") ? string : string2;
+      this.friend = bl;
    }
 
-   public String i() {
-      return this.u;
+   public String getName() {
+      return this.name;
    }
 
-   public String m() {
-      return this.P;
+   public String getNickname() {
+      return this.nickname;
    }
 
-   public boolean z() {
-      return this.X;
+   public boolean isFriend() {
+      return this.friend;
    }
 
    @Override
-   public String c() {
-      return this.i();
+   public String getKey() {
+      return this.getName();
    }
 
-   public JsonObject V() {
+   public JsonObject toJson() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("nickname", this.m());
-      jsonObject.addProperty("protected", this.z());
+      jsonObject.addProperty("nickname", this.getNickname());
+      jsonObject.addProperty("protected", this.isFriend());
       return jsonObject;
    }
 }

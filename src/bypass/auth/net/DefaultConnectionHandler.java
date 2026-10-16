@@ -9,8 +9,8 @@ public final class DefaultConnectionHandler extends AbstractConnectionHandler {
    }
 
    @Override
-   public void c(SocketChannel socketChannel) throws IOException {
+   public void handleConnected(SocketChannel socketChannel) throws IOException {
       socketChannel.configureBlocking(false);
-      super.c(socketChannel);
+      super.handleConnected(socketChannel);
    }
 }

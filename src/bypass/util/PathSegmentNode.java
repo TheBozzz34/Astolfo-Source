@@ -3,101 +3,101 @@ package bypass.util;
 import java.util.ArrayList;
 
 public class PathSegmentNode {
-   private Vector3 l;
-   private PathSegmentNode u;
-   private ArrayList<Vector3> C;
-   private double T;
-   private double o;
-   private double n;
-   public final PathSegment N;
+   private Vector3 position;
+   private PathSegmentNode parent;
+   private ArrayList<Vector3> path;
+   private double heuristic;
+   private double stepCost;
+   private double totalCost;
+   public final PathSegment segment;
 
    public PathSegmentNode(PathSegment pathSegment, Vector3 vector3, PathSegmentNode pathSegmentNode, ArrayList arrayList, double d, double d2, double d3) {
-      this.N = pathSegment;
-      this.l = vector3;
-      this.u = pathSegmentNode;
-      this.C = arrayList;
-      this.T = d;
-      this.o = d2;
-      this.n = d3;
+      this.segment = pathSegment;
+      this.position = vector3;
+      this.parent = pathSegmentNode;
+      this.path = arrayList;
+      this.heuristic = d;
+      this.stepCost = d2;
+      this.totalCost = d3;
    }
 
-   private Vector3 D() {
-      return this.l;
+   private Vector3 getPosition() {
+      return this.position;
    }
 
-   private void D(Vector3 vector3) {
-      this.l = vector3;
+   private void setPosition(Vector3 vector3) {
+      this.position = vector3;
    }
 
-   public PathSegmentNode M_rtx() {
-      return this.u;
+   public PathSegmentNode getParent() {
+      return this.parent;
    }
 
-   public void l(PathSegmentNode pathSegmentNode) {
-      this.u = pathSegmentNode;
+   public void setParent(PathSegmentNode pathSegmentNode) {
+      this.parent = pathSegmentNode;
    }
 
-   public ArrayList<Vector3> K() {
-      return this.C;
+   public ArrayList<Vector3> getPath() {
+      return this.path;
    }
 
-   public void P(ArrayList<Vector3> arrayList) {
-      this.C = arrayList;
+   public void setPath(ArrayList<Vector3> arrayList) {
+      this.path = arrayList;
    }
 
-   private double f() {
-      return this.T;
+   private double getHeuristic() {
+      return this.heuristic;
    }
 
-   private void L(double d) {
-      this.T = d;
+   private void setHeuristic(double d) {
+      this.heuristic = d;
    }
 
-   private double M() {
-      return this.o;
+   private double getStepCost() {
+      return this.stepCost;
    }
 
-   private void s(double d) {
-      this.o = d;
+   private void setStepCost(double d) {
+      this.stepCost = d;
    }
 
-   private double j() {
-      return this.n;
+   private double getTotalCost() {
+      return this.totalCost;
    }
 
-   private void X(double d) {
-      this.n = d;
+   private void setTotalCost(double d) {
+      this.totalCost = d;
    }
 
-   public static Vector3 i(PathSegmentNode pathSegmentNode) {
-      return pathSegmentNode.D();
+   public static Vector3 getPositionOf(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.getPosition();
    }
 
-   public static double X(PathSegmentNode pathSegmentNode) {
-      return pathSegmentNode.j();
+   public static double getTotalCostOf(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.getTotalCost();
    }
 
-   public static double T(PathSegmentNode pathSegmentNode) {
-      return pathSegmentNode.M();
+   public static double getStepCostOf(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.getStepCost();
    }
 
-   public static void R(PathSegmentNode pathSegmentNode, Vector3 vector3) {
-      pathSegmentNode.D(vector3);
+   public static void setPositionOf(PathSegmentNode pathSegmentNode, Vector3 vector3) {
+      pathSegmentNode.setPosition(vector3);
    }
 
-   public static void z(PathSegmentNode pathSegmentNode, double d) {
-      pathSegmentNode.L(d);
+   public static void setHeuristicOf(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.setHeuristic(d);
    }
 
-   public static void s(PathSegmentNode pathSegmentNode, double d) {
-      pathSegmentNode.s(d);
+   public static void setStepCostOf(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.setStepCost(d);
    }
 
-   public static void K(PathSegmentNode pathSegmentNode, double d) {
-      pathSegmentNode.X(d);
+   public static void setTotalCostOf(PathSegmentNode pathSegmentNode, double d) {
+      pathSegmentNode.setTotalCost(d);
    }
 
-   public static double z(PathSegmentNode pathSegmentNode) {
-      return pathSegmentNode.f();
+   public static double getHeuristicOf(PathSegmentNode pathSegmentNode) {
+      return pathSegmentNode.getHeuristic();
    }
 }

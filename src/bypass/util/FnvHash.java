@@ -3,54 +3,54 @@ package bypass.util;
 import java.math.BigInteger;
 
 public class FnvHash {
-   private static final BigInteger m = new BigInteger("811c9dc5", 16);
-   private static final BigInteger y = new BigInteger("cbf29ce484222325", 16);
-   private static final BigInteger X = new BigInteger("01000193", 16);
-   private static final BigInteger B = new BigInteger("100000001b3", 16);
-   private static final BigInteger r = new BigInteger("2").pow(32);
-   private static final BigInteger q = new BigInteger("2").pow(64);
+   private static final BigInteger FNV32_OFFSET_BASIS = new BigInteger("811c9dc5", 16);
+   private static final BigInteger FNV64_OFFSET_BASIS = new BigInteger("cbf29ce484222325", 16);
+   private static final BigInteger FNV32_PRIME = new BigInteger("01000193", 16);
+   private static final BigInteger FNV64_PRIME = new BigInteger("100000001b3", 16);
+   private static final BigInteger MOD_32 = new BigInteger("2").pow(32);
+   private static final BigInteger MOD_64 = new BigInteger("2").pow(64);
 
-   public BigInteger X(byte[] bytes) {
-      BigInteger bigInteger = m;
+   public BigInteger fnv1Hash32(byte[] bytes) {
+      BigInteger bigInteger = FNV32_OFFSET_BASIS;
 
       for (byte b : bytes) {
-         bigInteger = bigInteger.multiply(X).mod(r);
+         bigInteger = bigInteger.multiply(FNV32_PRIME).mod(MOD_32);
          bigInteger = bigInteger.xor(BigInteger.valueOf(b & 0xFF));
       }
 
       return bigInteger;
    }
 
-   public BigInteger o(byte[] bytes) {
-      BigInteger bigInteger = y;
+   public BigInteger fnv1Hash64(byte[] bytes) {
+      BigInteger bigInteger = FNV64_OFFSET_BASIS;
 
       for (byte b : bytes) {
-         bigInteger = bigInteger.multiply(B).mod(q);
+         bigInteger = bigInteger.multiply(FNV64_PRIME).mod(MOD_64);
          bigInteger = bigInteger.xor(BigInteger.valueOf(b & 0xFF));
       }
 
       return bigInteger;
    }
 
-   public BigInteger h(byte[] bytes) {
-      BigInteger bigInteger = m;
+   public BigInteger fnv1aHash32(byte[] bytes) {
+      BigInteger bigInteger = FNV32_OFFSET_BASIS;
 
       for (byte b : bytes) {
          bigInteger = bigInteger.xor(BigInteger.valueOf(b & 0xFF));
-         bigInteger = bigInteger.multiply(X).mod(r);
+         bigInteger = bigInteger.multiply(FNV32_PRIME).mod(MOD_32);
       }
 
       return bigInteger;
    }
 
-   public BigInteger s(byte[] bytes) {
-      BigInteger bigInteger = y;
+   public BigInteger fnv1aHash64(byte[] bytes) {
+      BigInteger bigInteger = FNV64_OFFSET_BASIS;
       int i = 0;
 
       for (int j = bytes.length; i < j; i++) {
          byte b = bytes[i];
          bigInteger = bigInteger.xor(BigInteger.valueOf(b & 0xFF));
-         bigInteger = bigInteger.multiply(B).mod(q);
+         bigInteger = bigInteger.multiply(FNV64_PRIME).mod(MOD_64);
       }
 
       return bigInteger;

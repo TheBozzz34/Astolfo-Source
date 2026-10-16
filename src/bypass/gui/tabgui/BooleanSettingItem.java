@@ -4,21 +4,21 @@ import bypass.gui.TabGui;
 import bypass.setting.BooleanSetting;
 
 public class BooleanSettingItem extends TabGuiItem {
-   private final BooleanSetting w;
+   private final BooleanSetting setting;
 
    public BooleanSettingItem(TabGui.Panel panel, BooleanSetting booleanSetting) {
       super(panel);
-      this.w = booleanSetting;
+      this.setting = booleanSetting;
    }
 
    @Override
-   public String L() {
-      return (this.w.getValue() ? "§f" : "§7") + this.w.getName();
+   public String getDisplayText() {
+      return (this.setting.getValue() ? "§f" : "§7") + this.setting.getName();
    }
 
    @Override
    public void onPress() {
-      this.w.set(!this.w.getValue());
+      this.setting.set(!this.setting.getValue());
    }
 
    @Override

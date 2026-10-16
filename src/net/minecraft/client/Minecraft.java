@@ -385,7 +385,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    private void startGame() throws LWJGLException, IOException {
-      SplashScreen.e(1);
+      SplashScreen.setProgress(1);
       this.gameSettings = new GameSettings(this, this.mcDataDir);
       this.defaultResourcePacks.add(this.mcDefaultResourcePack);
       this.startTimerHackThread();
@@ -410,7 +410,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.mcResourceManager.registerReloadListener(this.mcLanguageManager);
       this.refreshResources();
       this.renderEngine = new TextureManager(this.mcResourceManager);
-      SplashScreen.e(2);
+      SplashScreen.setProgress(2);
       this.mcResourceManager.registerReloadListener(this.renderEngine);
       this.drawSplashScreen(this.renderEngine);
       this.skinManager = new SkinManager(this.renderEngine, new File(this.fileAssets, "skins"), this.sessionService);
@@ -419,7 +419,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.mcResourceManager.registerReloadListener(this.mcSoundHandler);
       this.mcMusicTicker = new MusicTicker(this);
       this.fontRendererObj = new FontRenderer(this.gameSettings, new ResourceLocation("textures/font/ascii.png"), this.renderEngine, false);
-      SplashScreen.e(3);
+      SplashScreen.setProgress(3);
       Astolfo.INSTANCE.setFontRenderer(new FontRenderer(this.gameSettings, new ResourceLocation("client/font/bit.png"), this.renderEngine, false));
       if (this.gameSettings.language != null) {
          this.fontRendererObj.setUnicodeFlag(this.isUnicode());
@@ -465,7 +465,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.mcResourceManager.registerReloadListener(this.modelManager);
       this.renderItem = new RenderItem(this.renderEngine, this.modelManager);
       this.renderManager = new RenderManager(this.renderEngine, this.renderItem);
-      SplashScreen.e(4);
+      SplashScreen.setProgress(4);
       this.itemRenderer = new ItemRenderer(this);
       this.mcResourceManager.registerReloadListener(this.renderItem);
       this.entityRenderer = new EntityRenderer(this, this.mcResourceManager);
@@ -477,16 +477,16 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       this.guiAchievement = new GuiAchievement(this);
       GlStateManager.viewport(0, 0, this.displayWidth, this.displayHeight);
       this.effectRenderer = new EffectRenderer(this.theWorld, this.renderEngine);
-      SplashScreen.e(5);
+      SplashScreen.setProgress(5);
       this.checkGLError("Post startup");
-      ValueCheckers.INSTANCE.C();
+      ValueCheckers.INSTANCE.initialize();
       Astolfo.INSTANCE.load();
-      SplashScreen.e(6);
+      SplashScreen.setProgress(6);
       this.ingameGUI = new GuiIngame(this);
       this.displayGuiScreen(new LoginScreen());
       this.renderEngine.deleteTexture(this.mojangLogo);
       this.mojangLogo = null;
-      SplashScreen.e(7);
+      SplashScreen.setProgress(7);
       this.loadingScreen = new LoadingScreenRenderer(this);
       if (this.gameSettings.fullScreen && !this.fullscreen) {
          this.toggleFullscreen();
@@ -703,7 +703,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    private void drawSplashScreen(TextureManager textureManagerInstance) throws LWJGLException {
-      SplashScreen.h(textureManagerInstance);
+      SplashScreen.render(textureManagerInstance);
    }
 
    public void draw(int posX, int posY, int texU, int texV, int width, int height, int red, int green, int blue, int alpha) {
@@ -756,7 +756,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    public static int getLoadState() {
       int i = 0;
 
-      for (LoadStage loadStage : Astolfo.INSTANCE.x().e().a().L().getValue()) {
+      for (LoadStage loadStage : Astolfo.INSTANCE.getLoaderGuard().getStageList().getStageContainer().getOwnedContainer().getValue()) {
          i += loadStage.getState();
       }
 
@@ -1580,10 +1580,10 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          while (this.gameSettings.keyBindInventory.h()) {
             if (this.playerController.d()) {
                this.thePlayer.v_void();
-            } else if (Astolfo.INSTANCE.getModuleManager().get(HideWindow.class).isEnabled() && HideWindow.w != null) {
-               HideWindow.w.inventorySlots = this.thePlayer.inventoryContainer;
-               this.thePlayer.displayGUIChest(HideWindow.w.lowerChestInventory);
-               this.thePlayer.openContainer.windowId = HideWindow.W;
+            } else if (Astolfo.INSTANCE.getModuleManager().get(HideWindow.class).isEnabled() && HideWindow.hiddenChest != null) {
+               HideWindow.hiddenChest.inventorySlots = this.thePlayer.inventoryContainer;
+               this.thePlayer.displayGUIChest(HideWindow.hiddenChest.lowerChestInventory);
+               this.thePlayer.openContainer.windowId = HideWindow.hiddenWindowId;
             } else {
                this.displayGuiScreen(new GuiInventory(this.thePlayer));
                this.getNetHandler().addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));

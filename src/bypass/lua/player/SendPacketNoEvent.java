@@ -130,7 +130,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                   switch (i) {
                      case 2:
                         if (luaValue2.isint() && luaValue3.isint()) {
-                           Entity entity = WorldLibrary.X.get(luaValue2.checkint());
+                           Entity entity = WorldLibrary.entitiesById.get(luaValue2.checkint());
                            if (entity instanceof EntityLivingBase) {
                               ClientAccess.mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.values()[luaValue3.checkint() - 1]));
                               return valueOf(true);

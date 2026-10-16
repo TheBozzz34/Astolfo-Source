@@ -12,33 +12,33 @@ import org.luaj.vm2.lib.TwoArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 
 public class OsLibrary extends TwoArgFunction {
-   private static final int R = 2;
-   private static final int u = 3;
-   private static final int v = 4;
-   private static final int C = 5;
-   private static final int E = 6;
-   private static final int U = 7;
-   private static final int l = 8;
-   private static final int o = 9;
-   private static final int O = 10;
-   private static final String[] n = new String[]{"clock", "date", "difftime", "execute", "exit", "getenv", "remove", "rename", "setlocale", "time"};
-   private static final long W = System.currentTimeMillis();
-   private static long p = W;
-   public Globals y;
-   private static final String[] d = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-   private static final String[] g = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-   private static final String[] Q = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-   private static final String[] X = new String[]{
+   private static final int DIFFTIME = 2;
+   private static final int EXECUTE = 3;
+   private static final int EXIT = 4;
+   private static final int GETENV = 5;
+   private static final int REMOVE = 6;
+   private static final int RENAME = 7;
+   private static final int SETLOCALE = 8;
+   private static final int TIME = 9;
+   private static final int TMPNAME = 10;
+   private static final String[] NAMES = new String[]{"clock", "date", "difftime", "execute", "exit", "getenv", "remove", "rename", "setlocale", "time"};
+   private static final long START_TIME_MILLIS = System.currentTimeMillis();
+   private static long tmpNameCounter = START_TIME_MILLIS;
+   public Globals globals;
+   private static final String[] WEEKDAY_NAMES_ABBREV = new String[]{"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+   private static final String[] WEEKDAY_NAMES = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+   private static final String[] MONTH_NAMES_ABBREV = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+   private static final String[] MONTH_NAMES = new String[]{
       "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
    };
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      this.y = luaValue2.checkglobals();
+      this.globals = luaValue2.checkglobals();
       LuaTable luaTable = new LuaTable();
 
-      for (int i = 0; i < n.length; i++) {
-         luaTable.set(n[i], new OsLibrary.pp(i, n[i]));
+      for (int i = 0; i < NAMES.length; i++) {
+         luaTable.set(NAMES[i], new OsLibrary.pp(i, NAMES[i]));
       }
 
       luaValue2.set("os", luaTable);
@@ -49,20 +49,20 @@ public class OsLibrary extends TwoArgFunction {
       return luaTable;
    }
 
-   public double n() {
-      return (System.currentTimeMillis() - W) / 1000.0;
+   public double clock() {
+      return (System.currentTimeMillis() - START_TIME_MILLIS) / 1000.0;
    }
 
-   public double k(double d2, double d3) {
-      return d2 - d3;
+   public double difftime(double d, double d2) {
+      return d - d2;
    }
 
-   public String x(String string, double d2) {
+   public String date(String string, double d) {
       Calendar calendar = Calendar.getInstance();
-      calendar.setTime(new Date((long)(d2 * 1000.0)));
+      calendar.setTime(new Date((long)(d * 1000.0)));
       if (string.startsWith("!")) {
-         d2 -= this.O(calendar);
-         calendar.setTime(new Date((long)(d2 * 1000.0)));
+         d -= this.getTimeZoneOffset(calendar);
+         calendar.setTime(new Date((long)(d * 1000.0)));
          string = string.substring(1);
       }
 
@@ -151,10 +151,10 @@ public class OsLibrary extends TwoArgFunction {
                         LuaValue.argerror(1, "invalid conversion specifier '%" + b2 + "'");
                         break;
                      case 65:
-                        buffer.append(g[calendar.get(7) - 1]);
+                        buffer.append(WEEKDAY_NAMES[calendar.get(7) - 1]);
                         break;
                      case 66:
-                        buffer.append(X[calendar.get(2)]);
+                        buffer.append(MONTH_NAMES[calendar.get(2)]);
                         break;
                      case 72:
                         buffer.append(String.valueOf(100 + calendar.get(11)).substring(1));
@@ -169,31 +169,31 @@ public class OsLibrary extends TwoArgFunction {
                         buffer.append(String.valueOf(100 + calendar.get(13)).substring(1));
                         break;
                      case 85:
-                        buffer.append(String.valueOf(this.c(calendar, 0)));
+                        buffer.append(String.valueOf(this.getWeekNumber(calendar, 0)));
                         break;
                      case 87:
-                        buffer.append(String.valueOf(this.c(calendar, 1)));
+                        buffer.append(String.valueOf(this.getWeekNumber(calendar, 1)));
                         break;
                      case 88:
-                        buffer.append(this.x("%H:%M:%S", d2));
+                        buffer.append(this.date("%H:%M:%S", d));
                         break;
                      case 89:
                         buffer.append(String.valueOf(calendar.get(1)));
                         break;
                      case 97:
-                        buffer.append(d[calendar.get(7) - 1]);
+                        buffer.append(WEEKDAY_NAMES_ABBREV[calendar.get(7) - 1]);
                         break;
                      case 98:
-                        buffer.append(Q[calendar.get(2)]);
+                        buffer.append(MONTH_NAMES_ABBREV[calendar.get(2)]);
                         break;
                      case 99:
-                        buffer.append(this.x("%a %b %d %H:%M:%S %Y", d2));
+                        buffer.append(this.date("%a %b %d %H:%M:%S %Y", d));
                         break;
                      case 100:
                         buffer.append(String.valueOf(100 + calendar.get(5)).substring(1));
                         break;
                      case 106:
-                        Calendar calendar2 = this.n(calendar);
+                        Calendar calendar2 = this.getStartOfYear(calendar);
                         int k = (int)((calendar.getTime().getTime() - calendar2.getTime().getTime()) / 86400000L);
                         buffer.append(String.valueOf(1001 + k).substring(1));
                         break;
@@ -207,13 +207,13 @@ public class OsLibrary extends TwoArgFunction {
                         buffer.append(String.valueOf((calendar.get(7) + 6) % 7));
                         break;
                      case 120:
-                        buffer.append(this.x("%m/%d/%y", d2));
+                        buffer.append(this.date("%m/%d/%y", d));
                         break;
                      case 121:
                         buffer.append(String.valueOf(calendar.get(1)).substring(2));
                         break;
                      case 122:
-                        int l = this.O(calendar) / 60;
+                        int l = this.getTimeZoneOffset(calendar) / 60;
                         int i2 = Math.abs(l);
                         String string2 = String.valueOf(100 + i2 / 60).substring(1);
                         String string3 = String.valueOf(100 + i2 % 60).substring(1);
@@ -229,7 +229,7 @@ public class OsLibrary extends TwoArgFunction {
       return buffer.tojstring();
    }
 
-   private Calendar n(Calendar calendar) {
+   private Calendar getStartOfYear(Calendar calendar) {
       Calendar calendar2 = Calendar.getInstance();
       calendar2.setTime(calendar.getTime());
       calendar2.set(2, 0);
@@ -241,8 +241,8 @@ public class OsLibrary extends TwoArgFunction {
       return calendar2;
    }
 
-   private int c(Calendar calendar, int i) {
-      Calendar calendar2 = this.n(calendar);
+   private int getWeekNumber(Calendar calendar, int i) {
+      Calendar calendar2 = this.getStartOfYear(calendar);
       calendar2.set(5, 1 + (i + 8 - calendar2.get(7)) % 7);
       if (calendar2.after(calendar)) {
          calendar2.set(1, calendar2.get(1) - 1);
@@ -253,37 +253,37 @@ public class OsLibrary extends TwoArgFunction {
       return 1 + (int)(l / 604800000L);
    }
 
-   private int O(Calendar calendar) {
+   private int getTimeZoneOffset(Calendar calendar) {
       int i = (calendar.get(11) * 3600 + calendar.get(12) * 60 + calendar.get(13)) * 1000;
       return calendar.getTimeZone().getOffset(1, calendar.get(1), calendar.get(2), calendar.get(5), calendar.get(7), i) / 1000;
    }
 
-   private boolean S(Calendar calendar) {
-      return this.O(calendar) != calendar.getTimeZone().getRawOffset() / 1000;
+   private boolean isDaylightSavingTime(Calendar calendar) {
+      return this.getTimeZoneOffset(calendar) != calendar.getTimeZone().getRawOffset() / 1000;
    }
 
-   public Varargs q(String string) {
+   public Varargs execute(String string) {
       return varargsOf(new LuaValue[]{NIL});
    }
 
-   public void C(int i) {
+   public void exit(int i) {
    }
 
-   public String j(String string) {
+   public String getenv(String string) {
       return "";
    }
 
-   public void k(String string) throws IOException {
+   public void remove(String string) throws IOException {
    }
 
-   public void S(String string, String string2) throws IOException {
+   public void rename(String string, String string2) throws IOException {
    }
 
-   public String G(String string, String string2) {
+   public String setlocale(String string, String string2) {
       return "C";
    }
 
-   public double D(LuaTable luaTable) {
+   public double time(LuaTable luaTable) {
       Date date;
       if (luaTable == null) {
          date = new Date();
@@ -302,8 +302,8 @@ public class OsLibrary extends TwoArgFunction {
       return date.getTime() / 1000.0;
    }
 
-   public static boolean k(OsLibrary osLibrary, Calendar calendar) {
-      return osLibrary.S(calendar);
+   public static boolean accessIsDaylightSavingTime(OsLibrary osLibrary, Calendar calendar) {
+      return osLibrary.isDaylightSavingTime(calendar);
    }
 
    public class pp extends VarArgFunction {
@@ -316,10 +316,10 @@ public class OsLibrary extends TwoArgFunction {
       public Varargs invoke(Varargs varargs) {
          switch (this.opcode) {
             case 0:
-               return valueOf(OsLibrary.this.n());
+               return valueOf(OsLibrary.this.clock());
             case 1:
                String string = varargs.optjstring(1, "%c");
-               double d = varargs.isnumber(2) ? varargs.todouble(2) : OsLibrary.this.D((LuaTable)null);
+               double d = varargs.isnumber(2) ? varargs.todouble(2) : OsLibrary.this.time((LuaTable)null);
                if (string.equals("*t")) {
                   Calendar calendar = Calendar.getInstance();
                   calendar.setTime(new Date((long)(d * 1000.0)));
@@ -332,28 +332,28 @@ public class OsLibrary extends TwoArgFunction {
                   luaTable.set("sec", LuaValue.valueOf(calendar.get(13)));
                   luaTable.set("wday", LuaValue.valueOf(calendar.get(7)));
                   luaTable.set("yday", LuaValue.valueOf(calendar.get(6)));
-                  luaTable.set("isdst", LuaValue.valueOf(OsLibrary.k(OsLibrary.this, calendar)));
+                  luaTable.set("isdst", LuaValue.valueOf(OsLibrary.accessIsDaylightSavingTime(OsLibrary.this, calendar)));
                   return luaTable;
                }
 
-               return valueOf(OsLibrary.this.x(string, d == -1.0 ? OsLibrary.this.D((LuaTable)null) : d));
+               return valueOf(OsLibrary.this.date(string, d == -1.0 ? OsLibrary.this.time((LuaTable)null) : d));
             case 2:
-               return valueOf(OsLibrary.this.k(varargs.checkdouble(1), varargs.checkdouble(2)));
+               return valueOf(OsLibrary.this.difftime(varargs.checkdouble(1), varargs.checkdouble(2)));
             case 3:
             case 4:
                return NONE;
             case 5:
-               String string2 = OsLibrary.this.j(varargs.checkjstring(1));
+               String string2 = OsLibrary.this.getenv(varargs.checkjstring(1));
                return string2 != null ? valueOf(string2) : NIL;
             case 6:
                return LuaValue.TRUE;
             case 7:
                return LuaValue.TRUE;
             case 8:
-               String string3 = OsLibrary.this.G(varargs.optjstring(1, (String)null), varargs.optjstring(2, "all"));
+               String string3 = OsLibrary.this.setlocale(varargs.optjstring(1, (String)null), varargs.optjstring(2, "all"));
                return string3 != null ? valueOf(string3) : NIL;
             case 9:
-               return valueOf(OsLibrary.this.D(varargs.opttable(1, (LuaTable)null)));
+               return valueOf(OsLibrary.this.time(varargs.opttable(1, (LuaTable)null)));
             default:
                return NONE;
          }

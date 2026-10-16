@@ -37,68 +37,68 @@ import java.net.InetSocketAddress;
 import java.util.Collections;
 
 public class AuthConnection implements ClientAccess {
-   private final PacketOutput g;
-   private final ChannelGroup q;
-   private final Channel W;
-   private final SocketConnection O;
-   private final Connector A;
-   private final PacketHandlers R = new PacketHandlers();
+   private final PacketOutput packetOutput;
+   private final ChannelGroup channelGroup;
+   private final Channel packetChannel;
+   private final SocketConnection socketConnection;
+   private final Connector connector;
+   private final PacketHandlers packetHandlers = new PacketHandlers();
 
    public AuthConnection() {
-      this.g = PacketWriters.U()
-         .y((short)562, new LoginPacketWriter())
-         .y((short)237, new IntWriter())
-         .y((short)635, new LoginPacketWriter())
-         .y((short)236, new UserListWriter())
-         .y((short)926, new IrcMessageWriter())
-         .y((short)863, new BansWriter())
-         .y((short)469, new StringWriter())
-         .y((short)452, new StringWriter())
-         .P();
-      this.q = ImmutableChannelGroup.g()
-         .H(
+      this.packetOutput = PacketWriters.newBuilder()
+         .withWriter((short)562, new LoginPacketWriter())
+         .withWriter((short)237, new IntWriter())
+         .withWriter((short)635, new LoginPacketWriter())
+         .withWriter((short)236, new UserListWriter())
+         .withWriter((short)926, new IrcMessageWriter())
+         .withWriter((short)863, new BansWriter())
+         .withWriter((short)469, new StringWriter())
+         .withWriter((short)452, new StringWriter())
+         .build();
+      this.channelGroup = ImmutableChannelGroup.newBuilder()
+         .withChannel(
             "packet",
-            PacketChannel.U()
-               .z(new DisconnectHandler())
-               .V((short)623, new IntReader())
-               .V((short)672, new LoginResponseReader())
-               .V((short)831, new ServerCommandReader())
-               .V((short)723, new UserListReader())
-               .V((short)732, new IrcMessageReader())
-               .V((short)373, new StringReader())
-               .V((short)892, new BansReader())
-               .V((short)864, new NickReader())
-               .Z((short)723, Collections.singletonList(object -> this.R.handle((short)723, object, this.g)))
-               .Z((short)732, Collections.singletonList(object2 -> this.R.handle((short)732, object2, this.g)))
-               .Z((short)672, Collections.singletonList(object3 -> this.R.handle((short)672, object3, this.g)))
-               .Z((short)623, Collections.singletonList(object4 -> this.R.handle((short)623, object4, this.g)))
-               .Z((short)864, Collections.singletonList(object5 -> this.R.handle((short)864, object5, this.g)))
-               .Z((short)831, Collections.singletonList(object6 -> this.R.handle((short)831, object6, this.g)))
-               .Z((short)373, Collections.singletonList(object7 -> this.R.handle((short)373, object7, this.g)))
-               .Z((short)892, Collections.singletonList(object8 -> this.R.handle((short)892, object8, this.g)))
-               .Q(this.g)
-               .a(new DefaultConnectionHandlerFactory(new DefaultSelectorRegistrar()))
-               .K(
-                  () -> this.Z(
-                     () -> this.Z(
-                        () -> this.Z(
-                           () -> this.Z(
-                              () -> this.Z(
-                                 () -> this.Z(
-                                    () -> this.Z(
-                                       () -> this.Z(
-                                          () -> this.Z(
-                                             () -> this.Z(
-                                                () -> this.Z(
-                                                   () -> this.Z(
-                                                      () -> this.Z(
+            PacketChannel.newBuilder()
+               .withConnectionListener(new DisconnectHandler())
+               .withReader((short)623, new IntReader())
+               .withReader((short)672, new LoginResponseReader())
+               .withReader((short)831, new ServerCommandReader())
+               .withReader((short)723, new UserListReader())
+               .withReader((short)732, new IrcMessageReader())
+               .withReader((short)373, new StringReader())
+               .withReader((short)892, new BansReader())
+               .withReader((short)864, new NickReader())
+               .withListeners((short)723, Collections.singletonList(object -> this.packetHandlers.handle((short)723, object, this.packetOutput)))
+               .withListeners((short)732, Collections.singletonList(object2 -> this.packetHandlers.handle((short)732, object2, this.packetOutput)))
+               .withListeners((short)672, Collections.singletonList(object3 -> this.packetHandlers.handle((short)672, object3, this.packetOutput)))
+               .withListeners((short)623, Collections.singletonList(object4 -> this.packetHandlers.handle((short)623, object4, this.packetOutput)))
+               .withListeners((short)864, Collections.singletonList(object5 -> this.packetHandlers.handle((short)864, object5, this.packetOutput)))
+               .withListeners((short)831, Collections.singletonList(object6 -> this.packetHandlers.handle((short)831, object6, this.packetOutput)))
+               .withListeners((short)373, Collections.singletonList(object7 -> this.packetHandlers.handle((short)373, object7, this.packetOutput)))
+               .withListeners((short)892, Collections.singletonList(object8 -> this.packetHandlers.handle((short)892, object8, this.packetOutput)))
+               .withPacketOutput(this.packetOutput)
+               .withHandlerFactory(new DefaultConnectionHandlerFactory(new DefaultSelectorRegistrar()))
+               .withConnectCallback(
+                  () -> this.runTask(
+                     () -> this.runTask(
+                        () -> this.runTask(
+                           () -> this.runTask(
+                              () -> this.runTask(
+                                 () -> this.runTask(
+                                    () -> this.runTask(
+                                       () -> this.runTask(
+                                          () -> this.runTask(
+                                             () -> this.runTask(
+                                                () -> this.runTask(
+                                                   () -> this.runTask(
+                                                      () -> this.runTask(
                                                          () -> {
                                                             if (DisconnectHandler.disconnected) {
                                                                mc.mouseHelper
                                                                   .Y()
                                                                   .getEndpoint()
-                                                                  .B()
-                                                                  .t()
+                                                                  .getConnection()
+                                                                  .getPacketOutput()
                                                                   .getSender()
                                                                   .send(
                                                                      (short)635,
@@ -114,8 +114,8 @@ public class AuthConnection implements ClientAccess {
                                                                mc.mouseHelper
                                                                   .Y()
                                                                   .getEndpoint()
-                                                                  .B()
-                                                                  .t()
+                                                                  .getConnection()
+                                                                  .getPacketOutput()
                                                                   .getSender()
                                                                   .send(
                                                                      (short)562,
@@ -127,8 +127,8 @@ public class AuthConnection implements ClientAccess {
                                                                         mc.autoLoginToken
                                                                      )
                                                                   );
-                                                               LoginScreen.p = true;
-                                                               LoginScreen.N.reset();
+                                                               LoginScreen.authenticating = true;
+                                                               LoginScreen.authTimer.reset();
                                                             }
                                                          }
                                                       )
@@ -145,41 +145,41 @@ public class AuthConnection implements ClientAccess {
                      )
                   )
                )
-               .A(Throwable::printStackTrace)
-               .C()
+               .withErrorHandler(Throwable::printStackTrace)
+               .build()
          )
-         .K();
-      this.W = this.q.get("packet");
-      this.O = (SocketConnection)this.W.K();
-      this.A = HandshakeConnector.l().d();
+         .build();
+      this.packetChannel = this.channelGroup.get("packet");
+      this.socketConnection = (SocketConnection)this.packetChannel.getConnection();
+      this.connector = HandshakeConnector.createFactory().createConnector();
    }
 
-   public void Z(Task task) {
-      task.c();
+   public void runTask(Task task) {
+      task.run();
    }
 
-   public void J(String string, int i) {
+   public void connect(String string, int i) {
       new Thread(() -> {
          try {
-            this.A.K(this.O, SocketChannelOpener.INSTANCE, new InetSocketAddress(string, i));
+            this.connector.connect(this.socketConnection, SocketChannelOpener.INSTANCE, new InetSocketAddress(string, i));
          } catch (IOException ioException) {
          }
       }).start();
    }
 
-   public SocketConnection J() {
-      return this.O;
+   public SocketConnection getSocketConnection() {
+      return this.socketConnection;
    }
 
-   public Channel g() {
-      return this.W;
+   public Channel getPacketChannel() {
+      return this.packetChannel;
    }
 
-   public PacketOutput t() {
-      return this.g;
+   public PacketOutput getPacketOutput() {
+      return this.packetOutput;
    }
 
-   public ChannelGroup o() {
-      return this.q;
+   public ChannelGroup getChannelGroup() {
+      return this.channelGroup;
    }
 }

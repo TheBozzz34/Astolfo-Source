@@ -3,5 +3,5 @@ package bypass.util;
 import net.minecraft.entity.Entity;
 
 public interface EntityFilter {
-   boolean j(Entity entity);
+   boolean matches(Entity entity);
 }

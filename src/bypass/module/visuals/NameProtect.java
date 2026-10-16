@@ -38,9 +38,9 @@ public final class NameProtect extends Module {
                      return;
                   }
 
-                  for (Relation relation : client.getRelationManager().n().values()) {
-                     if (string.contains(relation.m())) {
-                        string = string.replaceAll(relation.m(), relation.i());
+                  for (Relation relation : client.getRelationManager().getRelations().values()) {
+                     if (string.contains(relation.getNickname())) {
+                        string = string.replaceAll(relation.getNickname(), relation.getName());
                      }
                   }
 
@@ -60,7 +60,7 @@ public final class NameProtect extends Module {
 
                   while (iterator2.hasNext()) {
                      IChatComponent iChatComponent = (IChatComponent)iterator2.next();
-                     ChatComponentText chatComponentText2 = new ChatComponentText(this.v(iChatComponent.getUnformattedTextForChat(), iChatComponent.getFormattedText()));
+                     ChatComponentText chatComponentText2 = new ChatComponentText(this.replaceRelationNames(iChatComponent.getUnformattedTextForChat(), iChatComponent.getFormattedText()));
                      chatComponentText2.setChatStyle(iChatComponent.getChatStyle());
                      chatComponentText.appendSibling(chatComponentText2);
                   }
@@ -78,12 +78,12 @@ public final class NameProtect extends Module {
       this.addSettings(this.switchNames);
    }
 
-   public String v(String string, String string2) {
+   public String replaceRelationNames(String string, String string2) {
       String string3 = string;
 
       for (Relation relation : client.getRelationManager().getList()) {
-         if (string3.contains(relation.i())) {
-            List list = this.w(string2.split(relation.i())[0]);
+         if (string3.contains(relation.getName())) {
+            List list = this.getActiveFormatCodes(string2.split(relation.getName())[0]);
             StringBuilder stringBuilder = new StringBuilder();
 
             for (Object object : list) {
@@ -91,14 +91,14 @@ public final class NameProtect extends Module {
                stringBuilder.append("§").append(character);
             }
 
-            string3 = string3.replaceAll(relation.i(), (relation.z() ? "§b" : "§4") + relation.m() + stringBuilder);
+            string3 = string3.replaceAll(relation.getName(), (relation.isFriend() ? "§b" : "§4") + relation.getNickname() + stringBuilder);
          }
       }
 
       return string3;
    }
 
-   public List<Character> w(String string) {
+   public List<Character> getActiveFormatCodes(String string) {
       int i = string.length();
       char c = 'f';
       ArrayList arrayList = new ArrayList();

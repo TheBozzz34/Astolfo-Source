@@ -9,16 +9,16 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
 public final class RotationUtil implements ClientAccess {
-   public static Random j = new Random();
-   public static int P;
-   public static AimRotation y;
-   public static AimRotation A = new AimRotation(0.0F, 0.0F);
-   public static boolean X = false;
-   public static double G = j.nextDouble();
-   public static double z = j.nextDouble();
-   public static double q = j.nextDouble();
+   public static Random random = new Random();
+   public static int keepRotationTicks;
+   public static AimRotation targetRotation;
+   public static AimRotation serverRotation = new AimRotation(0.0F, 0.0F);
+   public static boolean rotationFlag = false;
+   public static double randomOffsetX = random.nextDouble();
+   public static double randomOffsetY = random.nextDouble();
+   public static double randomOffsetZ = random.nextDouble();
 
-   public static AimRotation E(Vec3 vec3, boolean bl) {
+   public static AimRotation getRotationTo(Vec3 vec3, boolean bl) {
       Vec3 vec32 = new Vec3(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
       if (bl) {
          vec32.addVector(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
@@ -33,7 +33,7 @@ public final class RotationUtil implements ClientAccess {
       );
    }
 
-   public static Vec3 l(AxisAlignedBB axisAlignedBB) {
+   public static Vec3 getBoxCenter(AxisAlignedBB axisAlignedBB) {
       return new Vec3(
          axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * 0.5,
          axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * 0.5,
@@ -41,22 +41,22 @@ public final class RotationUtil implements ClientAccess {
       );
    }
 
-   public static AimPoint Z(AxisAlignedBB axisAlignedBB, boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+   public static AimPoint findBestAimPoint(AxisAlignedBB axisAlignedBB, boolean bl, boolean bl2, boolean bl3, boolean bl4) {
       if (bl) {
          Vec3 vec3 = new Vec3(
-            axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * (G * 0.3 + 1.0),
-            axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * (z * 0.3 + 1.0),
-            axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * (q * 0.3 + 1.0)
+            axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * (randomOffsetX * 0.3 + 1.0),
+            axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * (randomOffsetY * 0.3 + 1.0),
+            axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * (randomOffsetZ * 0.3 + 1.0)
          );
-         return new AimPoint(vec3, E(vec3, bl3));
+         return new AimPoint(vec3, getRotationTo(vec3, bl3));
       }
 
       Vec3 vec32 = new Vec3(
-         axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * G * 0.8,
-         axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * z * 0.8,
-         axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * q * 0.8
+         axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * randomOffsetX * 0.8,
+         axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * randomOffsetY * 0.8,
+         axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * randomOffsetZ * 0.8
       );
-      AimRotation aimRotation = E(vec32, bl3);
+      AimRotation aimRotation = getRotationTo(vec32, bl3);
       AimPoint aimPoint = null;
 
       for (double d = 0.15; d < 0.85; d += 0.1) {
@@ -67,10 +67,15 @@ public final class RotationUtil implements ClientAccess {
                   axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * e,
                   axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * d2
                );
-               AimRotation aimRotation2 = E(vec33, bl3);
-               if (bl4 || n(vec33)) {
+               AimRotation aimRotation2 = getRotationTo(vec33, bl3);
+               if (bl4 || canSeePoint(vec33)) {
                   AimPoint aimPoint2 = new AimPoint(vec33, aimRotation2);
-                  if (aimPoint == null || (bl2 ? D(aimPoint2.r(), aimRotation) < D(aimPoint.r(), aimRotation) : G(aimPoint2.r()) < G(aimPoint.r()))) {
+                  if (aimPoint == null
+                     || (
+                        bl2
+                           ? getRotationDifference(aimPoint2.getRotation(), aimRotation) < getRotationDifference(aimPoint.getRotation(), aimRotation)
+                           : getDifferenceToServerRotation(aimPoint2.getRotation()) < getDifferenceToServerRotation(aimPoint.getRotation())
+                     )) {
                      aimPoint = aimPoint2;
                   }
                }
@@ -81,64 +86,67 @@ public final class RotationUtil implements ClientAccess {
       return aimPoint;
    }
 
-   public static double h(Entity entity) {
-      AimRotation aimRotation = E(l(entity.getEntityBoundingBox()), true);
-      return D(aimRotation, new AimRotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch));
+   public static double getRotationDifferenceToEntity(Entity entity) {
+      AimRotation aimRotation = getRotationTo(getBoxCenter(entity.getEntityBoundingBox()), true);
+      return getRotationDifference(aimRotation, new AimRotation(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch));
    }
 
-   public static double G(AimRotation aimRotation) {
-      return A == null ? 0.0 : D(aimRotation, A);
+   public static double getDifferenceToServerRotation(AimRotation aimRotation) {
+      return serverRotation == null ? 0.0 : getRotationDifference(aimRotation, serverRotation);
    }
 
-   public static double D(AimRotation aimRotation, AimRotation aimRotation2) {
-      return Math.hypot(h(aimRotation.r(), aimRotation2.r()), aimRotation.z() - aimRotation2.z());
+   public static double getRotationDifference(AimRotation aimRotation, AimRotation aimRotation2) {
+      return Math.hypot(getAngleDifference(aimRotation.getYaw(), aimRotation2.getYaw()), aimRotation.getPitch() - aimRotation2.getPitch());
    }
 
    @NotNull
-   public static AimRotation U(AimRotation aimRotation, AimRotation aimRotation2, float f) {
-      float g = h(aimRotation2.r(), aimRotation.r());
-      float f2 = h(aimRotation2.z(), aimRotation.z());
-      return new AimRotation(aimRotation.r() + (g > f ? f : Math.max(g, -f)), aimRotation.z() + (f2 > f ? f : Math.max(f2, -f)));
+   public static AimRotation limitRotationStep(AimRotation aimRotation, AimRotation aimRotation2, float f) {
+      float g = getAngleDifference(aimRotation2.getYaw(), aimRotation.getYaw());
+      float h = getAngleDifference(aimRotation2.getPitch(), aimRotation.getPitch());
+      return new AimRotation(aimRotation.getYaw() + (g > f ? f : Math.max(g, -f)), aimRotation.getPitch() + (h > f ? f : Math.max(h, -f)));
    }
 
-   private static float h(float f, float g) {
+   private static float getAngleDifference(float f, float g) {
       return ((f - g) % 360.0F + 540.0F) % 360.0F - 180.0F;
    }
 
-   public static Vec3 m(AimRotation aimRotation) {
-      float f = MathHelper.cos(-aimRotation.r() * (float) (Math.PI / 180.0) - (float) Math.PI);
-      float g = MathHelper.sin(-aimRotation.r() * (float) (Math.PI / 180.0) - (float) Math.PI);
-      float h = -MathHelper.cos(-aimRotation.z() * (float) (Math.PI / 180.0));
-      float f2 = MathHelper.sin(-aimRotation.z() * (float) (Math.PI / 180.0));
+   public static Vec3 getLookVector(AimRotation aimRotation) {
+      float f = MathHelper.cos(-aimRotation.getYaw() * (float) (Math.PI / 180.0) - (float) Math.PI);
+      float g = MathHelper.sin(-aimRotation.getYaw() * (float) (Math.PI / 180.0) - (float) Math.PI);
+      float h = -MathHelper.cos(-aimRotation.getPitch() * (float) (Math.PI / 180.0));
+      float f2 = MathHelper.sin(-aimRotation.getPitch() * (float) (Math.PI / 180.0));
       return new Vec3(g * h, f2, f * h);
    }
 
    public static boolean isFaced(Entity entity, double d) {
-      return RaycastUtil.r(d, entity2 -> entity2 == entity) != null;
+      return RaycastUtil.raycastEntity(d, entity2 -> entity2 == entity) != null;
    }
 
-   public static boolean n(Vec3 vec3) {
+   public static boolean canSeePoint(Vec3 vec3) {
       Vec3 vec32 = new Vec3(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
       return mc.theWorld.rayTraceBlocks(vec32, vec3) == null;
    }
 
-   public static void O(AimRotation aimRotation, boolean bl) {
-      K(aimRotation, 0, bl);
+   public static void setTargetRotation(AimRotation aimRotation, boolean bl) {
+      setTargetRotationFor(aimRotation, 0, bl);
    }
 
-   public static void K(AimRotation aimRotation, int i, boolean bl) {
-      if (!Double.isNaN(aimRotation.r()) && !Double.isNaN(aimRotation.z()) && !(aimRotation.z() > 90.0F) && !(aimRotation.z() < -90.0F)) {
+   public static void setTargetRotationFor(AimRotation aimRotation, int i, boolean bl) {
+      if (!Double.isNaN(aimRotation.getYaw())
+         && !Double.isNaN(aimRotation.getPitch())
+         && !(aimRotation.getPitch() > 90.0F)
+         && !(aimRotation.getPitch() < -90.0F)) {
          if (bl) {
-            aimRotation.n(mc.gameSettings.Zm);
+            aimRotation.applyGcdFix(mc.gameSettings.Zm);
          }
 
-         y = aimRotation;
-         P = i;
+         targetRotation = aimRotation;
+         keepRotationTicks = i;
       }
    }
 
-   public static void H() {
-      P = 0;
-      y = null;
+   public static void resetTargetRotation() {
+      keepRotationTicks = 0;
+      targetRotation = null;
    }
 }

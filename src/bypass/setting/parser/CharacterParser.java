@@ -19,7 +19,7 @@ public class CharacterParser implements Parser<Character> {
       }
    }
 
-   public Optional<Character[]> W(String string, Class<? extends Character> class2) {
+   public Optional<Character[]> parseArray(String string, Class<? extends Character> class2) {
       int i = string.length();
       Character[] characters = new Character[i];
 

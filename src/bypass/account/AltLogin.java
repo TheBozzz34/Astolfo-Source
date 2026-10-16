@@ -24,40 +24,40 @@ public enum AltLogin implements ClientAccess {
    AUTH;
 
    public Alt lastLoggedAlt;
-   private boolean t;
-   private static final AltLogin[] C = new AltLogin[]{AUTH};
+   private boolean mojangWarningShown;
+   private static final AltLogin[] VALUES = new AltLogin[]{AUTH};
 
-   public String x() {
+   public String generateClientToken() {
       return UUID.randomUUID().toString();
    }
 
-   public Session.Type t(String string) {
+   public Session.Type getSessionType(String string) {
       return string.contains("@") ? Session.Type.MOJANG : Session.Type.LEGACY;
    }
 
-   public void A(Alt alt) {
+   public void loginAlt(Alt alt) {
       this.login(alt, true);
    }
 
-   public void h(Alt alt) throws Throwable {
+   public void authenticateMicrosoft(Alt alt) throws Throwable {
       try {
-         MicrosoftAuth.I_void(alt.y);
-         Pair pair = MicrosoftAuth.m(alt.y);
-         alt.j = (String)pair.getRight();
-         alt.U = ((UUID)pair.getLeft()).toString();
+         MicrosoftAuth.I_void(alt.accessToken);
+         Pair pair = MicrosoftAuth.getProfile(alt.accessToken);
+         alt.username = (String)pair.getRight();
+         alt.clientToken = ((UUID)pair.getLeft()).toString();
       } catch (Throwable throwable) {
          try {
-            Pair pair2 = MicrosoftAuth.I(alt.Z);
+            Pair pair2 = MicrosoftAuth.refreshMicrosoftToken(alt.refreshToken);
             String string = (String)pair2.getRight();
-            String string2 = MicrosoftAuth.x((String)pair2.getLeft());
-            Pair pair3 = MicrosoftAuth.Q(string2);
-            String string3 = MicrosoftAuth.P((String)pair3.getRight(), (String)pair3.getLeft());
+            String string2 = MicrosoftAuth.authXboxLive((String)pair2.getLeft());
+            Pair pair3 = MicrosoftAuth.authXsts(string2);
+            String string3 = MicrosoftAuth.authMinecraft((String)pair3.getRight(), (String)pair3.getLeft());
             MicrosoftAuth.I_void(string3);
-            Pair pair4 = MicrosoftAuth.m(string3);
-            alt.U = ((UUID)pair4.getLeft()).toString();
-            alt.j = (String)pair4.getRight();
-            alt.y = string3;
-            alt.Z = string;
+            Pair pair4 = MicrosoftAuth.getProfile(string3);
+            alt.clientToken = ((UUID)pair4.getLeft()).toString();
+            alt.username = (String)pair4.getRight();
+            alt.accessToken = string3;
+            alt.refreshToken = string;
          } catch (Throwable throwable2) {
             throwable2.addSuppressed(throwable);
             throw throwable2;
@@ -68,117 +68,128 @@ public enum AltLogin implements ClientAccess {
    public void login(Alt alt, boolean bl) {
       if (!alt.V_boolean()) {
          if (bl) {
-            this.i(alt.o);
+            this.setOfflineSession(alt.displayName);
          }
-      } else if (alt.F) {
-         FileUtil.w.execute(() -> {
-            Notification notification = client.getNotificationManager().i("Microsoft Authentication", "Logging in...", NotificationType.INFO, 10000);
-            notification.K();
+      } else if (alt.microsoft) {
+         FileUtil.executor.execute(() -> {
+            Notification notification = client.getNotificationManager().createNotification("Microsoft Authentication", "Logging in...", NotificationType.INFO, 10000);
+            notification.show();
 
             try {
-               this.h(alt);
+               this.authenticateMicrosoft(alt);
             } catch (Throwable throwable) {
-               notification.E();
-               toasts.k("Microsoft Account", "Login failed");
+               notification.dismiss();
+               toasts.dangerMessage("Microsoft Account", "Login failed");
                throwable.printStackTrace();
                return;
             }
 
-            mc.session = new Session(alt.j, alt.U, alt.y, "mojang");
-            Toasts.TOASTS.g("Microsoft Account", "Logged successfully to " + alt.j);
-            notification.E();
+            mc.session = new Session(alt.username, alt.clientToken, alt.accessToken, "mojang");
+            Toasts.TOASTS.successMessage("Microsoft Account", "Logged successfully to " + alt.username);
+            notification.dismiss();
             this.lastLoggedAlt = alt;
          });
       } else {
-         Notification notification2 = client.getNotificationManager().i("Authentication", "Logging in...", NotificationType.INFO, 10000);
+         Notification notification2 = client.getNotificationManager().createNotification("Authentication", "Logging in...", NotificationType.INFO, 10000);
          if (bl) {
-            notification2.K();
+            notification2.show();
          }
 
-         FileUtil.w
+         FileUtil.executor
             .execute(
                () -> {
-                  if (alt.D()) {
-                     if (AlteningScreen.r().V() == AccountType.MOJANG) {
+                  if (alt.isAlteningAlt()) {
+                     if (AlteningScreen.getAuthServiceSwitcher().getAccountType() == AccountType.MOJANG) {
                         try {
-                           AlteningScreen.r().g(AccountType.THEALTENING);
+                           AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.THEALTENING);
                         } catch (NoSuchFieldException | IllegalAccessException value) {
                            value.printStackTrace();
                         }
                      }
-                  } else if (AlteningScreen.r().V() == AccountType.THEALTENING) {
+                  } else if (AlteningScreen.getAuthServiceSwitcher().getAccountType() == AccountType.THEALTENING) {
                      try {
-                        AlteningScreen.r().g(AccountType.MOJANG);
+                        AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.MOJANG);
                      } catch (NoSuchFieldException | IllegalAccessException value2) {
                         value2.printStackTrace();
                      }
                   }
 
-                  UserAuthentication userAuthentication = new YggdrasilAuthenticationService(Proxy.NO_PROXY, alt.U).createUserAuthentication(Agent.MINECRAFT);
+                  UserAuthentication userAuthentication = new YggdrasilAuthenticationService(Proxy.NO_PROXY, alt.clientToken).createUserAuthentication(Agent.MINECRAFT);
                   boolean bl2 = false;
-                  if (!StringUtils.isNullOrEmpty(alt.y) && alt.T == Session.Type.MOJANG) {
+                  if (!StringUtils.isNullOrEmpty(alt.accessToken) && alt.sessionType == Session.Type.MOJANG) {
                      ImmutableMap immutableMap = new Builder<String, String>()
-                        .put("username", alt.j)
-                        .put("displayName", alt.o)
-                        .put("uuid", alt.U)
-                        .put("accessToken", alt.y)
+                        .put("username", alt.username)
+                        .put("displayName", alt.displayName)
+                        .put("uuid", alt.clientToken)
+                        .put("accessToken", alt.accessToken)
                         .build();
                      userAuthentication.loadFromStorage(immutableMap);
-                     bl2 = this.p(userAuthentication, "Access Token Login", alt);
+                     bl2 = this.tryAuthenticate(userAuthentication, "Access Token Login", alt);
                   }
 
                   if (!bl2) {
                      userAuthentication.logOut();
-                     userAuthentication.setUsername(alt.j);
-                     userAuthentication.setPassword(alt.D() ? "cool" : alt.z);
-                     bl2 = this.p(userAuthentication, AlteningScreen.r().V() == AccountType.THEALTENING ? "The Altening Login" : "Password Login", alt);
+                     userAuthentication.setUsername(alt.username);
+                     userAuthentication.setPassword(alt.isAlteningAlt() ? "cool" : alt.password);
+                     bl2 = this.tryAuthenticate(
+                        userAuthentication,
+                        AlteningScreen.getAuthServiceSwitcher().getAccountType() == AccountType.THEALTENING ? "The Altening Login" : "Password Login",
+                        alt
+                     );
                   }
 
                   if (bl2) {
                      if (bl) {
                         mc.session = new Session(
-                           userAuthentication.getSelectedProfile().getName(), userAuthentication.getSelectedProfile().getId().toString(), userAuthentication.getAuthenticatedToken(), alt.T.toString()
+                           userAuthentication.getSelectedProfile().getName(),
+                           userAuthentication.getSelectedProfile().getId().toString(),
+                           userAuthentication.getAuthenticatedToken(),
+                           alt.sessionType.toString()
                         );
                      }
 
-                     alt.y = userAuthentication.getAuthenticatedToken();
-                     alt.U = userAuthentication.getSelectedProfile().getId().toString();
-                     alt.o = userAuthentication.getSelectedProfile().getName();
-                     alt.I = false;
+                     alt.accessToken = userAuthentication.getAuthenticatedToken();
+                     alt.clientToken = userAuthentication.getSelectedProfile().getId().toString();
+                     alt.displayName = userAuthentication.getSelectedProfile().getName();
+                     alt.failedLogin = false;
                   }
 
-                  notification2.E();
+                  notification2.dismiss();
                }
             );
       }
    }
 
-   private void i(String string) {
+   private void setOfflineSession(String string) {
       mc.session = new Session(string, mc.session.getPlayerID(), mc.session.getToken(), Session.Type.LEGACY.toString());
-      client.getNotificationManager().i("Offline login", "Username set to: " + string, NotificationType.INFO, 5000).K();
+      client.getNotificationManager().createNotification("Offline login", "Username set to: " + string, NotificationType.INFO, 5000).show();
    }
 
-   private boolean p(UserAuthentication userAuthentication, String string, Alt alt) {
+   private boolean tryAuthenticate(UserAuthentication userAuthentication, String string, Alt alt) {
       try {
          userAuthentication.logIn();
-         client.getNotificationManager().i(string, "Logged in to " + userAuthentication.getSelectedProfile().getName(), NotificationType.SUCCESS, 5000).K();
-         if (!this.t) {
-            toasts.G("Mojang Account", "Mojang has closed support for this type of account, they might not work", 15000);
-            this.t = true;
+         client.getNotificationManager()
+            .createNotification(string, "Logged in to " + userAuthentication.getSelectedProfile().getName(), NotificationType.SUCCESS, 5000)
+            .show();
+         if (!this.mojangWarningShown) {
+            toasts.infoTimed("Mojang Account", "Mojang has closed support for this type of account, they might not work", 15000);
+            this.mojangWarningShown = true;
          }
 
          this.lastLoggedAlt = alt;
          return true;
       } catch (AuthenticationUnavailableException authenticationUnavailableException) {
-         client.getNotificationManager().i(string, "Failed to connect to Mojang's authentication servers", NotificationType.DANGER, 5000).K();
+         client.getNotificationManager()
+            .createNotification(string, "Failed to connect to Mojang's authentication servers", NotificationType.DANGER, 5000)
+            .show();
       } catch (UserMigratedException userMigratedException) {
-         client.getNotificationManager().i(string, "User account is migrated", NotificationType.DANGER, 5000).K();
+         client.getNotificationManager().createNotification(string, "User account is migrated", NotificationType.DANGER, 5000).show();
       } catch (AuthenticationException authenticationException) {
          if (!string.equals("Access Token Login")) {
-            alt.I = true;
+            alt.failedLogin = true;
          }
 
-         client.getNotificationManager().i(string, "Bad login", NotificationType.DANGER, 5000).K();
+         client.getNotificationManager().createNotification(string, "Bad login", NotificationType.DANGER, 5000).show();
       }
 
       return false;

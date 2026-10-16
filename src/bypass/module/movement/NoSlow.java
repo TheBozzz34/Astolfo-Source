@@ -28,9 +28,9 @@ public final class NoSlow extends Module {
    private final EnumSetting<NoSlowMode> mode = new EnumSetting<>("Mode", "Set your NoSlow mode", NoSlowMode.VANILLA);
    public static final BooleanSetting soulSand = new BooleanSetting("Soul-Sand", "Stops soul sand from slowing you down", true);
    public static final BooleanSetting ladderFix = new BooleanSetting("Ladder-Fix", "Fixes ladders or vines from slowing you down", true);
-   private final List<Block> z = new CopyOnWriteArrayList<>();
+   private final List<Block> slipperyBlocks = new CopyOnWriteArrayList<>();
    @EventHandler(UpdateEvent.class)
-   private Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
+   private Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       boolean bl = client.getModuleManager().get(KillAura.class).isEnabled();
@@ -78,14 +78,14 @@ public final class NoSlow extends Module {
 
    public NoSlow(Category category) {
       super(category);
-      this.B(-8021543);
+      this.setModuleColor(-8021543);
       this.addSettings(this.mode, soulSand, ladderFix);
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("No Slow " + EnumChatFormatting.GRAY + NoSlowMode.t(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("No Slow " + EnumChatFormatting.GRAY + NoSlowMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 
    @Override
@@ -93,7 +93,7 @@ public final class NoSlow extends Module {
       if (mc.thePlayer != null) {
          mc.thePlayer.sendQueue.addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
 
-         for (Block block : this.z) {
+         for (Block block : this.slipperyBlocks) {
             block.slipperiness = 0.6F;
          }
       }

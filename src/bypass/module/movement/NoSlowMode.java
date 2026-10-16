@@ -5,14 +5,14 @@ public enum NoSlowMode {
    WATCHDOG("Watchdog"),
    NCP("NCP");
 
-   private String p;
-   private static final NoSlowMode[] R = new NoSlowMode[]{VANILLA, WATCHDOG, NCP};
+   private String displayName;
+   private static final NoSlowMode[] VALUES = new NoSlowMode[]{VANILLA, WATCHDOG, NCP};
 
    NoSlowMode(String string2) {
-      this.p = string2;
+      this.displayName = string2;
    }
 
-   public static String t(NoSlowMode noSlowMode) {
-      return noSlowMode.p;
+   public static String displayNameOf(NoSlowMode noSlowMode) {
+      return noSlowMode.displayName;
    }
 }

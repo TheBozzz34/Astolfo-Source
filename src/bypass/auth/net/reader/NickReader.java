@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public class NickReader implements PacketReader<NickPacket> {
-   private NickPacket r;
+   private NickPacket packet;
 
    @Override
    public void read(ByteBuffer byteBuffer) {
@@ -14,10 +14,10 @@ public class NickReader implements PacketReader<NickPacket> {
       byteBuffer.get(bytes);
       byte[] bytes2 = new byte[byteBuffer.getInt()];
       byteBuffer.get(bytes2);
-      this.r = new NickPacket(new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8));
+      this.packet = new NickPacket(new String(bytes, StandardCharsets.UTF_8), new String(bytes2, StandardCharsets.UTF_8));
    }
 
    public NickPacket getPacket() {
-      return this.r;
+      return this.packet;
    }
 }

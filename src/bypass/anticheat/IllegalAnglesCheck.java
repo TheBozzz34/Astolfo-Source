@@ -8,20 +8,20 @@ public class IllegalAnglesCheck extends MovementCheck {
    }
 
    @Override
-   public int D(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (f == 0.0F && g == 0.0F) {
          return 0;
       }
 
       if (g > 90.0F || g < -90.0F) {
-         this.x(entityPlayer.getName());
+         this.flag(entityPlayer.getName());
       }
 
-      return this.T;
+      return this.violations;
    }
 
    @Override
-   public int p() {
+   public int getMaxViolations() {
       return 1;
    }
 }

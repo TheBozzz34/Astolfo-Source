@@ -73,7 +73,7 @@ public class MathHelper {
                      try {
                         String string = t();
                         HttpRequest httpRequest = new HttpRequest()
-                           .g(
+                           .setUrl(
                               String.format(
                                  Character.toString('h')
                                     + Character.toString('t')

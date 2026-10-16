@@ -20,7 +20,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 public final class DamageParticles extends Module {
-   private final Map<Integer, Float> O = new HashMap<>();
+   private final Map<Integer, Float> lastHealthById = new HashMap<>();
    private final NumberSetting<Integer> duration = new NumberSetting<>("Duration", "Duration of each particle", 20, 1, 70);
    private final NumberSetting<Float> gravity = new NumberSetting<>("Gravity", "Gravity applied", 0.1F, 0.01F, 1.0F);
    private final NumberSetting<Float> size = new NumberSetting<>("Size", "Size of each particle", 3.0F, 0.1F, 10.0F);
@@ -38,20 +38,20 @@ public final class DamageParticles extends Module {
                EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
                if (!Double.isNaN(entityLivingBase.getHealth())) {
                   int i = (int)Math.ceil(entityLivingBase.getHealth());
-                  Float float2 = this.O.get(entityLivingBase.getEntityId());
+                  Float float2 = this.lastHealthById.get(entityLivingBase.getEntityId());
                   if (float2 != null) {
                      int j = (int)Math.ceil(float2.floatValue());
-                     this.g(entity, j - i);
+                     this.spawnDamageParticle(entity, j - i);
                   }
 
-                  this.O.put(entity.getEntityId(), entityLivingBase.getHealth());
+                  this.lastHealthById.put(entity.getEntityId(), entityLivingBase.getHealth());
                }
             }
          }
       }
    };
    @EventHandler(WorldLoadEvent.class)
-   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.O.clear();
+   private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> this.lastHealthById.clear();
 
    public DamageParticles(Category category) {
       super(category);
@@ -59,7 +59,7 @@ public final class DamageParticles extends Module {
       this.setHidden(false);
    }
 
-   private void g(Entity entity, int i) {
+   private void spawnDamageParticle(Entity entity, int i) {
       if (i != 0) {
          World world = entity.worldObj;
          double d = this.random.getValue() ? world.rand.nextGaussian() * 0.02 : 0.0;

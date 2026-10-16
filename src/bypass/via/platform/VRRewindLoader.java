@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 
 public class VRRewindLoader implements ViaRewindPlatform, Runnable {
-   private final Logger b = new LoggerWrapper(LogManager.getLogger("ViaRewind"));
+   private final Logger logger = new LoggerWrapper(LogManager.getLogger("ViaRewind"));
 
    @Override
    public void run() {
@@ -17,7 +17,7 @@ public class VRRewindLoader implements ViaRewindPlatform, Runnable {
 
    @Override
    public Logger getLogger() {
-      return this.b;
+      return this.logger;
    }
 
    public class d0 implements ViaRewindConfig {

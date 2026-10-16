@@ -11,7 +11,7 @@ public final class HeldItem extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
-         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         Entity entity = WorldLibrary.entitiesById.get(luaValue.checkint());
          if (entity instanceof EntityLivingBase) {
             EntityLivingBase entityLivingBase = (EntityLivingBase)entity;
             ItemStack itemStack = entityLivingBase.getHeldItem();

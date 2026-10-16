@@ -4,7 +4,7 @@ import bypass.ClientAccess;
 import bypass.auth.packet.LoginResponse;
 
 public interface LoginListener {
-   default void o(Object object) {
+   default void registerSidebarOnLogin(Object object) {
       if (object instanceof LoginResponse) {
          LoginResponse loginResponse = (LoginResponse)object;
          if (loginResponse.success) {

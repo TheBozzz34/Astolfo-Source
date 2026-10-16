@@ -5,5 +5,5 @@ public enum TextAlignment {
    CENTER,
    RIGHT;
 
-   private static final TextAlignment[] v = new TextAlignment[]{LEFT, CENTER, RIGHT};
+   private static final TextAlignment[] VALUES = new TextAlignment[]{LEFT, CENTER, RIGHT};
 }

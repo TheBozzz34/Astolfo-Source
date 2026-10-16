@@ -7,27 +7,27 @@ import java.util.List;
 import java.util.Map;
 
 public class EventBusBuilder<A extends AnnotatedElement> {
-   public final Map<Class<? extends Event>, List<Subscription<?, ?>>> n = new HashMap<>();
-   private MemberScanner<A> V;
-   private ListenerFilter<A> o;
-   private InvocationStrategy e;
+   public final Map<Class<? extends Event>, List<Subscription<?, ?>>> subscriptionMap = new HashMap<>();
+   private MemberScanner<A> memberScanner;
+   private ListenerFilter<A> listenerFilter;
+   private InvocationStrategy invocationStrategy;
 
-   public EventBusBuilder<A> e(MemberScanner<A> memberScanner) {
-      this.V = memberScanner;
+   public EventBusBuilder<A> withMemberScanner(MemberScanner<A> memberScanner) {
+      this.memberScanner = memberScanner;
       return this;
    }
 
-   public EventBusBuilder<A> j(ListenerFilter<A> listenerFilter) {
-      this.o = listenerFilter;
+   public EventBusBuilder<A> withListenerFilter(ListenerFilter<A> listenerFilter) {
+      this.listenerFilter = listenerFilter;
       return this;
    }
 
-   public EventBusBuilder<A> v(InvocationStrategy invocationStrategy) {
-      this.e = invocationStrategy;
+   public EventBusBuilder<A> withInvocationStrategy(InvocationStrategy invocationStrategy) {
+      this.invocationStrategy = invocationStrategy;
       return this;
    }
 
-   public AnnotatedEventBus<A> v() {
-      return new AnnotatedEventBus<>(this.n, this.V, this.o, this.e);
+   public AnnotatedEventBus<A> build() {
+      return new AnnotatedEventBus<>(this.subscriptionMap, this.memberScanner, this.listenerFilter, this.invocationStrategy);
    }
 }

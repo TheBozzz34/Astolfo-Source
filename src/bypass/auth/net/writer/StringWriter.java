@@ -11,7 +11,7 @@ public final class StringWriter implements PacketWriter<String> {
       ByteBuffer byteBuffer = ByteBuffer.allocate(bytes.length + 4);
       byteBuffer.putInt(bytes.length);
       byteBuffer.put(bytes);
-      packetBuffer.n(byteBuffer);
+      packetBuffer.addChunk(byteBuffer);
       PacketWriter.super.write(string, packetBuffer);
    }
 }

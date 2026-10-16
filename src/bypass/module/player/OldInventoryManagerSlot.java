@@ -12,7 +12,7 @@ public enum OldInventoryManagerSlot {
    PEARL("Pearl-Slot");
 
    private final String settingName;
-   private static final OldInventoryManagerSlot[] B = new OldInventoryManagerSlot[]{PICKAXE, SHOVEL, AXE, SWORD, GAPPLE, HEAD, BOW, FISHING_ROD, PEARL};
+   private static final OldInventoryManagerSlot[] VALUES = new OldInventoryManagerSlot[]{PICKAXE, SHOVEL, AXE, SWORD, GAPPLE, HEAD, BOW, FISHING_ROD, PEARL};
 
    OldInventoryManagerSlot(String string2) {
       this.settingName = string2;

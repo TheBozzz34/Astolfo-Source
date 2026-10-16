@@ -4,7 +4,7 @@ import java.nio.ByteBuffer;
 
 public final class SwapHalvesScrambler implements Scrambler {
    @Override
-   public void B(ByteBuffer byteBuffer) {
+   public void scramble(ByteBuffer byteBuffer) {
       byte[] bytes = byteBuffer.array();
       int i = bytes.length / 2;
 

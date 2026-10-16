@@ -3,39 +3,39 @@ package bypass.http;
 import java.util.Map;
 
 public final class RequestOptions {
-   private AbstractRequest M;
-   private Map<String, String> q;
-   private int u;
-   private int T;
+   private AbstractRequest request;
+   private Map<String, String> headers;
+   private int readTimeout;
+   private int connectTimeout;
 
    public RequestOptions(AbstractRequest abstractRequest, Map<String, String> map, int i, int j) {
-      this.M = abstractRequest;
-      this.q = map;
-      this.u = i;
-      this.T = j;
+      this.request = abstractRequest;
+      this.headers = map;
+      this.readTimeout = i;
+      this.connectTimeout = j;
    }
 
-   public int e() {
-      return this.T;
+   public int getConnectTimeout() {
+      return this.connectTimeout;
    }
 
-   public int o() {
-      return this.u;
+   public int getReadTimeout() {
+      return this.readTimeout;
    }
 
-   public String d() {
-      return this.M.t();
+   public String getMethod() {
+      return this.request.getMethod();
    }
 
-   public Map<String, String> Q() {
-      return this.q;
+   public Map<String, String> getHeaders() {
+      return this.headers;
    }
 
-   public AbstractRequest S() {
-      return this.M;
+   public AbstractRequest getRequest() {
+      return this.request;
    }
 
-   public static final RequestBuilder C() {
+   public static final RequestBuilder builder() {
       return new RequestBuilder();
    }
 }

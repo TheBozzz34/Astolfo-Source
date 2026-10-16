@@ -8,12 +8,12 @@ public abstract class DropdownComponent extends SidebarSettingComponent {
    }
 
    @Override
-   public void l(int i) {
-      if (i == 0 && this.y()) {
-         client.getSidebarGui().G(client.getSidebarGui().A() != null ? null : this);
+   public void onClick(int i) {
+      if (i == 0 && this.isVisible()) {
+         client.getSidebarGui().setOpenDropdown(client.getSidebarGui().getOpenDropdown() != null ? null : this);
       }
    }
 
-   public void M(int i, int j) {
+   public void renderDropdown(int i, int j) {
    }
 }

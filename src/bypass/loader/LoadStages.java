@@ -1,31 +1,31 @@
 package bypass.loader;
 
 public class LoadStages {
-   public static LoadStage N() {
+   public static LoadStage createDecoyStage1() {
       return new DecoyStage1();
    }
 
-   public static LoadStage R() {
+   public static LoadStage createDirectoryStage() {
       return new DirectoryStage();
    }
 
-   public static LoadStage j() {
+   public static LoadStage createDecoyStage2() {
       return new DecoyStage2();
    }
 
-   public static LoadStage h() {
+   public static LoadStage createDecoyStage3() {
       return new DecoyStage3();
    }
 
-   public static LoadStage D() {
+   public static LoadStage createManagersStage() {
       return new ManagersStage();
    }
 
-   public static LoadStage I() {
+   public static LoadStage createModulesStage() {
       return new ModulesStage();
    }
 
-   public static LoadStage w() {
+   public static LoadStage createGuiStage() {
       return new GuiStage();
    }
 }

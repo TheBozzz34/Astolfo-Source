@@ -23,7 +23,7 @@ public final class Sprint extends Module {
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (updateEvent.getState() == EventState.PRE && (Speed.mode.getValue() != SpeedMode.WATCHDOG || !client.getModuleManager().get(Speed.class).isEnabled())) {
-         mc.thePlayer.setSprinting(this.Z());
+         mc.thePlayer.setSprinting(this.canSprint());
       }
    };
    @EventHandler(PacketEvent.class)
@@ -51,11 +51,11 @@ public final class Sprint extends Module {
 
    public Sprint(Category category) {
       super(category);
-      this.B(10984935);
+      this.setModuleColor(10984935);
       this.addSettings(this.speed, omnidirectional, this.silent);
    }
 
-   private boolean Z() {
+   private boolean canSprint() {
       boolean bl = mc.thePlayer.getFoodStats().getFoodLevel() > 6.0F || mc.thePlayer.capabilities.allowFlying;
       boolean bl2 = mc.thePlayer.isUsingItem() && !client.getModuleManager().get(NoSlow.class).isEnabled();
       boolean bl3 = client.getModuleManager().get(Scaffold.class).isEnabled() && !client.getModuleManager().get(Scaffold.class).getKeepSprint().getValue();

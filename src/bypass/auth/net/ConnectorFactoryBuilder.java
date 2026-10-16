@@ -1,22 +1,22 @@
 package bypass.auth.net;
 
 public class ConnectorFactoryBuilder {
-   private static final ConnectionOptions n = ConnectionOptions.M(8);
-   public final boolean F;
-   public boolean l;
+   private static final ConnectionOptions defaultOptions = ConnectionOptions.ofSize(8);
+   public final boolean extended;
+   public boolean extendedEnabled;
 
    public ConnectorFactoryBuilder(boolean bl) {
-      this.F = bl;
+      this.extended = bl;
    }
 
    public ConnectorFactoryBuilder() {
       this(false);
    }
 
-   public ConnectorFactory Z() {
-      ConnectionOptions connectionOptions = n;
-      if (this.F && this.l) {
-         connectionOptions = ConnectionOptions.M(16);
+   public ConnectorFactory build() {
+      ConnectionOptions connectionOptions = defaultOptions;
+      if (this.extended && this.extendedEnabled) {
+         connectionOptions = ConnectionOptions.ofSize(16);
       }
 
       return new ConnectorFactory();

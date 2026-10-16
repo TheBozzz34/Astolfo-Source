@@ -63,13 +63,13 @@ public final class PlayerListTracker extends HiddenModule {
    @EventHandler(WorldLoadEvent.class)
    private final Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
       disconnectedPlayers.clear();
-      GameUtil.N = null;
+      GameUtil.cachedTabDisplayName = null;
    };
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
          if (GuiIngame.A) {
-            PlayerList.S.clear();
+            PlayerList.killCounts.clear();
             lastPositions.clear();
             GuiIngame.A = false;
          }
@@ -151,11 +151,11 @@ public final class PlayerListTracker extends HiddenModule {
                         try {
                            hypixelApi.l(UUID.fromString(string3));
                         } catch (Exception exception) {
-                           chat.f("Invalid API Key");
+                           chat.printError("Invalid API Key");
                         }
 
                         PlayerStatsChecker playerStatsChecker = new PlayerStatsChecker(hypixelApi);
-                        playerStatsChecker.h(networkPlayerInfo.getGameProfile().getId(), string, networkPlayerInfo);
+                        playerStatsChecker.initializeWithDenick(networkPlayerInfo.getGameProfile().getId(), string, networkPlayerInfo);
                         networkPlayerInfo.lookupTimer.reset();
                      }
                   }

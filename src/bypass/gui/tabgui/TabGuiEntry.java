@@ -3,7 +3,7 @@ package bypass.gui.tabgui;
 import bypass.gui.TabGui;
 
 public interface TabGuiEntry {
-   String L();
+   String getDisplayText();
 
    default void onPress() {
    }
@@ -11,7 +11,7 @@ public interface TabGuiEntry {
    default void onExpand() {
    }
 
-   void z(int i);
+   void handleKeyPress(int i);
 
-   TabGui.Panel s();
+   TabGui.Panel getPanel();
 }

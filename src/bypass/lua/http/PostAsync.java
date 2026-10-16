@@ -12,7 +12,7 @@ import org.luaj.vm2.lib.TwoArgFunction;
 public final class PostAsync extends TwoArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      if (!ScriptManager.N.t()) {
+      if (!ScriptManager.unsafeFunctions.isEnabled()) {
          return valueOf(false);
       }
 
@@ -25,12 +25,12 @@ public final class PostAsync extends TwoArgFunction {
       }
 
       String string = luaValue.checkjstring();
-      HttpRequest httpRequest = new HttpRequest().g(string);
-      httpRequest.W("Astolfo-User");
-      httpRequest.V(AuthUtil.getHwid());
-      httpRequest.T("Astolfo-Client");
-      httpRequest.i("");
-      httpRequest.S("");
+      HttpRequest httpRequest = new HttpRequest().setUrl(string);
+      httpRequest.setHeaderKeys("Astolfo-User");
+      httpRequest.setHeaderValues(AuthUtil.getHwid());
+      httpRequest.setUserAgent("Astolfo-Client");
+      httpRequest.setAccept("");
+      httpRequest.setContentType("");
       ArrayList arrayList = new ArrayList();
       ArrayList arrayList2 = new ArrayList();
       String[] strings = string.split("\\?");
@@ -50,9 +50,9 @@ public final class PostAsync extends TwoArgFunction {
       String[] strings5 = new String[arrayList2.size()];
       arrayList.toArray(strings4);
       arrayList2.toArray(strings5);
-      httpRequest.x(strings4);
-      httpRequest.B(strings5);
-      HttpLibrary.R.submit(() -> {
+      httpRequest.setParamKeys(strings4);
+      httpRequest.setParamValues(strings5);
+      HttpLibrary.asyncExecutor.submit(() -> {
          String string3 = HttpUtil.post(httpRequest);
          LuaValue luaValue3 = luaValue2.get("run");
          luaValue3.call(string3);

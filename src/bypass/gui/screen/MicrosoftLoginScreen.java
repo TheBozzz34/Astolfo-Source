@@ -13,7 +13,7 @@ import net.minecraft.client.gui.GuiScreen;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class MicrosoftLoginScreen extends GuiScreen {
-   public static final String[] K = new String[]{
+   public static final String[] loadingFrames = new String[]{
       "▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃",
       "_ ▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄",
       "_ _ ▃ ▄ ▅ ▆ ▇ █ ▇ ▆ ▅",
@@ -35,35 +35,35 @@ public class MicrosoftLoginScreen extends GuiScreen {
       "▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃ _ _",
       "▄ ▅ ▆ ▇ █ ▇ ▆ ▅ ▄ ▃ _"
    };
-   public final GuiScreen q;
-   private HttpServer i;
-   private int f;
+   public final GuiScreen parentScreen;
+   private HttpServer authServer;
+   private int loadingFrameIndex;
 
    public MicrosoftLoginScreen(GuiScreen guiScreen) {
-      this.q = guiScreen;
+      this.parentScreen = guiScreen;
       String string = "<html><body><h1>no</h1></body></html>";
       new Thread(
             () -> {
                try {
-                  this.i = HttpServer.create(new InetSocketAddress(59125), 0);
-                  this.i.createContext("/", httpExchange -> {
+                  this.authServer = HttpServer.create(new InetSocketAddress(59125), 0);
+                  this.authServer.createContext("/", httpExchange -> {
                      try {
                         httpExchange.getResponseHeaders().add("Location", "http://localhost:59125/end");
                         httpExchange.sendResponseHeaders(302, -1L);
-                        new Thread(() -> this.w(httpExchange.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
+                        new Thread(() -> this.handleAuthCallback(httpExchange.getRequestURI().getQuery()), "IAS MS Auth Thread").start();
                      } catch (Throwable throwable) {
                         System.out.println("Unable to process request 'auth' on MS auth server");
 
                         try {
-                           if (this.i != null) {
-                              this.i.stop(0);
+                           if (this.authServer != null) {
+                              this.authServer.stop(0);
                            }
                         } catch (Throwable throwable2) {
                            System.out.println("Unable to stop fail-requested MS auth server");
                         }
                      }
                   });
-                  this.i.createContext("/end", httpExchange2 -> {
+                  this.authServer.createContext("/end", httpExchange2 -> {
                      try {
                         byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
                         httpExchange2.getResponseHeaders().put("Content-Type", Collections.singletonList("text/html; charset=UTF-8"));
@@ -74,8 +74,8 @@ public class MicrosoftLoginScreen extends GuiScreen {
                         outputStream.close();
 
                         try {
-                           if (this.i != null) {
-                              this.i.stop(0);
+                           if (this.authServer != null) {
+                              this.authServer.stop(0);
                            }
                         } catch (Throwable throwable3) {
                            System.out.println("Unable to stop MS auth server");
@@ -84,15 +84,15 @@ public class MicrosoftLoginScreen extends GuiScreen {
                         System.out.println("Unable to process request 'end' on MS auth server");
 
                         try {
-                           if (this.i != null) {
-                              this.i.stop(0);
+                           if (this.authServer != null) {
+                              this.authServer.stop(0);
                            }
                         } catch (Throwable throwable5) {
                            System.out.println("Unable to stop fail-requested MS auth server");
                         }
                      }
                   });
-                  this.i.start();
+                  this.authServer.start();
                   Desktop.getDesktop()
                      .browse(
                         new URI(
@@ -103,8 +103,8 @@ public class MicrosoftLoginScreen extends GuiScreen {
                   System.out.println("Unable to start MS auth server");
 
                   try {
-                     if (this.i != null) {
-                        this.i.stop(0);
+                     if (this.authServer != null) {
+                        this.authServer.stop(0);
                      }
                   } catch (Throwable throwable7) {
                      System.out.println("Unable to stop fail-started MS auth server");
@@ -116,7 +116,7 @@ public class MicrosoftLoginScreen extends GuiScreen {
          .start();
    }
 
-   private void w(String string) {
+   private void handleAuthCallback(String string) {
       try {
          if (string == null) {
             throw new NullPointerException("query=null");
@@ -130,13 +130,13 @@ public class MicrosoftLoginScreen extends GuiScreen {
             throw new IllegalStateException("query=" + string);
          }
 
-         Pair pair = MicrosoftAuth.X(string.replace("code=", ""));
+         Pair pair = MicrosoftAuth.exchangeAuthCode(string.replace("code=", ""));
          String string2 = (String)pair.getRight();
-         String string3 = MicrosoftAuth.x((String)pair.getLeft());
-         Pair pair2 = MicrosoftAuth.Q(string3);
-         String string4 = MicrosoftAuth.P((String)pair2.getRight(), (String)pair2.getLeft());
+         String string3 = MicrosoftAuth.authXboxLive((String)pair.getLeft());
+         Pair pair2 = MicrosoftAuth.authXsts(string3);
+         String string4 = MicrosoftAuth.authMinecraft((String)pair2.getRight(), (String)pair2.getLeft());
          MicrosoftAuth.I_void(string4);
-         Pair pair3 = MicrosoftAuth.m(string4);
+         Pair pair3 = MicrosoftAuth.getProfile(string4);
          System.out.printf("%s %s %s %s", pair3.getRight(), string4, string2, pair3.getLeft());
       } catch (Throwable throwable) {
          throwable.printStackTrace();

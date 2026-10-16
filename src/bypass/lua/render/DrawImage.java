@@ -11,7 +11,7 @@ import org.luaj.vm2.lib.VarArgFunction;
 public final class DrawImage extends VarArgFunction {
    @Override
    public Varargs invoke(Varargs varargs) {
-      if (!ScriptManager.N.t()) {
+      if (!ScriptManager.unsafeFunctions.isEnabled()) {
          return valueOf(false);
       }
 
@@ -61,7 +61,7 @@ public final class DrawImage extends VarArgFunction {
          }
       }
 
-      ClientAccess.mc.getTextureManager().bindTexture(RenderLibrary.m(string, bl));
+      ClientAccess.mc.getTextureManager().bindTexture(RenderLibrary.getOrDownloadImageTexture(string, bl));
       Gui.drawModalRectWithCustomSizedTexture((int)f, (int)g, 0.0F, 0.0F, i, j, i, j);
       return valueOf(true);
    }

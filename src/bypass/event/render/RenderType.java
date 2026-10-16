@@ -4,5 +4,5 @@ public enum RenderType {
    SCREEN,
    WORLD;
 
-   private static final RenderType[] D = new RenderType[]{SCREEN, WORLD};
+   private static final RenderType[] VALUES = new RenderType[]{SCREEN, WORLD};
 }

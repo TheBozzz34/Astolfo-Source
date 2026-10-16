@@ -3,11 +3,11 @@ package bypass.network;
 import net.minecraft.network.Packet;
 
 public class DelayedPacket {
-   private float g;
-   private final Packet<?> A;
+   private float delay;
+   private final Packet<?> packet;
 
    public DelayedPacket(float f, Packet<?> packet) {
-      this.g = f;
-      this.A = packet;
+      this.delay = f;
+      this.packet = packet;
    }
 }

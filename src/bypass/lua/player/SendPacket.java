@@ -130,7 +130,7 @@ public final class SendPacket extends VarArgFunction {
                   switch (i) {
                      case 2:
                         if (luaValue2.isint() && luaValue3.isint()) {
-                           Entity entity = WorldLibrary.X.get(luaValue2.checkint());
+                           Entity entity = WorldLibrary.entitiesById.get(luaValue2.checkint());
                            if (entity instanceof EntityLivingBase) {
                               ClientAccess.mc
                                  .thePlayer

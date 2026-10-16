@@ -28,23 +28,23 @@ import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
 
 public class Script implements ClientAccess, JsonSerializable {
-   public String P;
-   public String C;
-   private final Globals l;
-   private boolean J;
-   private boolean z;
-   public boolean n;
-   public String Q;
+   public String path;
+   public String name;
+   private final Globals globals;
+   private boolean enabled;
+   private boolean loadError;
+   public boolean loaded;
+   public String errorMessage;
 
    public Script(String string, String string2) {
-      this.P = string;
-      this.C = string2;
-      this.l = new Globals();
-      w(this.l);
-      this.l.load(new ModuleManagerLibrary2());
+      this.path = string;
+      this.name = string2;
+      this.globals = new Globals();
+      installLibraries(this.globals);
+      this.globals.load(new ModuleManagerLibrary2());
    }
 
-   public static void w(Globals globals) {
+   public static void installLibraries(Globals globals) {
       LuaC.install(globals);
       LoadState.install(globals);
       globals.load(new JseBaseLib());
@@ -68,50 +68,50 @@ public class Script implements ClientAccess, JsonSerializable {
       globals.set("debug", LuaValue.NIL);
    }
 
-   public boolean o() {
-      boolean bl = this.r();
+   public boolean loadAndRun() {
+      boolean bl = this.runFile();
       if (bl) {
-         this.n = true;
-         System.out.println("Ran " + this.P);
+         this.loaded = true;
+         System.out.println("Ran " + this.path);
       } else {
-         toasts.k("Script error", this.Q);
+         toasts.dangerMessage("Script error", this.errorMessage);
       }
 
       return bl;
    }
 
-   public boolean A() {
-      if (this.J) {
+   public boolean enable() {
+      if (this.enabled) {
          return false;
       }
 
-      this.F("on_enable");
-      this.J = true;
+      this.callFunction("on_enable");
+      this.enabled = true;
       return true;
    }
 
-   public boolean x() {
-      if (!this.J) {
+   public boolean disable() {
+      if (!this.enabled) {
          return false;
       }
 
-      this.F("on_disable");
-      this.J = false;
+      this.callFunction("on_disable");
+      this.enabled = false;
       return true;
    }
 
-   public void j(boolean bl) {
-      this.J = bl;
+   public void setEnabled(boolean bl) {
+      this.enabled = bl;
    }
 
-   public boolean r() {
+   public boolean runFile() {
       try {
-         String string = FileUtils.readFileToString(new File(this.P));
-         LuaValue luaValue = LuaGlobals.globals.load(string, this.P, this.l);
+         String string = FileUtils.readFileToString(new File(this.path));
+         LuaValue luaValue = LuaGlobals.globals.load(string, this.path, this.globals);
          luaValue.call();
          return true;
       } catch (LuaError luaError) {
-         this.Q = luaError.getMessage();
+         this.errorMessage = luaError.getMessage();
          luaError.printStackTrace();
          return false;
       } catch (IOException ioException) {
@@ -119,38 +119,38 @@ public class Script implements ClientAccess, JsonSerializable {
       }
    }
 
-   public void F(String string) {
-      if (this.l == null) {
+   public void callFunction(String string) {
+      if (this.globals == null) {
          System.out.println("Error calling lua func " + string);
       } else {
-         LuaValue luaValue = this.l.get(string);
+         LuaValue luaValue = this.globals.get(string);
          if (!luaValue.isnil()) {
             luaValue.call();
          }
       }
    }
 
-   public Globals l() {
-      return this.l;
+   public Globals getGlobals() {
+      return this.globals;
    }
 
-   public boolean t() {
-      return this.J;
+   public boolean isEnabled() {
+      return this.enabled;
    }
 
-   public boolean K() {
-      return this.z;
-   }
-
-   @Override
-   public String c() {
-      return this.C;
+   public boolean hasLoadError() {
+      return this.loadError;
    }
 
    @Override
-   public JsonElement V() {
+   public String getKey() {
+      return this.name;
+   }
+
+   @Override
+   public JsonElement toJson() {
       JsonObject jsonObject = new JsonObject();
-      jsonObject.addProperty("state", this.J);
+      jsonObject.addProperty("state", this.enabled);
       return jsonObject;
    }
 }

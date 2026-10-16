@@ -5,94 +5,94 @@ import bypass.gui.animation.Easing;
 import bypass.gui.animation.TimedAnimation;
 
 public abstract class Component extends Element {
-   private int z;
-   private int v;
-   private boolean y;
-   private boolean b;
-   private float m;
-   private float k;
-   public Animation F = new TimedAnimation().setDuration(100).setEasing(Easing.INERTIA);
+   private int width;
+   private int height;
+   private boolean draggable;
+   private boolean dragging;
+   private float dragOffsetX;
+   private float dragOffsetY;
+   public Animation stateAnimation = new TimedAnimation().setDuration(100).setEasing(Easing.INERTIA);
 
    public Component(String string, float f, float g, int i, int j) {
       super(string, f, g);
-      this.z = i;
-      this.v = j;
+      this.width = i;
+      this.height = j;
    }
 
-   public void T(int i, int j) {
-      this.r(i - this.m, j - this.k);
+   public void updateDragPosition(int i, int j) {
+      this.setPosition(i - this.dragOffsetX, j - this.dragOffsetY);
    }
 
-   public void U(int i, int j, int k) {
-      this.l(i);
+   public void onMouseClicked(int i, int j, int k) {
+      this.onClick(i);
    }
 
-   public abstract void l(int i);
+   public abstract void onClick(int i);
 
-   public void P(char c, int i) {
+   public void onKeyTyped(char c, int i) {
    }
 
-   public void W(int i, int j, int k) {
+   public void onMouseScroll(int i, int j, int k) {
    }
 
-   public boolean G(int i, int j) {
-      return i >= this.M() && i <= this.M() + this.x() && j >= this.E_float() && j <= this.E_float() + this.Y();
+   public boolean isHovered(int i, int j) {
+      return i >= this.getX() && i <= this.getX() + this.getWidth() && j >= this.getYPos() && j <= this.getYPos() + this.getHeight();
    }
 
-   public boolean u(int i, int j, int k, int l, int m, int n) {
+   public boolean isMouseInRect(int i, int j, int k, int l, int m, int n) {
       return m >= i && m <= i + k && n >= j && n <= j + l;
    }
 
-   public void f(int i, int j) {
-      this.o(i);
-      this.q(j);
+   public void setIntPosition(int i, int j) {
+      this.setX(i);
+      this.setY(j);
    }
 
-   public void r(float f, float g) {
-      this.o(f);
-      this.q(g);
+   public void setPosition(float f, float g) {
+      this.setX(f);
+      this.setY(g);
    }
 
-   public int x() {
-      return this.z;
+   public int getWidth() {
+      return this.width;
    }
 
-   public void t(int i) {
-      this.z = i;
+   public void setWidth(int i) {
+      this.width = i;
    }
 
-   public int Y() {
-      return this.v;
+   public int getHeight() {
+      return this.height;
    }
 
-   public void B(int i) {
-      this.v = i;
+   public void setHeight(int i) {
+      this.height = i;
    }
 
-   public void F(boolean bl, int i, int j) {
+   public void setDragging(boolean bl, int i, int j) {
       if (bl) {
-         this.m = i - this.M();
-         this.k = j - this.E_float();
+         this.dragOffsetX = i - this.getX();
+         this.dragOffsetY = j - this.getYPos();
       }
 
-      this.b = bl;
+      this.dragging = bl;
    }
 
-   public void x(boolean bl) {
-      this.m = 0.0F;
-      this.k = 0.0F;
-      this.b = bl;
+   public void setDraggingNoOffset(boolean bl) {
+      this.dragOffsetX = 0.0F;
+      this.dragOffsetY = 0.0F;
+      this.dragging = bl;
    }
 
-   public boolean u_boolean() {
-      return this.b;
+   public boolean isDragging() {
+      return this.dragging;
    }
 
-   public boolean c_boolean() {
-      return this.y;
+   public boolean isDraggable() {
+      return this.draggable;
    }
 
-   public void F(boolean bl) {
-      this.y = bl;
+   public void setDraggable(boolean bl) {
+      this.draggable = bl;
    }
 }

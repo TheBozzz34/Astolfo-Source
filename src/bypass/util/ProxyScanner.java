@@ -11,10 +11,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 public final class ProxyScanner {
-   private final boolean o;
+   private final boolean verbose;
 
    public ProxyScanner(boolean bl) {
-      this.o = bl;
+      this.verbose = bl;
    }
 
    public List<HostAndPort> scan(Collection<HostAndPort> collection, int i, int j) {
@@ -25,12 +25,12 @@ public final class ProxyScanner {
       arrayList.forEach(object -> {
          try {
             ProxyCheckResult proxyCheckResult = (ProxyCheckResult)((java.util.concurrent.Future)object).get();
-            if (this.o) {
-               System.out.println("Proxy " + proxyCheckResult.q() + " scanned. Status: " + (proxyCheckResult.r() ? "valid" : "invalid") + ".\n");
+            if (this.verbose) {
+               System.out.println("Proxy " + proxyCheckResult.getProxy() + " scanned. Status: " + (proxyCheckResult.isReachable() ? "valid" : "invalid") + ".\n");
             }
 
-            if (proxyCheckResult.r()) {
-               arrayList2.add(proxyCheckResult.q());
+            if (proxyCheckResult.isReachable()) {
+               arrayList2.add(proxyCheckResult.getProxy());
             }
          } catch (InterruptedException | ExecutionException value) {
             System.err.format("Caught an %s while trying to scan a proxy: %s.", value.getClass().getSimpleName(), value.getMessage());

@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class SkinTextures {
    @SerializedName("SKIN")
    @Expose
-   private SkinTexture T;
+   private SkinTexture skin;
 
-   public SkinTexture d() {
-      return this.T;
+   public SkinTexture getSkin() {
+      return this.skin;
    }
 
-   public void F(SkinTexture skinTexture) {
-      this.T = skinTexture;
+   public void setSkin(SkinTexture skinTexture) {
+      this.skin = skinTexture;
    }
 }

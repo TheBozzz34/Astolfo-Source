@@ -5,5 +5,5 @@ public enum KillAuraStrafeFormMode {
    INFINITE,
    BACK;
 
-   private static final KillAuraStrafeFormMode[] D = new KillAuraStrafeFormMode[]{CIRCLE, INFINITE, BACK};
+   private static final KillAuraStrafeFormMode[] VALUES = new KillAuraStrafeFormMode[]{CIRCLE, INFINITE, BACK};
 }

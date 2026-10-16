@@ -21,7 +21,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 public final class Inventory extends Module {
-   private final int[] J = new int[]{
+   private final int[] movementKeyCodes = new int[]{
       mc.gameSettings.keyBindForward.getKeyCode(),
       mc.gameSettings.keyBindBack.getKeyCode(),
       mc.gameSettings.keyBindRight.getKeyCode(),
@@ -50,7 +50,7 @@ public final class Inventory extends Module {
             mc.inGameHasFocus = false;
          }
 
-         for (int i : this.J) {
+         for (int i : this.movementKeyCodes) {
             KeyBinding.setKeyBindState(i, !Keyboard.areRepeatEventsEnabled() && Keyboard.isKeyDown(i));
          }
 

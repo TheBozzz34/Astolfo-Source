@@ -21,42 +21,44 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vector3d;
 
 public final class AntiFireball extends Module {
-   private final Rotator A = new Rotator(false, 0.0F);
+   private final Rotator rotator = new Rotator(false, 0.0F);
    private final NumberSetting<Double> range = new NumberSetting<>("Range", "Distance of blocks", 4.0, 3.0, 6.0);
    private final NumberSetting<Float> fov = new NumberSetting<>("FOV", "Distance of blocks", 120.0F, 0.1F, 360.0F);
    private final BooleanSetting aim = new BooleanSetting("Aim", "Aims to the fireball serversided", true);
    private final NumberSetting<Integer> swingLimit = new NumberSetting<>("Swing-Limit", "Limit of swings until stopping", 12, 1, 20);
-   private final Stopwatch X = new Stopwatch();
-   private final Stopwatch c = new Stopwatch();
-   private EntityLargeFireball B;
-   private int R;
+   private final Stopwatch targetTimer = new Stopwatch();
+   private final Stopwatch unusedTimer = new Stopwatch();
+   private EntityLargeFireball targetFireball;
+   private int swingCount;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.HIGH)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       if (motionEvent.getState() == EventState.PRE) {
-         if (GameUtil.isRemoved(this.B) || this.X.hasElapsed(5000.0F) || this.R > this.swingLimit.getValue()) {
-            this.B = null;
-            this.R = 0;
+         if (GameUtil.isRemoved(this.targetFireball) || this.targetTimer.hasElapsed(5000.0F) || this.swingCount > this.swingLimit.getValue()) {
+            this.targetFireball = null;
+            this.swingCount = 0;
          }
 
          for (Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityLargeFireball) {
                EntityLargeFireball entityLargeFireball = (EntityLargeFireball)entity;
                double d = mc.thePlayer.getDistanceToEntity(entity);
-               if (!(d > this.range.getValue() + 3.0) && this.Y(mc.thePlayer, entity)) {
-                  this.B = entityLargeFireball;
-                  this.X.reset();
+               if (!(d > this.range.getValue() + 3.0) && this.isInFov(mc.thePlayer, entity)) {
+                  this.targetFireball = entityLargeFireball;
+                  this.targetTimer.reset();
                   break;
                }
             }
          }
 
-         if (this.B != null) {
+         if (this.targetFireball != null) {
             if (!this.aim.getValue()) {
-               this.O();
+               this.attackFireball();
             } else {
                Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-               Vector3d vector3d2 = new Vector3d(this.B.posX, this.B.posY + this.B.height * 0.5 / 1.0, this.B.posZ);
-               Rotation rotation = this.A.rotationTo(vector3d2, vector3d);
+               Vector3d vector3d2 = new Vector3d(
+                  this.targetFireball.posX, this.targetFireball.posY + this.targetFireball.height * 0.5 / 1.0, this.targetFireball.posZ
+               );
+               Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
                float f = rotation.getYaw();
                float g = rotation.getPitch();
                float h = MathHelper.wrapAngleTo180_float(f - mc.thePlayer.rotationYaw);
@@ -65,8 +67,8 @@ public final class AntiFireball extends Module {
                motionEvent.setPitch(g);
             }
          }
-      } else if (this.aim.getValue() && this.B != null) {
-         this.O();
+      } else if (this.aim.getValue() && this.targetFireball != null) {
+         this.attackFireball();
       }
    };
 
@@ -75,21 +77,21 @@ public final class AntiFireball extends Module {
       this.addSettings(this.range, this.fov, this.swingLimit, this.aim);
    }
 
-   private void O() {
-      if (this.R < this.swingLimit.getValue()) {
+   private void attackFireball() {
+      if (this.swingCount < this.swingLimit.getValue()) {
          mc.thePlayer.swingItem();
-         mc.thePlayer.sendQueue.u(new C02PacketUseEntity(this.B, C02PacketUseEntity.Action.ATTACK));
-         this.R++;
+         mc.thePlayer.sendQueue.u(new C02PacketUseEntity(this.targetFireball, C02PacketUseEntity.Action.ATTACK));
+         this.swingCount++;
       }
 
-      this.X.reset();
+      this.targetTimer.reset();
    }
 
-   private boolean Y(EntityLivingBase entityLivingBase, Entity entity) {
+   private boolean isInFov(EntityLivingBase entityLivingBase, Entity entity) {
       float f = this.fov.asFloat() / 2.0F;
       Vector3d vector3d = new Vector3d(entityLivingBase.posX, entityLivingBase.posY + entityLivingBase.getEyeHeight(), entityLivingBase.posZ);
       Vector3d vector3d2 = new Vector3d(entity.posX, entity.posY + entity.height * 0.5 / 1.0, entity.posZ);
-      Rotation rotation = this.A.rotationTo(vector3d2, vector3d);
+      Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
       float g = (float)KillAura.rotationDistance(rotation);
       return g < f;
    }

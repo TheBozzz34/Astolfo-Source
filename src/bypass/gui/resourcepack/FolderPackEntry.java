@@ -8,55 +8,55 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 public class FolderPackEntry extends CustomPackEntry {
-   private static final ResourceLocation I = new ResourceLocation("textures/gui/folder.png");
-   private final CustomResourcePacksScreen T;
-   public final File w;
-   public final String B;
-   public final boolean Y;
+   private static final ResourceLocation FOLDER_ICON = new ResourceLocation("textures/gui/folder.png");
+   private final CustomResourcePacksScreen packsScreen;
+   public final File directory;
+   public final String displayName;
+   public final boolean isBackEntry;
 
    public FolderPackEntry(CustomResourcePacksScreen customResourcePacksScreen, File file) {
       super(customResourcePacksScreen);
-      this.T = customResourcePacksScreen;
-      this.w = file;
-      this.B = file.getName();
-      this.Y = false;
+      this.packsScreen = customResourcePacksScreen;
+      this.directory = file;
+      this.displayName = file.getName();
+      this.isBackEntry = false;
    }
 
    public FolderPackEntry(CustomResourcePacksScreen customResourcePacksScreen, File file, boolean bl) {
       super(customResourcePacksScreen);
-      this.T = customResourcePacksScreen;
-      this.w = file;
-      this.B = "..";
-      this.Y = bl;
+      this.packsScreen = customResourcePacksScreen;
+      this.directory = file;
+      this.displayName = "..";
+      this.isBackEntry = bl;
    }
 
    @Override
    public void func_148313_c() {
-      this.mc.getTextureManager().bindTexture(I);
+      this.mc.getTextureManager().bindTexture(FOLDER_ICON);
    }
 
    @Override
    public String func_148312_b() {
-      return this.B;
+      return this.displayName;
    }
 
    @Override
    public String func_148311_a() {
-      return this.Y ? "(Back)" : "(Folder)";
+      return this.isBackEntry ? "(Back)" : "(Folder)";
    }
 
    @Override
    public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
-      this.T.S(this.w);
+      this.packsScreen.openDirectory(this.directory);
       return true;
    }
 
    @Override
    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-      this.E(this, x, y, isSelected);
+      this.drawFolderEntry(this, x, y, isSelected);
    }
 
-   public void E(FolderPackEntry folderPackEntry, int i, int j, boolean bl) {
+   public void drawFolderEntry(FolderPackEntry folderPackEntry, int i, int j, boolean bl) {
       folderPackEntry.func_148313_c();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.enableBlend();

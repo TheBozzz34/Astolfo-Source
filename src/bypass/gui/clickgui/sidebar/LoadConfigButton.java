@@ -12,16 +12,18 @@ public class LoadConfigButton extends Button {
    }
 
    @Override
-   public void G() {
+   public void onPress() {
       String string = SidebarGui.config.getValue();
       File file = new File(Astolfo.INSTANCE.getDirectory().getAbsolutePath(), string + ".json");
       if (!file.exists()) {
-         client.getNotificationManager().i("Config manager", String.format("%s config doesnt exist", string), NotificationType.DANGER, 2500).K();
+         client.getNotificationManager()
+            .createNotification("Config manager", String.format("%s config doesnt exist", string), NotificationType.DANGER, 2500)
+            .show();
       } else {
          ConfigFiles.save(ConfigFiles.serializeModules(), client.getConfigName());
          ConfigFiles.load(string);
          client.setConfigName(string);
-         client.getNotificationManager().i("Config manager", String.format("Loaded %s config", string), NotificationType.SUCCESS, 2500).K();
+         client.getNotificationManager().createNotification("Config manager", String.format("Loaded %s config", string), NotificationType.SUCCESS, 2500).show();
       }
    }
 }

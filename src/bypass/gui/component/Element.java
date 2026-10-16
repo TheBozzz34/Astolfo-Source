@@ -3,35 +3,35 @@ package bypass.gui.component;
 import bypass.ClientAccess;
 
 public abstract class Element implements ClientAccess {
-   private String g;
-   private float D;
-   private float J;
+   private String name;
+   private float xPos;
+   private float yPos;
 
    public Element(String string, float f, float g) {
-      this.g = string;
-      this.D = f;
-      this.J = g;
+      this.name = string;
+      this.xPos = f;
+      this.yPos = g;
    }
 
    public abstract void render(int i, int j);
 
-   public String J() {
-      return this.g;
+   public String getName() {
+      return this.name;
    }
 
-   public float M() {
-      return this.D;
+   public float getX() {
+      return this.xPos;
    }
 
-   public void o(float f) {
-      this.D = f;
+   public void setX(float f) {
+      this.xPos = f;
    }
 
-   public float E_float() {
-      return this.J;
+   public float getYPos() {
+      return this.yPos;
    }
 
-   public void q(float f) {
-      this.J = f;
+   public void setY(float f) {
+      this.yPos = f;
    }
 }

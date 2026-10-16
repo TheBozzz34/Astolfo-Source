@@ -68,10 +68,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    private static final int Z = new Color(17, 17, 17).getRGB();
 
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-      for (LoadStage loadStage : Astolfo.INSTANCE.x().e().a().L().getValue()) {
+      for (LoadStage loadStage : Astolfo.INSTANCE.getLoaderGuard().getStageList().getStageContainer().getOwnedContainer().getValue()) {
          if (loadStage instanceof GuiStage) {
             GuiStage guiStage = (GuiStage)loadStage;
-            if (guiStage.C().z().F() && guiStage.C().z().a()) {
+            if (guiStage.getIntegrityCheckHolder().getIntegrityCheck().isFlag5() && guiStage.getIntegrityCheckHolder().getIntegrityCheck().isFlag2()) {
                return;
             }
          }
@@ -367,13 +367,13 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    public void actionPerformed(GuiButton button) throws IOException {
       switch (button.id) {
          case -88888:
-            LoginScreen.d = false;
+            LoginScreen.loginFailed = false;
             this.mc
                .mouseHelper
                .Y()
                .getEndpoint()
-               .B()
-               .J(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
+               .getConnection()
+               .connect(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
       }
    }
 

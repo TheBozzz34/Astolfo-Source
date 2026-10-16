@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class BbqAndBuggedKillMessages {
    public BbqAndBuggedKillMessages() {
-      FinalKillTracker.c
+      FinalKillTracker.killMessagePatterns
          .addAll(
             Arrays.asList(
                "(\\w{1,16}) was glazed in BBQ sauce by (\\w{1,16}).*",

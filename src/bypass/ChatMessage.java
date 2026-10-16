@@ -3,21 +3,21 @@ package bypass;
 import net.minecraft.util.ChatComponentText;
 
 public class ChatMessage implements ClientAccess {
-   private final ChatComponentText T;
-   public final ClientChat E;
+   private final ChatComponentText component;
+   public final ClientChat clientChat;
 
    public ChatMessage(ClientChat clientChat, ChatComponentText chatComponentText) {
-      this.E = clientChat;
-      this.T = chatComponentText;
+      this.clientChat = clientChat;
+      this.component = chatComponentText;
    }
 
-   public void b() {
+   public void send() {
       if (mc.thePlayer != null) {
-         mc.thePlayer.addChatMessage(this.T);
+         mc.thePlayer.addChatMessage(this.component);
       }
    }
 
-   public ChatComponentText u() {
-      return this.T;
+   public ChatComponentText getComponent() {
+      return this.component;
    }
 }

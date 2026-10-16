@@ -13,128 +13,128 @@ import java.util.Queue;
 import java.util.concurrent.ThreadLocalRandom;
 
 public final class SocketWriter {
-   private final SocketChannel c;
-   private final Selector t;
-   private final Queue<OutgoingPacket> e;
-   private final ByteBuffer Z;
-   private final ByteBuffer s;
-   private final ByteBuffer[] m;
-   private boolean X;
-   private boolean r;
-   private boolean q;
-   private boolean B;
-   private boolean I;
-   private byte M;
+   private final SocketChannel socketChannel;
+   private final Selector selector;
+   private final Queue<OutgoingPacket> pendingPackets;
+   private final ByteBuffer headerBuffer;
+   private final ByteBuffer chunkHeaderBuffer;
+   private final ByteBuffer[] chunkBuffers;
+   private boolean writePending;
+   private boolean headerWritten;
+   private boolean headerPrepared;
+   private boolean chunkHeaderWritten;
+   private boolean chunkPrepared;
+   private byte xorKey;
 
    public SocketWriter(SocketChannel socketChannel, Selector selector) {
-      this.c = socketChannel;
-      this.t = selector;
-      this.e = new ArrayDeque<>();
-      this.Z = ByteBuffer.allocateDirect(5);
-      this.s = ByteBuffer.allocateDirect(3);
-      this.m = new ByteBuffer[2];
-      this.m[0] = this.s;
+      this.socketChannel = socketChannel;
+      this.selector = selector;
+      this.pendingPackets = new ArrayDeque<>();
+      this.headerBuffer = ByteBuffer.allocateDirect(5);
+      this.chunkHeaderBuffer = ByteBuffer.allocateDirect(3);
+      this.chunkBuffers = new ByteBuffer[2];
+      this.chunkBuffers[0] = this.chunkHeaderBuffer;
    }
 
-   public void j() throws IOException {
-      while (!this.e.isEmpty()) {
-         OutgoingPacket outgoingPacket = this.e.peek();
-         Queue queue = outgoingPacket.G;
-         if (!this.r) {
-            if (!this.q) {
-               this.M = RandomValues.S();
-               this.Z.put(XorMasks.m(this.M));
-               this.Z.putShort((short)(queue.size() ^ this.M));
-               this.Z.putShort((short)(outgoingPacket.Z ^ this.M));
-               ((Buffer)this.Z).flip();
-               this.q = true;
+   public void flush() throws IOException {
+      while (!this.pendingPackets.isEmpty()) {
+         OutgoingPacket outgoingPacket = this.pendingPackets.peek();
+         Queue queue = outgoingPacket.chunks;
+         if (!this.headerWritten) {
+            if (!this.headerPrepared) {
+               this.xorKey = RandomValues.randomByte();
+               this.headerBuffer.put(XorMasks.xor72(this.xorKey));
+               this.headerBuffer.putShort((short)(queue.size() ^ this.xorKey));
+               this.headerBuffer.putShort((short)(outgoingPacket.id ^ this.xorKey));
+               ((Buffer)this.headerBuffer).flip();
+               this.headerPrepared = true;
             }
 
-            this.c.write(this.Z);
-            if (this.Z.hasRemaining()) {
+            this.socketChannel.write(this.headerBuffer);
+            if (this.headerBuffer.hasRemaining()) {
                return;
             }
 
-            ((Buffer)this.Z).clear();
-            this.r = true;
+            ((Buffer)this.headerBuffer).clear();
+            this.headerWritten = true;
          }
 
          while (!queue.isEmpty()) {
             PacketChunk packetChunk = (PacketChunk)queue.peek();
-            ByteBuffer byteBuffer = packetChunk.u;
-            if (this.B) {
-               this.c.write(byteBuffer);
+            ByteBuffer byteBuffer = packetChunk.buffer;
+            if (this.chunkHeaderWritten) {
+               this.socketChannel.write(byteBuffer);
             } else {
-               if (!this.I) {
+               if (!this.chunkPrepared) {
                   int i = 0;
 
-                  for (int k = byteBuffer.limit(); i < k; i++) {
-                     byteBuffer.put(i, (byte)(byteBuffer.get(i) ^ this.M));
+                  for (int j = byteBuffer.limit(); i < j; i++) {
+                     byteBuffer.put(i, (byte)(byteBuffer.get(i) ^ this.xorKey));
                   }
 
-                  ScramblerRange scramblerRange = Z();
-                  scramblerRange.m.B(byteBuffer);
-                  ((Buffer)this.s).clear();
-                  this.s.put(q(scramblerRange));
-                  this.s.putShort((short)(byteBuffer.position() ^ this.M));
-                  ((Buffer)this.s).flip();
+                  ScramblerRange scramblerRange = pickRandomScrambler();
+                  scramblerRange.scrambler.scramble(byteBuffer);
+                  ((Buffer)this.chunkHeaderBuffer).clear();
+                  this.chunkHeaderBuffer.put(randomScramblerId(scramblerRange));
+                  this.chunkHeaderBuffer.putShort((short)(byteBuffer.position() ^ this.xorKey));
+                  ((Buffer)this.chunkHeaderBuffer).flip();
                   ((Buffer)byteBuffer).flip();
-                  this.m[1] = byteBuffer;
-                  this.I = true;
+                  this.chunkBuffers[1] = byteBuffer;
+                  this.chunkPrepared = true;
                }
 
-               this.c.write(this.m);
-               if (this.s.hasRemaining()) {
+               this.socketChannel.write(this.chunkBuffers);
+               if (this.chunkHeaderBuffer.hasRemaining()) {
                   return;
                }
 
-               this.B = true;
+               this.chunkHeaderWritten = true;
             }
 
             if (byteBuffer.hasRemaining()) {
                return;
             }
 
-            this.B = false;
-            this.I = false;
+            this.chunkHeaderWritten = false;
+            this.chunkPrepared = false;
             queue.remove();
          }
 
-         this.r = false;
-         this.q = false;
-         this.e.remove();
+         this.headerWritten = false;
+         this.headerPrepared = false;
+         this.pendingPackets.remove();
       }
 
-      this.X = false;
-      this.c.keyFor(this.t).interestOps(1);
+      this.writePending = false;
+      this.socketChannel.keyFor(this.selector).interestOps(1);
    }
 
-   private static ScramblerRange Z() {
-      List list = Scramblers.INSTANCE.Q();
+   private static ScramblerRange pickRandomScrambler() {
+      List list = Scramblers.INSTANCE.getRanges();
       return (ScramblerRange)list.get(ThreadLocalRandom.current().nextInt(list.size()));
    }
 
-   private static byte q(ScramblerRange scramblerRange) {
-      return (byte)ThreadLocalRandom.current().nextInt(scramblerRange.r, scramblerRange.X);
+   private static byte randomScramblerId(ScramblerRange scramblerRange) {
+      return (byte)ThreadLocalRandom.current().nextInt(scramblerRange.minId, scramblerRange.maxId);
    }
 
-   public SocketChannel q() {
-      return this.c;
+   public SocketChannel getSocketChannel() {
+      return this.socketChannel;
    }
 
-   public Selector G() {
-      return this.t;
+   public Selector getSelector() {
+      return this.selector;
    }
 
-   public void k(OutgoingPacket outgoingPacket) {
-      this.e.add(outgoingPacket);
+   public void enqueue(OutgoingPacket outgoingPacket) {
+      this.pendingPackets.add(outgoingPacket);
    }
 
-   public void m() {
-      if (!this.X) {
-         this.X = true;
-         this.c.keyFor(this.t).interestOps(4);
-         this.t.wakeup();
+   public void requestWrite() {
+      if (!this.writePending) {
+         this.writePending = true;
+         this.socketChannel.keyFor(this.selector).interestOps(4);
+         this.selector.wakeup();
       }
    }
 }

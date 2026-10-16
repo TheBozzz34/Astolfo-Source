@@ -23,27 +23,33 @@ public class LoginResponseHandler extends PacketHandler<LoginResponse> {
          String[] strings = loginResponse.message.split(";");
          if (strings.length == 7) {
             if (client.getEventBus() == null) {
-               client.setEventBus(EventBus.<Field>p().e(MemberScanner.z()).j(ListenerFilter.W()).v(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION).v());
+               client.setEventBus(
+                  EventBus.<Field>builder()
+                     .withMemberScanner(MemberScanner.forFields())
+                     .withListenerFilter(ListenerFilter.forFields())
+                     .withInvocationStrategy(InvocationStrategy.FIELD_REFLECTIVE_INVOCATION)
+                     .build()
+               );
             }
 
-            ModuleManager.C(Double.parseDouble(strings[1]));
-            ModuleManager.k(Integer.parseInt(strings[2]));
+            ModuleManager.setPositionDivisor(Double.parseDouble(strings[1]));
+            ModuleManager.setModelViewMatrixMode(Integer.parseInt(strings[2]));
             mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
             EntityRenderer.Z0 = Integer.parseInt(strings[4]);
             EntityRenderer.C = Integer.parseInt(strings[5]);
             EntityRenderer.ZE = Integer.parseInt(strings[6]);
          }
 
-         LoginScreen.p = false;
-         LoginScreen.V = true;
+         LoginScreen.authenticating = false;
+         LoginScreen.loggedIn = true;
       } else {
-         LoginScreen.x = loginResponse.message;
+         LoginScreen.loginResponseMessage = loginResponse.message;
          if (loginResponse.message.equalsIgnoreCase("tokenfail")) {
             mc.autoLoginToken = "";
          }
 
-         LoginScreen.d = true;
-         LoginScreen.p = false;
+         LoginScreen.loginFailed = true;
+         LoginScreen.authenticating = false;
       }
    }
 }

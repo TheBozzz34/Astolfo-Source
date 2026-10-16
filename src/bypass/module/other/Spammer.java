@@ -30,27 +30,27 @@ public final class Spammer extends Module {
       .add("Numbers", new BooleanSetting("Numbers", "Uses numbers to randomize", false))
       .add("Length", new NumberSetting<>("Length", "Length of randomized string", 5, 1, 12))
       .build();
-   private final Stopwatch m = new Stopwatch();
-   private int S;
+   private final Stopwatch spamTimer = new Stopwatch();
+   private int lineIndex;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof C01PacketChatMessage && !this.hypixel.getValue()) {
-         this.m.reset();
+         this.spamTimer.reset();
       }
    };
-   private boolean A;
-   private final String[] V = new String[]{"", "sw", "bw", "duels"};
+   private boolean sentFirstMessage;
+   private final String[] hubLobbies = new String[]{"", "sw", "bw", "duels"};
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       String string = this.message.getValue();
       if (this.message.getValue().contains(";") && this.multiLine.getValue()) {
          String[] strings = this.message.getValue().split(";");
-         if (this.S >= strings.length) {
-            this.S = 0;
+         if (this.lineIndex >= strings.length) {
+            this.lineIndex = 0;
          }
 
-         string = strings[this.S];
-         this.S++;
+         string = strings[this.lineIndex];
+         this.lineIndex++;
       }
 
       boolean bl = this.random.getSetting("Enable").asBoolean();
@@ -59,28 +59,28 @@ public final class Spammer extends Module {
       boolean bl3 = this.random.getSetting("Numbers").asBoolean();
       String string2 = RandomStringUtils.random(i, bl2, bl3);
       if (this.hypixel.getValue()) {
-         if (!this.A) {
+         if (!this.sentFirstMessage) {
             mc.thePlayer.sendQueue.addToSendQueue(new C01PacketChatMessage(string + (bl ? string2 : "")));
-            this.A = true;
-         } else if (this.m.hasElapsed(200.0F)) {
-            mc.thePlayer.sendChatMessage("/hub " + this.V[(int)(Math.random() * this.V.length)]);
-            this.m.reset();
+            this.sentFirstMessage = true;
+         } else if (this.spamTimer.hasElapsed(200.0F)) {
+            mc.thePlayer.sendChatMessage("/hub " + this.hubLobbies[(int)(Math.random() * this.hubLobbies.length)]);
+            this.spamTimer.reset();
          }
       } else {
-         if (this.m.hasElapsed(this.delay.getValue().intValue())) {
+         if (this.spamTimer.hasElapsed(this.delay.getValue().intValue())) {
             if (string.startsWith("-") || string.startsWith(" -")) {
                return;
             }
 
             mc.thePlayer.sendChatMessage(string + (bl ? string2 : ""));
-            this.m.reset();
+            this.spamTimer.reset();
          }
       }
    };
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
-      this.m.reset();
-      this.A = false;
+      this.spamTimer.reset();
+      this.sentFirstMessage = false;
    };
 
    public Spammer(Category category) {

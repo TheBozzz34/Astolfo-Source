@@ -4,14 +4,14 @@ import bypass.util.container.ListContainerOwner;
 import java.io.File;
 
 public class VirtualMachineFileListOwner {
-   private final ListContainerOwner<File> w;
+   private final ListContainerOwner<File> fileContainer;
 
    public VirtualMachineFileListOwner() {
       VirtualMachineFiles virtualMachineFiles = new VirtualMachineFiles();
-      this.w = new ListContainerOwner<>(virtualMachineFiles.i());
+      this.fileContainer = new ListContainerOwner<>(virtualMachineFiles.getFiles());
    }
 
-   public ListContainerOwner<File> A() {
-      return this.w;
+   public ListContainerOwner<File> getFileContainer() {
+      return this.fileContainer;
    }
 }

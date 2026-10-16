@@ -23,7 +23,7 @@ public enum InvocationStrategy {
             try {
                method.invoke(object, value);
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException value2) {
-               ReflectionErrors.H(value2);
+               ReflectionErrors.rethrowReflectionException(value2);
             }
          };
       }
@@ -35,15 +35,15 @@ public enum InvocationStrategy {
          method2.setAccessible(true);
 
          try {
-            Lookup lookup2 = n.in(object.getClass());
+            Lookup lookup2 = LOOKUP.in(object.getClass());
             MethodHandle methodHandle = null;
             int i = method2.getModifiers();
             if (Modifier.isPrivate(i)) {
-               if (J) {
+               if (HAS_TRUSTED_LOOKUP) {
                   methodHandle = Modifier.isStatic(i) ? lookup2.unreflect(method2) : lookup2.unreflectSpecial(method2, object.getClass());
                }
             } else if (Modifier.isProtected(i)) {
-               if (J) {
+               if (HAS_TRUSTED_LOOKUP) {
                   methodHandle = lookup2.unreflect(method2);
                }
             } else if (Modifier.isPublic(i)) {
@@ -68,7 +68,7 @@ public enum InvocationStrategy {
                throw new RuntimeException("Unable to do lookup on method \"" + method2.getName() + "\".");
             }
          } catch (Throwable throwable) {
-            ReflectionErrors.H(throwable);
+            ReflectionErrors.rethrowUnchecked(throwable);
             return null;
          }
       }
@@ -82,25 +82,27 @@ public enum InvocationStrategy {
          try {
             return (Listener<E>)field.get(object);
          } catch (IllegalArgumentException | IllegalAccessException value) {
-            ReflectionErrors.H(value);
+            ReflectionErrors.rethrowReflectionException(value);
             return null;
          }
       }
    };
 
-   public static final Lookup n;
-   public static final boolean J;
-   private MemberKind C;
-   private static final InvocationStrategy[] X = new InvocationStrategy[]{METHOD_REFLECTIVE_INVOCATION, METHOD_LAMBDA_INVOCATION, FIELD_REFLECTIVE_INVOCATION};
+   public static final Lookup LOOKUP;
+   public static final boolean HAS_TRUSTED_LOOKUP;
+   private MemberKind memberKind;
+   private static final InvocationStrategy[] VALUES = new InvocationStrategy[]{
+      METHOD_REFLECTIVE_INVOCATION, METHOD_LAMBDA_INVOCATION, FIELD_REFLECTIVE_INVOCATION
+   };
 
    InvocationStrategy(MemberKind memberKind) {
-      this.C = memberKind;
+      this.memberKind = memberKind;
    }
 
    public abstract <O, E extends Event> Listener<E> createDispatcher(Class<E> class2, O object, AnnotatedElement annotatedElement);
 
-   public MemberKind e() {
-      return this.C;
+   public MemberKind getMemberKind() {
+      return this.memberKind;
    }
 
    static {
@@ -116,7 +118,7 @@ public enum InvocationStrategy {
          bl = false;
       }
 
-      n = lookup2;
-      J = bl;
+      LOOKUP = lookup2;
+      HAS_TRUSTED_LOOKUP = bl;
    }
 }

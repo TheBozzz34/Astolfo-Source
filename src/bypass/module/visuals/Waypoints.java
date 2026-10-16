@@ -30,21 +30,21 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import org.lwjgl.opengl.GL11;
 
 public final class Waypoints extends Module {
-   private static final List<Waypoint> h = new ArrayList<>();
+   private static final List<Waypoint> waypoints = new ArrayList<>();
    private final NumberSetting<Float> scale = new NumberSetting<>("Scale", "Scale of waypoints", 0.5F, 0.1F, 3.0F);
    @EventHandler(value = RenderEvent.class, priority = EventPriority.LOWEST)
    private Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.WORLD) {
          RenderManager renderManager = mc.getRenderManager();
-         h.forEach(waypoint -> {
+         waypoints.forEach(waypoint -> {
             String string = mc.getCurrentServerData() == null ? "SinglePlayer" : mc.getCurrentServerData().serverIP;
-            if (mc.thePlayer.dimension == Waypoint.L(waypoint) && string.equals(waypoint.z())) {
-               this.o(mc, waypoint, waypoint.c() - renderManager.viewerPosX, waypoint.I() - renderManager.viewerPosY, waypoint.K() - renderManager.viewerPosZ);
+            if (mc.thePlayer.dimension == Waypoint.dimensionOf(waypoint) && string.equals(waypoint.getServer())) {
+               this.renderWaypoint(mc, waypoint, waypoint.getX() - renderManager.viewerPosX, waypoint.getY() - renderManager.viewerPosY, waypoint.getZ() - renderManager.viewerPosZ);
             }
          });
       }
    };
-   public static final boolean W = !Waypoints.class.desiredAssertionStatus();
+   public static final boolean ASSERTIONS_DISABLED = !Waypoints.class.desiredAssertionStatus();
 
    public Waypoints(Category category) {
       super(category);
@@ -52,8 +52,8 @@ public final class Waypoints extends Module {
       this.addSettings(this.scale);
    }
 
-   private void o(Minecraft minecraft, Waypoint waypoint, double d, double d2, double d3) {
-      double e = minecraft.thePlayer.getDistance(waypoint.c(), waypoint.I(), waypoint.K());
+   private void renderWaypoint(Minecraft minecraft, Waypoint waypoint, double d, double d2, double d3) {
+      double e = minecraft.thePlayer.getDistance(waypoint.getX(), waypoint.getY(), waypoint.getZ());
       double d4 = minecraft.gameSettings.renderDistanceChunks * 12.8;
       double d5 = Math.sqrt(d * d + d3 * d3 + d2 * d2);
       if (d5 > d4) {
@@ -87,17 +87,20 @@ public final class Waypoints extends Module {
       GlStateManager.disableDepth();
       GlStateManager.enableBlend();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-      String string = "§7" + Math.round(minecraft.thePlayer.getDistance(waypoint.c(), waypoint.I(), waypoint.K())) + "§f";
+      String string = "§7" + Math.round(minecraft.thePlayer.getDistance(waypoint.getX(), waypoint.getY(), waypoint.getZ())) + "§f";
       Gui.drawRect(
-         -(minecraft.fontRendererObj.getStringWidth(waypoint.r() + " [" + string + "]") / 2) - 2,
+         -(minecraft.fontRendererObj.getStringWidth(waypoint.getName() + " [" + string + "]") / 2) - 2,
          -2,
-         minecraft.fontRendererObj.getStringWidth(waypoint.r() + " [" + string + "]") / 2 + 2,
+         minecraft.fontRendererObj.getStringWidth(waypoint.getName() + " [" + string + "]") / 2 + 2,
          9,
          new Color(0, 0, 0, 50).getRGB()
       );
       minecraft.fontRendererObj
          .drawStringWithShadow(
-            waypoint.r() + " [" + string + "]", -(minecraft.fontRendererObj.getStringWidth(waypoint.r() + " [" + string + "]") / 2.0F) + 0.5F, -0.5F, -1
+            waypoint.getName() + " [" + string + "]",
+            -(minecraft.fontRendererObj.getStringWidth(waypoint.getName() + " [" + string + "]") / 2.0F) + 0.5F,
+            -0.5F,
+            -1
          );
       GlStateManager.enableDepth();
       GlStateManager.depthMask(true);
@@ -108,20 +111,22 @@ public final class Waypoints extends Module {
       GlStateManager.popMatrix();
    }
 
-   public static void X(String string, double d, double d2, double d3) {
-      h.add(new Waypoint(string, mc.getCurrentServerData() == null ? "SinglePlayer" : mc.getCurrentServerData().serverIP, mc.thePlayer.dimension, d, d2, d3));
+   public static void addWaypoint(String string, double d, double d2, double d3) {
+      waypoints.add(
+         new Waypoint(string, mc.getCurrentServerData() == null ? "SinglePlayer" : mc.getCurrentServerData().serverIP, mc.thePlayer.dimension, d, d2, d3)
+      );
    }
 
    public static void save() {
       JsonObject jsonObject = new JsonObject();
-      h.forEach(waypoint -> {
+      waypoints.forEach(waypoint -> {
          JsonObject jsonObject2 = new JsonObject();
-         jsonObject2.addProperty("server", waypoint.z());
-         jsonObject2.addProperty("dimension", waypoint.k());
-         jsonObject2.addProperty("x", waypoint.c());
-         jsonObject2.addProperty("y", waypoint.I());
-         jsonObject2.addProperty("z", waypoint.K());
-         jsonObject.add(waypoint.r(), jsonObject2);
+         jsonObject2.addProperty("server", waypoint.getServer());
+         jsonObject2.addProperty("dimension", waypoint.getDimension());
+         jsonObject2.addProperty("x", waypoint.getX());
+         jsonObject2.addProperty("y", waypoint.getY());
+         jsonObject2.addProperty("z", waypoint.getZ());
+         jsonObject.add(waypoint.getName(), jsonObject2);
       });
       Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -153,7 +158,7 @@ public final class Waypoints extends Module {
                .forEach(
                   entry -> {
                      JsonObject jsonObject2 = entry.getValue().getAsJsonObject();
-                     h.add(
+                     waypoints.add(
                         new Waypoint(
                            entry.getKey(),
                            jsonObject2.get("server").getAsString(),
@@ -171,15 +176,15 @@ public final class Waypoints extends Module {
       }
    }
 
-   public static void G(String string) {
-      if (U(string).isPresent()) {
-         h.remove(U(string).get());
+   public static void removeWaypoint(String string) {
+      if (findWaypoint(string).isPresent()) {
+         waypoints.remove(findWaypoint(string).get());
       }
    }
 
-   public static Optional<Waypoint> U(String string) {
-      for (Waypoint waypoint : h) {
-         if (waypoint.r().equalsIgnoreCase(string)) {
+   public static Optional<Waypoint> findWaypoint(String string) {
+      for (Waypoint waypoint : waypoints) {
+         if (waypoint.getName().equalsIgnoreCase(string)) {
             return Optional.of(waypoint);
          }
       }

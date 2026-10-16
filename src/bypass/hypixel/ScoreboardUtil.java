@@ -14,15 +14,15 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.StringUtils;
 
 public class ScoreboardUtil {
-   private static final Minecraft x = Minecraft.getMinecraft();
+   private static final Minecraft mc = Minecraft.getMinecraft();
 
-   public static List<String> p() {
+   public static List<String> getCurrentSidebarText() {
       ArrayList arrayList = new ArrayList();
-      if (x.theWorld == null) {
+      if (mc.theWorld == null) {
          return arrayList;
       }
 
-      Scoreboard scoreboard = x.theWorld.getScoreboard();
+      Scoreboard scoreboard = mc.theWorld.getScoreboard();
       return scoreboard == null ? arrayList : getFormattedSidebarText(scoreboard);
    }
 
@@ -53,16 +53,16 @@ public class ScoreboardUtil {
       return arrayList;
    }
 
-   public static List<String> d() {
-      return z(p());
+   public static List<String> getCurrentStrippedSidebarText() {
+      return stripControlCodes(getCurrentSidebarText());
    }
 
-   public static List<String> P(Scoreboard scoreboard) {
+   public static List<String> getStrippedSidebarText(Scoreboard scoreboard) {
       List list = getFormattedSidebarText(scoreboard);
-      return z(list);
+      return stripControlCodes(list);
    }
 
-   public static List<String> z(List<String> list) {
+   public static List<String> stripControlCodes(List<String> list) {
       ArrayList arrayList = new ArrayList();
 
       for (int i = 0; i < list.size(); i++) {
@@ -72,16 +72,16 @@ public class ScoreboardUtil {
       return arrayList;
    }
 
-   public static String k(Scoreboard scoreboard) {
+   public static String getSidebarTitle(Scoreboard scoreboard) {
       ScoreObjective scoreObjective = scoreboard.getObjectiveInDisplaySlot(1);
       return scoreObjective == null ? "" : scoreObjective.getDisplayName();
    }
 
-   public static String c(Scoreboard scoreboard) {
-      return StringUtils.stripControlCodes(k(scoreboard));
+   public static String getStrippedSidebarTitle(Scoreboard scoreboard) {
+      return StringUtils.stripControlCodes(getSidebarTitle(scoreboard));
    }
 
-   public static String m() {
-      return x.theWorld == null ? null : c(x.theWorld.getScoreboard());
+   public static String getCurrentSidebarTitle() {
+      return mc.theWorld == null ? null : getStrippedSidebarTitle(mc.theWorld.getScoreboard());
    }
 }

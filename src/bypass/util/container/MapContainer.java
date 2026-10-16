@@ -18,63 +18,63 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
    }
 
    @Override
-   public void j() {
-      this.x();
+   public void initialize() {
+      this.ensureMap();
    }
 
    @Override
-   public void m() throws ContainerError {
-      this.F();
+   public void destroy() throws ContainerError {
+      this.releaseMap();
    }
 
    public Map<K, V> W_Map() {
       return Collections.unmodifiableMap(this.getValue());
    }
 
-   public void x() {
-      this.setValue(!this.X() ? this.getValue() : new HashMap<>());
+   public void ensureMap() {
+      this.setValue(!this.isMapNull() ? this.getValue() : new HashMap<>());
    }
 
-   public void F() {
+   public void releaseMap() {
       this.setValue(null);
    }
 
-   public V D(K object, V object2) {
+   public V put(K object, V object2) {
       return this.getValue().put((K)object, (V)object2);
    }
 
-   public void z(Function<V, K> function, V... objects) {
+   public void putAllKeyed(Function<V, K> function, V... objects) {
       for (Object object : objects) {
-         this.D((K)function.apply((V)(object)), (V)object);
+         this.put((K)function.apply((V)(object)), (V)object);
       }
    }
 
-   public boolean X() {
+   public boolean isMapNull() {
       return this.getValue() == null;
    }
 
-   public void p(Map<? extends K, ? extends V> map) {
+   public void putAll(Map<? extends K, ? extends V> map) {
       this.getValue().putAll(map);
    }
 
-   public Set<K> Z() {
+   public Set<K> getKeys() {
       return Collections.unmodifiableSet(this.getValue().keySet());
    }
 
-   public Collection<V> d() {
+   public Collection<V> getValues() {
       return Collections.unmodifiableCollection(this.getValue().values());
    }
 
-   public V e(K object) {
+   public V get(K object) {
       return this.getValue().get(object);
    }
 
-   public Optional<V> Z(K object) {
+   public Optional<V> getOptional(K object) {
       return Optional.ofNullable(this.getValue().get(object));
    }
 
-   public <T extends V> Optional<T> A(Class<T> class2) {
-      for (Object object : this.d()) {
+   public <T extends V> Optional<T> findValueByClass(Class<T> class2) {
+      for (Object object : this.getValues()) {
          if (object.getClass() == class2) {
             return Optional.of((T)object);
          }
@@ -83,23 +83,23 @@ public class MapContainer<K, V> extends Container<Map<K, V>> {
       return Optional.empty();
    }
 
-   public V E(K object) {
+   public V remove(K object) {
       return this.getValue().remove(object);
    }
 
-   public boolean v(K object, V object2) {
+   public boolean removeEntry(K object, V object2) {
       return this.getValue().remove(object, object2);
    }
 
-   public boolean c(K object) {
+   public boolean containsKey(K object) {
       return this.getValue().containsKey(object);
    }
 
-   public boolean j(V object) {
+   public boolean containsValue(V object) {
       return this.getValue().containsValue(object);
    }
 
-   public void H() {
+   public void clear() {
       this.getValue().clear();
    }
 }

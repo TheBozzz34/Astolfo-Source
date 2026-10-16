@@ -18,13 +18,13 @@ public final class IteminfoCommand extends Command {
                ItemStack itemStack = entityPlayer.getHeldItem();
                if (itemStack != null) {
                   if (itemStack.V() != null) {
-                     chat.I(itemStack.getDisplayName());
+                     chat.print(itemStack.getDisplayName());
                      if (itemStack.V().hasKey("display", 10)) {
                         NBTTagCompound nbtTagCompound = itemStack.V().getCompoundTag("display");
                         NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
                         if (nbtTagList.tagCount() > 0) {
                            for (int i = 0; i < nbtTagList.tagCount(); i++) {
-                              chat.I(nbtTagList.getStringTagAt(i));
+                              chat.print(nbtTagList.getStringTagAt(i));
                            }
                         }
                      }
@@ -35,7 +35,7 @@ public final class IteminfoCommand extends Command {
             }
          }
 
-         chat.I("Player not found");
+         chat.print("Player not found");
       }
    }
 }

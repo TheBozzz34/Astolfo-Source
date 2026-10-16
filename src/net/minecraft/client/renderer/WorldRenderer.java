@@ -381,7 +381,7 @@ public class WorldRenderer {
          }
       }
 
-      if (ModuleManager.s.isEnabled() && Xray.isTranslucent()) {
+      if (ModuleManager.xray.isEnabled() && Xray.isTranslucent()) {
          this.rawIntBuffer.put(j, MathHelper.floor_float(Xray.opacity.getValue().intValue() * 2.3F) + 25 << 24 | k & 16777215);
       } else {
          this.rawIntBuffer.put(j, k);

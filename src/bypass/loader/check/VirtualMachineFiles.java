@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class VirtualMachineFiles {
-   private final List<File> m = Arrays.asList(
+   private final List<File> files = Arrays.asList(
       new File("C:\\\\windows\\\\System32\\\\Drivers\\\\Vmmouse.sys"),
       new File("C:\\\\windows\\\\System32\\\\Drivers\\\\vm3dgl.dll"),
       new File("C:\\\\windows\\\\System32\\\\Drivers\\\\vmdum.dll"),
@@ -36,7 +36,7 @@ public class VirtualMachineFiles {
       new File("C:\\\\windows\\\\System32\\\\VBoxControl.exe")
    );
 
-   public List<File> i() {
-      return this.m;
+   public List<File> getFiles() {
+      return this.files;
    }
 }

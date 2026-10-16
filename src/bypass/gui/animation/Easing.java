@@ -16,14 +16,14 @@ public enum Easing {
    INERTIA(double2 -> Math.cbrt(double2 - 0.5) / 1.5874010519681994),
    INSTANT(double2 -> (double)Math.round(double2));
 
-   private final Function<Double, Double> s;
-   private static final Easing[] v = new Easing[]{LINEAR, CURVE, STEEP_CURVE, BEZIER_CURVE, INVERSE_CURVE, INVERSE_STEEP_CURVE, RUBBER, INERTIA, INSTANT};
+   private final Function<Double, Double> function;
+   private static final Easing[] VALUES = new Easing[]{LINEAR, CURVE, STEEP_CURVE, BEZIER_CURVE, INVERSE_CURVE, INVERSE_STEEP_CURVE, RUBBER, INERTIA, INSTANT};
 
    Easing(Function<Double, Double> function) {
-      this.s = function;
+      this.function = function;
    }
 
-   public double r(double d) {
-      return this.s.apply(d);
+   public double apply(double d) {
+      return this.function.apply(d);
    }
 }

@@ -9,10 +9,10 @@ import bypass.module.Category;
 import bypass.module.Module;
 
 public class FastEat extends Module {
-   private int B;
-   private int h;
-   private boolean H;
-   private boolean D;
+   private int unusedIntB;
+   private int unusedIntA;
+   private boolean unusedFlagA;
+   private boolean unusedFlagB;
    @EventHandler(value = PacketEvent.class, priority = EventPriority.HIGH)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {

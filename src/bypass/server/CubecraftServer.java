@@ -6,7 +6,7 @@ public final class CubecraftServer extends Server {
    }
 
    @Override
-   public boolean m() {
+   public boolean isBrandValid() {
       return true;
    }
 }

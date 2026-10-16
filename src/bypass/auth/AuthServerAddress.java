@@ -11,7 +11,7 @@ public class AuthServerAddress {
    public String getHost() {
       StringBuilder stringBuilder = new StringBuilder();
 
-      for (AddressPart addressPart : this.parts.d().L().getValue()) {
+      for (AddressPart addressPart : this.parts.getParts().getOwnedContainer().getValue()) {
          stringBuilder.append(addressPart.getPart());
       }
 

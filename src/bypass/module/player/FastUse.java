@@ -27,8 +27,8 @@ public final class FastUse extends Module {
    private final NumberSetting<Integer> delay = new NumberSetting<>("Delay", "Ticks that will be needed to pass to fast use", 12, 8, 32);
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
-      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+      this.updateDisplayName();
+      boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel();
       if (!bl
          && updateEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.VANILLA
@@ -49,11 +49,11 @@ public final class FastUse extends Module {
          mc.playerController.onStoppedUsingItem(mc.thePlayer);
       }
    };
-   private int z;
-   private Stopwatch l = new Stopwatch();
+   private int unusedInt;
+   private Stopwatch useTimer = new Stopwatch();
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+      boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel();
       if (!bl
          && motionEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.SENTINEL
@@ -75,9 +75,9 @@ public final class FastUse extends Module {
             mc.thePlayer.getHeldItem().getItem().getItemUseAction(mc.thePlayer.getHeldItem()) == EnumAction.EAT
                || mc.thePlayer.getHeldItem().getItem().getItemUseAction(mc.thePlayer.getHeldItem()) == EnumAction.DRINK
          )
-         && this.l.hasElapsed(250.0F)) {
-         E(mc.thePlayer.inventory.currentItem, mc.thePlayer.getHeldItem(), false);
-         this.l.reset();
+         && this.useTimer.hasElapsed(250.0F)) {
+         sendUseItemPackets(mc.thePlayer.inventory.currentItem, mc.thePlayer.getHeldItem(), false);
+         this.useTimer.reset();
       }
    };
 
@@ -86,7 +86,7 @@ public final class FastUse extends Module {
       this.addSettings(this.mode, this.delay);
    }
 
-   public static void E(int i, ItemStack itemStack, boolean bl) {
+   public static void sendUseItemPackets(int i, ItemStack itemStack, boolean bl) {
       mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
       mc.thePlayer.sendQueue.addToSendQueue(new C08PacketPlayerBlockPlacement(itemStack));
       mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(0));
@@ -94,15 +94,15 @@ public final class FastUse extends Module {
    }
 
    @Override
-   public void p() {
-      boolean bl = RiderGod.r() && GameUtil.isOnHypixel();
+   public void updateDisplayName() {
+      boolean bl = RiderGod.isAtLeast1122Protocol() && GameUtil.isOnHypixel();
       if (!bl) {
          this.setDisplayName("Fast Use " + EnumChatFormatting.GRAY + this.delay.getValue());
       } else {
          this.setDisplayName("Fast Use " + EnumChatFormatting.GRAY + "Instant");
       }
 
-      super.p();
+      super.updateDisplayName();
    }
 
    private boolean o_boolean() {

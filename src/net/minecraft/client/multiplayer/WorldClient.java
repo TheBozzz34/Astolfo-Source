@@ -220,7 +220,7 @@ public class WorldClient extends World {
    @Override
    public void sendQuittingDisconnectingPacket() {
       this.sendQueue.getNetworkManager().closeChannel(new ChatComponentText("Quitting"));
-      ServerManager.c(ServerType.UNKNOWN);
+      ServerManager.setCurrentServerType(ServerType.UNKNOWN);
    }
 
    @Override

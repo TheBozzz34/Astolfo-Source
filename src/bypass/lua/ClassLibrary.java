@@ -7,15 +7,15 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.lib.TwoArgFunction;
 
 public class ClassLibrary extends TwoArgFunction implements ClientAccess {
-   public Globals R;
+   public Globals globals;
 
    @Override
    public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
-      this.R = luaValue2.checkglobals();
+      this.globals = luaValue2.checkglobals();
       LuaTable luaTable = new LuaTable();
 
       try {
-         this.R.loadfile("/assets/minecraft/client/class.lua");
+         this.globals.loadfile("/assets/minecraft/client/class.lua");
       } catch (Exception exception) {
          exception.printStackTrace();
       }

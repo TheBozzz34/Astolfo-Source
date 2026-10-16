@@ -16,8 +16,8 @@ public final class WaypointsCommand extends Command {
             if (strings[1].equalsIgnoreCase("add")) {
                switch (strings.length) {
                   case 3:
-                     Waypoints.X(strings[2], mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
-                     chat.R(
+                     Waypoints.addWaypoint(strings[2], mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
+                     chat.printSuccess(
                         String.format(
                            "Successfully added %s as waypoint (%s, %s, %s)", strings[2], (int)mc.thePlayer.posX, (int)mc.thePlayer.posY, (int)mc.thePlayer.posZ
                         )
@@ -27,25 +27,25 @@ public final class WaypointsCommand extends Command {
                      double d = Double.parseDouble(strings[3]);
                      double e = Double.parseDouble(strings[4]);
                      double d2 = Double.parseDouble(strings[5]);
-                     Waypoints.X(strings[2], d, e, d2);
-                     chat.R(String.format("Successfully added %s as waypoint (%s, %s, %s)", strings[2], (int)d, (int)e, (int)d2));
+                     Waypoints.addWaypoint(strings[2], d, e, d2);
+                     chat.printSuccess(String.format("Successfully added %s as waypoint (%s, %s, %s)", strings[2], (int)d, (int)e, (int)d2));
                }
             }
 
             if (strings[1].equalsIgnoreCase("remove")) {
                switch (strings.length) {
                   case 3:
-                     chat.R(String.format("Successfully removed %s waypoint", strings[2]));
-                     Waypoints.G(strings[2]);
+                     chat.printSuccess(String.format("Successfully removed %s waypoint", strings[2]));
+                     Waypoints.removeWaypoint(strings[2]);
                }
             }
          }
 
          if (strings.length == 1) {
-            chat.I(String.format("%s:%s", this.getName(), this.getUsage()));
+            chat.print(String.format("%s:%s", this.getName(), this.getUsage()));
          }
       } catch (Exception exception) {
-         chat.I(String.format("%s:%s", this.getName(), this.getUsage()));
+         chat.print(String.format("%s:%s", this.getName(), this.getUsage()));
       }
    }
 }

@@ -48,18 +48,18 @@ public final class Fucker extends Module {
       .add("Enable", new BooleanSetting("Enable", "Enable render", true))
       .add("Color", new ColorSetting("Color", "color", client.getColorSetting().getValue()))
       .build();
-   private final Stopwatch h = new Stopwatch();
-   private BlockPos H;
-   private final Rotator N = new Rotator(false, 0.0F);
-   private float W;
-   private float f;
-   private float z;
-   private float x;
+   private final Stopwatch breakTimer = new Stopwatch();
+   private BlockPos targetBlock;
+   private final Rotator rotator = new Rotator(false, 0.0F);
+   private float targetYaw;
+   private float prevYaw;
+   private float targetPitch;
+   private float prevPitch;
    @EventHandler(value = MotionEvent.class, priority = EventPriority.LOW)
    private Listener<MotionEvent> onMotion = motionEvent -> {
       switch (motionEvent.getState()) {
          case PRE:
-            this.H = null;
+            this.targetBlock = null;
 
             for (int i = -5; i < 6; i++) {
                for (int j = -5; j < 6; j++) {
@@ -67,13 +67,15 @@ public final class Fucker extends Module {
                      double d = mc.thePlayer.posX + i;
                      double e = mc.thePlayer.posY + k;
                      double d2 = mc.thePlayer.posZ + j;
-                     if (this.U(new BlockPos(d, e, d2))) {
-                        this.H = new BlockPos(d, e, d2);
+                     if (this.isTargetBlock(new BlockPos(d, e, d2))) {
+                        this.targetBlock = new BlockPos(d, e, d2);
                         Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-                        Vector3d vector3d2 = new Vector3d(Math.floor(this.H.getX()) + 0.5, Math.floor(this.H.getY()) + 0.5, Math.floor(this.H.getZ()) + 0.5);
-                        Rotation rotation = this.N.rotationTo(vector3d2, vector3d);
+                        Vector3d vector3d2 = new Vector3d(
+                           Math.floor(this.targetBlock.getX()) + 0.5, Math.floor(this.targetBlock.getY()) + 0.5, Math.floor(this.targetBlock.getZ()) + 0.5
+                        );
+                        Rotation rotation = this.rotator.rotationTo(vector3d2, vector3d);
                         if (this.rayCast.getValue()) {
-                           MovingObjectPosition movingObjectPosition = GameUtil.A(rotation.getYaw(), rotation.getPitch(), this.range.getValue().floatValue());
+                           MovingObjectPosition movingObjectPosition = GameUtil.rayTrace(rotation.getYaw(), rotation.getPitch(), this.range.getValue().floatValue());
                            if (movingObjectPosition != null) {
                               if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                                  return;
@@ -81,64 +83,65 @@ public final class Fucker extends Module {
 
                               if (movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
                                  && !(mc.theWorld.getBlockState(movingObjectPosition.getBlockPos()).getBlock() instanceof BlockAir)) {
-                                 this.H = movingObjectPosition.getBlockPos();
+                                 this.targetBlock = movingObjectPosition.getBlockPos();
                               }
                            }
                         }
 
-                        this.f = motionEvent.getLastYaw();
-                        this.x = motionEvent.getLastPitch();
+                        this.prevYaw = motionEvent.getLastYaw();
+                        this.prevPitch = motionEvent.getLastPitch();
                         motionEvent.setPitch(rotation.getPitch());
                         motionEvent.setYaw(rotation.getYaw());
-                        this.W = motionEvent.getYaw();
-                        this.z = motionEvent.getPitch();
+                        this.targetYaw = motionEvent.getYaw();
+                        this.targetPitch = motionEvent.getPitch();
                      }
                   }
                }
             }
             break;
          case POST:
-            if (this.H != null && mc.thePlayer.getDistance(this.H.getX(), this.H.getY(), this.H.getZ()) <= this.range.getValue().floatValue()) {
+            if (this.targetBlock != null
+               && mc.thePlayer.getDistance(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ()) <= this.range.getValue().floatValue()) {
                mc.thePlayer.sendQueue.u(new C0APacketAnimation());
-               if (this.h.hasElapsed(100.0F) && !mc.theWorld.isAirBlock(this.H)) {
-                  if (mc.theWorld.getBlockState(this.H).getBlock().equals(Blocks.cake)) {
+               if (this.breakTimer.hasElapsed(100.0F) && !mc.theWorld.isAirBlock(this.targetBlock)) {
+                  if (mc.theWorld.getBlockState(this.targetBlock).getBlock().equals(Blocks.cake)) {
                      mc.playerController
                         .onPlayerRightClick(
                            mc.thePlayer,
                            mc.theWorld,
                            mc.thePlayer.getCurrentEquippedItem(),
-                           this.H,
+                           this.targetBlock,
                            EnumFacing.UP,
-                           new Vec3(this.H.getX(), this.H.getY(), this.H.getZ())
+                           new Vec3(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ())
                         );
                   } else {
-                     mc.playerController.onPlayerDamageBlock(this.H, EnumFacing.UP);
+                     mc.playerController.onPlayerDamageBlock(this.targetBlock, EnumFacing.UP);
                      mc.thePlayer
                         .sendQueue
-                        .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, this.H, EnumFacing.DOWN));
+                        .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, this.targetBlock, EnumFacing.DOWN));
                      mc.thePlayer
                         .sendQueue
-                        .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.H, EnumFacing.DOWN));
+                        .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, this.targetBlock, EnumFacing.DOWN));
                   }
 
-                  this.h.reset();
+                  this.breakTimer.reset();
                }
             }
       }
    };
    @EventHandler(RenderLivingEvent.class)
    private Listener<RenderLivingEvent> onRenderLiving = renderLivingEvent -> {
-      if (this.H != null && renderLivingEvent.getEntity() == mc.thePlayer) {
+      if (this.targetBlock != null && renderLivingEvent.getEntity() == mc.thePlayer) {
       }
    };
    @EventHandler(RenderEvent.class)
    private Listener<RenderEvent> onRender = renderEvent -> {
       if (renderEvent.getType() == RenderType.WORLD) {
-         if (this.H == null) {
+         if (this.targetBlock == null) {
             return;
          }
 
-         IBlockState iBlockState = mc.theWorld.getBlockState(this.H);
+         IBlockState iBlockState = mc.theWorld.getBlockState(this.targetBlock);
          if (iBlockState == null) {
             return;
          }
@@ -159,12 +162,12 @@ public final class Fucker extends Module {
          double e = mc.getRenderManager().viewerPosY;
          double d2 = mc.getRenderManager().viewerPosZ;
          GL11.glTranslated(-d, -e, -d2);
-         GL11.glTranslated(this.H.getX(), this.H.getY(), this.H.getZ());
+         GL11.glTranslated(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ());
          Color color = (Color)this.render.getSetting("Color").getValue();
          GL11.glColor4f(color.getRed() / 255.0F, color.getGreen() / 255.0F, color.getBlue() / 255.0F, color.getAlpha() / 255.0F);
          AxisAlignedBB axisAlignedBB = iBlockState.getBlock().getSelectedBoundingBox(mc.theWorld, new BlockPos(0, 0, 0));
          if (axisAlignedBB != null) {
-            BlockOverlay.z(axisAlignedBB);
+            BlockOverlay.drawFilledBox(axisAlignedBB);
          }
 
          GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -183,14 +186,14 @@ public final class Fucker extends Module {
 
    @Override
    public void onDisable() {
-      this.H = null;
-      this.h.reset();
-      this.W = this.f = 0.0F;
-      this.z = this.x = 0.0F;
+      this.targetBlock = null;
+      this.breakTimer.reset();
+      this.targetYaw = this.prevYaw = 0.0F;
+      this.targetPitch = this.prevPitch = 0.0F;
       super.onDisable();
    }
 
-   private boolean U(BlockPos blockPos) {
+   private boolean isTargetBlock(BlockPos blockPos) {
       return mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.cake) && this.blocks.getSetting("Cake").asBoolean()
          || mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.end_stone) && this.blocks.getSetting("End-Stone").asBoolean()
          || mc.theWorld.getBlockState(blockPos).getBlock().equals(Blocks.bed) && this.blocks.getSetting("Bed").asBoolean();

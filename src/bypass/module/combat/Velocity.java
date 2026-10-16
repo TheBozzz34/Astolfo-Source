@@ -52,22 +52,22 @@ public final class Velocity extends Module {
       .add("Reduce-Y", new BooleanSetting("Reduce-Y", "Reduces y pos", true))
       .add("Push", new NumberSetting<>("Push", "Push back amount", 2.0F, 1.0F, 3.0F))
       .build();
-   private long f;
-   private boolean l;
-   private boolean c;
-   private Entity h;
-   private int y;
+   private long lastVelocityTime;
+   private boolean unusedFlagA;
+   private boolean unusedFlagB;
+   private Entity nearbyThreat;
+   private int threatTicks;
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      this.p();
+      this.updateDisplayName();
       if (updateEvent.getState() == EventState.PRE) {
-         if (this.J()) {
-            Entity entity = this.r();
+         if (this.isStaffCheckEnabled()) {
+            Entity entity = this.findNearbyThreat();
             if (entity != null) {
-               this.h = entity;
-               this.y = 20;
-            } else if (this.y-- <= 0) {
-               this.h = null;
+               this.nearbyThreat = entity;
+               this.threatTicks = 20;
+            } else if (this.threatTicks-- <= 0) {
+               this.nearbyThreat = null;
             }
          }
 
@@ -76,8 +76,8 @@ public final class Velocity extends Module {
                return;
             }
 
-            if (this.f != 0L && System.currentTimeMillis() - this.f > 80L) {
-               this.f = 0L;
+            if (this.lastVelocityTime != 0L && System.currentTimeMillis() - this.lastVelocityTime > 80L) {
+               this.lastVelocityTime = 0L;
             }
 
             if (mc.thePlayer.hurtTime > 0 && mc.thePlayer.motionX != 0.0 && mc.thePlayer.motionZ != 0.0) {
@@ -104,10 +104,10 @@ public final class Velocity extends Module {
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
-         float g = 100 - this.chance.getValue();
-         boolean bl = RandomUtils.RANDOM.nextFloat() > (g != 0.0F ? g / 100.0F : -0.1);
+         float f = 100 - this.chance.getValue();
+         boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
          if (bl) {
-            if (mc.thePlayer != null && mc.theWorld != null && GameUtil.isOnHypixel() && this.J()) {
+            if (mc.thePlayer != null && mc.theWorld != null && GameUtil.isOnHypixel() && this.isStaffCheckEnabled()) {
                if (GameUtil.scoreboardTitleContains("PIT") && !GuiIngame.E) {
                   if (Math.abs(AutoHypixel.pitSpawnY - mc.thePlayer.posY) < 4.0) {
                      return;
@@ -126,7 +126,7 @@ public final class Velocity extends Module {
             if (packetEvent.getPacket() instanceof S12PacketEntityVelocity) {
                S12PacketEntityVelocity s12PacketEntityVelocity = (S12PacketEntityVelocity)packetEvent.getPacket();
                if (mc.thePlayer != null && s12PacketEntityVelocity.getEntityID() == mc.thePlayer.getEntityId()) {
-                  this.f = System.currentTimeMillis();
+                  this.lastVelocityTime = System.currentTimeMillis();
                   switch ((VelocityMode)this.mode.getValue()) {
                      case PACKET:
                         if (!(Math.abs(this.horizontal.getValue()) > 0.0F) && !(Math.abs(this.vertical.getValue()) > 0.0F)) {
@@ -143,13 +143,13 @@ public final class Velocity extends Module {
 
             if (packetEvent.getPacket() instanceof S27PacketExplosion) {
                S27PacketExplosion s27PacketExplosion = (S27PacketExplosion)packetEvent.getPacket();
-               if (this.J()
+               if (this.isStaffCheckEnabled()
                   && s27PacketExplosion.field_149153_g > 0.2
                   && mc.thePlayer.hurtTime == 0
                   && mc.thePlayer.hurtResistantTime == 0
-                  && this.h == null
+                  && this.nearbyThreat == null
                   && !client.getModuleManager().get(Flight.class).isEnabled()) {
-                  toasts.X("Staff test", "A staff possibly tested knockback on you!");
+                  toasts.warningMessage("Staff test", "A staff possibly tested knockback on you!");
                   if (this.hypixelStaff.getSetting("Take-KB").asBoolean()) {
                      return;
                   }
@@ -183,12 +183,12 @@ public final class Velocity extends Module {
 
    public Velocity(Category category) {
       super(category);
-      this.B(-11111286);
+      this.setModuleColor(-11111286);
       this.addSettings(this.mode, this.hypixelStaff, this.push, this.horizontal, this.vertical, this.chance, water);
    }
 
    @Override
-   public void p() {
+   public void updateDisplayName() {
       if (this.mode.getValue() == VelocityMode.PACKET) {
          this.setDisplayName(
             this.getName()
@@ -203,21 +203,21 @@ public final class Velocity extends Module {
          this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + "Pull");
       }
 
-      super.p();
+      super.updateDisplayName();
    }
 
-   private boolean J() {
+   private boolean isStaffCheckEnabled() {
       return this.hypixelStaff.getSetting("Enable").asBoolean() && !client.getModuleManager().get(LongJump.class).isEnabled();
    }
 
-   private Entity r() {
+   private Entity findNearbyThreat() {
       float f = 10.0F;
       Entity entity = null;
 
       for (Entity entity2 : mc.theWorld.loadedEntityList) {
          if (entity2 != mc.thePlayer
             && (entity2 instanceof EntityPlayer || entity2 instanceof IProjectile || GameUtil.isHostile(entity2) || GameUtil.isBoss(entity2))
-            && (!(entity2 instanceof EntityPlayer) || !BotDetector.w.contains(entity2))) {
+            && (!(entity2 instanceof EntityPlayer) || !BotDetector.bots.contains(entity2))) {
             float g = mc.thePlayer.getDistanceToEntity(entity2);
             if (g < f) {
                entity = entity2;

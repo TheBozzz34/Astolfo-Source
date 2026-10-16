@@ -5,10 +5,10 @@ public enum LongJumpMode {
    SAFE("Safe"),
    WATCHDOG("Watchdog");
 
-   private String D;
-   private static final LongJumpMode[] O = new LongJumpMode[]{NORMAL, SAFE, WATCHDOG};
+   private String displayName;
+   private static final LongJumpMode[] VALUES = new LongJumpMode[]{NORMAL, SAFE, WATCHDOG};
 
    LongJumpMode(String string2) {
-      this.D = string2;
+      this.displayName = string2;
    }
 }

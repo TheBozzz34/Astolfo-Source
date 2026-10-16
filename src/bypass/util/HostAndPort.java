@@ -1,7 +1,7 @@
 package bypass.util;
 
 public final class HostAndPort {
-   public static final String R = ":";
+   public static final String SEPARATOR = ":";
    private final String host;
    private final int port;
 

@@ -33,7 +33,7 @@ public final class ChatCommandHandler extends HiddenModule {
                   Command command = (Command)client.getCommandManager().getCommand(chatEvent.getWords()[0].replace(".", ""));
                   if (command != null) {
                      if (!chatEvent.isUserTyped() && command instanceof ScriptCommand) {
-                        chat.P("https://www.youtube.com/watch?v=WSeNSzJ2-Jw");
+                        chat.printWarning("https://www.youtube.com/watch?v=WSeNSzJ2-Jw");
                         return;
                      }
 
@@ -47,7 +47,7 @@ public final class ChatCommandHandler extends HiddenModule {
                               if (strings.length <= 1) {
                                  ((Module)moduleInfo).toggle();
                                  if (chatEvent.isUserTyped()) {
-                                    chat.I(String.format("§7%s §fhas been toggled", moduleInfo.getName()));
+                                    chat.print(String.format("§7%s §fhas been toggled", moduleInfo.getName()));
                                  }
                               } else if (strings.length <= 2 && strings[1].equalsIgnoreCase("help")) {
                                  int i = 0;
@@ -63,7 +63,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                  }
 
                                  if (chatEvent.isUserTyped()) {
-                                    chat.I(String.format("%s: §7%s", moduleInfo.getName(), stringBuilder.toString()));
+                                    chat.print(String.format("%s: §7%s", moduleInfo.getName(), stringBuilder.toString()));
                                  }
                               } else {
                                  for (Setting setting2 : ((Module)moduleInfo).getSettings()) {
@@ -74,19 +74,19 @@ public final class ChatCommandHandler extends HiddenModule {
                                                 BooleanSetting booleanSetting = (BooleanSetting)setting2;
                                                 booleanSetting.set(Boolean.parseBoolean(strings[2]));
                                                 if (chatEvent.isUserTyped()) {
-                                                   chat.I(
+                                                   chat.print(
                                                       String.format(
                                                          "§7%s§f has been set to: %s%s", setting2.getName(), this.booleanColor(booleanSetting.getValue()), booleanSetting.getValue()
                                                       )
                                                    );
                                                 }
                                              } catch (Exception exception) {
-                                                chat.I("put boolean state correctly");
+                                                chat.print("put boolean state correctly");
                                              }
                                           } else {
                                              ((BooleanSetting)setting2).set(!((BooleanSetting)setting2).getValue());
                                              if (chatEvent.isUserTyped()) {
-                                                chat.I(
+                                                chat.print(
                                                    String.format(
                                                       "§7%s§f has been set to: %s%s",
                                                       setting2.getName(),
@@ -100,7 +100,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                           if (strings.length >= 3) {
                                              try {
                                                 if (setting2.getValueClass() == Integer.class && strings[2].contains(",")) {
-                                                   chat.P(String.format("%s is an Integer, you cant input a decimal on it.", setting2.getName()));
+                                                   chat.printWarning(String.format("%s is an Integer, you cant input a decimal on it.", setting2.getName()));
                                                    chatEvent.cancel();
                                                    return;
                                                 }
@@ -116,19 +116,19 @@ public final class ChatCommandHandler extends HiddenModule {
                                                 }
 
                                                 if (chatEvent.isUserTyped()) {
-                                                   chat.I(
+                                                   chat.print(
                                                       String.format(
                                                          "%s is now %s (before set to %s)", setting2.getName(), setting2.getValue(), setting2.getPreviousValue()
                                                       )
                                                    );
                                                 }
                                              } catch (NumberFormatException numberFormatException) {
-                                                chat.P("wrong number argument");
+                                                chat.printWarning("wrong number argument");
                                              } catch (ParseException parseException) {
                                                 parseException.printStackTrace();
                                              }
                                           } else if (chatEvent.isUserTyped()) {
-                                             chat.I(
+                                             chat.print(
                                                 String.format(
                                                    "%s -> %s: %s (min: %s, max: %s)",
                                                    moduleInfo.getName(),
@@ -144,7 +144,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                              if (strings.length >= 3) {
                                                 setting2.parse(strings[2]);
                                                 if (chatEvent.isUserTyped()) {
-                                                   chat.I(
+                                                   chat.print(
                                                       String.format(
                                                          "§7%s§f has been set to: §7%s§f (before set to §7%s§f)",
                                                          setting2.getName(),
@@ -162,7 +162,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                              }
 
                                              if (chatEvent.isUserTyped()) {
-                                                chat.I(
+                                                chat.print(
                                                    String.format(
                                                       "%s -> %s: %s (values: %s)",
                                                       moduleInfo.getName(),
@@ -182,7 +182,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                              }
 
                                              if (chatEvent.isUserTyped()) {
-                                                chat.I(String.format("Available values: §7%s", stringBuilder3.toString()));
+                                                chat.print(String.format("Available values: §7%s", stringBuilder3.toString()));
                                              }
                                           }
 
@@ -193,7 +193,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                    BooleanSetting booleanSetting2 = (BooleanSetting)setting4;
                                                    booleanSetting2.set(!booleanSetting2.getValue());
                                                    if (chatEvent.isUserTyped()) {
-                                                      chat.I(
+                                                      chat.print(
                                                          String.format(
                                                             "§7%s§f has been set to: %s%s",
                                                             setting2.getName(),
@@ -205,7 +205,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                 }
 
                                                 if (setting4 instanceof NumberSetting && chatEvent.isUserTyped()) {
-                                                   chat.I(
+                                                   chat.print(
                                                       String.format(
                                                          "%s -> %s: %s (min: %s, max: %s)",
                                                          moduleInfo.getName(),
@@ -225,7 +225,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                    }
 
                                                    if (chatEvent.isUserTyped()) {
-                                                      chat.I(
+                                                      chat.print(
                                                          String.format(
                                                             "%s -> %s: %s (values: %s)",
                                                             moduleInfo.getName(),
@@ -244,7 +244,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                       BooleanSetting booleanSetting3 = (BooleanSetting)setting4;
                                                       booleanSetting3.set(Boolean.parseBoolean(strings[3]));
                                                       if (chatEvent.isUserTyped()) {
-                                                         chat.I(
+                                                         chat.print(
                                                             String.format(
                                                                "§7%s§f has been set to: %s%s",
                                                                setting2.getName(),
@@ -254,7 +254,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                          );
                                                       }
                                                    } catch (Exception exception2) {
-                                                      chat.I("put boolean state correctly");
+                                                      chat.print("put boolean state correctly");
                                                    }
                                                 }
 
@@ -263,7 +263,7 @@ public final class ChatCommandHandler extends HiddenModule {
 
                                                    try {
                                                       if (setting2.getValueClass() == Integer.class && strings[3].contains(",")) {
-                                                         chat.P(String.format("%s is an Integer, you cant input a decimal on it.", setting4.getName()));
+                                                         chat.printWarning(String.format("%s is an Integer, you cant input a decimal on it.", setting4.getName()));
                                                          chatEvent.cancel();
                                                          return;
                                                       }
@@ -279,14 +279,14 @@ public final class ChatCommandHandler extends HiddenModule {
                                                       }
 
                                                       if (chatEvent.isUserTyped()) {
-                                                         chat.I(
+                                                         chat.print(
                                                             String.format(
                                                                "%s is now %s (before set to %s)", setting4.getName(), setting4.getValue(), setting4.getPreviousValue()
                                                             )
                                                          );
                                                       }
                                                    } catch (NumberFormatException numberFormatException2) {
-                                                      chat.P("wrong number argument");
+                                                      chat.printWarning("wrong number argument");
                                                    } catch (ParseException parseException2) {
                                                       parseException2.printStackTrace();
                                                    }
@@ -295,7 +295,7 @@ public final class ChatCommandHandler extends HiddenModule {
                                                 if (setting4 instanceof EnumSetting) {
                                                    setting4.parse(strings[3]);
                                                    if (chatEvent.isUserTyped()) {
-                                                      chat.I(
+                                                      chat.print(
                                                          String.format(
                                                             "§7%s§f has been set to: §7%s§f (before set to §7%s§f)",
                                                             setting4.getName(),

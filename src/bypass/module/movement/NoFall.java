@@ -26,18 +26,18 @@ import net.minecraft.util.EnumChatFormatting;
 
 public final class NoFall extends Module {
    private final EnumSetting<NoFallMode> mode = new EnumSetting<>("Mode", "Set your nofall modes", NoFallMode.SPOOF);
-   private ArrayList<Packet<?>> Q = new ArrayList<>();
+   private ArrayList<Packet<?>> packetQueue = new ArrayList<>();
    @EventHandler(UpdateEvent.class)
-   private final Listener<UpdateEvent> onUpdate = updateEvent -> this.p();
-   private int J;
-   private boolean O;
-   private double D;
-   private Stopwatch v = new Stopwatch();
-   private boolean t;
-   private boolean X;
-   private double N;
-   private boolean Y;
-   private boolean G;
+   private final Listener<UpdateEvent> onUpdate = updateEvent -> this.updateDisplayName();
+   private int unusedCounter;
+   private boolean notFalling;
+   private double fallenDistance;
+   private Stopwatch unusedTimer = new Stopwatch();
+   private boolean unusedFlagA;
+   private boolean unusedFlagB;
+   private double lastFallDistance;
+   private boolean unusedFlagC;
+   private boolean unusedFlagD;
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
@@ -50,11 +50,11 @@ public final class NoFall extends Module {
       NoFallMode noFallMode = this.mode.getValue();
       if (motionEvent.getState().equals(EventState.PRE)) {
          if (motionEvent.getMinY() < motionEvent.getLastY()) {
-            this.D = this.D + (motionEvent.getLastY() - motionEvent.getMinY());
+            this.fallenDistance = this.fallenDistance + (motionEvent.getLastY() - motionEvent.getMinY());
          }
 
          if (mc.thePlayer.isCollidedVertically || mc.thePlayer.onGround) {
-            this.D = 0.0;
+            this.fallenDistance = 0.0;
          }
 
          if (GameUtil.scoreboardTitleContains("PIT") || GameUtil.scoreboardTitleContains("UHC CHAMPIONS") && mc.thePlayer.getMaxHealth() == 20.0F) {
@@ -66,13 +66,13 @@ public final class NoFall extends Module {
             return;
          }
 
-         if (this.h()) {
+         if (this.shouldPreventFallDefault()) {
             switch (noFallMode) {
                case SPOOF:
                   if (GameUtil.isOnHypixel()) {
-                     if (this.D > 2.5) {
+                     if (this.fallenDistance > 2.5) {
                         motionEvent.setOnGround(true);
-                        this.D = 0.0;
+                        this.fallenDistance = 0.0;
                      }
                   } else {
                      motionEvent.setOnGround(true);
@@ -98,16 +98,19 @@ public final class NoFall extends Module {
                   }
             }
          } else {
-            this.O = true;
-            this.J = 0;
+            this.notFalling = true;
+            this.unusedCounter = 0;
          }
 
-         if (noFallMode == NoFallMode.PACKET && P_boolean() && mc.thePlayer.posY > 0.0 && this.D >= 2.5 + (mc.thePlayer.isPotionActive(Potion.jump) ? 0.3 : 0.0)) {
+         if (noFallMode == NoFallMode.PACKET
+            && P_boolean()
+            && mc.thePlayer.posY > 0.0
+            && this.fallenDistance >= 2.5 + (mc.thePlayer.isPotionActive(Potion.jump) ? 0.3 : 0.0)) {
             mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
-            this.D = 0.0;
+            this.fallenDistance = 0.0;
          }
 
-         this.N = mc.thePlayer.fallDistance;
+         this.lastFallDistance = mc.thePlayer.fallDistance;
       }
    };
 
@@ -116,11 +119,11 @@ public final class NoFall extends Module {
       this.addSettings(this.mode);
    }
 
-   private boolean h() {
-      return this.D(3.0F);
+   private boolean shouldPreventFallDefault() {
+      return this.shouldPreventFall(3.0F);
    }
 
-   private boolean D(float f) {
+   private boolean shouldPreventFall(float f) {
       return mc.thePlayer.fallDistance >= f
          && !mc.thePlayer.isSpectator()
          && !mc.thePlayer.capabilities.isCreativeMode
@@ -169,8 +172,8 @@ public final class NoFall extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName("No Fall " + EnumChatFormatting.GRAY + NoFallMode.W(this.mode.getValue()));
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName("No Fall " + EnumChatFormatting.GRAY + NoFallMode.displayNameOf(this.mode.getValue()));
+      super.updateDisplayName();
    }
 }

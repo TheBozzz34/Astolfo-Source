@@ -274,9 +274,9 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
    public int drawString(String text, float x, float y, int color, boolean dropShadow) {
       EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
-      if (Minecraft.getMinecraft().theWorld != null && entityPlayerSP != null && Astolfo.INSTANCE.getModuleManager() != null && ModuleManager.G.isEnabled()) {
+      if (Minecraft.getMinecraft().theWorld != null && entityPlayerSP != null && Astolfo.INSTANCE.getModuleManager() != null && ModuleManager.streamerMode.isEnabled()) {
          if (StreamerMode.scrambleNames.getValue()) {
-            for (String string : StreamerMode.d) {
+            for (String string : StreamerMode.seenPlayerNames) {
                if (text.contains(string)) {
                   text = this.F(text, string);
                }
@@ -284,7 +284,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
 
             for (NetworkPlayerInfo networkPlayerInfo : GuiPlayerTabOverlay.field_175252_a.sortedCopy(entityPlayerSP.sendQueue.getPlayerInfoMap())) {
                if (networkPlayerInfo.getGameProfile() != null && entityPlayerSP.getPlayerInfo() != networkPlayerInfo) {
-                  String string2 = StreamerMode.t(networkPlayerInfo);
+                  String string2 = StreamerMode.getPlayerListName(networkPlayerInfo);
                   if (text.contains(string2)) {
                      text = this.F(text, string2);
                   }

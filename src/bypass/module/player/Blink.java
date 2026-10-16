@@ -38,14 +38,14 @@ public final class Blink extends Module {
       .add("Pulse", new BooleanSetting("Pulse", "Sets pulse mode", false))
       .build();
    private final BooleanSetting entity = new BooleanSetting("Entity", "Shows serversided entity", true);
-   private final Queue<Packet<?>> j = new LinkedBlockingQueue<>();
-   private final Stopwatch s = new Stopwatch();
-   public static EntityOtherPlayerMP H;
+   private final Queue<Packet<?>> packetQueue = new LinkedBlockingQueue<>();
+   private final Stopwatch pulseTimer = new Stopwatch();
+   public static EntityOtherPlayerMP fakePlayer;
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (packetEvent.getPacket() instanceof C03PacketPlayer) {
-            this.j.add(packetEvent.getPacket());
+            this.packetQueue.add(packetEvent.getPacket());
             packetEvent.cancel();
             return;
          }
@@ -55,20 +55,20 @@ public final class Blink extends Module {
             || packetEvent.getPacket() instanceof C0BPacketEntityAction
             || packetEvent.getPacket() instanceof C0APacketAnimation
             || packetEvent.getPacket() instanceof C02PacketUseEntity) {
-            this.j.add(packetEvent.getPacket());
+            this.packetQueue.add(packetEvent.getPacket());
             packetEvent.cancel();
          }
       }
    };
    @EventHandler(MotionEvent.class)
    private Listener<MotionEvent> onMotion = motionEvent -> {
-      this.p();
-      if (motionEvent.getState() == EventState.PRE && this.g_boolean() && this.s.hasElapsed(this.g())) {
+      this.updateDisplayName();
+      if (motionEvent.getState() == EventState.PRE && this.g_boolean() && this.pulseTimer.hasElapsed(this.getPulseDelay())) {
          if (mc.theWorld != null && mc.thePlayer != null) {
-            this.h();
+            this.flushPackets();
          }
 
-         this.s.reset();
+         this.pulseTimer.reset();
       }
    };
    @EventHandler(RenderModelEvent.class)
@@ -81,14 +81,14 @@ public final class Blink extends Module {
    };
    @EventHandler(TeleportEvent.class)
    private Listener<TeleportEvent> onTeleport = teleportEvent -> {
-      if (teleportEvent.y()) {
+      if (teleportEvent.isLagback()) {
          Entity entity = mc.theWorld.getEntityByID(-420);
-         if (H != null && entity != null) {
-            teleportEvent.b(entity);
+         if (fakePlayer != null && entity != null) {
+            teleportEvent.applyToEntity(entity);
             teleportEvent.cancel();
          }
       } else {
-         teleportEvent.i(this);
+         teleportEvent.disableModule(this);
       }
    };
 
@@ -98,21 +98,21 @@ public final class Blink extends Module {
    }
 
    @Override
-   public void p() {
-      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + this.j.size());
-      super.p();
+   public void updateDisplayName() {
+      this.setDisplayName(this.getName() + " " + EnumChatFormatting.GRAY + this.packetQueue.size());
+      super.updateDisplayName();
    }
 
    @Override
    public void onEnable() {
       if (mc.theWorld != null && mc.thePlayer != null && this.entity.getValue()) {
-         H = new EntityOtherPlayerMP(mc.thePlayer.getEntityWorld(), new GameProfile(UUID.randomUUID(), mc.thePlayer.getName()));
-         H.worldObj = mc.thePlayer.getEntityWorld();
-         H.entityUniqueID = mc.thePlayer.getUniqueID();
-         H.z(mc.thePlayer);
-         H.inventory = mc.thePlayer.inventory;
-         H.capabilities = mc.thePlayer.capabilities;
-         mc.theWorld.addEntityToWorld(-420, H);
+         fakePlayer = new EntityOtherPlayerMP(mc.thePlayer.getEntityWorld(), new GameProfile(UUID.randomUUID(), mc.thePlayer.getName()));
+         fakePlayer.worldObj = mc.thePlayer.getEntityWorld();
+         fakePlayer.entityUniqueID = mc.thePlayer.getUniqueID();
+         fakePlayer.z(mc.thePlayer);
+         fakePlayer.inventory = mc.thePlayer.inventory;
+         fakePlayer.capabilities = mc.thePlayer.capabilities;
+         mc.theWorld.addEntityToWorld(-420, fakePlayer);
       }
 
       super.onEnable();
@@ -123,8 +123,8 @@ public final class Blink extends Module {
       if (mc.theWorld != null && mc.thePlayer != null) {
          while (true) {
             Packet packet;
-            if ((packet = this.j.poll()) == null) {
-               this.j.clear();
+            if ((packet = this.packetQueue.poll()) == null) {
+               this.packetQueue.clear();
                mc.theWorld.removeEntityFromWorld(-420);
                break;
             }
@@ -142,18 +142,18 @@ public final class Blink extends Module {
       return this.pulsing.getSetting("Pulse").asBoolean();
    }
 
-   private int g() {
+   private int getPulseDelay() {
       return this.pulsing.getSetting("Delay").asInt();
    }
 
-   private void h() {
+   private void flushPackets() {
       Packet packet;
-      while ((packet = this.j.poll()) != null) {
+      while ((packet = this.packetQueue.poll()) != null) {
          mc.thePlayer.sendQueue.u(packet);
       }
 
-      if (this.entity.getValue() && H != null) {
-         H.setLocationAndAngles(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
+      if (this.entity.getValue() && fakePlayer != null) {
+         fakePlayer.setLocationAndAngles(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch);
       }
    }
 }

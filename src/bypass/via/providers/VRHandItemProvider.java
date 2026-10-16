@@ -9,20 +9,20 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class VRHandItemProvider extends HandItemProvider {
-   public Item Z = null;
-   public final Map<UUID, Item> j = new ConcurrentHashMap<>();
+   public Item clientHandItem = null;
+   public final Map<UUID, Item> handItems = new ConcurrentHashMap<>();
 
    @Override
    public Item getHandItem(UserConnection userConnection) {
       if (userConnection.isClientSide()) {
-         return this.b();
+         return this.getClientHandItem();
       }
 
       Item item;
-      return (item = this.j.get(userConnection.getProtocolInfo().getUuid())) != null ? new DataItem(item) : super.getHandItem(userConnection);
+      return (item = this.handItems.get(userConnection.getProtocolInfo().getUuid())) != null ? new DataItem(item) : super.getHandItem(userConnection);
    }
 
-   private Item b() {
-      return this.Z == null ? new DataItem(0, (byte)0, (short)0, null) : new DataItem(this.Z);
+   private Item getClientHandItem() {
+      return this.clientHandItem == null ? new DataItem(0, (byte)0, (short)0, null) : new DataItem(this.clientHandItem);
    }
 }

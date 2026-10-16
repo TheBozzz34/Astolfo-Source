@@ -5,5 +5,5 @@ public enum HUDArrayAnimationMode {
    IN,
    IN_VERTICAL;
 
-   private static final HUDArrayAnimationMode[] W = new HUDArrayAnimationMode[]{OFF, IN, IN_VERTICAL};
+   private static final HUDArrayAnimationMode[] VALUES = new HUDArrayAnimationMode[]{OFF, IN, IN_VERTICAL};
 }

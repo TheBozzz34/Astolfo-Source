@@ -73,9 +73,9 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
    }
 
    public ResourceLocation u() {
-      AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().g(this.getName());
+      AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().getUser(this.getName());
       if (astolfoUser != null) {
-         return LayerCape.h(this, astolfoUser.s);
+         return LayerCape.h(this, astolfoUser.clientName);
       }
 
       if (!Config.b()) {

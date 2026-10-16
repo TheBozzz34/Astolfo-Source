@@ -20,38 +20,38 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class AlteningScreen extends GuiScreen implements ClientAccess {
-   private final GuiScreen d;
-   public static String b = "";
-   public static boolean f;
-   private AlteningSsl x;
-   private static AlteningApi q = new AlteningApi("nono");
-   private static final AuthServiceSwitcher p = new AuthServiceSwitcher();
-   private PasswordField w;
-   private GuiButton u;
-   private Checkbox B;
-   private String P;
-   private boolean n;
+   private final GuiScreen parentScreen;
+   public static String apiKey = "";
+   public static boolean addToAltList;
+   private AlteningSsl alteningSsl;
+   private static AlteningApi alteningApi = new AlteningApi("nono");
+   private static final AuthServiceSwitcher authServiceSwitcher = new AuthServiceSwitcher();
+   private PasswordField apiKeyField;
+   private GuiButton unusedButton;
+   private Checkbox addAccountCheckbox;
+   private String generatedToken;
+   private boolean generationFailed;
 
    public AlteningScreen(GuiScreen guiScreen) {
-      this.d = guiScreen;
-      this.x = new AlteningSsl();
-      this.x.H();
+      this.parentScreen = guiScreen;
+      this.alteningSsl = new AlteningSsl();
+      this.alteningSsl.initialize();
    }
 
    @Override
    public void initGui() {
       this.buttonList.clear();
-      this.w = new PasswordField(69, this.width / 2 - 85, this.height / 2 - 50, 190, 20);
-      this.w.setFocused(false);
-      this.w.setMaxStringLength(512);
-      this.w.Z(true);
-      this.w.setText(b);
+      this.apiKeyField = new PasswordField(69, this.width / 2 - 85, this.height / 2 - 50, 190, 20);
+      this.apiKeyField.setFocused(false);
+      this.apiKeyField.setMaxStringLength(512);
+      this.apiKeyField.setPasswordMode(true);
+      this.apiKeyField.setText(apiKey);
       this.buttonList.add(new GuiButton(0, this.width / 2 - 55, this.height / 2 - 15, 125, 20, "Generate"));
       this.buttonList.add(new GuiButton(2, 2, this.height - 22, 50, 20, "<-"));
       String string = "Add account";
-      this.B = new Checkbox(string, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 2 + 15, true);
-      this.B.K(f);
-      this.P = "";
+      this.addAccountCheckbox = new Checkbox(string, this.width / 2 - (15 + this.fontRendererObj.getStringWidth(string)) / 2, this.height / 2 + 15, true);
+      this.addAccountCheckbox.setChecked(addToAltList);
+      this.generatedToken = "";
       super.initGui();
    }
 
@@ -74,83 +74,83 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
          .drawStringWithShadow(
             "API key:", this.width / 2 - 115 - Minecraft.getMinecraft().fontRendererObj.getStringWidth("API key:") / 2 + 5, this.height / 2 - 42, -1
          );
-      this.B.E(mouseX, mouseY);
-      this.w.drawTextBox();
+      this.addAccountCheckbox.drawCheckbox(mouseX, mouseY);
+      this.apiKeyField.drawTextBox();
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      this.w.textboxKeyTyped(typedChar, keyCode);
+      this.apiKeyField.textboxKeyTyped(typedChar, keyCode);
       super.keyTyped(typedChar, keyCode);
    }
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      this.w.mouseClicked(mouseX, mouseY, mouseButton);
-      this.B.b(mouseX, mouseY, mouseButton);
-      f = this.B.a();
+      this.apiKeyField.mouseClicked(mouseX, mouseY, mouseButton);
+      this.addAccountCheckbox.handleMouseClick(mouseX, mouseY, mouseButton);
+      addToAltList = this.addAccountCheckbox.isChecked();
       super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
    public void updateScreen() {
-      if (!this.P.isEmpty()) {
+      if (!this.generatedToken.isEmpty()) {
          try {
-            Alt alt = new Alt(this.P, "");
-            AltLogin.AUTH.A(alt);
-            b = this.w.getText();
+            Alt alt = new Alt(this.generatedToken, "");
+            AltLogin.AUTH.loginAlt(alt);
+            apiKey = this.apiKeyField.getText();
             List list = Astolfo.INSTANCE.getAltManager().getList();
-            if (f) {
+            if (addToAltList) {
                list.add(alt);
             }
          } catch (Exception exception) {
          }
 
-         this.P = "";
+         this.generatedToken = "";
       }
 
-      this.w.updateCursorCounter();
-      b = this.w.getText();
+      this.apiKeyField.updateCursorCounter();
+      apiKey = this.apiKeyField.getText();
       super.updateScreen();
    }
 
    @Override
    public void actionPerformed(GuiButton button) throws IOException {
-      W().d(b);
+      getAlteningApi().setApiKey(apiKey);
       switch (button.id) {
          case 0:
-            if (!r().V().equals(AccountType.THEALTENING)) {
+            if (!getAuthServiceSwitcher().getAccountType().equals(AccountType.THEALTENING)) {
                try {
-                  r().g(AccountType.THEALTENING);
+                  getAuthServiceSwitcher().setAccountType(AccountType.THEALTENING);
                } catch (NoSuchFieldException | IllegalAccessException value) {
-                  this.x.m(false);
+                  this.alteningSsl.setInitialized(false);
                   value.printStackTrace();
                }
             }
 
             new Thread(() -> {
                try {
-                  this.P = W().i(W().t()).f();
+                  this.generatedToken = getAlteningApi().generateAccount(getAlteningApi().getLicense()).getToken();
                } catch (IOException ioException) {
-                  this.P = "";
-                  this.n = true;
+                  this.generatedToken = "";
+                  this.generationFailed = true;
                }
             }).start();
             break;
          case 1:
             try {
-               if (r().V().equals(AccountType.MOJANG)) {
-                  r().g(AccountType.THEALTENING);
-               } else if (r().V().equals(AccountType.THEALTENING)) {
-                  r().g(AccountType.MOJANG);
+               if (getAuthServiceSwitcher().getAccountType().equals(AccountType.MOJANG)) {
+                  getAuthServiceSwitcher().setAccountType(AccountType.THEALTENING);
+               } else if (getAuthServiceSwitcher().getAccountType().equals(AccountType.THEALTENING)) {
+                  getAuthServiceSwitcher().setAccountType(AccountType.MOJANG);
                }
             } catch (NoSuchFieldException | IllegalAccessException value2) {
                value2.printStackTrace();
             }
             break;
          case 2:
-            Minecraft.getMinecraft().displayGuiScreen(this.d);
+            Minecraft.getMinecraft().displayGuiScreen(this.parentScreen);
       }
 
       super.actionPerformed(button);
@@ -158,16 +158,16 @@ public class AlteningScreen extends GuiScreen implements ClientAccess {
 
    @Override
    public void onGuiClosed() {
-      this.P = "";
-      this.n = false;
+      this.generatedToken = "";
+      this.generationFailed = false;
       super.onGuiClosed();
    }
 
-   public static AlteningApi W() {
-      return q;
+   public static AlteningApi getAlteningApi() {
+      return alteningApi;
    }
 
-   public static AuthServiceSwitcher r() {
-      return p;
+   public static AuthServiceSwitcher getAuthServiceSwitcher() {
+      return authServiceSwitcher;
    }
 }

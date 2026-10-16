@@ -14,7 +14,15 @@ public final class HelpCommand extends Command {
 
       for (CommandInfo commandInfo : client.getCommandManager().getList()) {
          if (commandInfo instanceof Command) {
-            chat.D(false, false).i(".").i(commandInfo.getName()).M(EnumChatFormatting.DARK_PURPLE).i(" - ").M(EnumChatFormatting.WHITE).i(commandInfo.getUsage()).N().b();
+            chat.createBuilder(false, false)
+               .append(".")
+               .append(commandInfo.getName())
+               .color(EnumChatFormatting.DARK_PURPLE)
+               .append(" - ")
+               .color(EnumChatFormatting.WHITE)
+               .append(commandInfo.getUsage())
+               .build()
+               .send();
          }
       }
    }

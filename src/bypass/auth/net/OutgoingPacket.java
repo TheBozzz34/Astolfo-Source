@@ -4,11 +4,11 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 
 public final class OutgoingPacket {
-   public final short Z;
-   public final Queue<PacketChunk> G;
+   public final short id;
+   public final Queue<PacketChunk> chunks;
 
    public OutgoingPacket(short s) {
-      this.Z = s;
-      this.G = new ArrayDeque<>();
+      this.id = s;
+      this.chunks = new ArrayDeque<>();
    }
 }

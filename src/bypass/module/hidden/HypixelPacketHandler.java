@@ -29,21 +29,21 @@ import net.minecraft.network.play.server.S08PacketPlayerPosLook;
 import net.minecraft.network.play.server.S3FPacketCustomPayload;
 
 public final class HypixelPacketHandler extends HiddenModule {
-   private final Queue<Packet<?>> e = new LinkedList<>();
-   private final Queue<Packet<?>> G = new LinkedList<>();
-   private final Queue<Packet<?>> x = new LinkedList<>();
-   private final Stopwatch B = new Stopwatch();
-   private final Stopwatch v = new Stopwatch();
-   private final Stopwatch Z = new Stopwatch();
-   private final Stopwatch E = new Stopwatch();
-   private final Stopwatch T = new Stopwatch();
-   private static final List<Packet<?>> Q = new CopyOnWriteArrayList<>();
-   private final Queue<Packet<?>> U = new LinkedBlockingQueue<>();
-   private static short m;
-   private static short S;
-   public static int u;
-   public int P;
-   private static boolean f;
+   private final Queue<Packet<?>> pendingPackets = new LinkedList<>();
+   private final Queue<Packet<?>> delayedPackets = new LinkedList<>();
+   private final Queue<Packet<?>> queuedPackets = new LinkedList<>();
+   private final Stopwatch unusedTimer = new Stopwatch();
+   private final Stopwatch customPayloadTimer = new Stopwatch();
+   private final Stopwatch worldJoinTimer = new Stopwatch();
+   private final Stopwatch worldLoadTimer = new Stopwatch();
+   private final Stopwatch spareTimer = new Stopwatch();
+   private static final List<Packet<?>> trackedPackets = new CopyOnWriteArrayList<>();
+   private final Queue<Packet<?>> blockingPacketQueue = new LinkedBlockingQueue<>();
+   private static short lastNegativeTransactionUid;
+   private static short lastTransactionUid;
+   public static int packetCounter;
+   public int pendingId;
+   private static boolean sentNegativeTransaction;
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
@@ -53,7 +53,7 @@ public final class HypixelPacketHandler extends HiddenModule {
          }
 
          if (packetEvent.getPacket() instanceof S3FPacketCustomPayload) {
-            this.v.reset();
+            this.customPayloadTimer.reset();
          }
       }
 
@@ -69,7 +69,7 @@ public final class HypixelPacketHandler extends HiddenModule {
             C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
             if (client.getModuleManager().get(AutoClicker.class).isEnabled()) {
                Entity entity = c02PacketUseEntity.getEntityFromWorld(mc.theWorld);
-               if (entity instanceof EntityPlayer && BotDetector.w.contains(entity) && c02PacketUseEntity.getAction() == C02PacketUseEntity.Action.ATTACK) {
+               if (entity instanceof EntityPlayer && BotDetector.bots.contains(entity) && c02PacketUseEntity.getAction() == C02PacketUseEntity.Action.ATTACK) {
                   packetEvent.cancel();
                }
             }
@@ -78,45 +78,45 @@ public final class HypixelPacketHandler extends HiddenModule {
          if (packetEvent.getPacket() instanceof C0FPacketConfirmTransaction) {
             C0FPacketConfirmTransaction c0FPacketConfirmTransaction = (C0FPacketConfirmTransaction)packetEvent.getPacket();
             if (c0FPacketConfirmTransaction.getUid() < 0) {
-               f = true;
+               sentNegativeTransaction = true;
             } else {
-               S = c0FPacketConfirmTransaction.getUid();
+               lastTransactionUid = c0FPacketConfirmTransaction.getUid();
             }
          }
       }
    };
-   public static int r;
+   public static int tickCycle;
    @EventHandler(TickEvent.class)
    private Listener<TickEvent> onTick = tickEvent -> {
-      r++;
-      if (r >= 54) {
-         r = 0;
+      tickCycle++;
+      if (tickCycle >= 54) {
+         tickCycle = 0;
       }
    };
    @EventHandler(WorldLoadEvent.class)
    private Listener<WorldLoadEvent> onWorldLoad = worldLoadEvent -> {
-      this.Z.reset();
-      this.G.clear();
-      this.e.clear();
-      u = 0;
-      this.P = -1;
-      this.x.clear();
-      this.v.reset();
+      this.worldJoinTimer.reset();
+      this.delayedPackets.clear();
+      this.pendingPackets.clear();
+      packetCounter = 0;
+      this.pendingId = -1;
+      this.queuedPackets.clear();
+      this.customPayloadTimer.reset();
       PlayerListTracker.playerStats.clear();
       PlayerListTracker.checkedPlayers.clear();
       PlayerListTracker.requestedPlayers.clear();
-      Q.clear();
-      this.E.reset();
-      S = 0;
-      m = 0;
-      f = false;
+      trackedPackets.clear();
+      this.worldLoadTimer.reset();
+      lastTransactionUid = 0;
+      lastNegativeTransactionUid = 0;
+      sentNegativeTransaction = false;
    };
 
    public HypixelPacketHandler() {
       client.getEventBus().subscribe(this);
    }
 
-   public static void F() {
+   public static void sendFlyingAbilities() {
       if (GameUtil.isInHypixelGame()) {
          try {
             PlayerCapabilities playerCapabilities = (PlayerCapabilities)mc.thePlayer.capabilities.getClass().newInstance();
@@ -129,14 +129,14 @@ public final class HypixelPacketHandler extends HiddenModule {
       }
    }
 
-   public void d() {
-      while (this.x.peek() != null) {
-         Packet packet = this.x.poll();
+   public void flushQueuedPackets() {
+      while (this.queuedPackets.peek() != null) {
+         Packet packet = this.queuedPackets.poll();
          if (packet != null) {
             mc.thePlayer.sendQueue.u(packet);
          }
       }
 
-      this.x.clear();
+      this.queuedPackets.clear();
    }
 }

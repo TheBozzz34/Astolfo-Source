@@ -5,5 +5,5 @@ public enum ESPHealthMode {
    HEALTH,
    PERCENTAGE;
 
-   private static final ESPHealthMode[] R = new ESPHealthMode[]{HEARTS, HEALTH, PERCENTAGE};
+   private static final ESPHealthMode[] VALUES = new ESPHealthMode[]{HEARTS, HEALTH, PERCENTAGE};
 }

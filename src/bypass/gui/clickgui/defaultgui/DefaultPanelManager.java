@@ -9,6 +9,6 @@ public class DefaultPanelManager extends ComponentManager implements Loadable {
    }
 
    @Override
-   public void a() {
+   public void save() {
    }
 }

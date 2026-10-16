@@ -8,24 +8,24 @@ import java.awt.Color;
 import org.lwjgl.opengl.GL11;
 
 public class ColorWheel extends SettingComponent {
-   public int L = Color.red.getRGB();
+   public int selectedColor = Color.red.getRGB();
 
    public ColorWheel(Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 
-   public void R(int i, int j) {
-      float f = this.M();
-      float g = this.M() + 10.0F;
-      float h = this.E_float();
-      float f2 = this.E_float() + 17.0F;
+   public void updateHueFromMouse(int i, int j) {
+      float f = this.getX();
+      float g = this.getX() + 10.0F;
+      float h = this.getYPos();
+      float f2 = this.getYPos() + 17.0F;
       float f3 = (f + g) / 2.0F;
       float f4 = (h + f2) / 2.0F;
-      float[] floats = Color.RGBtoHSB(this.L >> 16 & 0xFF, this.L >> 8 & 0xFF, this.L & 0xFF, new float[3]);
+      float[] floats = Color.RGBtoHSB(this.selectedColor >> 16 & 0xFF, this.selectedColor >> 8 & 0xFF, this.selectedColor & 0xFF, new float[3]);
       double d = i - f3;
       double e = j - f4;
       double d2 = Math.atan2(e, d);
@@ -35,19 +35,23 @@ public class ColorWheel extends SettingComponent {
          d2 -= (float) (Math.PI * 2);
       }
 
-      this.L = Color.HSBtoRGB((float)(d2 / (float) (Math.PI * 2)), floats[1], floats[2]);
+      this.selectedColor = Color.HSBtoRGB((float)(d2 / (float) (Math.PI * 2)), floats[1], floats[2]);
    }
 
    @Override
    public void render(int i, int j) {
       RenderUtil.drawRect(
-         this.M() + 1.5F, this.E_float() - 1.0F, this.M() + this.x() + 0.5F, this.E_float() + this.Y() + 4.0F, new Color(1, 1, 1, 120).getRGB()
+         this.getX() + 1.5F,
+         this.getYPos() - 1.0F,
+         this.getX() + this.getWidth() + 0.5F,
+         this.getYPos() + this.getHeight() + 4.0F,
+         new Color(1, 1, 1, 120).getRGB()
       );
-      client.getCustomFontRenderer().drawStringWithShadow("me gusta color", this.M() + 20.0F, this.E_float(), Color.WHITE.getRGB());
-      float f = this.M() + 10.0F;
-      float g = this.E_float() + 6.0F;
+      client.getCustomFontRenderer().drawStringWithShadow("me gusta color", this.getX() + 20.0F, this.getYPos(), Color.WHITE.getRGB());
+      float f = this.getX() + 10.0F;
+      float g = this.getYPos() + 6.0F;
       float h = 5.0F;
-      int k = this.L;
+      int k = this.selectedColor;
       float[] floats = Color.RGBtoHSB(k >> 16 & 0xFF, k >> 8 & 0xFF, k & 0xFF, new float[3]);
       GL11.glEnable(3042);
       GL11.glDisable(3553);
@@ -80,7 +84,7 @@ public class ColorWheel extends SettingComponent {
       GL11.glDisable(2848);
    }
 
-   public static void t(float f, float g, float h, float f2, float f3, int i, int j) {
+   public static void drawBorderedRect(float f, float g, float h, float f2, float f3, int i, int j) {
       RenderUtil.drawRect(f + f3, g + f3, h - f3, f2 - f3, j);
       RenderUtil.drawRect(f, g + f3, f + f3, f2 - f3, i);
       RenderUtil.drawRect(h - f3, g + f3, h, f2 - f3, i);
@@ -88,7 +92,7 @@ public class ColorWheel extends SettingComponent {
       RenderUtil.drawRect(f, f2 - f3, h, f2, i);
    }
 
-   public static void z(float f, float g, float h, float f2, float f3, int i) {
+   public static void drawRectOutline(float f, float g, float h, float f2, float f3, int i) {
       RenderUtil.drawRect(f, g + f3, f + f3, f2 - f3, i);
       RenderUtil.drawRect(h - f3, g + f3, h, f2 - f3, i);
       RenderUtil.drawRect(f, g, h, g + f3, i);

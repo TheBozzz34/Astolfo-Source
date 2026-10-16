@@ -1,24 +1,24 @@
 package bypass.auth.fingerprint;
 
 public final class EmptyFingerprintEntry<T> implements FingerprintEntry<T> {
-   private static final Object Q = null;
+   private static final Object NULL_VALUE = null;
 
    @Override
-   public String c() {
+   public String getName() {
       return "NULL";
    }
 
    @Override
-   public int o() {
+   public int getHash() {
       return -1;
    }
 
    @Override
-   public T z() {
-      return (T)Q;
+   public T getValue() {
+      return (T)NULL_VALUE;
    }
 
    @Override
-   public void A() {
+   public void refresh() {
    }
 }

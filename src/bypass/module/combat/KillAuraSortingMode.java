@@ -7,5 +7,5 @@ public enum KillAuraSortingMode {
    ARMOR,
    DANGEROUS;
 
-   private static final KillAuraSortingMode[] W = new KillAuraSortingMode[]{DISTANCE, HEALTH, AIM, ARMOR, DANGEROUS};
+   private static final KillAuraSortingMode[] VALUES = new KillAuraSortingMode[]{DISTANCE, HEALTH, AIM, ARMOR, DANGEROUS};
 }

@@ -38,7 +38,7 @@ public class VisGraph {
 
    public SetVisibility computeVisibility() {
       SetVisibility setVisibility = new SetVisibility();
-      if (4096 - this.field_178611_f < 256 || ModuleManager.s.isEnabled() || ModuleManager.t.isEnabled()) {
+      if (4096 - this.field_178611_f < 256 || ModuleManager.xray.isEnabled() || ModuleManager.caveFinder.isEnabled()) {
          setVisibility.setAllVisible(true);
       } else if (this.field_178611_f == 0) {
          setVisibility.setAllVisible(false);

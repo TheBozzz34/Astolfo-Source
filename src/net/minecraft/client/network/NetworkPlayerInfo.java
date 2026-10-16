@@ -70,7 +70,7 @@ public class NetworkPlayerInfo {
    }
 
    public ResourceLocation c() {
-      boolean bl = ModuleManager.G.isEnabled();
+      boolean bl = ModuleManager.streamerMode.isEnabled();
       boolean bl2 = bl && StreamerMode.hideSkins.getValue();
       if (this.locationSkin == null) {
          this.loadPlayerTextures();

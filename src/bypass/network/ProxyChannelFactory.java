@@ -10,19 +10,19 @@ import java.net.Socket;
 import java.net.SocketImpl;
 
 public class ProxyChannelFactory implements ChannelFactory<OioSocketChannel> {
-   private Proxy l;
+   private Proxy proxy;
 
    public ProxyChannelFactory(Proxy proxy) {
-      this.l = proxy;
+      this.proxy = proxy;
    }
 
    public OioSocketChannel newChannel() {
-      if (this.l.address() != null && ((InetSocketAddress)this.l.address()).getPort() == 8080) {
-         Socket socket = new Socket(this.l);
+      if (this.proxy.address() != null && ((InetSocketAddress)this.proxy.address()).getPort() == 8080) {
+         Socket socket = new Socket(this.proxy);
          return new OioSocketChannel(socket);
       }
 
-      Socket socket2 = new Socket(this.l);
+      Socket socket2 = new Socket(this.proxy);
       Class class2 = socket2.getClass();
 
       try {

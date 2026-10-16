@@ -11,9 +11,9 @@ public final class IsBot extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
-         Entity entity = WorldLibrary.X.get(luaValue.checkint());
+         Entity entity = WorldLibrary.entitiesById.get(luaValue.checkint());
          if (entity instanceof EntityLivingBase) {
-            return valueOf(BotDetector.w.contains(entity));
+            return valueOf(BotDetector.bots.contains(entity));
          }
       }
 

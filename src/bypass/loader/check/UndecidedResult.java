@@ -4,7 +4,7 @@ public enum UndecidedResult implements CheckResult {
    INSTANCE;
 
    @Override
-   public ResultKind c() {
+   public ResultKind getKind() {
       return ResultKind.C;
    }
 }

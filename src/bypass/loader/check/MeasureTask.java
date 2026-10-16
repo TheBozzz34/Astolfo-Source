@@ -1,9 +1,9 @@
 package bypass.loader.check;
 
 public interface MeasureTask {
-   MeasureResult n();
+   MeasureResult getResult();
 
-   void J(MeasureResult measureResult);
+   void setResult(MeasureResult measureResult);
 
-   void x();
+   void validate();
 }

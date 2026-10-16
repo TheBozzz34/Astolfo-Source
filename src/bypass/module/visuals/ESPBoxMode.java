@@ -6,5 +6,5 @@ public enum ESPBoxMode {
    TRANS,
    RAINBOW;
 
-   private static final ESPBoxMode[] G = new ESPBoxMode[]{FULL, CUSTOM, TRANS, RAINBOW};
+   private static final ESPBoxMode[] VALUES = new ESPBoxMode[]{FULL, CUSTOM, TRANS, RAINBOW};
 }

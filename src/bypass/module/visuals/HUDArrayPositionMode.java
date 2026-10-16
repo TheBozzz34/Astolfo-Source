@@ -4,5 +4,5 @@ public enum HUDArrayPositionMode {
    UP,
    DOWN;
 
-   private static final HUDArrayPositionMode[] z = new HUDArrayPositionMode[]{UP, DOWN};
+   private static final HUDArrayPositionMode[] VALUES = new HUDArrayPositionMode[]{UP, DOWN};
 }

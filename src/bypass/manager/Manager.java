@@ -6,20 +6,20 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class Manager<T> {
-   public List<T> C = new Manager.au1();
+   public List<T> items = new Manager.au1();
 
    public List<T> getList() {
-      return this.C;
+      return this.items;
    }
 
    @SafeVarargs
    public final void add(T... objects) {
-      this.C.addAll(Arrays.asList((T[])objects));
+      this.items.addAll(Arrays.asList((T[])objects));
    }
 
    @SafeVarargs
    public final void remove(T... objects) {
-      this.C.removeAll(Arrays.asList(objects));
+      this.items.removeAll(Arrays.asList(objects));
    }
 
    public boolean canAdd(T object) {

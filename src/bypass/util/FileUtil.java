@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public final class FileUtil {
-   public static final ExecutorService w = Executors.newSingleThreadExecutor();
+   public static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
    public static JsonElement readJson(File file) {
       JsonElement jsonElement = null;

@@ -7,8 +7,8 @@ import java.util.Arrays;
 import net.minecraft.util.EnumChatFormatting;
 
 public final class ScriptCommand extends Command {
-   public static boolean z = true;
-   private boolean p;
+   public static boolean scriptsChanged = true;
+   private boolean unsafeWarningShown;
 
    public ScriptCommand(String string, String string2) {
       super(string, string2);
@@ -18,78 +18,82 @@ public final class ScriptCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       if (DisconnectHandler.disconnected) {
-         toasts.x("You must reconnect to Astolfo before changing scripts");
+         toasts.danger("You must reconnect to Astolfo before changing scripts");
       } else {
          switch (strings.length) {
             case 2:
                if (strings[1].equals("reload")) {
-                  toasts.B("Script manager", "Reloaded all scripts");
-                  z = true;
-                  client.getScriptManager().M();
+                  toasts.infoMessage("Script manager", "Reloaded all scripts");
+                  scriptsChanged = true;
+                  client.getScriptManager().reload();
                   return;
                }
 
                if (strings[1].equals("list")) {
                   for (Script script2 : client.getScriptManager().getList()) {
-                     chat.D(false, false).i(".").i(script2.C).M(EnumChatFormatting.GRAY).N().b();
+                     chat.createBuilder(false, false).append(".").append(script2.name).color(EnumChatFormatting.GRAY).build().send();
                   }
 
                   return;
                }
 
                if (strings[1].equals("unsafe")) {
-                  if (!this.p && !ScriptManager.N.t()) {
-                     chat.P("Enabling unsafe will allow Astolfo scripts to contact websites and load code from them");
-                     chat.I("Execute this command again to enable/toggle it");
-                     this.p = true;
+                  if (!this.unsafeWarningShown && !ScriptManager.unsafeFunctions.isEnabled()) {
+                     chat.printWarning("Enabling unsafe will allow Astolfo scripts to contact websites and load code from them");
+                     chat.print("Execute this command again to enable/toggle it");
+                     this.unsafeWarningShown = true;
                   } else {
-                     ScriptManager.N.j(!ScriptManager.N.t());
-                     chat.P("Unsafe functions: " + ScriptManager.N.t());
+                     ScriptManager.unsafeFunctions.setEnabled(!ScriptManager.unsafeFunctions.isEnabled());
+                     chat.printWarning("Unsafe functions: " + ScriptManager.unsafeFunctions.isEnabled());
                   }
                }
                break;
             case 3:
-               Script script3 = client.getScriptManager().T(strings[2]);
+               Script script3 = client.getScriptManager().getScript(strings[2]);
                if (strings[1].equals("enable") && script3 != null) {
-                  if (!script3.n && !script3.o()) {
+                  if (!script3.loaded && !script3.loadAndRun()) {
                      return;
                   }
 
-                  if (script3.A()) {
-                     ScriptManager.L.put(script3.C, true);
-                     z = true;
-                     toasts.B("Script manager", String.format("Script %s%s has been enabled", EnumChatFormatting.GRAY, script3.C + EnumChatFormatting.RESET));
+                  if (script3.enable()) {
+                     ScriptManager.savedStates.put(script3.name, true);
+                     scriptsChanged = true;
+                     toasts.infoMessage(
+                        "Script manager", String.format("Script %s%s has been enabled", EnumChatFormatting.GRAY, script3.name + EnumChatFormatting.RESET)
+                     );
                   } else {
-                     toasts.k("Script manager", "This script is already enabled");
+                     toasts.dangerMessage("Script manager", "This script is already enabled");
                   }
                }
 
                if (strings[1].equals("reload")) {
                   if (script3 != null) {
-                     script3.x();
-                     client.getScriptManager().remove(client.getScriptManager().T(script3.C));
-                     Script script4 = new Script(script3.P, script3.C);
+                     script3.disable();
+                     client.getScriptManager().remove(client.getScriptManager().getScript(script3.name));
+                     Script script4 = new Script(script3.path, script3.name);
                      client.getScriptManager().add(script4);
-                     z = true;
-                     if (script3.t()) {
-                        script4.A();
+                     scriptsChanged = true;
+                     if (script3.isEnabled()) {
+                        script4.enable();
                      }
                   } else {
-                     toasts.k("Script manager", "Script not found");
+                     toasts.dangerMessage("Script manager", "Script not found");
                   }
                }
 
                if (strings[1].equals("disable") && script3 != null) {
-                  if (script3.n) {
-                     if (script3.x()) {
-                        ScriptManager.L.put(script3.C, false);
-                        toasts.B("Script manager", String.format("Script %s%s has been disabled", EnumChatFormatting.GRAY, script3.C + EnumChatFormatting.RESET));
-                        z = true;
+                  if (script3.loaded) {
+                     if (script3.disable()) {
+                        ScriptManager.savedStates.put(script3.name, false);
+                        toasts.infoMessage(
+                           "Script manager", String.format("Script %s%s has been disabled", EnumChatFormatting.GRAY, script3.name + EnumChatFormatting.RESET)
+                        );
+                        scriptsChanged = true;
                      } else {
-                        toasts.k("Script manager", "This script is already disabled");
+                        toasts.dangerMessage("Script manager", "This script is already disabled");
                      }
                   } else {
-                     toasts.k("Script manager", "This script is already disabled");
+                     toasts.dangerMessage("Script manager", "This script is already disabled");
                   }
                }
          }

@@ -5,15 +5,15 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
-   private final ShapedMap<K, V> K;
+   private final ShapedMap<K, V> map;
 
    public ShapedMapEntrySet(ShapedMap<K, V> shapedMap) {
-      this.K = shapedMap;
+      this.map = shapedMap;
    }
 
    @Override
    public Iterator<Entry<K, V>> iterator() {
-      return new ShapedMapEntryIterator<>(this.K);
+      return new ShapedMapEntryIterator<>(this.map);
    }
 
    @Override
@@ -25,8 +25,8 @@ public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
       Entry entry = (Entry)object;
       Object object2 = entry.getKey();
       Object object3 = entry.getValue();
-      Object object4 = this.K.get(object2);
-      return object3 != null ? object3.equals(object4) : object4 == null && this.K.containsKey(object2);
+      Object object4 = this.map.get(object2);
+      return object3 != null ? object3.equals(object4) : object4 == null && this.map.containsKey(object2);
    }
 
    @Override
@@ -36,16 +36,16 @@ public class ShapedMapEntrySet<K, V> extends AbstractSet<Entry<K, V>> {
       }
 
       Entry entry = (Entry)object;
-      return this.K.remove(entry.getKey()) != null;
+      return this.map.remove(entry.getKey()) != null;
    }
 
    @Override
    public int size() {
-      return this.K.size();
+      return this.map.size();
    }
 
    @Override
    public void clear() {
-      this.K.clear();
+      this.map.clear();
    }
 }

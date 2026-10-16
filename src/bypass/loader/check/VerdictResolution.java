@@ -6,33 +6,33 @@ import java.util.List;
 import java.util.Random;
 
 public final class VerdictResolution {
-   private final CheckRequest P;
-   private final List<StageCheck> g;
-   private final List<VerdictProcessor> Q;
-   public final CachingVerdictResolver t;
+   private final CheckRequest request;
+   private final List<StageCheck> checks;
+   private final List<VerdictProcessor> processors;
+   public final CachingVerdictResolver resolver;
 
    public VerdictResolution(CachingVerdictResolver cachingVerdictResolver, CheckContext checkContext) {
-      this.t = cachingVerdictResolver;
-      this.P = checkContext.f();
-      this.g = checkContext.i();
-      this.Q = checkContext.a();
+      this.resolver = cachingVerdictResolver;
+      this.request = checkContext.getRequest();
+      this.checks = checkContext.getChecks();
+      this.processors = checkContext.getProcessors();
    }
 
-   private Verdict z() {
-      return this.r(this.P.N());
+   private Verdict resolveRequestStage() {
+      return this.resolveStage(this.request.getStage());
    }
 
-   private Verdict r(LoadStage loadStage) {
-      for (Object object : CachingVerdictResolver.s(this.t, loadStage, this.g)) {
+   private Verdict resolveStage(LoadStage loadStage) {
+      for (Object object : CachingVerdictResolver.getCachedChecks(this.resolver, loadStage, this.checks)) {
          StageCheck stageCheck = (StageCheck)object;
-         CheckResult checkResult = stageCheck.H(this.P);
-         switch (checkResult.c()) {
+         CheckResult checkResult = stageCheck.check(this.request);
+         switch (checkResult.getKind()) {
             case A:
-               return this.y((AbstractLoadStage)loadStage, checkResult.u());
+               return this.processVerdict((AbstractLoadStage)loadStage, checkResult.getVerdict());
             case B:
                return null;
             case C:
-               System.out.println(this.g(-229985452) + " " + this.g(-147909649));
+               System.out.println(this.generateString(-229985452) + " " + this.generateString(-147909649));
                new IntegerCacheScrambler();
          }
       }
@@ -40,11 +40,11 @@ public final class VerdictResolution {
       return Verdict.N;
    }
 
-   private Verdict y(AbstractLoadStage abstractLoadStage, Verdict verdict) {
-      return this.t.processRelation(this.Q, this.P, verdict, abstractLoadStage);
+   private Verdict processVerdict(AbstractLoadStage abstractLoadStage, Verdict verdict) {
+      return this.resolver.processRelation(this.processors, this.request, verdict, abstractLoadStage);
    }
 
-   public String g(int i) {
+   public String generateString(int i) {
       Random random = new Random(i);
       StringBuilder stringBuilder = new StringBuilder();
 
@@ -58,7 +58,7 @@ public final class VerdictResolution {
       }
    }
 
-   public static Verdict M(VerdictResolution verdictResolution) {
-      return verdictResolution.z();
+   public static Verdict resolve(VerdictResolution verdictResolution) {
+      return verdictResolution.resolveRequestStage();
    }
 }

@@ -7,8 +7,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 public class KeyShape<K, V> extends MapShape<K, V> {
-   private Map<K, KeyShape<K, V>> a;
-   private Map<Map<K, V>, MapShape<K, V>> h;
+   private Map<K, KeyShape<K, V>> childShapes;
+   private Map<Map<K, V>, MapShape<K, V>> defaultsShapes;
 
    public KeyShape(com.github.andrewoma.dexx.collection.Map<K, Integer> map) {
       super(map);
@@ -19,12 +19,12 @@ public class KeyShape<K, V> extends MapShape<K, V> {
       return this;
    }
 
-   public MapShape<K, V> V(Map<K, V> map) {
+   public MapShape<K, V> withDefaults(Map<K, V> map) {
       if (map != null && !map.isEmpty()) {
          synchronized (this) {
-            Map map2 = this.h;
+            Map map2 = this.defaultsShapes;
             if (map2 == null) {
-               this.h = map2 = new IdentityHashMap();
+               this.defaultsShapes = map2 = new IdentityHashMap();
             }
 
             MapShape mapShape = (MapShape)map2.get(map);
@@ -40,21 +40,21 @@ public class KeyShape<K, V> extends MapShape<K, V> {
       }
    }
 
-   public MapShape<K, V> O(K object, Map<K, V> map) {
+   public MapShape<K, V> withKey(K object, Map<K, V> map) {
       KeyShape keyShape = null;
       synchronized (this) {
-         Map map2 = this.a;
+         Map map2 = this.childShapes;
          if (map2 != null) {
             keyShape = (KeyShape)map2.get(object);
          }
       }
 
       if (map.containsKey(object)) {
-         map = ShapeCache.v(map, object, REMOVED);
+         map = ShapeCache.getDerivedMap(map, object, REMOVED);
       }
 
       if (keyShape != null) {
-         return keyShape.V(map);
+         return keyShape.withDefaults(map);
       }
 
       int i = this.slots.size();
@@ -77,22 +77,22 @@ public class KeyShape<K, V> extends MapShape<K, V> {
       map3 = map3.put(object, i);
       keyShape = new KeyShape(map3);
       synchronized (this) {
-         if (this.a == null) {
-            this.a = Collections.singletonMap((K)object, keyShape);
+         if (this.childShapes == null) {
+            this.childShapes = Collections.singletonMap((K)object, keyShape);
          } else {
-            KeyShape keyShape2 = this.a.get(object);
+            KeyShape keyShape2 = this.childShapes.get(object);
             if (keyShape2 != null) {
                keyShape = keyShape2;
             } else {
-               if (this.a.size() == 1) {
-                  this.a = new HashMap<>(this.a);
+               if (this.childShapes.size() == 1) {
+                  this.childShapes = new HashMap<>(this.childShapes);
                }
 
-               this.a.put((K)object, keyShape);
+               this.childShapes.put((K)object, keyShape);
             }
          }
       }
 
-      return keyShape.V(map);
+      return keyShape.withDefaults(map);
    }
 }

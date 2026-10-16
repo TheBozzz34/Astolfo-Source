@@ -647,7 +647,7 @@ public abstract class World implements IBlockAccess {
          Block block = iBlockState.getBlock();
          if ((!ignoreBlockWithoutBoundingBox || block.getCollisionBoundingBox(this, blockPos, iBlockState) != null) && block.canCollideCheck(iBlockState, stopOnLiquid)) {
             MovingObjectPosition movingObjectPosition = block.collisionRayTrace(this, blockPos, vec31, vec32);
-            if (movingObjectPosition != null && !ModuleManager.Q.isEnabled()) {
+            if (movingObjectPosition != null && !ModuleManager.noMouseIntersect.isEnabled()) {
                return movingObjectPosition;
             }
          }

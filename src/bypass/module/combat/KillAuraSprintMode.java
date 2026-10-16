@@ -5,5 +5,5 @@ public enum KillAuraSprintMode {
    ALWAYS,
    NEVER;
 
-   private static final KillAuraSprintMode[] Y = new KillAuraSprintMode[]{STOP, ALWAYS, NEVER};
+   private static final KillAuraSprintMode[] VALUES = new KillAuraSprintMode[]{STOP, ALWAYS, NEVER};
 }

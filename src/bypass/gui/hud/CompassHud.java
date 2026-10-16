@@ -10,129 +10,131 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
 public class CompassHud extends Component {
-   private int x;
-   public int L = 2;
-   public int f = 150;
-   public int Z = 20;
-   public int q = 500;
-   public boolean t = true;
-   public boolean R;
-   public boolean n = true;
-   public int j;
-   public int N;
-   private int r;
-   private float s;
-   private int u;
-   private int O;
+   private int screenWidth;
+   public int detailLevel = 2;
+   public int visibleWidth = 150;
+   public int barHeight = 20;
+   public int fullCircleWidth = 500;
+   public boolean drawBackground = true;
+   public boolean rainbow;
+   public boolean textShadow = true;
+   public int markerHue;
+   public int textHue;
+   private int yawOffset;
+   private float centerX;
+   private int markerColor;
+   private int textColor;
 
    public CompassHud(float f, float g, int i, int j) {
       super("compass", f, g, i, j);
-      this.F(true);
+      this.setDraggable(true);
    }
 
    @Override
-   public void l(int i) {
+   public void onClick(int i) {
    }
 
    @Override
    public void render(int i, int j) {
-      float g = this.M();
-      int k = this.Z((int)mc.thePlayer.rotationYaw);
-      this.r = this.q * k / 360;
-      if (g == 1.0F) {
-         this.s = this.x / 2.0F;
+      float f = this.getX();
+      int k = this.wrapDegrees((int)mc.thePlayer.rotationYaw);
+      this.yawOffset = this.fullCircleWidth * k / 360;
+      if (f == 1.0F) {
+         this.centerX = this.screenWidth / 2.0F;
       } else {
-         this.s = (int)g;
+         this.centerX = (int)f;
       }
 
-      if (this.t) {
-         RenderUtil.drawRect(this.s - this.f / 2.0F, this.E_float(), this.s + this.f / 2.0F, this.E_float() + this.Z, -988737263);
+      if (this.drawBackground) {
+         RenderUtil.drawRect(
+            this.centerX - this.visibleWidth / 2.0F, this.getYPos(), this.centerX + this.visibleWidth / 2.0F, this.getYPos() + this.barHeight, -988737263
+         );
       }
 
-      if (!this.R) {
-         this.u = this.j != 0 ? Color.HSBtoRGB(this.j / 100.0F, 1.0F, 1.0F) : -1;
-         this.O = this.N != 0 ? Color.HSBtoRGB(this.N / 100.0F, 1.0F, 1.0F) : -1;
+      if (!this.rainbow) {
+         this.markerColor = this.markerHue != 0 ? Color.HSBtoRGB(this.markerHue / 100.0F, 1.0F, 1.0F) : -1;
+         this.textColor = this.textHue != 0 ? Color.HSBtoRGB(this.textHue / 100.0F, 1.0F, 1.0F) : -1;
       } else {
-         this.O = this.u = Color.HSBtoRGB((float)(System.currentTimeMillis() % 3000L) / 3000.0F, 1.0F, 1.0F);
+         this.textColor = this.markerColor = Color.HSBtoRGB((float)(System.currentTimeMillis() % 3000L) / 3000.0F, 1.0F, 1.0F);
       }
 
-      this.B();
-      if (this.L >= 0) {
-         this.r("S", 0, 1.5);
-         this.r("W", 90, 1.5);
-         this.r("N", 180, 1.5);
-         this.r("E", 270, 1.5);
+      this.drawCenterMarker();
+      if (this.detailLevel >= 0) {
+         this.drawDirectionLabel("S", 0, 1.5);
+         this.drawDirectionLabel("W", 90, 1.5);
+         this.drawDirectionLabel("N", 180, 1.5);
+         this.drawDirectionLabel("E", 270, 1.5);
       }
 
-      if (this.L >= 1) {
-         this.r("SW", 45, 1.0);
-         this.r("NW", 135, 1.0);
-         this.r("NE", 225, 1.0);
-         this.r("SE", 315, 1.0);
+      if (this.detailLevel >= 1) {
+         this.drawDirectionLabel("SW", 45, 1.0);
+         this.drawDirectionLabel("NW", 135, 1.0);
+         this.drawDirectionLabel("NE", 225, 1.0);
+         this.drawDirectionLabel("SE", 315, 1.0);
       }
 
-      if (this.L >= 2) {
-         this.r("15", 15, 0.75);
-         this.r("30", 30, 0.75);
-         this.r("60", 60, 0.75);
-         this.r("75", 75, 0.75);
-         this.r("105", 105, 0.75);
-         this.r("120", 120, 0.75);
-         this.r("150", 150, 0.75);
-         this.r("165", 165, 0.75);
-         this.r("195", 195, 0.75);
-         this.r("210", 210, 0.75);
-         this.r("240", 240, 0.75);
-         this.r("255", 255, 0.75);
-         this.r("285", 285, 0.75);
-         this.r("300", 300, 0.75);
-         this.r("330", 330, 0.75);
-         this.r("345", 345, 0.75);
+      if (this.detailLevel >= 2) {
+         this.drawDirectionLabel("15", 15, 0.75);
+         this.drawDirectionLabel("30", 30, 0.75);
+         this.drawDirectionLabel("60", 60, 0.75);
+         this.drawDirectionLabel("75", 75, 0.75);
+         this.drawDirectionLabel("105", 105, 0.75);
+         this.drawDirectionLabel("120", 120, 0.75);
+         this.drawDirectionLabel("150", 150, 0.75);
+         this.drawDirectionLabel("165", 165, 0.75);
+         this.drawDirectionLabel("195", 195, 0.75);
+         this.drawDirectionLabel("210", 210, 0.75);
+         this.drawDirectionLabel("240", 240, 0.75);
+         this.drawDirectionLabel("255", 255, 0.75);
+         this.drawDirectionLabel("285", 285, 0.75);
+         this.drawDirectionLabel("300", 300, 0.75);
+         this.drawDirectionLabel("330", 330, 0.75);
+         this.drawDirectionLabel("345", 345, 0.75);
       }
    }
 
-   private void B() {
-      float f = this.E_float();
+   private void drawCenterMarker() {
+      float f = this.getYPos();
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.enableBlend();
       GlStateManager.disableTexture2D();
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-      GlStateManager.color((this.u >> 16 & 0xFF) / 255.0F, (this.u >> 8 & 0xFF) / 255.0F, (this.u & 0xFF) / 255.0F, 1.0F);
+      GlStateManager.color((this.markerColor >> 16 & 0xFF) / 255.0F, (this.markerColor >> 8 & 0xFF) / 255.0F, (this.markerColor & 0xFF) / 255.0F, 1.0F);
       worldRenderer.begin(6, DefaultVertexFormats.POSITION);
-      worldRenderer.pos(this.s, f + 3.0F, 0.0).endVertex();
-      worldRenderer.pos(this.s + 3.0F, f, 0.0).endVertex();
-      worldRenderer.pos(this.s - 3.0F, f, 0.0).endVertex();
+      worldRenderer.pos(this.centerX, f + 3.0F, 0.0).endVertex();
+      worldRenderer.pos(this.centerX + 3.0F, f, 0.0).endVertex();
+      worldRenderer.pos(this.centerX - 3.0F, f, 0.0).endVertex();
       tessellator.draw();
       GlStateManager.enableTexture2D();
       GlStateManager.disableBlend();
    }
 
-   private void r(String string, int i, double d) {
-      float g = this.E_float();
-      int j = this.q * i / 360 - this.r;
-      if (j > this.q / 2) {
-         j -= this.q;
+   private void drawDirectionLabel(String string, int i, double d) {
+      float f = this.getYPos();
+      int j = this.fullCircleWidth * i / 360 - this.yawOffset;
+      if (j > this.fullCircleWidth / 2) {
+         j -= this.fullCircleWidth;
       }
 
-      if (j < -this.q / 2) {
-         j += this.q;
+      if (j < -this.fullCircleWidth / 2) {
+         j += this.fullCircleWidth;
       }
 
       double e;
-      if ((e = 1.0 - Math.abs(j) / (this.f / 2.0)) > 0.1) {
-         int k = this.O & 16777215;
+      if ((e = 1.0 - Math.abs(j) / (this.visibleWidth / 2.0)) > 0.1) {
+         int k = this.textColor & 16777215;
          int l = k | (int)(e * 255.0) << 24;
-         float h = this.s + j - (int)(mc.fontRendererObj.getStringWidth(string) * d / 2.0);
-         float f2 = g + this.Z / 2.0F - (int)(mc.fontRendererObj.FONT_HEIGHT * d / 2.0);
+         float g = this.centerX + j - (int)(mc.fontRendererObj.getStringWidth(string) * d / 2.0);
+         float h = f + this.barHeight / 2.0F - (int)(mc.fontRendererObj.FONT_HEIGHT * d / 2.0);
          GL11.glEnable(3042);
          GL11.glPushMatrix();
-         GL11.glTranslated(-h * (d - 1.0), -f2 * (d - 1.0), 0.0);
+         GL11.glTranslated(-g * (d - 1.0), -h * (d - 1.0), 0.0);
          GL11.glScaled(d, d, 1.0);
-         if (this.n) {
-            mc.fontRendererObj.drawStringWithShadow(string, h, f2, l);
+         if (this.textShadow) {
+            mc.fontRendererObj.drawStringWithShadow(string, g, h, l);
          } else {
-            mc.fontRendererObj.D(string, h, f2, l);
+            mc.fontRendererObj.D(string, g, h, l);
          }
 
          GL11.glPopMatrix();
@@ -140,7 +142,7 @@ public class CompassHud extends Component {
       }
    }
 
-   private int Z(int i) {
+   private int wrapDegrees(int i) {
       if (i > 360) {
          i %= 360;
       }
@@ -152,7 +154,7 @@ public class CompassHud extends Component {
       return i;
    }
 
-   public void i(int i) {
-      this.x = i;
+   public void setScreenWidth(int i) {
+      this.screenWidth = i;
    }
 }

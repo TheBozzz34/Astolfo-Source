@@ -10,33 +10,33 @@ import bypass.setting.Setting;
 import net.minecraft.client.gui.GuiMainMenu;
 
 public class BooleanComponent extends SettingComponent {
-   private final Category j;
-   private final Container V;
+   private final Category category;
+   private final Container ownerContainer;
 
    public BooleanComponent(Category category, Container container, Setting setting, int i, int j) {
       super(container, setting, i, j);
-      this.j = category;
-      this.V = container;
+      this.category = category;
+      this.ownerContainer = container;
    }
 
    @Override
-   public void l(int i) {
-      if (this.V.s_boolean() && i == 0) {
-         this.d().set(!this.d().getValue());
+   public void onClick(int i) {
+      if (this.ownerContainer.isExpanded() && i == 0) {
+         this.getBooleanSetting().set(!this.getBooleanSetting().getValue());
       }
    }
 
    @Override
    public void render(int i, int j) {
-      int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.j.getColor() : client.getColorSetting().getValue().getRGB();
-      if (this.d().getValue()) {
-         RenderUtil.drawRect(this.M(), this.E_float(), this.M() + this.x(), this.E_float() + this.Y(), k);
+      int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.category.getColor() : client.getColorSetting().getValue().getRGB();
+      if (this.getBooleanSetting().getValue()) {
+         RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), k);
       }
 
-      GuiMainMenu.m.drawString(this.d().getName(), this.M() + 3.0F, this.E_float(), -1);
+      GuiMainMenu.m.drawString(this.getBooleanSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
    }
 
-   private BooleanSetting d() {
-      return (BooleanSetting)this.t();
+   private BooleanSetting getBooleanSetting() {
+      return (BooleanSetting)this.getSetting();
    }
 }

@@ -17,7 +17,7 @@ public class IrcMessageHandler extends PacketHandler<IrcMessage> {
 
    public void handle(IrcMessage ircMessage, PacketOutput packetOutput) {
       if (ircMessage.type == IrcMessageType.B) {
-         if (!ChatManager.g()) {
+         if (!ChatManager.isChatEnabled()) {
             return;
          }
 
@@ -25,15 +25,25 @@ public class IrcMessageHandler extends PacketHandler<IrcMessage> {
          String string2 = ircMessage.message;
          if (ircMessage.message.contains(string)) {
             string2 = string2.replace(string, EnumChatFormatting.BOLD + "" + EnumChatFormatting.YELLOW + string + EnumChatFormatting.RESET);
-            if (ChatManager.X()) {
+            if (ChatManager.isPingsEnabled()) {
                Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("random.orb"), 1.0F));
             }
          }
 
          if (ircMessage.sender.isEmpty()) {
-            chat.D(false, false).S().i("[A]").M().M(EnumChatFormatting.GOLD).i(" ").i(string2).N().b();
+            chat.createBuilder(false, false).enableLinkDetection().append("[A]").bold().color(EnumChatFormatting.GOLD).append(" ").append(string2).build().send();
          } else {
-            chat.D(false, false).S().i("[A] ").M().M(EnumChatFormatting.GOLD).i(ircMessage.sender).M(EnumChatFormatting.GRAY).i(": ").i(string2).N().b();
+            chat.createBuilder(false, false)
+               .enableLinkDetection()
+               .append("[A] ")
+               .bold()
+               .color(EnumChatFormatting.GOLD)
+               .append(ircMessage.sender)
+               .color(EnumChatFormatting.GRAY)
+               .append(": ")
+               .append(string2)
+               .build()
+               .send();
          }
       }
    }

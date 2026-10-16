@@ -14,18 +14,18 @@ public enum OutlineColor {
    RAINBOW(null),
    WHITE(Color.WHITE);
 
-   private Color Y;
-   private static final OutlineColor[] a = new OutlineColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
+   private Color color;
+   private static final OutlineColor[] VALUES = new OutlineColor[]{DEFAULT, PINK, PURPLE, RED, GREEN, BLUE, ORANGE, RAINBOW, WHITE};
 
    OutlineColor(Color color) {
-      this.Y = color;
+      this.color = color;
    }
 
-   public void i(Color color) {
-      this.Y = color;
+   public void setColor(Color color) {
+      this.color = color;
    }
 
-   public Color C() {
-      return this.Y;
+   public Color getColor() {
+      return this.color;
    }
 }

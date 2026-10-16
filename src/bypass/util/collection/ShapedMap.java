@@ -9,13 +9,13 @@ import java.util.Map.Entry;
 
 public class ShapedMap<K, V> implements Map<K, V>, Serializable {
    public MapShape<K, V> shape = MapShape.EMPTY;
-   public Object w;
-   public Object D;
-   public Object M;
+   public Object slotValues;
+   public Object secondValue;
+   public Object firstValue;
 
    @Override
    public int size() {
-      return this.shape.P(this);
+      return this.shape.getSize(this);
    }
 
    @Override
@@ -25,7 +25,7 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
 
    @Override
    public boolean containsKey(Object object) {
-      return this.shape.O(this, object);
+      return this.shape.hasKey(this, object);
    }
 
    @Override
@@ -35,21 +35,21 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
 
    @Override
    public V get(Object object) {
-      return this.shape.k(this, (K)object);
+      return this.shape.getValue(this, (K)object);
    }
 
    @Override
    public V put(K object, V object2) {
-      return this.shape.n(this, (K)object, object2);
+      return this.shape.putValue(this, (K)object, object2);
    }
 
-   public V F(K object, Object object2) {
-      return this.shape.n(this, (K)object, object2);
+   public V putRaw(K object, Object object2) {
+      return this.shape.putValue(this, (K)object, object2);
    }
 
    @Override
    public V remove(Object object) {
-      return this.shape.n(this, (K)object, MapShape.REMOVED);
+      return this.shape.putValue(this, (K)object, MapShape.REMOVED);
    }
 
    @Override
@@ -62,22 +62,22 @@ public class ShapedMap<K, V> implements Map<K, V>, Serializable {
    @Override
    public void clear() {
       this.shape = MapShape.EMPTY;
-      this.w = this.D = this.M = null;
+      this.slotValues = this.secondValue = this.firstValue = null;
    }
 
    @Override
    public Set<K> keySet() {
-      return this.shape.J(this);
+      return this.shape.createKeySet(this);
    }
 
    @Override
    public Collection<V> values() {
-      return this.shape.i(this);
+      return this.shape.createValues(this);
    }
 
    @Override
    public Set<Entry<K, V>> entrySet() {
-      return this.shape.f(this);
+      return this.shape.createEntrySet(this);
    }
 
    @Override

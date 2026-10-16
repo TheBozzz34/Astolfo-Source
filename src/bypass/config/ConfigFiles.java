@@ -25,8 +25,8 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 
 public final class ConfigFiles implements ClientAccess {
-   public static final Gson V = new Gson();
-   public static final Gson G = new GsonBuilder().setPrettyPrinting().create();
+   public static final Gson GSON = new Gson();
+   public static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
 
    private static JsonObject toJson(Setting<?> setting, String string) {
       JsonObject jsonObject = new JsonObject();
@@ -113,7 +113,7 @@ public final class ConfigFiles implements ClientAccess {
 
       try {
          fileWriter = new FileWriter(file);
-         V.toJson(list, fileWriter);
+         GSON.toJson(list, fileWriter);
          fileWriter.close();
       } catch (IOException ioException) {
          ioException.printStackTrace();
@@ -136,7 +136,7 @@ public final class ConfigFiles implements ClientAccess {
          }
 
          Type type = new JsonObjectListType().getType();
-         List list = V.fromJson(jsonReader, type);
+         List list = GSON.fromJson(jsonReader, type);
 
          for (ModuleInfo moduleInfo : Astolfo.INSTANCE.getModuleManager().getList()) {
             if (moduleInfo instanceof Module) {
@@ -193,7 +193,7 @@ public final class ConfigFiles implements ClientAccess {
          }
       } catch (Exception exception) {
          exception.printStackTrace();
-         toasts.m("Failed to load config");
+         toasts.warning("Failed to load config");
       }
    }
 

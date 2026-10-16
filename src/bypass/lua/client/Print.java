@@ -7,7 +7,7 @@ import org.luaj.vm2.lib.OneArgFunction;
 public final class Print extends OneArgFunction {
    @Override
    public LuaValue call(LuaValue luaValue) {
-      ClientChat.CHAT.I(luaValue.tojstring());
+      ClientChat.CHAT.print(luaValue.tojstring());
       return valueOf(true);
    }
 }

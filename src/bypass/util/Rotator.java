@@ -7,7 +7,7 @@ public class Rotator {
    private boolean randomize;
    private float smoothing;
    private Random random;
-   private static final double s = 180.0 / Math.PI;
+   private static final double RAD_TO_DEG = 180.0 / Math.PI;
 
    public Rotator(boolean bl, float f) {
       this.randomize = bl;

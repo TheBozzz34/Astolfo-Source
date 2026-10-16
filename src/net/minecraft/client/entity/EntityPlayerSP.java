@@ -139,7 +139,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          if (this.E()) {
             this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
             this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
-            if (RiderGod.S()) {
+            if (RiderGod.isExactly1122Protocol()) {
                this.sendQueue.addToSendQueue(new VehicleMovePacket(this.ridingEntity));
             }
          } else {
@@ -214,7 +214,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                      this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(d, e, d2, bl5));
                   } else if (bl4) {
                      this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
-                  } else if (RiderGod.r()) {
+                  } else if (RiderGod.isAtLeast1122Protocol()) {
                      if (this.el != bl5) {
                         this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                      }
@@ -312,7 +312,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                   this.sendQueue.addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(d, e, d2, bl5));
                } else if (bl4) {
                   this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
-               } else if (RiderGod.r()) {
+               } else if (RiderGod.isAtLeast1122Protocol()) {
                   if (this.el != bl5) {
                      this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                   }
@@ -395,8 +395,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       if (!Astolfo.INSTANCE.getModuleManager().get(HideWindow.class).isEnabled()) {
          this.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.openContainer.windowId));
       } else if (this.mc.currentScreen instanceof GuiChest) {
-         HideWindow.w = (GuiChest)this.mc.currentScreen;
-         HideWindow.W = this.openContainer.windowId;
+         HideWindow.hiddenChest = (GuiChest)this.mc.currentScreen;
+         HideWindow.hiddenWindowId = this.openContainer.windowId;
       }
 
       this.closeScreenAndDropStack();
@@ -731,7 +731,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       float f = 0.8F;
       boolean bl3 = this.movementInput.moveForward >= f;
       this.movementInput.updatePlayerMoveState();
-      if (this.isUsingItem() && !this.E() && !ModuleManager.D.isEnabled()) {
+      if (this.isUsingItem() && !this.E() && !ModuleManager.noSlow.isEnabled()) {
          this.movementInput.moveStrafe *= 0.2F;
          this.movementInput.moveForward *= 0.2F;
          this.eD = 0;

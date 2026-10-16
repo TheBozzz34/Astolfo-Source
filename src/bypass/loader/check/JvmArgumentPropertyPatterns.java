@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JvmArgumentPropertyPatterns {
-   private final List<String> x = Arrays.asList(
+   private final List<String> patterns = Arrays.asList(
       "useSystemProxies",
       "socksProxyHost",
       "socksProxyPort",
@@ -16,7 +16,7 @@ public class JvmArgumentPropertyPatterns {
       "https.proxyPort"
    );
 
-   public List<String> Z() {
-      return this.x;
+   public List<String> getPatterns() {
+      return this.patterns;
    }
 }

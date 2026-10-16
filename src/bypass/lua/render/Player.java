@@ -57,7 +57,7 @@ public final class Player extends VarArgFunction {
          }
       }
 
-      Entity entity = WorldLibrary.X.get(l);
+      Entity entity = WorldLibrary.entitiesById.get(l);
       if (entity instanceof EntityLivingBase) {
          GuiInventory.g(i, j, f, h, k, (EntityLivingBase)entity);
       }

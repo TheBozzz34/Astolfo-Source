@@ -5,14 +5,14 @@ public enum AutoFishMode {
    MOTION("Motion"),
    TEXT("Text");
 
-   private String i;
-   private static final AutoFishMode[] M = new AutoFishMode[]{SOUND, MOTION, TEXT};
+   private String displayName;
+   private static final AutoFishMode[] VALUES = new AutoFishMode[]{SOUND, MOTION, TEXT};
 
    AutoFishMode(String string2) {
-      this.i = string2;
+      this.displayName = string2;
    }
 
-   public static String m(AutoFishMode autoFishMode) {
-      return autoFishMode.i;
+   public static String displayNameOf(AutoFishMode autoFishMode) {
+      return autoFishMode.displayName;
    }
 }

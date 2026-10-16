@@ -6,17 +6,17 @@ import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 
 public final class LoginResponseReader implements PacketReader<LoginResponse> {
-   private LoginResponse D;
+   private LoginResponse packet;
 
    @Override
    public void read(ByteBuffer byteBuffer) {
       byte[] bytes = new byte[byteBuffer.getInt()];
       byteBuffer.get(bytes);
       boolean bl = byteBuffer.getInt() == 1;
-      this.D = new LoginResponse(bl, new String(bytes, StandardCharsets.UTF_8));
+      this.packet = new LoginResponse(bl, new String(bytes, StandardCharsets.UTF_8));
    }
 
    public LoginResponse getPacket() {
-      return this.D;
+      return this.packet;
    }
 }

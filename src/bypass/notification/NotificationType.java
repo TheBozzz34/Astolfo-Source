@@ -13,7 +13,7 @@ public enum NotificationType {
    public final int color;
    public final ResourceLocation texture;
    public final Color consoleColor;
-   private static final NotificationType[] f = new NotificationType[]{SUCCESS, INFO, WARNING, DANGER};
+   private static final NotificationType[] VALUES = new NotificationType[]{SUCCESS, INFO, WARNING, DANGER};
 
    NotificationType(Color color, int j, ResourceLocation resourceLocation) {
       this.consoleColor = color;

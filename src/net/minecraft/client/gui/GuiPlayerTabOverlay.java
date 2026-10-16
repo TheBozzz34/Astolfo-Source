@@ -61,10 +61,10 @@ public class GuiPlayerTabOverlay extends Gui {
          for (Object object : list) {
             NetworkPlayerInfo networkPlayerInfo = (NetworkPlayerInfo)object;
             String string = this.getPlayerName(networkPlayerInfo).replace("§k", "");
-            if (networkPlayerInfo.getGameProfile() != null && Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo.getGameProfile().getName()) != null) {
-               AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo.getGameProfile().getName());
+            if (networkPlayerInfo.getGameProfile() != null && Astolfo.INSTANCE.getUserManager().getUser(networkPlayerInfo.getGameProfile().getName()) != null) {
+               AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().getUser(networkPlayerInfo.getGameProfile().getName());
                StringBuilder stringBuilder = new StringBuilder(string);
-               stringBuilder.insert(0, String.format("%s%s %s- ", EnumChatFormatting.LIGHT_PURPLE, astolfoUser.s, EnumChatFormatting.GRAY));
+               stringBuilder.insert(0, String.format("%s%s %s- ", EnumChatFormatting.LIGHT_PURPLE, astolfoUser.clientName, EnumChatFormatting.GRAY));
                string = stringBuilder.toString();
             }
 
@@ -153,10 +153,10 @@ public class GuiPlayerTabOverlay extends Gui {
             if (i9 < list.size()) {
                NetworkPlayerInfo networkPlayerInfo2 = (NetworkPlayerInfo)list.get(i9);
                String string5 = this.getPlayerName(networkPlayerInfo2).replace("§k", "");
-               if (networkPlayerInfo2.getGameProfile() != null && Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo2.getGameProfile().getName()) != null) {
-                  AstolfoUser astolfoUser2 = Astolfo.INSTANCE.getUserManager().g(networkPlayerInfo2.getGameProfile().getName());
+               if (networkPlayerInfo2.getGameProfile() != null && Astolfo.INSTANCE.getUserManager().getUser(networkPlayerInfo2.getGameProfile().getName()) != null) {
+                  AstolfoUser astolfoUser2 = Astolfo.INSTANCE.getUserManager().getUser(networkPlayerInfo2.getGameProfile().getName());
                   StringBuilder stringBuilder2 = new StringBuilder(string5);
-                  stringBuilder2.insert(0, String.format("%s%s %s- ", EnumChatFormatting.LIGHT_PURPLE, astolfoUser2.s, EnumChatFormatting.GRAY));
+                  stringBuilder2.insert(0, String.format("%s%s %s- ", EnumChatFormatting.LIGHT_PURPLE, astolfoUser2.clientName, EnumChatFormatting.GRAY));
                   string5 = stringBuilder2.toString();
                }
 

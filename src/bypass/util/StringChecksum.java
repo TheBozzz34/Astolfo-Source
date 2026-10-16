@@ -3,11 +3,11 @@ package bypass.util;
 import java.nio.charset.StandardCharsets;
 
 public class StringChecksum {
-   public static int Y(String string) {
-      return U(string.getBytes(StandardCharsets.UTF_8));
+   public static int checksum(String string) {
+      return sumChecksum(string.getBytes(StandardCharsets.UTF_8));
    }
 
-   private static int U(byte[] bytes) {
+   private static int sumChecksum(byte[] bytes) {
       byte b = 0;
 
       for (byte b2 : bytes) {
@@ -17,11 +17,11 @@ public class StringChecksum {
       return b % 127;
    }
 
-   public static byte[] j(int i, String string) {
+   public static byte[] xorEncode(int i, String string) {
       byte[] bytes = string.getBytes(StandardCharsets.UTF_8);
 
-      for (int k = 0; k < bytes.length; k++) {
-         bytes[k] = (byte)(bytes[k] ^ i);
+      for (int j = 0; j < bytes.length; j++) {
+         bytes[j] = (byte)(bytes[j] ^ i);
       }
 
       return bytes;

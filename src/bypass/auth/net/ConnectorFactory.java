@@ -1,9 +1,9 @@
 package bypass.auth.net;
 
 public class ConnectorFactory {
-   private static ConnectionOptions V = ConnectionOptions.M(16);
+   private static ConnectionOptions options = ConnectionOptions.ofSize(16);
 
-   public HandshakeConnector d() {
+   public HandshakeConnector createConnector() {
       return new HandshakeConnector();
    }
 }

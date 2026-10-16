@@ -1,31 +1,31 @@
 package bypass.loader.check;
 
 public final class MeasureResult {
-   private MeasureStatus R;
-   private String v;
+   private MeasureStatus status;
+   private String message;
 
    public MeasureResult(MeasureStatus measureStatus, String string) {
-      this.R = measureStatus;
-      this.v = string;
+      this.status = measureStatus;
+      this.message = string;
    }
 
-   public static final MeasureResult R() {
+   public static final MeasureResult success() {
       return new MeasureResult(MeasureStatus.SUCCESS, "");
    }
 
-   public static final MeasureResult a(String string) {
+   public static final MeasureResult failure(String string) {
       return new MeasureResult(MeasureStatus.FAILURE, string);
    }
 
-   public static final MeasureResult B(String string) {
+   public static final MeasureResult interrupted(String string) {
       return new MeasureResult(MeasureStatus.INTERRUPTED, string);
    }
 
-   public MeasureStatus G() {
-      return this.R;
+   public MeasureStatus getStatus() {
+      return this.status;
    }
 
-   public String w() {
-      return this.v;
+   public String getMessage() {
+      return this.message;
    }
 }

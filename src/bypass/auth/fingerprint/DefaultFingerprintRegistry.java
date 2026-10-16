@@ -5,17 +5,17 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class DefaultFingerprintRegistry implements FingerprintRegistry {
-   private static final Map<String, FingerprintEntry<?>> k = new ConcurrentHashMap<>();
+   private static final Map<String, FingerprintEntry<?>> entries = new ConcurrentHashMap<>();
 
    @Override
-   public void e() {
+   public void init() {
    }
 
    @Override
-   public int l() {
+   public int countValidatedEntries() {
       byte b = 0;
 
-      for (FingerprintEntry fingerprintEntry : k.values()) {
+      for (FingerprintEntry fingerprintEntry : entries.values()) {
          b += fingerprintEntry instanceof ValidatedFingerprintEntry ? 1 : 0;
       }
 
@@ -23,44 +23,44 @@ public final class DefaultFingerprintRegistry implements FingerprintRegistry {
    }
 
    @Override
-   public int o(String string) {
-      return k.containsKey(string) ? k.get(string).o() : -1;
+   public int getEntryHash(String string) {
+      return entries.containsKey(string) ? entries.get(string).getHash() : -1;
    }
 
    @Override
-   public int C() {
+   public int getCombinedHash() {
       int i = 0;
 
-      for (FingerprintEntry fingerprintEntry : k.values()) {
-         i += fingerprintEntry.o();
+      for (FingerprintEntry fingerprintEntry : entries.values()) {
+         i += fingerprintEntry.getHash();
       }
 
       return i;
    }
 
    @Override
-   public void Q(String string, FingerprintEntry<?> fingerprintEntry) {
-      if (!k.containsKey(string)) {
-         k.put(string, fingerprintEntry);
+   public void register(String string, FingerprintEntry<?> fingerprintEntry) {
+      if (!entries.containsKey(string)) {
+         entries.put(string, fingerprintEntry);
       }
    }
 
    @Override
-   public void s(String string, FingerprintEntrySupplier fingerprintEntrySupplier) {
-      if (!k.containsKey(string)) {
-         k.put(string, fingerprintEntrySupplier.get());
+   public void registerSupplied(String string, FingerprintEntrySupplier fingerprintEntrySupplier) {
+      if (!entries.containsKey(string)) {
+         entries.put(string, fingerprintEntrySupplier.get());
       }
    }
 
    @Override
-   public int F(String string) {
-      FingerprintEntry fingerprintEntry = k.get(string);
+   public int validate(String string) {
+      FingerprintEntry fingerprintEntry = entries.get(string);
       if (!(fingerprintEntry instanceof ValidatedFingerprintEntry)) {
          return 0;
       }
 
       ValidatedFingerprintEntry validatedFingerprintEntry = (ValidatedFingerprintEntry)fingerprintEntry;
-      List list = validatedFingerprintEntry.W();
+      List list = validatedFingerprintEntry.getValidators();
       boolean bl = false;
       if (!list.isEmpty()) {
          for (Object object : list) {
@@ -76,23 +76,23 @@ public final class DefaultFingerprintRegistry implements FingerprintRegistry {
    }
 
    @Override
-   public int B() {
+   public int validateAll() {
       int i = 0;
 
-      for (String string : k.keySet()) {
-         i += this.F(string);
+      for (String string : entries.keySet()) {
+         i += this.validate(string);
       }
 
       return i;
    }
 
    @Override
-   public boolean f(String string) {
-      return k.containsKey(string) ? k.remove(string) != null : false;
+   public boolean remove(String string) {
+      return entries.containsKey(string) ? entries.remove(string) != null : false;
    }
 
    @Override
    public void invalidateAll() {
-      k.replaceAll((string, fingerprintEntry) -> new EmptyFingerprintEntry());
+      entries.replaceAll((string, fingerprintEntry) -> new EmptyFingerprintEntry());
    }
 }

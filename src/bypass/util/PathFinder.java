@@ -8,22 +8,22 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 
 public class PathFinder {
-   public static ArrayList<Vector3> i(Vector3 vector3, Vector3 vector32, double d) {
-      if (!k(new BlockPos(vector3.toVec3()))) {
+   public static ArrayList<Vector3> findPath(Vector3 vector3, Vector3 vector32, double d) {
+      if (!isPassableBlock(new BlockPos(vector3.toVec3()))) {
          vector3 = vector3.add(0.0, 1.0, 0.0);
       }
 
       PathSegment pathSegment = new PathSegment(vector3, vector32);
-      pathSegment.Q();
-      int j = 0;
+      pathSegment.findPathDefault();
+      int i = 0;
       Vector3 vector33 = null;
       Vector3 vector34 = null;
       ArrayList arrayList = new ArrayList();
-      ArrayList arrayList2 = pathSegment.W();
+      ArrayList arrayList2 = pathSegment.getPath();
 
       for (Object object : arrayList2) {
          Vector3 vector35 = (Vector3)object;
-         if (j != 0 && j != arrayList2.size() - 1) {
+         if (i != 0 && i != arrayList2.size() - 1) {
             boolean bl = true;
             if (vector35.distanceSq(vector34) > d * d) {
                bl = false;
@@ -35,10 +35,10 @@ public class PathFinder {
                double d5 = Math.max(vector34.getY(), vector35.getY());
                double d6 = Math.max(vector34.getZ(), vector35.getZ());
 
-               for (int l = (int)e; l <= d4; l++) {
-                  for (int m = (int)d2; m <= d5; m++) {
-                     for (int n = (int)d3; n <= d6; n++) {
-                        if (!PathSegment.H(l, m, n)) {
+               for (int j = (int)e; j <= d4; j++) {
+                  for (int k = (int)d2; k <= d5; k++) {
+                     for (int l = (int)d3; l <= d6; l++) {
+                        if (!PathSegment.isWalkableAt(j, k, l)) {
                            bl = false;
                            break;
                         }
@@ -61,13 +61,13 @@ public class PathFinder {
          }
 
          vector33 = vector35;
-         j++;
+         i++;
       }
 
       return arrayList;
    }
 
-   private static boolean k(BlockPos blockPos) {
+   private static boolean isPassableBlock(BlockPos blockPos) {
       Block block = Minecraft.getMinecraft().theWorld.getBlockState(new BlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ())).getBlock();
       return block.getMaterial() == Material.air
          || block.getMaterial() == Material.plants

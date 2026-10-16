@@ -10,10 +10,10 @@ import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
-   public Map<Class<? extends Event>, List<Subscription<?, ?>>> N;
-   private final MemberScanner<A> B;
-   private final ListenerFilter<A> C;
-   private InvocationStrategy t;
+   public Map<Class<? extends Event>, List<Subscription<?, ?>>> subscriptionMap;
+   private final MemberScanner<A> memberScanner;
+   private final ListenerFilter<A> listenerFilter;
+   private InvocationStrategy invocationStrategy;
 
    public AnnotatedEventBus(
       Map<Class<? extends Event>, List<Subscription<?, ?>>> map,
@@ -21,24 +21,24 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
       ListenerFilter<A> listenerFilter,
       InvocationStrategy invocationStrategy
    ) {
-      this.N = map;
-      this.B = memberScanner;
-      this.C = listenerFilter;
-      this.t = invocationStrategy;
+      this.subscriptionMap = map;
+      this.memberScanner = memberScanner;
+      this.listenerFilter = listenerFilter;
+      this.invocationStrategy = invocationStrategy;
    }
 
-   public MemberScanner<A> N() {
-      return this.B;
+   public MemberScanner<A> getMemberScanner() {
+      return this.memberScanner;
    }
 
    @Override
    public void subscribe(Object object) {
       Objects.requireNonNull(object, "The object must not be null");
 
-      for (AnnotatedElement annotatedElement : this.B.getMembers(object.getClass())) {
-         if (this.C.isListener((A)annotatedElement)) {
-            Subscriber subscriber = Subscription.l(object, annotatedElement, this.t);
-            this.b(subscriber);
+      for (AnnotatedElement annotatedElement : this.memberScanner.getMembers(object.getClass())) {
+         if (this.listenerFilter.isListener((A)annotatedElement)) {
+            Subscriber subscriber = Subscription.fromAnnotatedMember(object, annotatedElement, this.invocationStrategy);
+            this.addSubscription(subscriber);
          }
       }
    }
@@ -48,10 +48,10 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
       Objects.requireNonNull(object, "The object must not be null");
       Objects.requireNonNull(class2, "You forgot to specify the event");
 
-      for (AnnotatedElement annotatedElement : this.B.getMembers(object.getClass())) {
-         if (this.C.listensTo((A)annotatedElement, class2)) {
-            Subscriber subscriber = Subscription.l(object, annotatedElement, this.t);
-            this.b(subscriber);
+      for (AnnotatedElement annotatedElement : this.memberScanner.getMembers(object.getClass())) {
+         if (this.listenerFilter.listensTo((A)annotatedElement, class2)) {
+            Subscriber subscriber = Subscription.fromAnnotatedMember(object, annotatedElement, this.invocationStrategy);
+            this.addSubscription(subscriber);
          }
       }
    }
@@ -61,7 +61,7 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
       Objects.requireNonNull(subscribers, "The object must not be null");
       if (subscribers.length != 0) {
          for (Subscriber subscriber : subscribers) {
-            this.b(subscriber);
+            this.addSubscription(subscriber);
          }
       }
    }
@@ -69,35 +69,39 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
    @Override
    public void unsubscribe(Object object) {
       Objects.requireNonNull(object, "The object must not be null");
-      this.g().keySet().forEach(class2 -> this.N((Class<? extends Event>)class2).ifPresent(list -> list.removeIf(subscription -> subscription.t().equals(object))));
+      this.getSubscriptionMap()
+         .keySet()
+         .forEach(
+            class2 -> this.findSubscriptions((Class<? extends Event>)class2).ifPresent(list -> list.removeIf(subscription -> subscription.getOwner().equals(object)))
+         );
    }
 
    @Override
    public void unsubscribe(Object object, Class<? extends Event> class2) {
       Objects.requireNonNull(object, "The object must not be null");
       Objects.requireNonNull(class2, "The class of the event can't be null");
-      if (this.g().containsKey(class2)) {
-         this.g().get(class2).removeIf(subscription -> subscription.t().equals(object));
+      if (this.getSubscriptionMap().containsKey(class2)) {
+         this.getSubscriptionMap().get(class2).removeIf(subscription -> subscription.getOwner().equals(object));
       }
    }
 
    @Override
    public <E extends Event> E post(E event) {
-      List list = this.g().get(event.getClass());
+      List list = this.getSubscriptionMap().get(event.getClass());
       if (list != null) {
          label29:
          for (Object object : list) {
             Subscription subscription = (Subscription)object;
             Subscription subscription2 = subscription;
-            if (subscription2.i() != null) {
-               for (SubscriptionFilter subscriptionFilter : subscription2.i()) {
+            if (subscription2.getFilters() != null) {
+               for (SubscriptionFilter subscriptionFilter : subscription2.getFilters()) {
                   if (!subscriptionFilter.test(subscription2, (E)event)) {
                      continue label29;
                   }
                }
             }
 
-            subscription2.C(event);
+            subscription2.invoke(event);
          }
       }
 
@@ -106,29 +110,29 @@ public class AnnotatedEventBus<A extends AnnotatedElement> implements EventBus {
 
    @Override
    public <E extends Event> E publishIgnoringFilters(E event) {
-      List list = this.g().get(event.getClass());
+      List list = this.getSubscriptionMap().get(event.getClass());
       if (list != null) {
-         list.forEach(object -> ((bypass.event.bus.Subscription)object).C(event));
+         list.forEach(object -> ((bypass.event.bus.Subscription)object).invoke(event));
       }
 
       return (E)event;
    }
 
-   private Optional<List<Subscription<?, ?>>> N(Class<? extends Event> class2) {
-      return Optional.ofNullable(this.N.get(class2));
+   private Optional<List<Subscription<?, ?>>> findSubscriptions(Class<? extends Event> class2) {
+      return Optional.ofNullable(this.subscriptionMap.get(class2));
    }
 
-   public <O> void b(Subscription<O, ?> subscription) {
-      Class class2 = subscription.V();
-      List list = (java.util.List)(this.N(class2).orElse(new CopyOnWriteArrayList<>()));
+   public <O> void addSubscription(Subscription<O, ?> subscription) {
+      Class class2 = subscription.getEventType();
+      List list = (java.util.List)(this.findSubscriptions(class2).orElse(new CopyOnWriteArrayList<>()));
       list.add(subscription);
-      list.sort(Comparator.comparing((java.util.function.Function<Subscription, java.lang.Integer>)Subscription::l));
-      if (!this.g().containsKey(class2)) {
-         this.g().put(class2, list);
+      list.sort(Comparator.comparing((java.util.function.Function<Subscription, java.lang.Integer>)Subscription::getPriority));
+      if (!this.getSubscriptionMap().containsKey(class2)) {
+         this.getSubscriptionMap().put(class2, list);
       }
    }
 
-   public Map<Class<? extends Event>, List<Subscription<?, ?>>> g() {
-      return this.N;
+   public Map<Class<? extends Event>, List<Subscription<?, ?>>> getSubscriptionMap() {
+      return this.subscriptionMap;
    }
 }

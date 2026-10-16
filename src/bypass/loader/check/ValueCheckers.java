@@ -12,45 +12,45 @@ import oshi.util.tuples.Pair;
 public enum ValueCheckers implements Initializable {
    INSTANCE;
 
-   private final ShapedMap<Class<?>, ValueCheckerHolder> j = new ValueCheckers.e();
-   private static final ValueCheckers[] N = new ValueCheckers[]{INSTANCE};
+   private final ShapedMap<Class<?>, ValueCheckerHolder> checkers = new ValueCheckers.e();
+   private static final ValueCheckers[] VALUES = new ValueCheckers[]{INSTANCE};
 
-   public ShapedMap<Class<?>, ValueCheckerHolder> Q() {
-      return this.j;
+   public ShapedMap<Class<?>, ValueCheckerHolder> getCheckers() {
+      return this.checkers;
    }
 
    @Override
-   public void C() {
-      this.j.put(NullPointerException.class, new ValueCheckerHolder(new ValueCheckers.xb()));
-      this.j.put(Pair.class, new ValueCheckerHolder(new ValueCheckers.r1g()));
-      this.j.put(EntityPig.class, new ValueCheckerHolder(new ValueCheckers.rbz()));
-      this.j.put(EntitySkeleton.class, new ValueCheckerHolder(new ValueCheckers.yp()));
-      this.j.put(Block.class, new ValueCheckerHolder(new ValueCheckers.axp()));
-      this.j.put(ItemFishFood.class, new ValueCheckerHolder(new ValueCheckers.riu()));
-      this.j.put(EnvironmentKindD.class, new ValueCheckerHolder(new ValueCheckers.r1_()));
-      this.j.put(EnvironmentKindC.class, new ValueCheckerHolder(new ValueCheckers.kw()));
+   public void initialize() {
+      this.checkers.put(NullPointerException.class, new ValueCheckerHolder(new ValueCheckers.xb()));
+      this.checkers.put(Pair.class, new ValueCheckerHolder(new ValueCheckers.r1g()));
+      this.checkers.put(EntityPig.class, new ValueCheckerHolder(new ValueCheckers.rbz()));
+      this.checkers.put(EntitySkeleton.class, new ValueCheckerHolder(new ValueCheckers.yp()));
+      this.checkers.put(Block.class, new ValueCheckerHolder(new ValueCheckers.axp()));
+      this.checkers.put(ItemFishFood.class, new ValueCheckerHolder(new ValueCheckers.riu()));
+      this.checkers.put(EnvironmentKindD.class, new ValueCheckerHolder(new ValueCheckers.r1_()));
+      this.checkers.put(EnvironmentKindC.class, new ValueCheckerHolder(new ValueCheckers.kw()));
    }
 
    public class axp implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
          AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE
-            .Z((Block)object, block -> ((Block)block).getMapColor(null) == MapColor.adobeColor ? -63872 : 0, integer -> integer != -63872);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+            .createCheck((Block)object, block -> ((Block)block).getMapColor(null) == MapColor.adobeColor ? -63872 : 0, integer -> integer != -63872);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
    public class e extends ShapedMap<Class<?>, ValueCheckerHolder> {
-      private final ValueCheckerHolder m = new ValueCheckerHolder(new ValueCheckers.e.ahr());
+      private final ValueCheckerHolder defaultHolder = new ValueCheckerHolder(new ValueCheckers.e.ahr());
 
       public ValueCheckerHolder get(Object object) {
          if (object == null) {
-            return this.m;
+            return this.defaultHolder;
          }
 
          ValueCheckerHolder valueCheckerHolder = (ValueCheckerHolder)super.get(object);
          if (valueCheckerHolder != null) {
-            ValueChecker valueChecker = valueCheckerHolder.O();
+            ValueChecker valueChecker = valueCheckerHolder.getChecker();
             if (valueChecker != null) {
                return valueCheckerHolder;
             }
@@ -77,24 +77,24 @@ public enum ValueCheckers implements Initializable {
    public class r1_ implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
-         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z(object, object2 -> object2 != null ? 1 : 0, integer -> integer == 1);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.createCheck(object, object2 -> object2 != null ? 1 : 0, integer -> integer == 1);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
    public class r1g implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
-         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((Pair)object, pair -> ((String)((Pair)pair).getA()).length(), integer -> integer == 12);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.createCheck((Pair)object, pair -> ((String)((Pair)pair).getA()).length(), integer -> integer == 12);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
    public class rbz implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
-         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((EntityPig)object, Entity::getEntityId, integer -> integer > 135278);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.createCheck((EntityPig)object, Entity::getEntityId, integer -> integer > 135278);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
@@ -102,24 +102,24 @@ public enum ValueCheckers implements Initializable {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
          AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE
-            .Z((ItemFishFood)object, itemFishFood -> ((ItemFishFood)itemFishFood).w() ? -5326515 : -362176356, integer -> integer < -5326515);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+            .createCheck((ItemFishFood)object, itemFishFood -> ((ItemFishFood)itemFishFood).w() ? -5326515 : -362176356, integer -> integer < -5326515);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
    public class xb implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
-         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((NullPointerException)object, nullPointerException -> nullPointerException.getMessage().length(), integer -> integer == 1);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.createCheck((NullPointerException)object, nullPointerException -> nullPointerException.getMessage().length(), integer -> integer == 1);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 
    public class yp implements ValueChecker {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
-         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.Z((EntitySkeleton)object, Entity::getEntityId, integer -> integer < 3298776);
-         return new ValueCheckOutcome(abstractValueCheck.L(), abstractValueCheck.o(), abstractValueCheck.C());
+         AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE.createCheck((EntitySkeleton)object, Entity::getEntityId, integer -> integer < 3298776);
+         return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }
 }

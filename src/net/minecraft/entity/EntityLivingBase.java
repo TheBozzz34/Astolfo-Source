@@ -1506,7 +1506,7 @@ public abstract class EntityLivingBase extends Entity {
       this.moveStrafing *= 0.98F;
       this.moveForward *= 0.98F;
       this.randomYawVelocity *= 0.9F;
-      if (RiderGod.S() && this instanceof EntityPlayerSP && this.ridingEntity != null && this.ridingEntity instanceof EntityHorse) {
+      if (RiderGod.isExactly1122Protocol() && this instanceof EntityPlayerSP && this.ridingEntity != null && this.ridingEntity instanceof EntityHorse) {
          EntityHorse entityHorse = (EntityHorse)this.ridingEntity;
          entityHorse.O(this.moveStrafing, this.moveForward, this.randomYawVelocity);
       } else {

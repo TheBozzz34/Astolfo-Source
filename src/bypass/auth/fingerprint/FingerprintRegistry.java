@@ -1,27 +1,27 @@
 package bypass.auth.fingerprint;
 
 public interface FingerprintRegistry {
-   int Z = 1;
-   int F = -1;
-   int r = 0;
+   int VALID = 1;
+   int INVALID = -1;
+   int NOT_VALIDATED = 0;
 
-   void e();
+   void init();
 
-   int l();
+   int countValidatedEntries();
 
-   int o(String string);
+   int getEntryHash(String string);
 
-   int C();
+   int getCombinedHash();
 
-   void Q(String string, FingerprintEntry<?> fingerprintEntry);
+   void register(String string, FingerprintEntry<?> fingerprintEntry);
 
-   void s(String string, FingerprintEntrySupplier fingerprintEntrySupplier);
+   void registerSupplied(String string, FingerprintEntrySupplier fingerprintEntrySupplier);
 
-   int F(String string);
+   int validate(String string);
 
-   int B();
+   int validateAll();
 
-   boolean f(String string);
+   boolean remove(String string);
 
    void invalidateAll();
 }

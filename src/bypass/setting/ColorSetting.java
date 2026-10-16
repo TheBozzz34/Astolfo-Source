@@ -20,7 +20,7 @@ public final class ColorSetting extends Setting<Color> {
             float f = 1.0F - MathHelper.abs(MathHelper.sin((float)Minecraft.getSystemTime() % 4500.0F / 4500.0F * (float) Math.PI * 2.0F) * 0.6F);
             return new Color(color.getRed(), color.getGreen(), color.getBlue(), MathHelper.clamp_int((int)(color.getAlpha() * f), 0, 255));
          case RAINBOW:
-            return ColorPicker.h(HypixelPacketHandler.r);
+            return ColorPicker.getHueColor(HypixelPacketHandler.tickCycle);
          default:
             return color;
       }
