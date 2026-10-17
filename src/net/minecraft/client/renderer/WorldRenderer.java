@@ -270,8 +270,6 @@ public class WorldRenderer {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public WorldRenderer tex(double u, double v) {
       if (this.quadSprite != null && this.quadSprites != null) {
          u = this.quadSprite.toSingleU((float)u);
@@ -305,8 +303,6 @@ public class WorldRenderer {
       return this;
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public WorldRenderer lightmap(int i, int j) {
       int k = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {
@@ -421,8 +417,6 @@ public class WorldRenderer {
       return this.color((int)(red * 255.0F), (int)(green * 255.0F), (int)(blue * 255.0F), (int)(alpha * 255.0F));
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public WorldRenderer color(int red, int green, int blue, int alpha) {
       if (this.noColor) {
          return this;
@@ -500,8 +494,6 @@ public class WorldRenderer {
       this.putPosition(j, k, l);
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public WorldRenderer pos(double x, double y, double z) {
       if (Config.isShaders()) {
          SVertexBuilder.beginAddVertex(this);
@@ -559,8 +551,6 @@ public class WorldRenderer {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public WorldRenderer normal(float f, float g, float h) {
       int i = this.vertexCount * this.vertexFormat.getNextOffset() + this.vertexFormat.getOffset(this.vertexFormatIndex);
       switch (this.vertexFormatElement.getType()) {

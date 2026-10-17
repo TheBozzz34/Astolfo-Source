@@ -102,8 +102,6 @@ public class VisGraph {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private int func_178603_a(int i, EnumFacing enumFacing) {
       switch (enumFacing) {
          case DOWN:

@@ -18,8 +18,6 @@ public class BreakingFour extends BakedQuad {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void remapVert(int vertex) {
       int i = this.vertexData.length / 4;
       int j = i * vertex;

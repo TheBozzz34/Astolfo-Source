@@ -309,8 +309,6 @@ public class ItemRenderer {
       GlStateManager.rotate(this.updateSpinAngle(Animations.spin.getValue()), 0.0F, 1.0F, 0.0F);
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public void renderItemInFirstPerson(float partialTicks) {
       float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
       EntityPlayerSP entityPlayerSP = this.mc.thePlayer;

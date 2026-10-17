@@ -46,8 +46,6 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
       return false;
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void renderLayer(EntityLivingBase entitylivingbaseIn, float f, float g, float partialTicks, float h, float f2, float f3, float scale, int armorSlot) {
       ItemStack itemStack = this.getCurrentArmor(entitylivingbaseIn, armorSlot);
       if (itemStack != null && itemStack.getItem() instanceof ItemArmor) {

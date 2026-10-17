@@ -1173,8 +1173,6 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
       return j;
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void renderBlockLayer(EnumWorldBlockLayer blockLayerIn) {
       this.mc.entityRenderer.enableLightmap();
       if (OpenGlHelper.useVbo()) {

@@ -53,8 +53,6 @@ public enum EnumFacing implements IStringSerializable {
       return VALUES[this.opposite];
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public EnumFacing rotateAround(EnumFacing.Axis axis) {
       switch (axis) {
          case X:
@@ -80,8 +78,6 @@ public enum EnumFacing implements IStringSerializable {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public EnumFacing rotateY() {
       switch (this) {
          case NORTH:
@@ -97,8 +93,6 @@ public enum EnumFacing implements IStringSerializable {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private EnumFacing rotateX() {
       switch (this) {
          case NORTH:
@@ -116,8 +110,6 @@ public enum EnumFacing implements IStringSerializable {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private EnumFacing rotateZ() {
       switch (this) {
          case EAST:
@@ -134,8 +126,6 @@ public enum EnumFacing implements IStringSerializable {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public EnumFacing rotateYCCW() {
       switch (this) {
          case NORTH:

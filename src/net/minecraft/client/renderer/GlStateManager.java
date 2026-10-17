@@ -238,8 +238,6 @@ public class GlStateManager {
       GL11.glTexGen(texGenCoord(texGen).coord, pname, params);
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private static GlStateManager.TexGenCoord texGenCoord(GlStateManager.TexGen texGen) {
       switch (texGen) {
          case S:
