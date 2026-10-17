@@ -74,12 +74,12 @@ public class LoginScreen extends GuiScreen {
       Keyboard.enableRepeatEvents(true);
       this.buttonList.clear();
       this.buttonList.add(loginButton = new GuiButton(-88888, this.width / 2 - 95, this.height / 2 + 25, 191, 20, "Login"));
-      loginButton.n = true;
+      loginButton.useCustomAlpha = true;
       usernameField = new GuiTextField(0, this.fontRendererObj, this.width / 2 - 25, this.height / 2 - 40, 120, 20);
-      usernameField.w = true;
+      usernameField.useCustomAlpha = true;
       usernameField.setText("");
       passwordField = new PasswordField(0, this.width / 2 - 25, this.height / 2 - 20, 120, 20);
-      passwordField.w = true;
+      passwordField.useCustomAlpha = true;
       passwordField.setPasswordMode(true);
       passwordField.setMaxStringLength(128);
       passwordField.setText("");
@@ -127,16 +127,16 @@ public class LoginScreen extends GuiScreen {
          this.drawLogo(i - 63, j - 17);
       }
 
-      loginButton.t = m;
-      passwordField.I = m;
-      usernameField.I = m;
+      loginButton.customAlpha = m;
+      passwordField.customAlpha = m;
+      usernameField.customAlpha = m;
       usernameField.drawTextBox();
       passwordField.drawTextBox();
       if (!bl) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, k / 255.0F);
-         GuiMainMenu.G(new ResourceLocation("client/login/username.png"), 6.0F, i + 83, j - 35);
+         GuiMainMenu.drawIcon(new ResourceLocation("client/login/username.png"), 6.0F, i + 83, j - 35);
          GlStateManager.color(1.0F, 1.0F, 1.0F, k / 255.0F);
-         GuiMainMenu.G(new ResourceLocation("client/login/password.png"), 6.0F, i + 83, j - 17);
+         GuiMainMenu.drawIcon(new ResourceLocation("client/login/password.png"), 6.0F, i + 83, j - 17);
       }
 
       String string;

@@ -25,7 +25,7 @@ public enum EnumFacing implements IStringSerializable {
    public static final EnumFacing[] VALUES = new EnumFacing[6];
    private static final EnumFacing[] HORIZONTALS = new EnumFacing[4];
    private static final Map<String, EnumFacing> NAME_LOOKUP = Maps.newHashMap();
-   private static final EnumFacing[] M = new EnumFacing[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
+   private static final EnumFacing[] ENUM_VALUES = new EnumFacing[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
 
    EnumFacing(String string2, int j, int k, int l, int m, String string3, EnumFacing.AxisDirection axisDirection, EnumFacing.Axis axis, Vec3i vec3i) {
       this.index = k;
@@ -249,7 +249,7 @@ public enum EnumFacing implements IStringSerializable {
       private static final Map<String, EnumFacing.Axis> NAME_LOOKUP = Maps.newHashMap();
       private final String name;
       private final EnumFacing.Plane plane;
-      private static final EnumFacing.Axis[] S = new EnumFacing.Axis[]{X, Y, Z};
+      private static final EnumFacing.Axis[] AXIS_VALUES = new EnumFacing.Axis[]{X, Y, Z};
 
       Axis(String string2, int j, String string3, EnumFacing.Plane plane) {
          this.name = string3;
@@ -303,7 +303,7 @@ public enum EnumFacing implements IStringSerializable {
 
       private final int offset;
       private final String description;
-      private static final EnumFacing.AxisDirection[] Q = new EnumFacing.AxisDirection[]{POSITIVE, NEGATIVE};
+      private static final EnumFacing.AxisDirection[] AXIS_DIRECTION_VALUES = new EnumFacing.AxisDirection[]{POSITIVE, NEGATIVE};
 
       AxisDirection(String string2, int j, int k, String string3) {
          this.offset = k;
@@ -324,7 +324,7 @@ public enum EnumFacing implements IStringSerializable {
       HORIZONTAL("HORIZONTAL", 0),
       VERTICAL("VERTICAL", 1);
 
-      private static final EnumFacing.Plane[] c = new EnumFacing.Plane[]{HORIZONTAL, VERTICAL};
+      private static final EnumFacing.Plane[] PLANE_VALUES = new EnumFacing.Plane[]{HORIZONTAL, VERTICAL};
 
       Plane(String string2, int j) {
       }

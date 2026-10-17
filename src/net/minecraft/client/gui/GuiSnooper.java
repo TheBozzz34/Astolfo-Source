@@ -97,7 +97,7 @@ public class GuiSnooper extends GuiScreen {
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static java.util.List i(GuiSnooper guiSnooper) {
+   public static java.util.List accessSnooperValues(GuiSnooper guiSnooper) {
       return guiSnooper.field_146609_h;
    }
 
@@ -128,8 +128,8 @@ public class GuiSnooper extends GuiScreen {
 
       @Override
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
-         GuiSnooper.this.fontRendererObj.D(GuiSnooper.this.field_146604_g.get(entryID), 10.0F, j, 16777215);
-         GuiSnooper.this.fontRendererObj.D((String)GuiSnooper.i(GuiSnooper.this).get(entryID), 230.0F, j, 16777215);
+         GuiSnooper.this.fontRendererObj.drawStringNoShadow(GuiSnooper.this.field_146604_g.get(entryID), 10.0F, j, 16777215);
+         GuiSnooper.this.fontRendererObj.drawStringNoShadow((String)GuiSnooper.accessSnooperValues(GuiSnooper.this).get(entryID), 230.0F, j, 16777215);
       }
 
       @Override

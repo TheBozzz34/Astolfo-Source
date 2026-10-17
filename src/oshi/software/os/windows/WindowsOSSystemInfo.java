@@ -9,14 +9,14 @@ public class WindowsOSSystemInfo {
    private SYSTEM_INFO z = null;
 
    public WindowsOSSystemInfo() {
-      this.K();
+      this.init();
    }
 
    public WindowsOSSystemInfo(SYSTEM_INFO si) {
       this.z = si;
    }
 
-   private void K() {
+   private void init() {
       SYSTEM_INFO systeM_INFO = new SYSTEM_INFO();
       Kernel32.INSTANCE.GetSystemInfo(systeM_INFO);
 
@@ -32,7 +32,7 @@ public class WindowsOSSystemInfo {
       this.z = systeM_INFO;
    }
 
-   public int N() {
+   public int getNumberOfProcessors() {
       return this.z.dwNumberOfProcessors.intValue();
    }
 }

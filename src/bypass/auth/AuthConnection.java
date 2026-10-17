@@ -95,7 +95,7 @@ public class AuthConnection implements ClientAccess {
                                                          () -> {
                                                             if (DisconnectHandler.disconnected) {
                                                                mc.mouseHelper
-                                                                  .Y()
+                                                                  .getAuthSession()
                                                                   .getEndpoint()
                                                                   .getConnection()
                                                                   .getPacketOutput()
@@ -104,7 +104,7 @@ public class AuthConnection implements ClientAccess {
                                                                      (short)635,
                                                                      new LoginPacket(
                                                                         "",
-                                                                        mc.mouseHelper.Y().getAccount().getUsername(),
+                                                                        mc.mouseHelper.getAuthSession().getAccount().getUsername(),
                                                                         LoginScreen.passwordField.getText(),
                                                                         "",
                                                                         mc.autoLoginToken
@@ -112,7 +112,7 @@ public class AuthConnection implements ClientAccess {
                                                                   );
                                                             } else {
                                                                mc.mouseHelper
-                                                                  .Y()
+                                                                  .getAuthSession()
                                                                   .getEndpoint()
                                                                   .getConnection()
                                                                   .getPacketOutput()

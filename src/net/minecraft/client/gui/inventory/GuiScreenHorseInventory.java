@@ -25,8 +25,8 @@ public class GuiScreenHorseInventory extends GuiContainer {
 
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-      this.fontRendererObj.D(this.horseInventory.getDisplayName().getUnformattedText(), 8.0F, 6.0F, 4210752);
-      this.fontRendererObj.D(this.playerInventory.getDisplayName().getUnformattedText(), 8.0F, this.ySize - 96 + 2, 4210752);
+      this.fontRendererObj.drawStringNoShadow(this.horseInventory.getDisplayName().getUnformattedText(), 8.0F, 6.0F, 4210752);
+      this.fontRendererObj.drawStringNoShadow(this.playerInventory.getDisplayName().getUnformattedText(), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override

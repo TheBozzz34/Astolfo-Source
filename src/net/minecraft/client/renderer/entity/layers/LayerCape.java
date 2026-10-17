@@ -18,8 +18,8 @@ import net.minecraft.util.ResourceLocation;
 
 public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
    private final RenderPlayer playerRenderer;
-   private static boolean J;
-   private static final ResourceLocation K = new ResourceLocation("client/cape.png");
+   private static boolean defaultCapeLoaded;
+   private static final ResourceLocation DEFAULT_CAPE_TEXTURE = new ResourceLocation("client/cape.png");
 
    public LayerCape(RenderPlayer playerRendererIn) {
       this.playerRenderer = playerRendererIn;
@@ -31,20 +31,20 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
          && entitylivingbaseIn.isWearing(EnumPlayerModelParts.CAPE)
          && entitylivingbaseIn.getLocationCape() != null) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-         if (!J) {
+         if (!defaultCapeLoaded) {
             InputStream inputStream = LayerCape.class.getResourceAsStream("/assets/minecraft/client/cape.png");
-            CapeImageBuffer capeImageBuffer = new CapeImageBuffer(entitylivingbaseIn, K);
+            CapeImageBuffer capeImageBuffer = new CapeImageBuffer(entitylivingbaseIn, DEFAULT_CAPE_TEXTURE);
 
             try {
                BufferedImage bufferedImage = TextureUtil.readBufferedImage(inputStream);
                BufferedImage bufferedImage2 = capeImageBuffer.parseUserSkin(bufferedImage);
                DynamicTexture dynamicTexture = new DynamicTexture(bufferedImage2);
-               Minecraft.getMinecraft().getTextureManager().loadTexture(K, dynamicTexture);
+               Minecraft.getMinecraft().getTextureManager().loadTexture(DEFAULT_CAPE_TEXTURE, dynamicTexture);
             } catch (IOException ioException) {
                ioException.printStackTrace();
             }
 
-            J = true;
+            defaultCapeLoaded = true;
          }
 
          this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationCape());
@@ -98,15 +98,15 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
       }
    }
 
-   public static ResourceLocation h(AbstractClientPlayer abstractClientPlayer, String string) {
+   public static ResourceLocation downloadCapeTexture(AbstractClientPlayer abstractClientPlayer, String string) {
       ResourceLocation resourceLocation = new ResourceLocation("capes/" + string);
       TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
       net.minecraft.client.renderer.texture.ITextureObject iTextureObject = textureManager.getTexture(resourceLocation);
       if (iTextureObject == null) {
          CapeImageBuffer capeImageBuffer = new CapeImageBuffer(abstractClientPlayer, resourceLocation);
-         iTextureObject = new ThreadDownloadImageData(null, String.format("https://capes.astolfo.lgbt/v1/cape/%s", string), K, capeImageBuffer);
+         iTextureObject = new ThreadDownloadImageData(null, String.format("https://capes.astolfo.lgbt/v1/cape/%s", string), DEFAULT_CAPE_TEXTURE, capeImageBuffer);
          textureManager.loadTexture(resourceLocation, iTextureObject);
-         BufferedImage bufferedImage = capeImageBuffer.parseUserSkin(((net.minecraft.client.renderer.ThreadDownloadImageData)iTextureObject).l());
+         BufferedImage bufferedImage = capeImageBuffer.parseUserSkin(((net.minecraft.client.renderer.ThreadDownloadImageData)iTextureObject).getBufferedImage());
          DynamicTexture dynamicTexture = new DynamicTexture(bufferedImage);
          textureManager.loadTexture(resourceLocation, dynamicTexture);
       }

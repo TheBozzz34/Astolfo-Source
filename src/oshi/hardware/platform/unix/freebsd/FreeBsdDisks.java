@@ -28,7 +28,7 @@ public final class FreeBsdDisks {
 
       for (Object object : list) {
          String string = (String)object;
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length >= 7 && strings[0].equals(diskStore.getName())) {
             bl = true;
             diskStore.setReads((long)ParseUtil.parseDoubleOrDefault(strings[1], 0.0));
@@ -55,14 +55,14 @@ public final class FreeBsdDisks {
       }
 
       HashMap hashMap2 = new HashMap();
-      List list2 = Arrays.asList(ParseUtil.Q.split(BsdSysctlUtil.sysctl("kern.disks", "")));
+      List list2 = Arrays.asList(ParseUtil.whitespaces.split(BsdSysctlUtil.sysctl("kern.disks", "")));
       ArrayList arrayList = new ArrayList();
       List list3 = ExecutingCommand.runNative("iostat -Ix");
       long l = System.currentTimeMillis();
 
       for (Object object : list3) {
          String string2 = (String)object;
-         String[] strings = ParseUtil.Q.split(string2);
+         String[] strings = ParseUtil.whitespaces.split(string2);
          if (strings.length >= 7 && list2.contains(strings[0])) {
             HWDiskStore hwDiskStore = new HWDiskStore();
             hwDiskStore.setName(strings[0]);
@@ -100,7 +100,7 @@ public final class FreeBsdDisks {
          if (hwDiskStore2 != null) {
             string3 = string3.trim();
             if (string3.startsWith("Mediasize:")) {
-               String[] strings2 = ParseUtil.Q.split(string3);
+               String[] strings2 = ParseUtil.whitespaces.split(string3);
                if (strings2.length > 1) {
                   hwDiskStore2.setSize(ParseUtil.parseLongOrDefault(strings2[1], 0L));
                }
@@ -151,7 +151,7 @@ public final class FreeBsdDisks {
             }
 
             if (hwPartition != null) {
-               String[] strings3 = ParseUtil.Q.split(string5);
+               String[] strings3 = ParseUtil.whitespaces.split(string5);
                if (strings3.length >= 2) {
                   if (string5.startsWith("Mediasize:")) {
                      hwPartition.setSize(ParseUtil.parseLongOrDefault(strings3[1], 0L));

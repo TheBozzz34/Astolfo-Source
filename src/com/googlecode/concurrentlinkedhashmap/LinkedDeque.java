@@ -281,17 +281,17 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    public abstract static class AbstractLinkedIterator implements Iterator<Linked> {
-      public Linked N;
-      public final LinkedDeque X;
+      public Linked cursor;
+      public final LinkedDeque deque;
 
       public AbstractLinkedIterator(LinkedDeque linkedDeque, Linked startIn) {
-         this.X = linkedDeque;
-         this.N = startIn;
+         this.deque = linkedDeque;
+         this.cursor = startIn;
       }
 
       @Override
       public boolean hasNext() {
-         return this.N != null;
+         return this.cursor != null;
       }
 
       public Linked next() {
@@ -299,8 +299,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
             throw new NoSuchElementException();
          }
 
-         Linked linked = this.N;
-         this.N = this.g();
+         Linked linked = this.cursor;
+         this.cursor = this.computeNext();
          return linked;
       }
 
@@ -309,7 +309,7 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
          throw new UnsupportedOperationException();
       }
 
-      public abstract Linked g();
+      public abstract Linked computeNext();
    }
 
    public class AscendingIterator extends LinkedDeque.AbstractLinkedIterator {
@@ -318,8 +318,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       }
 
       @Override
-      public E g() {
-         return (E)this.N.getNext();
+      public E computeNext() {
+         return (E)this.cursor.getNext();
       }
    }
 
@@ -329,8 +329,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       }
 
       @Override
-      public E g() {
-         return (E)this.N.getPrevious();
+      public E computeNext() {
+         return (E)this.cursor.getPrevious();
       }
    }
 }

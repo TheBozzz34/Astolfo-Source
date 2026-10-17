@@ -294,13 +294,13 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    public int fpsCounter;
    public long prevFrameTime = -1L;
    private String debugProfilerName = "root";
-   public static boolean c;
+   public static boolean hypixelInHostsFile;
    public String autoLoginToken = "";
-   public boolean xx = false;
-   public Stopwatch J = new Stopwatch();
-   public static boolean xG;
-   private static String x7 = "";
-   private String xc = "";
+   public boolean unusedFlag = false;
+   public Stopwatch loginScreenTimer = new Stopwatch();
+   public static boolean forceServerReport;
+   private static String lastReportedUsername = "";
+   private String lastReportedServerIp = "";
 
    public Minecraft(GameConfiguration gameConfig) {
       theMinecraft = this;
@@ -1332,15 +1332,15 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       try {
          if (this.thePlayer != null && this.theWorld != null && this.currentScreen == null) {
             if (Astolfo.INSTANCE.getModuleManager().get(FreeLook.class).isEnabled() && (!FreeLook.mouseWheel.getValue() || Mouse.isButtonDown(2))) {
-               if (!EntityRenderer.q) {
-                  EntityRenderer.r = this.thePlayer.rotationPitch;
-                  EntityRenderer.S = this.thePlayer.rotationYaw;
+               if (!EntityRenderer.freelookActive) {
+                  EntityRenderer.freelookPitch = this.thePlayer.rotationPitch;
+                  EntityRenderer.freelookYaw = this.thePlayer.rotationYaw;
                }
 
-               EntityRenderer.q = true;
+               EntityRenderer.freelookActive = true;
                this.gameSettings.thirdPersonView = 1;
-            } else if (EntityRenderer.q) {
-               EntityRenderer.q = false;
+            } else if (EntityRenderer.freelookActive) {
+               EntityRenderer.freelookActive = false;
                this.gameSettings.thirdPersonView = 0;
             }
          }
@@ -1378,7 +1378,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          if (this.currentScreen != null) {
             try {
                if (this.currentScreen instanceof LoginScreen) {
-                  this.J.reset();
+                  this.loginScreenTimer.reset();
                }
 
                this.currentScreen.updateScreen();
@@ -1466,7 +1466,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
 
                Astolfo.INSTANCE.getEventBus().post(new KeyPressEvent(k));
                if (this.currentScreen != null) {
-                  this.currentScreen.I();
+                  this.currentScreen.handleKeyboardEvent();
                } else {
                   if (k == 1) {
                      this.displayInGameMenu();
@@ -1717,7 +1717,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       }
    }
 
-   public void t(boolean bl) {
+   public void setBorderlessFullscreen(boolean bl) {
       try {
          if (bl) {
             System.setProperty("org.lwjgl.opengl.Window.undecorated", "true");
@@ -1739,12 +1739,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       }
    }
 
-   private void W() {
+   private void checkHostsFileForHypixel() {
       try {
          if (Util.getOSType() == Util.EnumOS.WINDOWS) {
             String string = new String(Files.readAllBytes(Paths.get("c:\\windows\\system32\\drivers\\etc\\hosts")), StandardCharsets.UTF_8);
             if (string.contains("hypixel.net")) {
-               c = true;
+               hypixelInHostsFile = true;
             }
          }
       } catch (IOException ioException) {
@@ -1807,7 +1807,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
    }
 
    public void loadWorld(WorldClient worldClientIn, String loadingMessage) {
-      this.W();
+      this.checkHostsFileForHypixel();
       if (worldClientIn == null) {
          NetHandlerPlayClient netHandlerPlayClient = this.getNetHandler();
          if (netHandlerPlayClient != null) {
@@ -1866,25 +1866,30 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
       }
 
       if (worldClientIn != null) {
-         N(false);
+         reportServerChange(false);
       }
 
       System.gc();
       this.systemTime = 0L;
    }
 
-   public static void N(boolean bl) {
-      if (!StringUtils.isNullOrEmpty(ServerData.I)
-         && (!x7.equals(getMinecraft().session.getUsername()) || !ServerData.I.equals(getMinecraft().xc) || xG || bl)
+   public static void reportServerChange(boolean bl) {
+      if (!StringUtils.isNullOrEmpty(ServerData.currentServerIp)
+         && (
+            !lastReportedUsername.equals(getMinecraft().session.getUsername())
+               || !ServerData.currentServerIp.equals(getMinecraft().lastReportedServerIp)
+               || forceServerReport
+               || bl
+         )
          && !getMinecraft().integratedServerIsRunning
          && !getMinecraft().isSingleplayer()
          && !DisconnectHandler.disconnected) {
-         if (c && ServerData.I.toLowerCase().endsWith("hypixel.net")) {
+         if (hypixelInHostsFile && ServerData.currentServerIp.toLowerCase().endsWith("hypixel.net")) {
          }
 
-         x7 = getMinecraft().session.getUsername();
-         getMinecraft().xc = ServerData.I;
-         xG = false;
+         lastReportedUsername = getMinecraft().session.getUsername();
+         getMinecraft().lastReportedServerIp = ServerData.currentServerIp;
+         forceServerReport = false;
       }
    }
 
@@ -2430,9 +2435,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage {
          && !Keyboard.isRepeatEvent()
          && (!(this.currentScreen instanceof GuiControls) || ((GuiControls)this.currentScreen).time <= getSystemTime() - 20L)
          && Keyboard.getEventKeyState()) {
-         if (i == this.gameSettings.p.getKeyCode()) {
+         if (i == this.gameSettings.keyBindFullscreen.getKeyCode()) {
             this.toggleFullscreen();
-         } else if (i == this.gameSettings.Za.getKeyCode()) {
+         } else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
             this.ingameGUI
                .getChatGUI()
                .printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));

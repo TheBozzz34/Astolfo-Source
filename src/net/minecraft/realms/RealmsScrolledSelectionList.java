@@ -17,12 +17,12 @@ public class RealmsScrolledSelectionList {
       return this.proxy.getWidth();
    }
 
-   public int M() {
-      return this.proxy.a();
+   public int ym() {
+      return this.proxy.getMouseY();
    }
 
-   public int Q() {
-      return this.proxy.N();
+   public int xm() {
+      return this.proxy.getMouseX();
    }
 
    public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
@@ -62,7 +62,7 @@ public class RealmsScrolledSelectionList {
       this.proxy.scrollBy(i);
    }
 
-   public int F() {
+   public int getScroll() {
       return this.proxy.getAmountScrolled();
    }
 

@@ -53,7 +53,7 @@ public final class StringFunction extends VarArgFunction {
       }
 
       if (string != null) {
-         ClientAccess.mc.fontRendererObj.D(string, i, j, new Color(k, l, m).getRGB());
+         ClientAccess.mc.fontRendererObj.drawStringNoShadow(string, i, j, new Color(k, l, m).getRGB());
          return valueOf(false);
       } else {
          return valueOf(true);

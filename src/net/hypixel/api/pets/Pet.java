@@ -176,7 +176,7 @@ public class Pet {
       return false;
    }
 
-   public int K() {
+   public int getLevel() {
       return this.level;
    }
 
@@ -190,7 +190,7 @@ public class Pet {
       return i;
    }
 
-   public int J() {
+   public int getLevelProgress() {
       return this.experience - this.getExperienceUntilLevel(this.level);
    }
 

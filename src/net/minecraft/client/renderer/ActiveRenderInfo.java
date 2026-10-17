@@ -27,8 +27,8 @@ public class ActiveRenderInfo {
    private static float rotationXY;
 
    public static void updateRenderInfo(EntityPlayer entityplayerIn, boolean bl) {
-      GlStateManager.getFloat(EntityRenderer.ZE, MODELVIEW);
-      GlStateManager.getFloat(EntityRenderer.ZE + 1, PROJECTION);
+      GlStateManager.getFloat(EntityRenderer.authMatrixParam, MODELVIEW);
+      GlStateManager.getFloat(EntityRenderer.authMatrixParam + 1, PROJECTION);
       GL11.glGetInteger(2978, VIEWPORT);
       float f = (VIEWPORT.get(0) + VIEWPORT.get(2)) / 2;
       float g = (VIEWPORT.get(1) + VIEWPORT.get(3)) / 2;

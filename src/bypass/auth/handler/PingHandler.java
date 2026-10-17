@@ -33,11 +33,11 @@ public class PingHandler extends PacketHandler<Integer> {
 
       if (DisconnectHandler.disconnected) {
          DisconnectHandler.disconnected = false;
-         if (mc.thePlayer != null && mc.session != null && !StringUtils.isEmpty(ServerData.I)) {
-            Minecraft.N(false);
+         if (mc.thePlayer != null && mc.session != null && !StringUtils.isEmpty(ServerData.currentServerIp)) {
+            Minecraft.reportServerChange(false);
          }
       }
 
-      Timer.q.reset();
+      Timer.authPingTimer.reset();
    }
 }

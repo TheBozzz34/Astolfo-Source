@@ -201,13 +201,13 @@ public class EntityRenderer implements IResourceManagerReloadListener {
    private float avgServerTickDiff = 0.0F;
    private long lastErrorCheckTimeMs = 0L;
    private ShaderGroup[] fxaaShaders = new ShaderGroup[10];
-   public static int Z0 = -5;
-   public static int C = 23;
-   public static int ZE = 5672;
-   public static float S;
-   public static float r;
-   public static boolean q;
-   private int B;
+   public static int authFovMultiplier = -5;
+   public static int authClearMask = 23;
+   public static int authMatrixParam = 5672;
+   public static float freelookYaw;
+   public static float freelookPitch;
+   public static boolean freelookActive;
+   private int unusedInt;
 
    public EntityRenderer(Minecraft mcIn, IResourceManager resourceManagerIn) {
       this.shaderIndex = shaderCount;
@@ -508,7 +508,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          }
       }
 
-      f *= Z0;
+      f *= authFovMultiplier;
       boolean bl = false;
       if (this.mc.currentScreen == null) {
          GameSettings gameSettings2 = this.mc.gameSettings;
@@ -593,11 +593,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       float g = entity.rotationPitch;
       float h = entity.prevRotationYaw;
       float f2 = entity.prevRotationPitch;
-      if (q) {
-         entity.rotationYaw = S;
-         entity.prevRotationYaw = S;
-         entity.rotationPitch = r;
-         entity.prevRotationPitch = r;
+      if (freelookActive) {
+         entity.rotationYaw = freelookYaw;
+         entity.prevRotationYaw = freelookYaw;
+         entity.rotationPitch = freelookPitch;
+         entity.prevRotationPitch = freelookPitch;
       }
 
       float f3 = entity.getEyeHeight();
@@ -705,7 +705,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          }
       }
 
-      if (q) {
+      if (freelookActive) {
          entity.rotationYaw = f;
          entity.prevRotationYaw = h;
          entity.rotationPitch = g;
@@ -908,7 +908,8 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          this.mc.mcProfiler.startSection("lightTex");
          WorldClient worldClient = this.mc.theWorld;
          if (worldClient != null) {
-            if (Config.isCustomColors() && CustomColors.l(worldClient, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision))) {
+            if (Config.isCustomColors()
+               && CustomColors.updateLightmap(worldClient, this.torchFlickerX, this.lightmapColors, this.mc.thePlayer.isPotionActive(Potion.nightVision))) {
                this.lightmapTexture.updateDynamicTexture();
                this.lightmapUpdateNeeded = false;
                this.mc.mcProfiler.endSection();
@@ -1016,15 +1017,15 @@ public class EntityRenderer implements IResourceManagerReloadListener {
                short s = 255;
                int j = (int)(f7 * 255.0F);
                int k = (int)(f8 * 255.0F);
-               int m = (int)(f9 * 255.0F);
+               int l = (int)(f9 * 255.0F);
                if (ModuleManager.worldColor.isEnabled()) {
                   j = WorldColor.color.getValue().getRed();
                   k = WorldColor.color.getValue().getGreen();
-                  m = WorldColor.color.getValue().getBlue();
+                  l = WorldColor.color.getValue().getBlue();
                   s = (short)WorldColor.color.getValue().getAlpha();
                }
 
-               this.lightmapColors[i] = s << 24 | j << 16 | k << 8 | m;
+               this.lightmapColors[i] = s << 24 | j << 16 | k << 8 | l;
             }
 
             this.lightmapTexture.updateDynamicTexture();
@@ -1075,11 +1076,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
             this.smoothCamPartialTicks = partialTicks;
             h = this.smoothCamFilterX * f3;
             f2 = this.smoothCamFilterY * f3;
-            if (q) {
-               S += h / 8.0F;
-               r += f2 * b / 8.0F;
-               if (Math.abs(r) > 90.0F) {
-                  r = r > 0.0F ? 90.0F : -90.0F;
+            if (freelookActive) {
+               freelookYaw += h / 8.0F;
+               freelookPitch += f2 * b / 8.0F;
+               if (Math.abs(freelookPitch) > 90.0F) {
+                  freelookPitch = freelookPitch > 0.0F ? 90.0F : -90.0F;
                }
             } else {
                this.mc.thePlayer.setAngles(h, f2 * b);
@@ -1087,11 +1088,11 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          } else {
             this.smoothCamYaw = 0.0F;
             this.smoothCamPitch = 0.0F;
-            if (q) {
-               S += h / 8.0F;
-               r += f2 * b / 8.0F;
-               if (Math.abs(r) > 90.0F) {
-                  r = r > 0.0F ? 90.0F : -90.0F;
+            if (freelookActive) {
+               freelookYaw += h / 8.0F;
+               freelookPitch += f2 * b / 8.0F;
+               if (Math.abs(freelookPitch) > 90.0F) {
+                  freelookPitch = freelookPitch > 0.0F ? 90.0F : -90.0F;
                }
             } else {
                this.mc.thePlayer.setAngles(h, f2 * b);
@@ -1312,7 +1313,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
       }
 
       this.updateFogColor(partialTicks);
-      GlStateManager.clear(C);
+      GlStateManager.clear(authClearMask);
       if (bl2) {
          Shaders.clearRenderBuffer();
       }
@@ -1615,7 +1616,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
          Shaders.endRender();
       }
 
-      RenderEntityItem.w = System.nanoTime();
+      RenderEntityItem.lastFrameNanoTime = System.nanoTime();
    }
 
    private void renderCloudsCheck(RenderGlobal renderGlobalIn, float partialTicks, int pass) {
@@ -2271,7 +2272,7 @@ public class EntityRenderer implements IResourceManagerReloadListener {
 
       Config.checkDisplayMode();
       WorldClient worldClient = this.mc.theWorld;
-      if (worldClient != null && Config.k()) {
+      if (worldClient != null && Config.isNotify64BitJava()) {
          Config.setNotify64BitJava(false);
          ChatComponentText chatComponentText = new ChatComponentText(I18n.format("of.message.java64Bit"));
          this.mc.ingameGUI.getChatGUI().printChatMessage(chatComponentText);
@@ -2374,10 +2375,10 @@ public class EntityRenderer implements IResourceManagerReloadListener {
    }
 
    public static class l9y implements Callable<String> {
-      public final EntityRenderer g;
+      public final EntityRenderer entityRenderer;
 
       public l9y(EntityRenderer entityRenderer) {
-         this.g = entityRenderer;
+         this.entityRenderer = entityRenderer;
       }
 
       public String call() throws Exception {
@@ -2386,19 +2387,19 @@ public class EntityRenderer implements IResourceManagerReloadListener {
    }
 
    public static class rt7 implements Predicate {
-      public final EntityRenderer k;
+      public final EntityRenderer entityRenderer;
 
       public rt7(EntityRenderer entityRenderer) {
-         this.k = entityRenderer;
+         this.entityRenderer = entityRenderer;
       }
 
-      public boolean q(Entity entity) {
+      public boolean isCollidable(Entity entity) {
          return entity.canBeCollidedWith();
       }
 
       @Override
       public boolean apply(Object object) {
-         return this.q((Entity)object);
+         return this.isCollidable((Entity)object);
       }
    }
 }

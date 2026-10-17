@@ -93,17 +93,17 @@ public final class MacNetworks extends Networks {
       int i = netIF.queryNetworkInterface().getIndex();
       if (data.containsKey(i)) {
          MacNetworks.IFdata iFdata = (MacNetworks.IFdata)data.get(i);
-         netIF.setIfType(MacNetworks.IFdata.Z(iFdata));
-         netIF.setBytesSent(MacNetworks.IFdata.f(iFdata));
-         netIF.setBytesRecv(MacNetworks.IFdata.l(iFdata));
-         netIF.setPacketsSent(MacNetworks.IFdata.w(iFdata));
-         netIF.setPacketsRecv(MacNetworks.IFdata.n(iFdata));
-         netIF.setOutErrors(MacNetworks.IFdata.a(iFdata));
-         netIF.setInErrors(MacNetworks.IFdata.p(iFdata));
-         netIF.setCollisions(MacNetworks.IFdata.P(iFdata));
-         netIF.setInDrops(MacNetworks.IFdata.K(iFdata));
-         netIF.setSpeed(MacNetworks.IFdata.L(iFdata));
-         netIF.setTimeStamp(MacNetworks.IFdata.e(iFdata));
+         netIF.setIfType(MacNetworks.IFdata.ifTypeOf(iFdata));
+         netIF.setBytesSent(MacNetworks.IFdata.bytesSentOf(iFdata));
+         netIF.setBytesRecv(MacNetworks.IFdata.bytesRecvOf(iFdata));
+         netIF.setPacketsSent(MacNetworks.IFdata.packetsSentOf(iFdata));
+         netIF.setPacketsRecv(MacNetworks.IFdata.packetsRecvOf(iFdata));
+         netIF.setOutErrors(MacNetworks.IFdata.outErrorsOf(iFdata));
+         netIF.setInErrors(MacNetworks.IFdata.inErrorsOf(iFdata));
+         netIF.setCollisions(MacNetworks.IFdata.collisionsOf(iFdata));
+         netIF.setInDrops(MacNetworks.IFdata.inDropsOf(iFdata));
+         netIF.setSpeed(MacNetworks.IFdata.speedOf(iFdata));
+         netIF.setTimeStamp(MacNetworks.IFdata.timeStampOf(iFdata));
          return true;
       } else {
          return false;
@@ -149,47 +149,47 @@ public final class MacNetworks extends Networks {
          this.timeStamp = timeStamp;
       }
 
-      public static int Z(MacNetworks.IFdata iFdata) {
+      public static int ifTypeOf(MacNetworks.IFdata iFdata) {
          return iFdata.ifType;
       }
 
-      public static long f(MacNetworks.IFdata iFdata) {
+      public static long bytesSentOf(MacNetworks.IFdata iFdata) {
          return iFdata.oBytes;
       }
 
-      public static long l(MacNetworks.IFdata iFdata) {
+      public static long bytesRecvOf(MacNetworks.IFdata iFdata) {
          return iFdata.iBytes;
       }
 
-      public static long w(MacNetworks.IFdata iFdata) {
+      public static long packetsSentOf(MacNetworks.IFdata iFdata) {
          return iFdata.oPackets;
       }
 
-      public static long n(MacNetworks.IFdata iFdata) {
+      public static long packetsRecvOf(MacNetworks.IFdata iFdata) {
          return iFdata.iPackets;
       }
 
-      public static long a(MacNetworks.IFdata iFdata) {
+      public static long outErrorsOf(MacNetworks.IFdata iFdata) {
          return iFdata.oErrors;
       }
 
-      public static long p(MacNetworks.IFdata iFdata) {
+      public static long inErrorsOf(MacNetworks.IFdata iFdata) {
          return iFdata.iErrors;
       }
 
-      public static long P(MacNetworks.IFdata iFdata) {
+      public static long collisionsOf(MacNetworks.IFdata iFdata) {
          return iFdata.collisions;
       }
 
-      public static long K(MacNetworks.IFdata iFdata) {
+      public static long inDropsOf(MacNetworks.IFdata iFdata) {
          return iFdata.iDrops;
       }
 
-      public static long L(MacNetworks.IFdata iFdata) {
+      public static long speedOf(MacNetworks.IFdata iFdata) {
          return iFdata.speed;
       }
 
-      public static long e(MacNetworks.IFdata iFdata) {
+      public static long timeStampOf(MacNetworks.IFdata iFdata) {
          return iFdata.timeStamp;
       }
    }

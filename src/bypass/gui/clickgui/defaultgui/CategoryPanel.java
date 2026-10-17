@@ -52,7 +52,7 @@ public class CategoryPanel extends Container {
          .getTextureManager()
          .bindTexture(new ResourceLocation(String.format("client/categories/%s.png", this.category.getDisplayName().toLowerCase())));
       Gui.drawModalRectWithCustomSizedTexture((int)(this.getX() + this.getWidth() - 11.0F), (int)this.getYPos() + 4, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
-      GuiMainMenu.m.drawStringWithShadow(this.category.getDisplayName().toLowerCase(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
+      GuiMainMenu.latoBoldFont15.drawStringWithShadow(this.category.getDisplayName().toLowerCase(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
       if (this.isExpanded() || this.expandAnimation.isRunning()) {
          byte b = 0;
 

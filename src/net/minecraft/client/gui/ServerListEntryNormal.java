@@ -71,16 +71,16 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry {
       boolean bl = this.server.version > 47;
       boolean bl2 = this.server.version < 47;
       boolean bl3 = bl || bl2;
-      this.mc.fontRendererObj.D(this.server.serverName, x + 32 + 3, y + 1, 16777215);
+      this.mc.fontRendererObj.drawStringNoShadow(this.server.serverName, x + 32 + 3, y + 1, 16777215);
       List list = this.mc.fontRendererObj.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
 
       for (int i = 0; i < Math.min(list.size(), 2); i++) {
-         this.mc.fontRendererObj.D((String)list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
+         this.mc.fontRendererObj.drawStringNoShadow((String)list.get(i), x + 32 + 3, y + 12 + this.mc.fontRendererObj.FONT_HEIGHT * i, 8421504);
       }
 
       String string = bl3 ? EnumChatFormatting.DARK_RED + this.server.gameVersion : this.server.populationInfo;
       int j = this.mc.fontRendererObj.getStringWidth(string);
-      this.mc.fontRendererObj.D(string, x + listWidth - j - 15 - 2, y + 1, 8421504);
+      this.mc.fontRendererObj.drawStringNoShadow(string, x + listWidth - j - 15 - 2, y + 1, 8421504);
       byte b = 0;
       String string2 = null;
       int k;

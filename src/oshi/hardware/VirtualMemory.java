@@ -8,7 +8,7 @@ public interface VirtualMemory {
 
    long getSwapUsed();
 
-   long L();
+   long getSwapPagesIn();
 
-   long I();
+   long getSwapPagesOut();
 }

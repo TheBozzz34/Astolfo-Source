@@ -22,12 +22,12 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
 
    @Override
    public long getAvailable() {
-      return this.availTotalSize.get().v();
+      return this.availTotalSize.get().getA();
    }
 
    @Override
    public long getTotal() {
-      return this.availTotalSize.get().q();
+      return this.availTotalSize.get().getB();
    }
 
    @Override

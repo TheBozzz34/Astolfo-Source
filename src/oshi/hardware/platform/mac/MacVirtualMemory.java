@@ -28,12 +28,12 @@ public final class MacVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long L() {
+   public long getSwapPagesIn() {
       return this.inOut.get().getA();
    }
 
    @Override
-   public long I() {
+   public long getSwapPagesOut() {
       return this.inOut.get().getB();
    }
 

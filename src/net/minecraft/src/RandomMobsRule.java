@@ -62,7 +62,7 @@ public class RandomMobsRule {
             Config.warn("Less weights defined than skins, expanding weights: " + path);
             int[] ints2 = new int[this.resourceLocations.length];
             System.arraycopy(this.weights, 0, ints2, 0, this.weights.length);
-            int k = MathUtils.o(this.weights);
+            int k = MathUtils.getAverage(this.weights);
 
             for (int l = this.weights.length; l < ints2.length; l++) {
                ints2[l] = k;

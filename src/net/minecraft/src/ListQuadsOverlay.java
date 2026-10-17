@@ -8,34 +8,34 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.init.Blocks;
 
 public class ListQuadsOverlay {
-   private List<BakedQuad> c = new ArrayList<>();
-   private List<IBlockState> o = new ArrayList<>();
-   private List<BakedQuad> Y = Arrays.asList();
+   private List<BakedQuad> listQuads = new ArrayList<>();
+   private List<IBlockState> listBlockStates = new ArrayList<>();
+   private List<BakedQuad> listQuadsSingle = Arrays.asList();
 
-   public void P(BakedQuad bakedQuad, IBlockState iBlockState) {
-      this.c.add(bakedQuad);
-      this.o.add(iBlockState);
+   public void addQuad(BakedQuad quad, IBlockState blockState) {
+      this.listQuads.add(quad);
+      this.listBlockStates.add(blockState);
    }
 
-   public int N() {
-      return this.c.size();
+   public int size() {
+      return this.listQuads.size();
    }
 
-   public BakedQuad k(int i) {
-      return this.c.get(i);
+   public BakedQuad getQuad(int index) {
+      return this.listQuads.get(index);
    }
 
-   public IBlockState a(int i) {
-      return i >= 0 && i < this.o.size() ? this.o.get(i) : Blocks.air.getDefaultState();
+   public IBlockState getBlockState(int index) {
+      return index >= 0 && index < this.listBlockStates.size() ? this.listBlockStates.get(index) : Blocks.air.getDefaultState();
    }
 
    public List<BakedQuad> y(BakedQuad bakedQuad) {
-      this.Y.set(0, bakedQuad);
-      return this.Y;
+      this.listQuadsSingle.set(0, bakedQuad);
+      return this.listQuadsSingle;
    }
 
-   public void B() {
-      this.c.clear();
-      this.o.clear();
+   public void clear() {
+      this.listQuads.clear();
+      this.listBlockStates.clear();
    }
 }

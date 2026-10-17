@@ -1,10 +1,10 @@
 package net.minecraft.util;
 
 public class IntegerCache {
-   private static final int Y = 4096;
-   private static final Integer[] CACHE = v(4096);
+   private static final int CACHE_SIZE = 4096;
+   private static final Integer[] CACHE = createCache(4096);
 
-   private static Integer[] v(int i) {
+   private static Integer[] createCache(int i) {
       Integer[] integers = new Integer[i];
 
       for (int j = 0; j < i; j++) {

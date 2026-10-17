@@ -31,10 +31,10 @@ public class MapComponent extends SettingContainer {
          );
       }
 
-      GuiMainMenu.m
+      GuiMainMenu.latoBoldFont15
          .drawString(
             this.getMapSetting().getName() + "...",
-            this.getX() + this.getWidth() / 2 - GuiMainMenu.m.getStringWidth(this.getSetting().getName() + "...", true) / 2 + 3.0F,
+            this.getX() + this.getWidth() / 2 - GuiMainMenu.latoBoldFont15.getStringWidth(this.getSetting().getName() + "...", true) / 2 + 3.0F,
             this.getYPos(),
             Color.WHITE.getRGB()
          );

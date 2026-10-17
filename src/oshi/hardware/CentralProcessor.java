@@ -12,16 +12,16 @@ public interface CentralProcessor {
    CentralProcessor.ProcessorIdentifier getProcessorIdentifier();
 
    @Deprecated
-   String P();
+   String getVendor();
 
    @Deprecated
    String getName();
 
    @Deprecated
-   String v();
+   String getFamily();
 
    @Deprecated
-   String Z();
+   String getModel();
 
    @Deprecated
    String y();
@@ -30,13 +30,13 @@ public interface CentralProcessor {
    String R();
 
    @Deprecated
-   String w();
+   String getIdentifier();
 
    @Deprecated
    boolean isCpu64bit();
 
    @Deprecated
-   long g();
+   long getVendorFreq();
 
    long getMaxFreq();
 
@@ -60,9 +60,9 @@ public interface CentralProcessor {
 
    int getPhysicalPackageCount();
 
-   long Q();
+   long getContextSwitches();
 
-   long m();
+   long getInterrupts();
 
    class LogicalProcessor {
       private final int processorNumber;
@@ -118,7 +118,7 @@ public interface CentralProcessor {
       private final String cpuIdentifier;
       private final boolean cpu64bit;
       private final long cpuVendorFreq;
-      private final Supplier<String> microArchictecture = Memoizer.memoize(this::h);
+      private final Supplier<String> microArchictecture = Memoizer.memoize(this::queryMicroarchitecture);
 
       public ProcessorIdentifier(String cpuVendor, String cpuName, String cpuFamily, String cpuModel, String cpuStepping, String processorID, boolean cpu64bit) {
          this.cpuVendor = cpuVendor;
@@ -149,7 +149,7 @@ public interface CentralProcessor {
          }
       }
 
-      public String H() {
+      public String getVendor() {
          return this.cpuVendor;
       }
 
@@ -157,15 +157,15 @@ public interface CentralProcessor {
          return this.cpuName;
       }
 
-      public String d() {
+      public String getFamily() {
          return this.cpuFamily;
       }
 
-      public String V() {
+      public String getModel() {
          return this.cpuModel;
       }
 
-      public String r() {
+      public String getStepping() {
          return this.cpuStepping;
       }
 
@@ -189,7 +189,7 @@ public interface CentralProcessor {
          return this.microArchictecture.get();
       }
 
-      private String h() {
+      private String queryMicroarchitecture() {
          return "unknown";
       }
 

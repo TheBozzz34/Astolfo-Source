@@ -55,23 +55,26 @@ public class GuiConnecting extends GuiScreen {
                      return;
                   }
 
-                  inetAddress = GuiConnecting.w(GuiConnecting.this, ip);
+                  inetAddress = GuiConnecting.accessResolveAddress(GuiConnecting.this, ip);
                   GuiConnecting.this.networkManager = NetworkManager.createNetworkManagerAndConnect(
-                     inetAddress, port, GuiConnecting.T(GuiConnecting.this).gameSettings.isUsingNativeTransport()
+                     inetAddress, port, GuiConnecting.accessMcForNativeTransport(GuiConnecting.this).gameSettings.isUsingNativeTransport()
                   );
                   GuiConnecting.this.networkManager
                      .setNetHandler(
-                        new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.Z(GuiConnecting.this), GuiConnecting.this.previousGuiScreen)
+                        new NetHandlerLoginClient(
+                           GuiConnecting.this.networkManager, GuiConnecting.accessMcForLoginHandler(GuiConnecting.this), GuiConnecting.this.previousGuiScreen
+                        )
                      );
                   GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
-                  GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.F(GuiConnecting.this).getSession().getProfile()));
+                  GuiConnecting.this.networkManager
+                     .sendPacket(new C00PacketLoginStart(GuiConnecting.accessMcForSessionProfile(GuiConnecting.this).getSession().getProfile()));
                } catch (UnknownHostException unknownHostException) {
                   if (GuiConnecting.this.cancel) {
                      return;
                   }
 
                   GuiConnecting.logger.error("Couldn't connect to server", unknownHostException);
-                  GuiConnecting.i(GuiConnecting.this)
+                  GuiConnecting.accessMcForUnknownHost(GuiConnecting.this)
                      .displayGuiScreen(
                         new GuiDisconnected(
                            GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", "Unknown host")
@@ -89,7 +92,7 @@ public class GuiConnecting extends GuiScreen {
                      string = string.replaceAll(string2, "");
                   }
 
-                  GuiConnecting.U(GuiConnecting.this)
+                  GuiConnecting.accessMcForConnectError(GuiConnecting.this)
                      .displayGuiScreen(
                         new GuiDisconnected(
                            GuiConnecting.this.previousGuiScreen, "connect.failed", new ChatComponentTranslation("disconnect.genericReason", string)
@@ -101,7 +104,7 @@ public class GuiConnecting extends GuiScreen {
          .start();
    }
 
-   private InetAddress a(String string) throws UnknownHostException {
+   private InetAddress resolveAddress(String string) throws UnknownHostException {
       VFAddressParser vfAddressParser = new VFAddressParser().parse(string);
       if (vfAddressParser.viaSuffix == null) {
          return InetAddress.getByName(string);
@@ -156,27 +159,27 @@ public class GuiConnecting extends GuiScreen {
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static InetAddress w(GuiConnecting guiConnecting, String string) throws UnknownHostException {
-      return guiConnecting.a(string);
+   public static InetAddress accessResolveAddress(GuiConnecting guiConnecting, String string) throws UnknownHostException {
+      return guiConnecting.resolveAddress(string);
    }
 
-   public static Minecraft T(GuiConnecting guiConnecting) {
+   public static Minecraft accessMcForNativeTransport(GuiConnecting guiConnecting) {
       return guiConnecting.mc;
    }
 
-   public static Minecraft Z(GuiConnecting guiConnecting) {
+   public static Minecraft accessMcForLoginHandler(GuiConnecting guiConnecting) {
       return guiConnecting.mc;
    }
 
-   public static Minecraft F(GuiConnecting guiConnecting) {
+   public static Minecraft accessMcForSessionProfile(GuiConnecting guiConnecting) {
       return guiConnecting.mc;
    }
 
-   public static Minecraft i(GuiConnecting guiConnecting) {
+   public static Minecraft accessMcForUnknownHost(GuiConnecting guiConnecting) {
       return guiConnecting.mc;
    }
 
-   public static Minecraft U(GuiConnecting guiConnecting) {
+   public static Minecraft accessMcForConnectError(GuiConnecting guiConnecting) {
       return guiConnecting.mc;
    }
 }

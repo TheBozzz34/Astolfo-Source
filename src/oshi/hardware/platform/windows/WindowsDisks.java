@@ -42,14 +42,16 @@ public final class WindowsDisks {
       }
 
       WindowsDisks.DiskStats diskStats = queryReadWriteStats(string);
-      if (WindowsDisks.DiskStats.v(diskStats).containsKey(string)) {
-         diskStore.setReads((long)(WindowsDisks.DiskStats.v(diskStats).getOrDefault(string, 0L)));
-         diskStore.setReadBytes((long)(WindowsDisks.DiskStats.N(diskStats).getOrDefault(string, 0L)));
-         diskStore.setWrites((long)(WindowsDisks.DiskStats.o(diskStats).getOrDefault(string, 0L)));
-         diskStore.setWriteBytes((long)(WindowsDisks.DiskStats.T(diskStats).getOrDefault(string, 0L)));
-         diskStore.setCurrentQueueLength((long)(WindowsDisks.DiskStats.u(diskStats).getOrDefault(string, 0L)));
-         diskStore.setTransferTime(WindowsDisks.DiskStats.Y(diskStats) - ((java.lang.Long)(WindowsDisks.DiskStats.I(diskStats).getOrDefault(string, WindowsDisks.DiskStats.Y(diskStats)))));
-         diskStore.setTimeStamp(WindowsDisks.DiskStats.Y(diskStats));
+      if (WindowsDisks.DiskStats.readMapOf(diskStats).containsKey(string)) {
+         diskStore.setReads((long)(WindowsDisks.DiskStats.readMapOf(diskStats).getOrDefault(string, 0L)));
+         diskStore.setReadBytes((long)(WindowsDisks.DiskStats.readByteMapOf(diskStats).getOrDefault(string, 0L)));
+         diskStore.setWrites((long)(WindowsDisks.DiskStats.writeMapOf(diskStats).getOrDefault(string, 0L)));
+         diskStore.setWriteBytes((long)(WindowsDisks.DiskStats.writeByteMapOf(diskStats).getOrDefault(string, 0L)));
+         diskStore.setCurrentQueueLength((long)(WindowsDisks.DiskStats.queueLengthMapOf(diskStats).getOrDefault(string, 0L)));
+         diskStore.setTransferTime(
+            WindowsDisks.DiskStats.timeStampOf(diskStats) - ((java.lang.Long)(WindowsDisks.DiskStats.idleTimeMapOf(diskStats).getOrDefault(string, WindowsDisks.DiskStats.timeStampOf(diskStats))))
+         );
+         diskStore.setTimeStamp(WindowsDisks.DiskStats.timeStampOf(diskStats));
          return true;
       } else {
          return false;
@@ -75,21 +77,23 @@ public final class WindowsDisks {
          );
          hwDiskStore.setSerial(ParseUtil.hexStringToString(WmiUtil.getString(wmiResult, Win32DiskDrive.DiskDriveProperty.SERIALNUMBER, i)));
          String string = Integer.toString(WmiUtil.getUint32(wmiResult, Win32DiskDrive.DiskDriveProperty.INDEX, i));
-         hwDiskStore.setReads((long)(WindowsDisks.DiskStats.v(diskStats).getOrDefault(string, 0L)));
-         hwDiskStore.setReadBytes((long)(WindowsDisks.DiskStats.N(diskStats).getOrDefault(string, 0L)));
-         hwDiskStore.setWrites((long)(WindowsDisks.DiskStats.o(diskStats).getOrDefault(string, 0L)));
-         hwDiskStore.setWriteBytes((long)(WindowsDisks.DiskStats.T(diskStats).getOrDefault(string, 0L)));
-         hwDiskStore.setCurrentQueueLength((long)(WindowsDisks.DiskStats.u(diskStats).getOrDefault(string, 0L)));
-         hwDiskStore.setTransferTime(WindowsDisks.DiskStats.Y(diskStats) - ((java.lang.Long)(WindowsDisks.DiskStats.I(diskStats).getOrDefault(string, WindowsDisks.DiskStats.Y(diskStats)))));
-         hwDiskStore.setTimeStamp(WindowsDisks.DiskStats.Y(diskStats));
+         hwDiskStore.setReads((long)(WindowsDisks.DiskStats.readMapOf(diskStats).getOrDefault(string, 0L)));
+         hwDiskStore.setReadBytes((long)(WindowsDisks.DiskStats.readByteMapOf(diskStats).getOrDefault(string, 0L)));
+         hwDiskStore.setWrites((long)(WindowsDisks.DiskStats.writeMapOf(diskStats).getOrDefault(string, 0L)));
+         hwDiskStore.setWriteBytes((long)(WindowsDisks.DiskStats.writeByteMapOf(diskStats).getOrDefault(string, 0L)));
+         hwDiskStore.setCurrentQueueLength((long)(WindowsDisks.DiskStats.queueLengthMapOf(diskStats).getOrDefault(string, 0L)));
+         hwDiskStore.setTransferTime(
+            WindowsDisks.DiskStats.timeStampOf(diskStats) - ((java.lang.Long)(WindowsDisks.DiskStats.idleTimeMapOf(diskStats).getOrDefault(string, WindowsDisks.DiskStats.timeStampOf(diskStats))))
+         );
+         hwDiskStore.setTimeStamp(WindowsDisks.DiskStats.timeStampOf(diskStats));
          hwDiskStore.setSize(WmiUtil.getUint64(wmiResult, Win32DiskDrive.DiskDriveProperty.SIZE, i));
          ArrayList arrayList2 = new ArrayList();
          List list = (List)WindowsDisks.PartitionMaps.y(partitionMaps).get(hwDiskStore.getName());
          if (list != null && !list.isEmpty()) {
             for (Object object : list) {
                String string2 = (String)object;
-               if (WindowsDisks.PartitionMaps.a(partitionMaps).containsKey(string2)) {
-                  arrayList2.add(WindowsDisks.PartitionMaps.a(partitionMaps).get(string2));
+               if (WindowsDisks.PartitionMaps.partitionMapOf(partitionMaps).containsKey(string2)) {
+                  arrayList2.add(WindowsDisks.PartitionMaps.partitionMapOf(partitionMaps).get(string2));
                }
             }
          }
@@ -106,7 +110,7 @@ public final class WindowsDisks {
       Pair pair = PhysicalDisk.queryDiskCounters();
       List list = (List)pair.getA();
       Map map = (Map)pair.getB();
-      WindowsDisks.DiskStats.l(diskStats, System.currentTimeMillis());
+      WindowsDisks.DiskStats.setTimeStampOf(diskStats, System.currentTimeMillis());
       List list2 = (List)map.get(PhysicalDisk.PhysicalDiskProperty.DISKREADSPERSEC);
       List list3 = (List)map.get(PhysicalDisk.PhysicalDiskProperty.DISKREADBYTESPERSEC);
       List list4 = (List)map.get(PhysicalDisk.PhysicalDiskProperty.DISKWRITESPERSEC);
@@ -117,12 +121,12 @@ public final class WindowsDisks {
          for (int i = 0; i < list.size(); i++) {
             String string = getIndexFromName((String)list.get(i));
             if (index == null || index.equals(string)) {
-               WindowsDisks.DiskStats.v(diskStats).put(string, list2.get(i));
-               WindowsDisks.DiskStats.N(diskStats).put(string, list3.get(i));
-               WindowsDisks.DiskStats.o(diskStats).put(string, list4.get(i));
-               WindowsDisks.DiskStats.T(diskStats).put(string, list5.get(i));
-               WindowsDisks.DiskStats.u(diskStats).put(string, list6.get(i));
-               WindowsDisks.DiskStats.I(diskStats).put(string, (Long)list7.get(i) / 10000L);
+               WindowsDisks.DiskStats.readMapOf(diskStats).put(string, list2.get(i));
+               WindowsDisks.DiskStats.readByteMapOf(diskStats).put(string, list3.get(i));
+               WindowsDisks.DiskStats.writeMapOf(diskStats).put(string, list4.get(i));
+               WindowsDisks.DiskStats.writeByteMapOf(diskStats).put(string, list5.get(i));
+               WindowsDisks.DiskStats.queueLengthMapOf(diskStats).put(string, list6.get(i));
+               WindowsDisks.DiskStats.idleTimeMapOf(diskStats).put(string, (Long)list7.get(i) / 10000L);
             }
          }
 
@@ -150,7 +154,7 @@ public final class WindowsDisks {
          Matcher matcher4 = DEVICE_ID.matcher(WmiUtil.getRefString(wmiResult2, Win32LogicalDiskToPartition.DiskToPartitionProperty.ANTECEDENT, j));
          Matcher matcher5 = DEVICE_ID.matcher(WmiUtil.getRefString(wmiResult2, Win32LogicalDiskToPartition.DiskToPartitionProperty.DEPENDENT, j));
          if (matcher4.matches() && matcher5.matches()) {
-            WindowsDisks.PartitionMaps.E(partitionMaps).put(matcher4.group(1), matcher5.group(1) + "\\");
+            WindowsDisks.PartitionMaps.partitionToLogicalDriveMapOf(partitionMaps).put(matcher4.group(1), matcher5.group(1) + "\\");
          }
       }
 
@@ -158,7 +162,7 @@ public final class WindowsDisks {
 
       for (int k = 0; k < wmiResult3.getResultCount(); k++) {
          String string = WmiUtil.getString(wmiResult3, Win32DiskPartition.DiskPartitionProperty.DEVICEID, k);
-         String string2 = (java.lang.String)(WindowsDisks.PartitionMaps.E(partitionMaps).getOrDefault(string, ""));
+         String string2 = (java.lang.String)(WindowsDisks.PartitionMaps.partitionToLogicalDriveMapOf(partitionMaps).getOrDefault(string, ""));
          String string3 = "";
          if (!string2.isEmpty()) {
             char[] chars = new char[255];
@@ -166,7 +170,7 @@ public final class WindowsDisks {
             string3 = ParseUtil.parseUuidOrDefault(new String(chars).trim(), "");
          }
 
-         WindowsDisks.PartitionMaps.a(partitionMaps)
+         WindowsDisks.PartitionMaps.partitionMapOf(partitionMaps)
             .put(
                string,
                new HWPartition(
@@ -201,35 +205,35 @@ public final class WindowsDisks {
       public DiskStats() {
       }
 
-      public static Map v(WindowsDisks.DiskStats diskStats) {
+      public static Map readMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.readMap;
       }
 
-      public static Map N(WindowsDisks.DiskStats diskStats) {
+      public static Map readByteMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.readByteMap;
       }
 
-      public static Map o(WindowsDisks.DiskStats diskStats) {
+      public static Map writeMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.writeMap;
       }
 
-      public static Map T(WindowsDisks.DiskStats diskStats) {
+      public static Map writeByteMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.writeByteMap;
       }
 
-      public static Map u(WindowsDisks.DiskStats diskStats) {
+      public static Map queueLengthMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.queueLengthMap;
       }
 
-      public static long Y(WindowsDisks.DiskStats diskStats) {
+      public static long timeStampOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.timeStamp;
       }
 
-      public static Map I(WindowsDisks.DiskStats diskStats) {
+      public static Map idleTimeMapOf(WindowsDisks.DiskStats diskStats) {
          return diskStats.idleTimeMap;
       }
 
-      public static long l(WindowsDisks.DiskStats diskStats, long l) {
+      public static long setTimeStampOf(WindowsDisks.DiskStats diskStats, long l) {
          return diskStats.timeStamp = l;
       }
    }
@@ -246,11 +250,11 @@ public final class WindowsDisks {
          return partitionMaps.driveToPartitionMap;
       }
 
-      public static Map a(WindowsDisks.PartitionMaps partitionMaps) {
+      public static Map partitionMapOf(WindowsDisks.PartitionMaps partitionMaps) {
          return partitionMaps.partitionMap;
       }
 
-      public static Map E(WindowsDisks.PartitionMaps partitionMaps) {
+      public static Map partitionToLogicalDriveMapOf(WindowsDisks.PartitionMaps partitionMaps) {
          return partitionMaps.partitionToLogicalDriveMap;
       }
    }

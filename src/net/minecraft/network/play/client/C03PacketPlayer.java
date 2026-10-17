@@ -68,7 +68,7 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer> {
       return this.rotating;
    }
 
-   public void E(boolean bl) {
+   public void setOnGround(boolean bl) {
       this.onGround = bl;
    }
 

@@ -33,10 +33,10 @@ public class ConnectedTextures {
    private static ConnectedProperties[][] blockProperties = (ConnectedProperties[][])null;
    private static ConnectedProperties[][] tileProperties = (ConnectedProperties[][])null;
    private static boolean multipass = false;
-   private static final int k = 2;
-   private static final int B = 3;
-   private static final int S = 4;
-   private static final int O = 5;
+   private static final int Z_NEG_NORTH = 2;
+   private static final int Z_POS_SOUTH = 3;
+   private static final int X_NEG_WEST = 4;
+   private static final int X_POS_EAST = 5;
    private static final int y = 2;
    private static final String[] propSuffixes = new String[]{
       "", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
@@ -324,18 +324,18 @@ public class ConnectedTextures {
       }
 
       if (side >= 0 && cp.faces != 63) {
-         int m = side;
+         int l = side;
          if (i != 0) {
-            m = fixSideByAxis(side, i);
+            l = fixSideByAxis(side, i);
          }
 
-         if ((1 << m & cp.faces) == 0) {
+         if ((1 << l & cp.faces) == 0) {
             return null;
          }
       }
 
-      int n = blockPos.getY();
-      if (n >= cp.N && n <= cp.l) {
+      int m = blockPos.getY();
+      if (m >= cp.minHeight && m <= cp.maxHeight) {
          if (cp.biomes != null) {
             BiomeGenBase biomeGenBase = blockAccess.getBiomeGenForCoords(blockPos);
             if (!cp.matchesBiome(biomeGenBase)) {
@@ -351,11 +351,11 @@ public class ConnectedTextures {
             case 3:
                return getConnectedTextureVertical(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 4:
-               return H(cp, blockPos, side);
+               return getConnectedTextureRandom(cp, blockPos, side);
             case 5:
                return getConnectedTextureRepeat(cp, blockPos, side);
             case 6:
-               return K(cp, blockAccess, blockState, blockPos, i, side, icon, j);
+               return getConnectedTextureVerticalBoth(cp, blockAccess, blockState, blockPos, i, side, icon, j);
             case 7:
                return getConnectedTextureFixed(cp);
             case 8:
@@ -430,7 +430,7 @@ public class ConnectedTextures {
       }
    }
 
-   private static TextureAtlasSprite H(ConnectedProperties connectedProperties, BlockPos blockPos, int i) {
+   private static TextureAtlasSprite getConnectedTextureRandom(ConnectedProperties connectedProperties, BlockPos blockPos, int i) {
       if (connectedProperties.tileIcons.length == 1) {
          return connectedProperties.tileIcons[0];
       }
@@ -859,7 +859,7 @@ public class ConnectedTextures {
       return cp.tileIcons[b];
    }
 
-   private static TextureAtlasSprite K(
+   private static TextureAtlasSprite getConnectedTextureVerticalBoth(
       ConnectedProperties connectedProperties,
       IBlockAccess iBlockAccess,
       IBlockState iBlockState,
@@ -867,7 +867,7 @@ public class ConnectedTextures {
       int i,
       int j,
       TextureAtlasSprite textureAtlasSprite,
-      int l
+      int k
    ) {
       boolean bl = false;
       boolean bl2 = false;
@@ -877,24 +877,24 @@ public class ConnectedTextures {
                return null;
             }
 
-            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, l);
-            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, l);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.down(), j, textureAtlasSprite, k);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.up(), j, textureAtlasSprite, k);
             break;
          case 1:
             if (j == 3 || j == 2) {
                return null;
             }
 
-            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, l);
-            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, l);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.south(), j, textureAtlasSprite, k);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.north(), j, textureAtlasSprite, k);
             break;
          case 2:
             if (j == 5 || j == 4) {
                return null;
             }
 
-            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, l);
-            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, l);
+            bl = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.west(), j, textureAtlasSprite, k);
+            bl2 = isNeighbour(connectedProperties, iBlockAccess, iBlockState, blockPos.east(), j, textureAtlasSprite, k);
       }
 
       byte b = 3;
@@ -929,7 +929,7 @@ public class ConnectedTextures {
          return textureAtlasSprite;
       }
 
-      TextureAtlasSprite textureAtlasSprite2 = K(cp, blockAccess, blockState, blockPos, vertAxis, side, icon, metadata);
+      TextureAtlasSprite textureAtlasSprite2 = getConnectedTextureVerticalBoth(cp, blockAccess, blockState, blockPos, vertAxis, side, icon, metadata);
       return textureAtlasSprite2 == textureAtlasSprites[0] ? textureAtlasSprites[4] : (textureAtlasSprite2 == textureAtlasSprites[1] ? textureAtlasSprites[5] : (textureAtlasSprite2 == textureAtlasSprites[2] ? textureAtlasSprites[6] : textureAtlasSprite2));
    }
 
@@ -944,7 +944,7 @@ public class ConnectedTextures {
       int metadata
    ) {
       TextureAtlasSprite[] textureAtlasSprites = cp.tileIcons;
-      TextureAtlasSprite textureAtlasSprite = K(cp, blockAccess, blockState, blockPos, vertAxis, side, icon, metadata);
+      TextureAtlasSprite textureAtlasSprite = getConnectedTextureVerticalBoth(cp, blockAccess, blockState, blockPos, vertAxis, side, icon, metadata);
       if (textureAtlasSprite != null && textureAtlasSprite != icon && textureAtlasSprite != textureAtlasSprites[3]) {
          return textureAtlasSprite;
       }

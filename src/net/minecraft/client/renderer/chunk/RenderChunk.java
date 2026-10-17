@@ -58,7 +58,7 @@ public class RenderChunk {
    private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
    private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
    private EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
-   private boolean isMipmaps = Config.pm();
+   private boolean isMipmaps = Config.isMipmaps();
    private boolean fixBlockLayer = !Reflector.BetterFoliageClient.exists();
    private boolean playerUpdate = false;
 
@@ -143,7 +143,7 @@ public class RenderChunk {
          renderChunksUpdated++;
          boolean[] booleans = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
          BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-         Iterator iterator2 = BlockPosM.m(blockPos, blockPos2).iterator();
+         Iterator iterator2 = BlockPosM.getAllInBoxPosM(blockPos, blockPos2).iterator();
          boolean bl = Reflector.ForgeBlock_hasTileEntity.exists();
          boolean bl2 = Reflector.ForgeBlock_canRenderInLayer.exists();
          boolean bl3 = Reflector.ForgeHooksClient_setRenderLayer.exists();

@@ -119,7 +119,7 @@ public final class InfiniteReach extends Module {
       }
 
       list.forEach(object -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)object).getX(), ((bypass.util.Vector3)object).getY(), ((bypass.util.Vector3)object).getZ(), true)));
-      mc.thePlayer.sendQueue.u(packetEvent.getPacket());
+      mc.thePlayer.sendQueue.sendPacketNoEvent(packetEvent.getPacket());
       Collections.reverse(list);
       list.forEach(object2 -> mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(((bypass.util.Vector3)object2).getX(), ((bypass.util.Vector3)object2).getY(), ((bypass.util.Vector3)object2).getZ(), true)));
       this.lastPath = list;

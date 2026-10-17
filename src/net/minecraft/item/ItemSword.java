@@ -102,7 +102,7 @@ public class ItemSword extends Item {
       return multimap;
    }
 
-   public float E() {
+   public float getAttackDamage() {
       return this.attackDamage;
    }
 }

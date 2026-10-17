@@ -21,7 +21,7 @@ public class IrcMessageHandler extends PacketHandler<IrcMessage> {
             return;
          }
 
-         String string = "@" + mc.mouseHelper.Y().getAccount().getUsername();
+         String string = "@" + mc.mouseHelper.getAuthSession().getAccount().getUsername();
          String string2 = ircMessage.message;
          if (ircMessage.message.contains(string)) {
             string2 = string2.replace(string, EnumChatFormatting.BOLD + "" + EnumChatFormatting.YELLOW + string + EnumChatFormatting.RESET);

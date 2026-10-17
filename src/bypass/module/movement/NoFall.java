@@ -106,7 +106,7 @@ public final class NoFall extends Module {
             && P_boolean()
             && mc.thePlayer.posY > 0.0
             && this.fallenDistance >= 2.5 + (mc.thePlayer.isPotionActive(Potion.jump) ? 0.3 : 0.0)) {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(true));
             this.fallenDistance = 0.0;
          }
 

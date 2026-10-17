@@ -100,13 +100,13 @@ public class Lagometer {
             timesTerrain[i] = timerTerrain.timeNano;
             timesServer[i] = timerServer.timeNano;
             gcs[i] = bl;
-            Lagometer.TimerNano.A(timerTick);
-            Lagometer.TimerNano.A(timerScheduledExecutables);
-            Lagometer.TimerNano.A(timerVisibility);
-            Lagometer.TimerNano.A(timerChunkUpdate);
-            Lagometer.TimerNano.A(timerChunkUpload);
-            Lagometer.TimerNano.A(timerTerrain);
-            Lagometer.TimerNano.A(timerServer);
+            Lagometer.TimerNano.resetTimer(timerTick);
+            Lagometer.TimerNano.resetTimer(timerScheduledExecutables);
+            Lagometer.TimerNano.resetTimer(timerVisibility);
+            Lagometer.TimerNano.resetTimer(timerChunkUpdate);
+            Lagometer.TimerNano.resetTimer(timerChunkUpload);
+            Lagometer.TimerNano.resetTimer(timerTerrain);
+            Lagometer.TimerNano.resetTimer(timerServer);
             prevFrameTimeNano = System.nanoTime();
          }
       } else {
@@ -159,10 +159,10 @@ public class Lagometer {
          GlStateManager.enableTexture2D();
          int k = mc.displayHeight - 80;
          int n = mc.displayHeight - 160;
-         mc.fontRendererObj.D("30", 2.0F, n + 1, -8947849);
-         mc.fontRendererObj.D("30", 1.0F, n, -3881788);
-         mc.fontRendererObj.D("60", 2.0F, k + 1, -8947849);
-         mc.fontRendererObj.D("60", 1.0F, k, -3881788);
+         mc.fontRendererObj.drawStringNoShadow("30", 2.0F, n + 1, -8947849);
+         mc.fontRendererObj.drawStringNoShadow("30", 1.0F, n, -3881788);
+         mc.fontRendererObj.drawStringNoShadow("60", 2.0F, k + 1, -8947849);
+         mc.fontRendererObj.drawStringNoShadow("60", 1.0F, k, -3881788);
          GlStateManager.matrixMode(5889);
          GlStateManager.popMatrix();
          GlStateManager.matrixMode(5888);
@@ -178,7 +178,7 @@ public class Lagometer {
          int i7 = mc.displayHeight / scaledResolution.getScaleFactor() - 8;
          GuiIngame guiIngame = mc.ingameGUI;
          GuiIngame.drawRect(i6 - 1, i7 - 1, i6 + 50, i7 + 10, -1605349296);
-         mc.fontRendererObj.D(" " + memMbSec + " MB/s", i6, i7, i5);
+         mc.fontRendererObj.drawStringNoShadow(" " + memMbSec + " MB/s", i6, i7, i5);
          renderTimeNano = System.nanoTime() - l;
       }
    }
@@ -231,7 +231,7 @@ public class Lagometer {
          this.timeStartNano = 0L;
       }
 
-      public static void A(Lagometer.TimerNano timerNano) {
+      public static void resetTimer(Lagometer.TimerNano timerNano) {
          timerNano.reset();
       }
    }

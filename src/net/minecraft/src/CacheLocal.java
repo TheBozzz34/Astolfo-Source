@@ -1,61 +1,61 @@
 package net.minecraft.src;
 
 public class CacheLocal {
-   private int t = 18;
-   private int L = 128;
-   private int w = 18;
-   private int S = 0;
-   private int X = 0;
-   private int E = 0;
-   private int[][][] P = (int[][][])null;
-   private int[] b = null;
-   private int A = 0;
+   private int maxX = 18;
+   private int maxY = 128;
+   private int maxZ = 18;
+   private int offsetX = 0;
+   private int offsetY = 0;
+   private int offsetZ = 0;
+   private int[][][] cache = (int[][][])null;
+   private int[] lastZs = null;
+   private int lastDz = 0;
 
    public CacheLocal(int maxX, int maxY, int maxZ) {
-      this.t = maxX;
-      this.L = maxY;
-      this.w = maxZ;
-      this.P = new int[maxX][maxY][maxZ];
-      this.f();
+      this.maxX = maxX;
+      this.maxY = maxY;
+      this.maxZ = maxZ;
+      this.cache = new int[maxX][maxY][maxZ];
+      this.resetCache();
    }
 
-   public void f() {
-      for (int i = 0; i < this.t; i++) {
-         int[][] intss = this.P[i];
+   public void resetCache() {
+      for (int i = 0; i < this.maxX; i++) {
+         int[][] intss = this.cache[i];
 
-         for (int j = 0; j < this.L; j++) {
+         for (int j = 0; j < this.maxY; j++) {
             int[] ints = intss[j];
 
-            for (int k = 0; k < this.w; k++) {
+            for (int k = 0; k < this.maxZ; k++) {
                ints[k] = -1;
             }
          }
       }
    }
 
-   public void t(int i, int j, int k) {
-      this.S = i;
-      this.X = j;
-      this.E = k;
-      this.f();
+   public void setOffset(int x, int y, int z) {
+      this.offsetX = x;
+      this.offsetY = y;
+      this.offsetZ = z;
+      this.resetCache();
    }
 
-   public int B(int i, int j, int k) {
+   public int get(int x, int y, int z) {
       try {
-         this.b = this.P[i - this.S][j - this.X];
-         this.A = k - this.E;
-         return this.b[this.A];
-      } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
-         arrayIndexOutOfBoundsException.printStackTrace();
+         this.lastZs = this.cache[x - this.offsetX][y - this.offsetY];
+         this.lastDz = z - this.offsetZ;
+         return this.lastZs[this.lastDz];
+      } catch (ArrayIndexOutOfBoundsException e) {
+         e.printStackTrace();
          return -1;
       }
    }
 
-   public void q(int i) {
+   public void setLast(int val) {
       try {
-         this.b[this.A] = i;
-      } catch (Exception exception) {
-         exception.printStackTrace();
+         this.lastZs[this.lastDz] = val;
+      } catch (Exception e) {
+         e.printStackTrace();
       }
    }
 }

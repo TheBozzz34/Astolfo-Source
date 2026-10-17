@@ -16,17 +16,17 @@ public abstract class AbstractSoundCard implements SoundCard {
    }
 
    @Override
-   public String b() {
+   public String getDriverVersion() {
       return this.kernelVersion;
    }
 
    @Override
-   public String M() {
+   public String getName() {
       return this.name;
    }
 
    @Override
-   public String g() {
+   public String getCodec() {
       return this.codec;
    }
 

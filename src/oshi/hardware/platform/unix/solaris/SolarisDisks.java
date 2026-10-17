@@ -111,7 +111,7 @@ public final class SolarisDisks {
             } else if (string11.startsWith("Size:")) {
                String[] strings4 = string11.split("<");
                if (strings4.length > 1) {
-                  strings4 = ParseUtil.Q.split(strings4[1]);
+                  strings4 = ParseUtil.whitespaces.split(strings4[1]);
                   l = ParseUtil.parseLongOrDefault(strings4[0], 0L);
                }
             }
@@ -147,13 +147,13 @@ public final class SolarisDisks {
             String string = (String)object;
             if (string.startsWith("*")) {
                if (string.endsWith("bytes/sector")) {
-                  String[] strings = ParseUtil.Q.split(string);
+                  String[] strings = ParseUtil.whitespaces.split(string);
                   if (strings.length > 0) {
                      i = ParseUtil.parseIntOrDefault(strings[1], 0);
                   }
                }
             } else if (i > 0) {
-               String[] strings2 = ParseUtil.Q.split(string.trim());
+               String[] strings2 = ParseUtil.whitespaces.split(string.trim());
                if (strings2.length >= 6 && !"2".equals(strings2[0])) {
                   HWPartition hwPartition = new HWPartition();
                   hwPartition.setIdentification(mount + "s" + strings2[0]);

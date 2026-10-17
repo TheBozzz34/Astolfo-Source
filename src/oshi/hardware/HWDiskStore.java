@@ -107,7 +107,7 @@ public class HWDiskStore implements Comparable<HWDiskStore> {
       return this.writeBytes;
    }
 
-   public long q() {
+   public long getCurrentQueueLength() {
       return this.currentQueueLength;
    }
 
@@ -119,7 +119,7 @@ public class HWDiskStore implements Comparable<HWDiskStore> {
       return this.partitions;
    }
 
-   public long n() {
+   public long getTimeStamp() {
       return this.timeStamp;
    }
 

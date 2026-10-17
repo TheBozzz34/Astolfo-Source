@@ -61,11 +61,11 @@ public class GuiScreenDemo extends GuiScreen {
       this.drawDefaultBackground();
       int i = (this.width - 248) / 2 + 10;
       int j = (this.height - 166) / 2 + 8;
-      this.fontRendererObj.D(I18n.format("demo.help.title"), i, j, 2039583);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("demo.help.title"), i, j, 2039583);
       j += 12;
       GameSettings gameSettings2 = this.mc.gameSettings;
       this.fontRendererObj
-         .D(
+         .drawStringNoShadow(
             I18n.format(
                "demo.help.movementShort",
                GameSettings.getKeyDisplayString(gameSettings2.keyBindForward.getKeyCode()),
@@ -77,10 +77,11 @@ public class GuiScreenDemo extends GuiScreen {
             j,
             5197647
          );
-      this.fontRendererObj.D(I18n.format("demo.help.movementMouse"), i, j + 12, 5197647);
-      this.fontRendererObj.D(I18n.format("demo.help.jump", GameSettings.getKeyDisplayString(gameSettings2.keyBindJump.getKeyCode())), i, j + 24, 5197647);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("demo.help.movementMouse"), i, j + 12, 5197647);
       this.fontRendererObj
-         .D(I18n.format("demo.help.inventory", GameSettings.getKeyDisplayString(gameSettings2.keyBindInventory.getKeyCode())), i, j + 36, 5197647);
+         .drawStringNoShadow(I18n.format("demo.help.jump", GameSettings.getKeyDisplayString(gameSettings2.keyBindJump.getKeyCode())), i, j + 24, 5197647);
+      this.fontRendererObj
+         .drawStringNoShadow(I18n.format("demo.help.inventory", GameSettings.getKeyDisplayString(gameSettings2.keyBindInventory.getKeyCode())), i, j + 36, 5197647);
       this.fontRendererObj.drawSplitString(I18n.format("demo.help.fullWrapped"), i, j + 68, 218, 2039583);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }

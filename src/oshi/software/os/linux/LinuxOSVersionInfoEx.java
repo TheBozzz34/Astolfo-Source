@@ -28,7 +28,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
       List list = null;
       list = FileUtil.readFile(ProcPath.VERSION);
       if (!list.isEmpty()) {
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(0));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(0));
 
          for (String string : strings) {
             if (!"Linux".equals(string) && !"version".equals(string)) {

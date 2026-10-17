@@ -255,16 +255,16 @@ public class GuiFlatPresets extends GuiScreen {
          this.func_148171_c(i, j, 0, 0);
       }
 
-      private void func_148171_c(int i, int j, int k, int m) {
+      private void func_148171_c(int i, int j, int k, int l) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(Gui.statIcons);
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-         worldRenderer.pos(i + 0, j + 18, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 18, j + 18, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 18, j + 0, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 0, j + 0, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 18, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (l + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 18, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (l + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 0, GuiFlatPresets.this.zLevel).tex((k + 18) * 0.0078125F, (l + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 0, GuiFlatPresets.this.zLevel).tex((k + 0) * 0.0078125F, (l + 0) * 0.0078125F).endVertex();
          tessellator.draw();
       }
 
@@ -293,7 +293,7 @@ public class GuiFlatPresets extends GuiScreen {
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          GuiFlatPresets.LayerItem layerItem = GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
          this.func_178054_a(i, j, layerItem.field_148234_a, layerItem.field_179037_b);
-         GuiFlatPresets.this.fontRendererObj.D(layerItem.field_148232_b, i + 18 + 5, j + 6, 16777215);
+         GuiFlatPresets.this.fontRendererObj.drawStringNoShadow(layerItem.field_148232_b, i + 18 + 5, j + 6, 16777215);
       }
    }
 }

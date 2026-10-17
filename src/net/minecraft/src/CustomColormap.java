@@ -29,7 +29,7 @@ public class CustomColormap implements CustomColors.IColorizer {
    private int height = 0;
    private int[] colors = null;
    private float[][] colorsRgb = (float[][])null;
-   private static final int V = 2;
+   private static final int FORMAT_FIXED = 2;
    public static final String FORMAT_VANILLA_STRING = "vanilla";
    public static final String FORMAT_GRID_STRING = "grid";
    public static final String FORMAT_FIXED_STRING = "fixed";
@@ -46,11 +46,11 @@ public class CustomColormap implements CustomColors.IColorizer {
       this.name = connectedParser.parseName(path);
       this.basePath = connectedParser.parseBasePath(path);
       this.format = this.parseFormat(props.getProperty("format", formatDefault));
-      this.matchBlocks = connectedParser.t(props.getProperty("blocks"));
+      this.matchBlocks = connectedParser.parseMatchBlocks(props.getProperty("blocks"));
       this.source = parseTexture(props.getProperty("source"), path, this.basePath);
-      this.color = ConnectedParser.w(props.getProperty("color"), -1);
-      this.yVariance = connectedParser.O(props.getProperty("yVariance"), 0);
-      this.yOffset = connectedParser.O(props.getProperty("yOffset"), 0);
+      this.color = ConnectedParser.parseColor(props.getProperty("color"), -1);
+      this.yVariance = connectedParser.parseIntOrDefault(props.getProperty("yVariance"), 0);
+      this.yOffset = connectedParser.parseIntOrDefault(props.getProperty("yOffset"), 0);
       this.width = width;
       this.height = height;
    }
@@ -139,7 +139,7 @@ public class CustomColormap implements CustomColors.IColorizer {
       }
 
       ConnectedParser connectedParser = new ConnectedParser("Colormap");
-      MatchBlock[] matchBlocks = connectedParser.g(this.name);
+      MatchBlock[] matchBlocks = connectedParser.parseMatchBlock(this.name);
       return matchBlocks != null ? matchBlocks : null;
    }
 
@@ -343,11 +343,11 @@ public class CustomColormap implements CustomColors.IColorizer {
       return this.format == 2 ? 1 : this.colors.length;
    }
 
-   public int i() {
+   public int getWidth() {
       return this.width;
    }
 
-   public int W() {
+   public int getHeight() {
       return this.height;
    }
 

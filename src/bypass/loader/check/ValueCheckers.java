@@ -86,7 +86,7 @@ public enum ValueCheckers implements Initializable {
       @Override
       public ValueCheckOutcome resolveObject(Object object) {
          AbstractValueCheck abstractValueCheck = ValueCheckFactory.INSTANCE
-            .createCheck((ItemFishFood)object, itemFishFood -> ((ItemFishFood)itemFishFood).w() ? -5326515 : -362176356, integer -> integer < -5326515);
+            .createCheck((ItemFishFood)object, itemFishFood -> ((ItemFishFood)itemFishFood).isCooked() ? -5326515 : -362176356, integer -> integer < -5326515);
          return new ValueCheckOutcome(abstractValueCheck.evaluate(), abstractValueCheck.getType(), abstractValueCheck.computeValue());
       }
    }

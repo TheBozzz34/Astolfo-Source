@@ -22,7 +22,7 @@ public class VREncodeHandler extends MessageToMessageEncoder<ByteBuf> {
          throw CancelEncoderException.generate(null);
       }
 
-      if (this.userConnection.shouldTransformPacket() && !MessageSerializer.o) {
+      if (this.userConnection.shouldTransformPacket() && !MessageSerializer.skipViaTransform) {
          ByteBuf byteBuf2 = channelHandlerContext.alloc().buffer().writeBytes(byteBuf);
 
          try {
@@ -33,7 +33,7 @@ public class VREncodeHandler extends MessageToMessageEncoder<ByteBuf> {
          }
       } else {
          list.add(byteBuf.retain());
-         MessageSerializer.o = false;
+         MessageSerializer.skipViaTransform = false;
       }
    }
 

@@ -87,7 +87,7 @@ public class GuiShaders extends GuiScreen {
             GuiButtonEnumShaderOption guiButtonEnumShaderOption = (GuiButtonEnumShaderOption)button;
             switch (guiButtonEnumShaderOption.getEnumShaderOption()) {
                case ANTIALIASING:
-                  Shaders.p();
+                  Shaders.nextAntialiasingLevel();
                   Shaders.uninit();
                   break;
                case NORMAL_MAP:
@@ -112,7 +112,7 @@ public class GuiShaders extends GuiScreen {
                   }
 
                   Shaders.configRenderResMul = floats[i];
-                  Shaders.L();
+                  Shaders.scheduleResize();
                   break;
                case SHADOW_RES_MUL:
                   float g = Shaders.configShadowResMul;
@@ -128,7 +128,7 @@ public class GuiShaders extends GuiScreen {
                   }
 
                   Shaders.configShadowResMul = floats2[j];
-                  Shaders.Ue();
+                  Shaders.scheduleResizeShadow();
                   break;
                case HAND_DEPTH_MUL:
                   float h = Shaders.configHandDepthMul;
@@ -332,15 +332,15 @@ public class GuiShaders extends GuiScreen {
       private long lastClickedCached = 0L;
       public final GuiShaders shadersGui;
 
-      public zo(GuiShaders guiShaders, int i, int j, int k, int m, int n) {
-         super(guiShaders.getMc(), i, j, k, m, n);
+      public zo(GuiShaders guiShaders, int i, int j, int k, int l, int m) {
+         super(guiShaders.getMc(), i, j, k, l, m);
          this.shadersGui = guiShaders;
          this.updateList();
          this.amountScrolled = 0.0F;
-         int l = this.selectedIndex * n;
-         int i2 = (m - k) / 2;
-         if (l > i2) {
-            this.scrollBy(l - i2);
+         int n = this.selectedIndex * m;
+         int i2 = (l - k) / 2;
+         if (n > i2) {
+            this.scrollBy(n - i2);
          }
       }
 

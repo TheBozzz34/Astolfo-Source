@@ -52,7 +52,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
    private int iconGridCountY = -1;
    private double iconGridSizeU = -1.0;
    private double iconGridSizeV = -1.0;
-   private int u = 0;
+   private int counterIndexInMap = 0;
    public int atlasWidth = 0;
    public int atlasHeight = 0;
 
@@ -86,7 +86,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       int[][] intss = new int[this.mipmapLevels + 1][];
       intss[0] = ints;
       this.missingImage.setFramesTextureData(Lists.newArrayList(new int[][][]{intss}));
-      this.missingImage.setIndexInMap(this.u++);
+      this.missingImage.setIndexInMap(this.counterIndexInMap++);
    }
 
    @Override
@@ -99,7 +99,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
    public void loadSprites(IResourceManager resourceManager, IIconCreator iIconCreator) {
       this.mapRegisteredSprites.clear();
-      this.u = 0;
+      this.counterIndexInMap = 0;
       iIconCreator.registerSprites(this);
       if (this.mipmapLevels >= 4) {
          this.mipmapLevels = this.detectMaxMipmapLevel(this.mapRegisteredSprites, resourceManager);
@@ -427,7 +427,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
          textureAtlasSprite = TextureAtlasSprite.makeAtlasSprite(location);
          this.mapRegisteredSprites.put(location.toString(), textureAtlasSprite);
          if (textureAtlasSprite.getIndexInMap() < 0) {
-            textureAtlasSprite.setIndexInMap(this.u++);
+            textureAtlasSprite.setIndexInMap(this.counterIndexInMap++);
          }
       }
 
@@ -456,7 +456,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
       if (!this.mapRegisteredSprites.containsKey(string)) {
          this.mapRegisteredSprites.put(string, textureAtlasSprite);
          if (textureAtlasSprite.getIndexInMap() < 0) {
-            textureAtlasSprite.setIndexInMap(this.u++);
+            textureAtlasSprite.setIndexInMap(this.counterIndexInMap++);
          }
 
          return true;
@@ -497,21 +497,25 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
          ? Config.W_boolean()
          : (
             textureAtlasSprite == TextureUtils.iconLavaStill || textureAtlasSprite == TextureUtils.iconLavaFlow
-               ? Config.pl()
+               ? Config.isAnimatedLava()
                : (
                   textureAtlasSprite == TextureUtils.iconFireLayer0 || textureAtlasSprite == TextureUtils.iconFireLayer1
-                     ? Config.w()
+                     ? Config.isAnimatedFire()
                      : (
                         textureAtlasSprite == TextureUtils.iconPortal
                            ? Config.isAnimatedPortal()
-                           : (textureAtlasSprite != TextureUtils.iconClock && textureAtlasSprite != TextureUtils.iconCompass ? Config.F() : true)
+                           : (
+                              textureAtlasSprite != TextureUtils.iconClock && textureAtlasSprite != TextureUtils.iconCompass
+                                 ? Config.isAnimatedTerrain()
+                                 : true
+                           )
                      )
                )
          );
    }
 
    public int getCountRegisteredSprites() {
-      return this.u;
+      return this.counterIndexInMap;
    }
 
    private int detectMaxMipmapLevel(Map map, IResourceManager iResourceManager) {

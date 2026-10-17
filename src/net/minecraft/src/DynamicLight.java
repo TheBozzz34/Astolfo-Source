@@ -121,7 +121,7 @@ public class DynamicLight {
       return this.entity;
    }
 
-   public void I(Entity entity) {
+   public void setEntity(Entity entity) {
       this.entity = entity;
    }
 

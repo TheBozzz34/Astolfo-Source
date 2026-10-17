@@ -37,7 +37,7 @@ public class GuiButtonRealmsProxy extends GuiButton {
       return super.getButtonWidth();
    }
 
-   public int V() {
+   public int getPositionY() {
       return super.yPosition;
    }
 
@@ -73,7 +73,7 @@ public class GuiButtonRealmsProxy extends GuiButton {
       return super.getHoverState(bl);
    }
 
-   public int g() {
+   public int getHeight() {
       return this.height;
    }
 }

@@ -185,11 +185,11 @@ public class Shaders {
    public static int preShadowPassThirdPersonView;
    public static boolean shouldSkipDefaultShadow = false;
    public static boolean waterShadowEnabled = false;
-   public static final int uY = 8;
-   public static final int uz = 8;
-   public static final int OL = 3;
-   public static final int OE = 8;
-   public static final int F = 2;
+   public static final int MaxDrawBuffers = 8;
+   public static final int MaxColorBuffers = 8;
+   public static final int MaxDepthBuffers = 3;
+   public static final int MaxShadowColorBuffers = 8;
+   public static final int MaxShadowDepthBuffers = 2;
    public static int usedColorBuffers = 0;
    public static int usedDepthBuffers = 0;
    public static int usedShadowColorBuffers = 0;
@@ -201,41 +201,41 @@ public class Shaders {
    private static int[] gbuffersFormat = new int[8];
    private static boolean[] gbuffersClear = new boolean[8];
    public static int activeProgram = 0;
-   public static final int W = 0;
-   public static final int u9 = 1;
-   public static final int et = 2;
-   public static final int eC = 3;
-   public static final int S = 4;
-   public static final int ul = 5;
-   public static final int d = 6;
-   public static final int e7 = 7;
-   public static final int ei = 8;
-   public static final int BX = 9;
-   public static final int O = 10;
-   public static final int uR = 11;
-   public static final int BL = 12;
-   public static final int eG = 13;
-   public static final int ud = 14;
-   public static final int eu = 15;
-   public static final int BV = 16;
-   public static final int ey = 17;
-   public static final int u7 = 18;
-   public static final int eT = 19;
-   public static final int r = 20;
-   public static final int l = 21;
-   public static final int ON = 22;
-   public static final int eO = 23;
-   public static final int uk = 24;
-   public static final int OG = 25;
-   public static final int u0 = 26;
-   public static final int Bw = 27;
-   public static final int uG = 28;
-   public static final int v = 29;
-   public static final int g = 30;
-   public static final int eA = 31;
-   public static final int Ox = 32;
-   public static final int Bz = 33;
-   public static final int Be = 8;
+   public static final int ProgramNone = 0;
+   public static final int ProgramBasic = 1;
+   public static final int ProgramTextured = 2;
+   public static final int ProgramTexturedLit = 3;
+   public static final int ProgramSkyBasic = 4;
+   public static final int ProgramSkyTextured = 5;
+   public static final int ProgramClouds = 6;
+   public static final int ProgramTerrain = 7;
+   public static final int ProgramTerrainSolid = 8;
+   public static final int ProgramTerrainCutoutMip = 9;
+   public static final int ProgramTerrainCutout = 10;
+   public static final int ProgramDamagedBlock = 11;
+   public static final int ProgramWater = 12;
+   public static final int ProgramBlock = 13;
+   public static final int ProgramBeaconBeam = 14;
+   public static final int ProgramItem = 15;
+   public static final int ProgramEntities = 16;
+   public static final int ProgramArmorGlint = 17;
+   public static final int ProgramSpiderEyes = 18;
+   public static final int ProgramHand = 19;
+   public static final int ProgramWeather = 20;
+   public static final int ProgramComposite = 21;
+   public static final int ProgramComposite1 = 22;
+   public static final int ProgramComposite2 = 23;
+   public static final int ProgramComposite3 = 24;
+   public static final int ProgramComposite4 = 25;
+   public static final int ProgramComposite5 = 26;
+   public static final int ProgramComposite6 = 27;
+   public static final int ProgramComposite7 = 28;
+   public static final int ProgramFinal = 29;
+   public static final int ProgramShadow = 30;
+   public static final int ProgramShadowSolid = 31;
+   public static final int ProgramShadowCutout = 32;
+   public static final int ProgramCount = 33;
+   public static final int MaxCompositePasses = 8;
    private static final String[] programNames = new String[]{
       "",
       "gbuffers_basic",
@@ -311,8 +311,8 @@ public class Shaders {
    public static PropertyDefaultTrueFalse configOldLighting = new PropertyDefaultTrueFalse("oldLighting", "Classic Lighting", 0);
    public static PropertyDefaultTrueFalse configOldHandLight = new PropertyDefaultTrueFalse("oldHandLight", "Old Hand Light", 0);
    public static int configAntialiasingLevel = 0;
-   public static final int eQ = 3;
-   public static final int eN = 2;
+   public static final int texMinFilRange = 3;
+   public static final int texMagFilRange = 2;
    public static final String[] texMinFilDesc = new String[]{"Nearest", "Nearest-Nearest", "Nearest-Linear"};
    public static final String[] texMagFilDesc = new String[]{"Nearest", "Linear"};
    public static final int[] texMinFilValue = new int[]{9728, 9984, 9986};
@@ -350,8 +350,8 @@ public class Shaders {
    private static CustomTexture[] customTexturesGbuffers = null;
    private static CustomTexture[] customTexturesComposite = null;
    private static final String[] STAGE_NAMES = new String[]{"gbuffers", "composite"};
-   public static final boolean OB = true;
-   private static final boolean ue = true;
+   public static final boolean enableShadersOption = true;
+   private static final boolean enableShadersDebug = true;
    private static final boolean saveFinalShaders = System.getProperty("shaders.debug.save", "false").equals("true");
    public static float blockLightLevel05 = 0.5F;
    public static float blockLightLevel06 = 0.6F;
@@ -373,7 +373,7 @@ public class Shaders {
    public static final int[] colorTexturesToggle = new int[8];
    public static final int[] colorTextureTextureImageUnit = new int[]{0, 1, 2, 3, 7, 8, 9, 10};
    public static final boolean[][] programsToggleColorTextures = new boolean[33][8];
-   private static final int H = 2196;
+   private static final int bigBufferSize = 2196;
    private static final ByteBuffer bigBuffer = (ByteBuffer)((Buffer)BufferUtils.createByteBuffer(2196)).limit(0);
    public static final float[] faProjection = new float[16];
    public static final float[] faProjectionInverse = new float[16];
@@ -409,9 +409,11 @@ public class Shaders {
    public static final IntBuffer drawBuffersColorAtt0 = nextIntBuffer(8);
    public static final IntBuffer[] drawBuffersBuffer = nextIntBufferArray(33, 8);
    public static Map<Block, Integer> mapBlockToEntityData;
-   private static final Pattern Os = Pattern.compile("[ \t]*const[ \t]*int[ \t]*(\\w+)Format[ \t]*=[ \t]*([RGBA0123456789FUI_SNORM]*)[ \t]*;.*");
-   private static final Pattern ee = Pattern.compile("[ \t]*const[ \t]*bool[ \t]*(\\w+)Clear[ \t]*=[ \t]*false[ \t]*;.*");
-   private static final Pattern i = Pattern.compile("[ \t]*const[ \t]*bool[ \t]*(\\w+)MipmapEnabled[ \t]*=[ \t]*true[ \t]*;.*");
+   private static final Pattern gbufferFormatPattern = Pattern.compile(
+      "[ \t]*const[ \t]*int[ \t]*(\\w+)Format[ \t]*=[ \t]*([RGBA0123456789FUI_SNORM]*)[ \t]*;.*"
+   );
+   private static final Pattern gbufferClearPattern = Pattern.compile("[ \t]*const[ \t]*bool[ \t]*(\\w+)Clear[ \t]*=[ \t]*false[ \t]*;.*");
+   private static final Pattern gbufferMipmapEnabledPattern = Pattern.compile("[ \t]*const[ \t]*bool[ \t]*(\\w+)MipmapEnabled[ \t]*=[ \t]*true[ \t]*;.*");
    private static final String[] formatNames = new String[]{
       "R8",
       "RG8",
@@ -1267,7 +1269,7 @@ public class Shaders {
          + Integer.toString(Integer.parseInt(vs.substring(5)));
    }
 
-   public static void UA() {
+   public static void checkOptifine() {
    }
 
    public static int checkFramebufferStatus(String location) {
@@ -1395,7 +1397,7 @@ public class Shaders {
       return !shaderPackSun.isFalse();
    }
 
-   public static boolean r() {
+   public static boolean isMoon() {
       return !shaderPackMoon.isFalse();
    }
 
@@ -1826,8 +1828,8 @@ public class Shaders {
    }
 
    private static int createFragShader(String filename) {
-      int j = ARBShaderObjects.glCreateShaderObjectARB(35632);
-      if (j == 0) {
+      int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
+      if (i == 0) {
          return 0;
       }
 
@@ -1840,7 +1842,7 @@ public class Shaders {
          try {
             bufferedReader = new BufferedReader(new FileReader(new File(filename)));
          } catch (Exception exception2) {
-            ARBShaderObjects.glDeleteObjectARB(j);
+            ARBShaderObjects.glDeleteObjectARB(i);
             return 0;
          }
       }
@@ -2034,10 +2036,10 @@ public class Shaders {
                      aoLevel = Config.limit(Float.parseFloat(strings15[1]), 0.0F, 1.0F);
                   } else if (string.matches("[ \t]*const[ \t]*int[ \t]*superSamplingLevel[ \t]*=[ \t]*-?[0-9.]+f?;.*")) {
                      String[] strings16 = string.split("(=[ \t]*|;)");
-                     int k = Integer.parseInt(strings16[1]);
-                     if (k > 1) {
-                        SMCLog.info("Super sampling level: " + k + "x");
-                        superSamplingLevel = k;
+                     int j = Integer.parseInt(strings16[1]);
+                     if (j > 1) {
+                        SMCLog.info("Super sampling level: " + j + "x");
+                        superSamplingLevel = j;
                      } else {
                         superSamplingLevel = 1;
                      }
@@ -2048,25 +2050,25 @@ public class Shaders {
                      noiseTextureResolution = Integer.parseInt(strings17[1]);
                      noiseTextureEnabled = true;
                   } else if (string.matches("[ \t]*const[ \t]*int[ \t]*\\w+Format[ \t]*=[ \t]*[RGBA0123456789FUI_SNORM]*[ \t]*;.*")) {
-                     Matcher matcher2 = Os.matcher(string);
+                     Matcher matcher2 = gbufferFormatPattern.matcher(string);
                      matcher2.matches();
                      String string2 = matcher2.group(1);
                      String string3 = matcher2.group(2);
-                     int l = getBufferIndexFromString(string2);
-                     int m = getTextureFormatFromString(string3);
-                     if (l >= 0 && m != 0) {
-                        gbuffersFormat[l] = m;
-                        SMCLog.v("%s format: %s", string2, string3);
+                     int k = getBufferIndexFromString(string2);
+                     int l = getTextureFormatFromString(string3);
+                     if (k >= 0 && l != 0) {
+                        gbuffersFormat[k] = l;
+                        SMCLog.infoFormatted("%s format: %s", string2, string3);
                      }
                   } else if (string.matches("[ \t]*const[ \t]*bool[ \t]*\\w+Clear[ \t]*=[ \t]*false[ \t]*;.*")) {
                      if (filename.matches(".*composite[0-9]?.fsh")) {
-                        Matcher matcher3 = ee.matcher(string);
+                        Matcher matcher3 = gbufferClearPattern.matcher(string);
                         matcher3.matches();
                         String string4 = matcher3.group(1);
-                        int i2 = getBufferIndexFromString(string4);
-                        if (i2 >= 0) {
-                           gbuffersClear[i2] = false;
-                           SMCLog.v("%s clear disabled", string4);
+                        int m = getBufferIndexFromString(string4);
+                        if (m >= 0) {
+                           gbuffersClear[m] = false;
+                           SMCLog.infoFormatted("%s clear disabled", string4);
                         }
                      }
                   } else if (string.matches("/\\* GAUX4FORMAT:RGBA32F \\*/.*")) {
@@ -2080,13 +2082,13 @@ public class Shaders {
                      gbuffersFormat[7] = 32852;
                   } else if (string.matches("[ \t]*const[ \t]*bool[ \t]*\\w+MipmapEnabled[ \t]*=[ \t]*true[ \t]*;.*")) {
                      if (filename.matches(".*composite[0-9]?.fsh") || filename.matches(".*final.fsh")) {
-                        Matcher matcher4 = i.matcher(string);
+                        Matcher matcher4 = gbufferMipmapEnabledPattern.matcher(string);
                         matcher4.matches();
                         String string5 = matcher4.group(1);
-                        int i3 = getBufferIndexFromString(string5);
-                        if (i3 >= 0) {
-                           newCompositeMipmapSetting |= 1 << i3;
-                           SMCLog.v("%s mipmap enabled", string5);
+                        int i2 = getBufferIndexFromString(string5);
+                        if (i2 >= 0) {
+                           newCompositeMipmapSetting |= 1 << i2;
+                           SMCLog.infoFormatted("%s mipmap enabled", string5);
                         }
                      }
                   } else if (string.matches("/\\* DRAWBUFFERS:[0-7N]* \\*/.*")) {
@@ -2098,7 +2100,7 @@ public class Shaders {
          } catch (Exception exception3) {
             SMCLog.severe("Couldn't read " + filename + "!");
             exception3.printStackTrace();
-            ARBShaderObjects.glDeleteObjectARB(j);
+            ARBShaderObjects.glDeleteObjectARB(i);
             return 0;
          }
       }
@@ -2107,14 +2109,14 @@ public class Shaders {
          saveShader(filename, stringBuilder.toString());
       }
 
-      ARBShaderObjects.glShaderSourceARB(j, stringBuilder);
-      ARBShaderObjects.glCompileShaderARB(j);
-      if (GL20.glGetShaderi(j, 35713) != 1) {
+      ARBShaderObjects.glShaderSourceARB(i, stringBuilder);
+      ARBShaderObjects.glCompileShaderARB(i);
+      if (GL20.glGetShaderi(i, 35713) != 1) {
          SMCLog.severe("Error compiling fragment shader: " + filename);
       }
 
-      printShaderLogInfo(j, filename, arrayList);
-      return j;
+      printShaderLogInfo(i, filename, arrayList);
+      return i;
    }
 
    private static void saveShader(String filename, String code) {
@@ -2612,7 +2614,7 @@ public class Shaders {
          }
 
          if (customUniforms != null) {
-            customUniforms.C();
+            customUniforms.deleteTexture();
             customUniforms = null;
          }
 
@@ -2624,11 +2626,11 @@ public class Shaders {
       }
    }
 
-   public static void L() {
+   public static void scheduleResize() {
       renderDisplayHeight = 0;
    }
 
-   public static void Ue() {
+   public static void scheduleResizeShadow() {
       needResizeShadow = true;
    }
 
@@ -2916,8 +2918,8 @@ public class Shaders {
       }
 
       if (noiseTextureEnabled) {
-         GlStateManager.setActiveTexture(33984 + customUniforms.X);
-         GlStateManager.bindTexture(customUniforms.y());
+         GlStateManager.setActiveTexture(33984 + customUniforms.textureUnit);
+         GlStateManager.bindTexture(customUniforms.getTexID());
          GL11.glTexParameteri(3553, 10242, 10497);
          GL11.glTexParameteri(3553, 10243, 10497);
          GL11.glTexParameteri(3553, 10240, 9729);
@@ -3000,9 +3002,9 @@ public class Shaders {
       return val;
    }
 
-   public static void setFogColor(float rIn, float gIn, float b) {
-      fogColorR = rIn;
-      fogColorG = gIn;
+   public static void setFogColor(float r, float g, float b) {
+      fogColorR = r;
+      fogColorG = g;
       fogColorB = b;
    }
 
@@ -3274,8 +3276,8 @@ public class Shaders {
          }
 
          if (noiseTextureEnabled) {
-            GlStateManager.setActiveTexture(33984 + customUniforms.X);
-            GlStateManager.bindTexture(customUniforms.y());
+            GlStateManager.setActiveTexture(33984 + customUniforms.textureUnit);
+            GlStateManager.bindTexture(customUniforms.getTexID());
             GL11.glTexParameteri(3553, 10242, 10497);
             GL11.glTexParameteri(3553, 10243, 10497);
             GL11.glTexParameteri(3553, 10240, 9729);
@@ -3530,13 +3532,13 @@ public class Shaders {
       }
    }
 
-   public static void setEntityColor(float rIn, float gIn, float b, float a) {
+   public static void setEntityColor(float r, float g, float b, float a) {
       if (isRenderingWorld && !isShadowPass) {
-         uniformEntityColor.setValue(rIn, gIn, b, a);
+         uniformEntityColor.setValue(r, g, b, a);
       }
    }
 
-   public static void V() {
+   public static void beginLivingDamage() {
       if (isRenderingWorld) {
          ShadersTex.bindTexture(defaultTexture);
          if (!isShadowPass) {
@@ -3545,7 +3547,7 @@ public class Shaders {
       }
    }
 
-   public static void U3() {
+   public static void endLivingDamage() {
       if (isRenderingWorld && !isShadowPass) {
          setDrawBuffers(programsDrawBuffers[16]);
       }
@@ -3659,13 +3661,13 @@ public class Shaders {
       }
    }
 
-   public static void M() {
+   public static void beginProjectRedHalo() {
       if (isRenderingWorld) {
          useProgram(1);
       }
    }
 
-   public static void UD() {
+   public static void endProjectRedHalo() {
       if (isRenderingWorld) {
          useProgram(3);
       }
@@ -3677,7 +3679,7 @@ public class Shaders {
       }
    }
 
-   public static void t() {
+   public static void beginHand() {
       GL11.glMatrixMode(5888);
       GL11.glPushMatrix();
       GL11.glMatrixMode(5889);
@@ -3725,23 +3727,23 @@ public class Shaders {
       }
    }
 
-   public static void z(int j) {
-      GL11.glEnable(j);
+   public static void z(int i) {
+      GL11.glEnable(i);
       enableTexture2D();
    }
 
-   public static void d(int j) {
-      GL11.glDisable(j);
+   public static void sglDisableT2D(int cap) {
+      GL11.glDisable(cap);
       disableTexture2D();
    }
 
-   public static void w(int j) {
-      GL11.glEnable(j);
+   public static void sglEnableFog(int cap) {
+      GL11.glEnable(cap);
       enableFog();
    }
 
-   public static void X(int j) {
-      GL11.glDisable(j);
+   public static void sglDisableFog(int cap) {
+      GL11.glDisable(cap);
       disableFog();
    }
 
@@ -3811,11 +3813,11 @@ public class Shaders {
       }
    }
 
-   public static int e() {
+   public static int getEntityData() {
       return entityData[entityDataIndex * 2];
    }
 
-   public static int O() {
+   public static int getEntityData2() {
       return entityData[entityDataIndex * 2 + 1];
    }
 
@@ -3865,7 +3867,7 @@ public class Shaders {
       return shaderPack == null ? null : shaderPack.getResourceAsStream(path);
    }
 
-   public static void p() {
+   public static void nextAntialiasingLevel() {
       configAntialiasingLevel += 2;
       configAntialiasingLevel = configAntialiasingLevel / 2 * 2;
       if (configAntialiasingLevel > 4) {
@@ -3885,7 +3887,7 @@ public class Shaders {
       throw new RuntimeException("Shaders Mod detected. Please remove it, OptiFine has built-in support for shaders.");
    }
 
-   public static void j() {
+   public static void resourcesReloaded() {
       loadShaderPackResources();
    }
 

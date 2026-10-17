@@ -176,8 +176,8 @@ public final class HUD extends Module {
             if (isPowerBranding()) {
                RenderUtil.drawRect(2.0, 2.0, 55.0, 19.0, new Color(1, 1, 1, 150).getRGB());
                RenderUtil.drawRect(2.3F, 2.3F, 4.0, 18.3F, client.getColorSetting().getValue().getRGB());
-               GuiMainMenu.M.drawStringWithShadow("P", 6.0F, 3.5F, client.getColorSetting().getValue().getRGB());
-               GuiMainMenu.M.drawStringWithShadow("ower", 6 + GuiMainMenu.M.getStringWidth("P") + 1, 3.5F, -1);
+               GuiMainMenu.comfortaaFont30.drawStringWithShadow("P", 6.0F, 3.5F, client.getColorSetting().getValue().getRGB());
+               GuiMainMenu.comfortaaFont30.drawStringWithShadow("ower", 6 + GuiMainMenu.comfortaaFont30.getStringWidth("P") + 1, 3.5F, -1);
             } else {
                string = string.replace("&", "§");
                string = string.replace("%fps%", String.valueOf(Minecraft.getDebugFPS()));
@@ -194,7 +194,7 @@ public final class HUD extends Module {
                   string = string.replace("%ip%", mc.getCurrentServerData().serverIP);
                }
 
-               string = string.replace("%user%", mc.mouseHelper.Y().getAccount().getUsername());
+               string = string.replace("%user%", mc.mouseHelper.getAuthSession().getAccount().getUsername());
                if (DisconnectHandler.disconnected) {
                   string = string + EnumChatFormatting.GRAY + " - DISCONNECTED";
                }
@@ -262,7 +262,7 @@ public final class HUD extends Module {
                         string2 = String.format(
                            string2,
                            client.getName() + (isDevelopment ? " [DEVELOPMENT]" : (client.getVersion().contains("BETA") ? " [BETA]" : "")),
-                           mc.mouseHelper.Y().getAccount().getUsername(),
+                           mc.mouseHelper.getAuthSession().getAccount().getUsername(),
                            k
                         );
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 18.0, new Color(1, 1, 1, 80).getRGB());
@@ -273,7 +273,7 @@ public final class HUD extends Module {
                         RenderUtil.drawRect(
                            3.0, 5.0, 10 + client.getFontRenderer().getStringWidth(string2), 6.0, client.getColorSetting().getValue().darker().darker().getRGB()
                         );
-                        client.getFontRenderer().O(string2, 7, 8, -1);
+                        client.getFontRenderer().drawOutlinedString(string2, 7, 8, -1);
                         GL11.glPopMatrix();
                         break;
                      case ROTATE:
@@ -784,9 +784,10 @@ public final class HUD extends Module {
       GlStateManager.translate(-12.0F, -12.0F, 0.0F);
       RenderUtil.drawCircle(12.0, 12.0, 10.0, -1728053248);
       String string = String.valueOf("Astolfo".charAt(this.logoLetterIndex)).toUpperCase();
-      float f = GuiMainMenu.P.getStringWidth((java.lang.String)(string));
-      float g = GuiMainMenu.P.getStringHeight((java.lang.String)(string));
-      GuiMainMenu.P.drawString(EnumChatFormatting.BOLD + string, 2.0F + (20.0F - f) / 2.0F - 1.0F, 4.0F + (20.0F - g) / 2.0F - 2.0F, j);
+      float f = GuiMainMenu.robotoRegularFont28.getStringWidth((java.lang.String)(string));
+      float g = GuiMainMenu.robotoRegularFont28.getStringHeight((java.lang.String)(string));
+      GuiMainMenu.robotoRegularFont28
+         .drawString(EnumChatFormatting.BOLD + string, 2.0F + (20.0F - f) / 2.0F - 1.0F, 4.0F + (20.0F - g) / 2.0F - 2.0F, j);
       GlStateManager.pushMatrix();
       GL11.glEnable(2848);
       GL11.glLineWidth(4.0F);
@@ -873,7 +874,7 @@ public final class HUD extends Module {
             isDevelopment
                ? String.valueOf(this.buildDate.getYear()).substring(2) + "" + this.buildDate.getMonthValue() + "" + this.buildDate.getDayOfMonth()
                : client.getVersion(),
-            mc.mouseHelper.Y().getAccount().getUsername()
+            mc.mouseHelper.getAuthSession().getAccount().getUsername()
          );
       } else {
          string = String.format(
@@ -882,7 +883,7 @@ public final class HUD extends Module {
             isDevelopment
                ? String.valueOf(this.buildDate.getYear()).substring(2) + "" + this.buildDate.getMonthValue() + "" + this.buildDate.getDayOfMonth()
                : client.getVersion().replace("BETA", ""),
-            mc.mouseHelper.Y().getAccount().getUsername()
+            mc.mouseHelper.getAuthSession().getAccount().getUsername()
          );
       }
 

@@ -124,7 +124,7 @@ public class ItemBucket extends Item {
       return true;
    }
 
-   public Block N() {
+   public Block getContainedBlock() {
       return this.isFull;
    }
 }

@@ -374,11 +374,11 @@ public class Reflector {
    public static ReflectorClass TileEntitySkullRenderer = new ReflectorClass(TileEntitySkullRenderer.class);
    public static ReflectorField TileEntitySkullRenderer_skeletonHead = new ReflectorField(TileEntitySkullRenderer, ModelSkeletonHead.class, 0);
    public static ReflectorField TileEntitySkullRenderer_humanoidHead = new ReflectorField(TileEntitySkullRenderer, ModelSkeletonHead.class, 1);
-   public static ReflectorField NW = new ReflectorField(ForgeItem, "delegate");
-   public static ReflectorClass Bh = new ReflectorClass(ModelBlock.class);
-   public static ReflectorField ko = new ReflectorField(Bh, Map.class);
-   public static ReflectorField um = new ReflectorField(Bh, ResourceLocation.class);
-   public static ReflectorMethod BW = new ReflectorMethod(ModelLoader, "getInventoryVariant");
+   public static ReflectorField ForgeItem_delegate = new ReflectorField(ForgeItem, "delegate");
+   public static ReflectorClass ModelBlock = new ReflectorClass(ModelBlock.class);
+   public static ReflectorField ModelBlock_textures = new ReflectorField(ModelBlock, Map.class);
+   public static ReflectorField ModelBlock_parentLocation = new ReflectorField(ModelBlock, ResourceLocation.class);
+   public static ReflectorMethod ModelLoader_getInventoryVariant = new ReflectorMethod(ModelLoader, "getInventoryVariant");
 
    public static void callVoid(ReflectorMethod refMethod, Object... params) {
       try {

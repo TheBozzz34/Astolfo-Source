@@ -94,7 +94,7 @@ public class FreeBsdOperatingSystem extends AbstractOperatingSystem {
 
          for (Object object : list) {
             String string = (String)object;
-            String[] strings = ParseUtil.Q.split(string.trim(), 16);
+            String[] strings = ParseUtil.whitespaces.split(string.trim(), 16);
             if (strings.length >= 16) {
                long l = System.currentTimeMillis();
                OSProcess osProcess = new OSProcess(this);

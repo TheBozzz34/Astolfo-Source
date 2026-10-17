@@ -42,18 +42,18 @@ import org.lwjgl.opengl.GL11;
 public class GuiIngestServers extends GuiScreen {
    private final GuiScreen field_152309_a;
    private GuiIngestServers.ServerList field_152311_g;
-   public Alt m;
-   public ArrayList<Alt> R = new ArrayList<>();
-   private GuiButton G;
-   private GuiButton h;
-   private GuiButton P;
-   private GuiButton O;
-   private GuiButton N;
-   private GuiButton a;
-   private GuiTextField q;
+   public Alt selectedAlt;
+   public ArrayList<Alt> filteredAlts = new ArrayList<>();
+   private GuiButton loginButton;
+   private GuiButton editButton;
+   private GuiButton deleteButton;
+   private GuiButton randomAltButton;
+   private GuiButton eraseButton;
+   private GuiButton sortButton;
+   private GuiTextField searchField;
    private static int y;
-   private static int d;
-   public static boolean f = false;
+   private static int sortMode;
+   public static boolean showBuyAccounts = false;
 
    public GuiIngestServers(GuiScreen guiScreen) {
       this.field_152309_a = guiScreen;
@@ -62,67 +62,67 @@ public class GuiIngestServers extends GuiScreen {
    @Override
    public void onGuiClosed() {
       Keyboard.enableRepeatEvents(false);
-      this.m = null;
+      this.selectedAlt = null;
    }
 
    @Override
    public void initGui() {
       this.buttonList.clear();
-      this.buttonList.add(this.P = new GuiButton(3, this.width / 2 - 37, this.height - 30, 75, 20, "Delete"));
-      this.buttonList.add(this.G = new GuiButton(0, this.width / 2 - 125, this.height - 55, 120, 20, "Login"));
-      this.buttonList.add(this.h = new GuiButton(2, this.width / 2 - 125, this.height - 30, 75, 20, "Edit"));
-      this.buttonList.add(this.O = new GuiButton(6, this.width / 2 - 200, this.height - 30, 60, 20, "Random Alt"));
-      this.t();
+      this.buttonList.add(this.deleteButton = new GuiButton(3, this.width / 2 - 37, this.height - 30, 75, 20, "Delete"));
+      this.buttonList.add(this.loginButton = new GuiButton(0, this.width / 2 - 125, this.height - 55, 120, 20, "Login"));
+      this.buttonList.add(this.editButton = new GuiButton(2, this.width / 2 - 125, this.height - 30, 75, 20, "Edit"));
+      this.buttonList.add(this.randomAltButton = new GuiButton(6, this.width / 2 - 200, this.height - 30, 60, 20, "Random Alt"));
+      this.updateButtonStates();
       this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 55, 120, 20, "Add"));
       this.buttonList.add(new GuiButton(4, this.width / 2 + 51, this.height - 30, 75, 20, "Done"));
       this.buttonList.add(new GuiButton(5, this.width / 2 + 140, this.height - 30, 60, 20, "Import"));
-      this.buttonList.add(this.N = new GuiButton(10, this.width / 2 + 140, this.height - 55, 60, 20, "Erase dupe"));
+      this.buttonList.add(this.eraseButton = new GuiButton(10, this.width / 2 + 140, this.height - 55, 60, 20, "Erase dupe"));
       this.buttonList.add(new GuiButton(11, this.width / 2 - 200, this.height - 55, 60, 20, "Direct Login"));
-      this.buttonList.add(this.a = new GuiButton(12, this.width / 2 + 210, this.height - 55, 80, 20, "Sorting"));
-      if (f) {
+      this.buttonList.add(this.sortButton = new GuiButton(12, this.width / 2 + 210, this.height - 55, 80, 20, "Sorting"));
+      if (showBuyAccounts) {
          this.buttonList.add(new GuiButton(13, this.width / 2 + 210, this.height - 30, 80, 20, "Buy accounts"));
       }
 
       Keyboard.enableRepeatEvents(true);
-      this.q = new GuiTextField(9, this.fontRendererObj, this.width / 2 + 90, 8, 100, 15);
-      this.q.setMaxStringLength(128);
+      this.searchField = new GuiTextField(9, this.fontRendererObj, this.width / 2 + 90, 8, 100, 15);
+      this.searchField.setMaxStringLength(128);
       this.field_152311_g = new GuiIngestServers.ServerList();
       this.field_152311_g.registerScrollButtons(7, 8);
-      this.u();
+      this.refreshAltList();
       if (AltManager.unbannedCount > 0) {
          Toasts.TOASTS.infoTimed("Accounts unbanned", AltManager.unbannedCount + " accounts have been unbanned", 10000);
          AltManager.unbannedCount = 0;
       }
    }
 
-   public void t() {
-      boolean bl = this.m != null;
-      this.P.enabled = bl;
-      this.G.enabled = bl;
-      this.h.enabled = bl;
-      this.O.enabled = !Astolfo.INSTANCE.getAltManager().getList().isEmpty();
+   public void updateButtonStates() {
+      boolean bl = this.selectedAlt != null;
+      this.deleteButton.enabled = bl;
+      this.loginButton.enabled = bl;
+      this.editButton.enabled = bl;
+      this.randomAltButton.enabled = !Astolfo.INSTANCE.getAltManager().getList().isEmpty();
    }
 
-   private void u() {
-      this.R.clear();
+   private void refreshAltList() {
+      this.filteredAlts.clear();
 
       for (Alt alt : Astolfo.INSTANCE.getAltManager().getList()) {
-         if (alt.displayName.toLowerCase().contains(this.q != null ? this.q.getText().toLowerCase() : "")) {
-            this.R.add(alt);
+         if (alt.displayName.toLowerCase().contains(this.searchField != null ? this.searchField.getText().toLowerCase() : "")) {
+            this.filteredAlts.add(alt);
          }
       }
 
-      switch (d) {
+      switch (sortMode) {
          case 0:
-            this.a.displayString = "Sorting";
+            this.sortButton.displayString = "Sorting";
             break;
          case 1:
-            this.R.sort((alt2, alt3) -> {
+            this.filteredAlts.sort((alt2, alt3) -> {
                int i = !alt2.banned ? (!alt2.failedLogin ? 2 : 1) : 0;
                int j = !alt3.banned ? (!alt3.failedLogin ? 2 : 1) : 0;
                return j - i;
             });
-            this.a.displayString = "Sorting unbanned";
+            this.sortButton.displayString = "Sorting unbanned";
       }
    }
 
@@ -136,19 +136,19 @@ public class GuiIngestServers extends GuiScreen {
    public void actionPerformed(GuiButton button) {
       switch (button.id) {
          case 0:
-            AltLogin.AUTH.loginAlt(this.m);
+            AltLogin.AUTH.loginAlt(this.selectedAlt);
             break;
          case 1:
             this.mc.displayGuiScreen(new AddAltScreen(this));
             break;
          case 2:
-            this.mc.displayGuiScreen(new AddAltScreen(this, this.m));
+            this.mc.displayGuiScreen(new AddAltScreen(this, this.selectedAlt));
             break;
          case 3:
-            Astolfo.INSTANCE.getAltManager().getList().remove(this.m);
-            this.m = null;
-            this.t();
-            this.u();
+            Astolfo.INSTANCE.getAltManager().getList().remove(this.selectedAlt);
+            this.selectedAlt = null;
+            this.updateButtonStates();
+            this.refreshAltList();
             break;
          case 4:
             this.mc.displayGuiScreen(this.field_152309_a);
@@ -159,12 +159,12 @@ public class GuiIngestServers extends GuiScreen {
                Astolfo.INSTANCE.getAltManager().importFromFile(file);
             }
 
-            this.u();
+            this.refreshAltList();
             break;
          case 6:
-            if (this.R.size() > 0) {
-               AltLogin.AUTH.loginAlt(this.m = this.R.get(RandomUtils.RANDOM.nextInt(this.R.size())));
-               this.t();
+            if (this.filteredAlts.size() > 0) {
+               AltLogin.AUTH.loginAlt(this.selectedAlt = this.filteredAlts.get(RandomUtils.RANDOM.nextInt(this.filteredAlts.size())));
+               this.updateButtonStates();
             }
             break;
          case 7:
@@ -210,26 +210,26 @@ public class GuiIngestServers extends GuiScreen {
                   }
                   break;
                case 5:
-                  int n = Astolfo.INSTANCE.getAltManager().removeMojang();
-                  if (n > 0) {
-                     Toasts.TOASTS.info(n + " Mojang accounts removed");
+                  int m = Astolfo.INSTANCE.getAltManager().removeMojang();
+                  if (m > 0) {
+                     Toasts.TOASTS.info(m + " Mojang accounts removed");
                   } else {
                      Toasts.TOASTS.warning("No Mojang accounts found");
                   }
             }
 
-            this.u();
+            this.refreshAltList();
             break;
          case 11:
             this.mc.displayGuiScreen(new DirectLoginScreen(this));
             break;
          case 12:
-            d++;
-            if (d >= 2) {
-               d = 0;
+            sortMode++;
+            if (sortMode >= 2) {
+               sortMode = 0;
             }
 
-            this.u();
+            this.refreshAltList();
             break;
          case 13:
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
@@ -244,12 +244,12 @@ public class GuiIngestServers extends GuiScreen {
 
    @Override
    public void updateScreen() {
-      this.q.updateCursorCounter();
+      this.searchField.updateCursorCounter();
    }
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      if (mouseButton == 1 && this.u(mouseX, mouseY)) {
+      if (mouseButton == 1 && this.isHoveringEraseButton(mouseX, mouseY)) {
          y++;
          if (y >= 6) {
             y = 0;
@@ -257,44 +257,44 @@ public class GuiIngestServers extends GuiScreen {
 
          switch (y) {
             case 0:
-               this.N.displayString = "Erase dupe";
+               this.eraseButton.displayString = "Erase dupe";
                break;
             case 1:
-               this.N.displayString = "Erase perm ban";
+               this.eraseButton.displayString = "Erase perm ban";
                break;
             case 2:
-               this.N.displayString = "Erase temp ban";
+               this.eraseButton.displayString = "Erase temp ban";
                break;
             case 3:
-               this.N.displayString = "Erase failed";
+               this.eraseButton.displayString = "Erase failed";
                break;
             case 4:
-               this.N.displayString = "Erase all";
+               this.eraseButton.displayString = "Erase all";
                break;
             case 5:
-               this.N.displayString = "Erase Mojang";
+               this.eraseButton.displayString = "Erase Mojang";
          }
       }
 
-      if (mouseButton == 2 && this.m != null) {
-         this.m.favorite = !this.m.favorite;
+      if (mouseButton == 2 && this.selectedAlt != null) {
+         this.selectedAlt.favorite = !this.selectedAlt.favorite;
       }
 
       super.mouseClicked(mouseX, mouseY, mouseButton);
-      this.q.mouseClicked(mouseX, mouseY, mouseButton);
+      this.searchField.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
    public void keyTyped(char typedChar, int keyCode) throws IOException {
-      if (this.q.isFocused()) {
-         this.q.textboxKeyTyped(typedChar, keyCode);
+      if (this.searchField.isFocused()) {
+         this.searchField.textboxKeyTyped(typedChar, keyCode);
       } else if (GuiScreen.isKeyComboCtrlV(keyCode)) {
          Astolfo.INSTANCE.getAltManager().importFromClipboard();
-      } else if (GuiScreen.isKeyComboCtrlC(keyCode) && this.m != null) {
-         GuiScreen.setClipboardString(this.m.username + ":" + this.m.password);
+      } else if (GuiScreen.isKeyComboCtrlC(keyCode) && this.selectedAlt != null) {
+         GuiScreen.setClipboardString(this.selectedAlt.username + ":" + this.selectedAlt.password);
       }
 
-      this.u();
+      this.refreshAltList();
       super.keyTyped(typedChar, keyCode);
    }
 
@@ -311,17 +311,17 @@ public class GuiIngestServers extends GuiScreen {
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
       Gui.drawModalRectWithCustomSizedTexture(this.width / 2 + 193, 5, 0.0F, 0.0F, 15, 16, 15.0F, 16.0F);
-      if (this.P(i, b, i + 16, b + 16, mouseX, mouseY)) {
+      if (this.isMouseInBounds(i, b, i + 16, b + 16, mouseX, mouseY)) {
          drawRect(i, b, i + 16, b + 16, new Color(0, 0, 0, 120).getRGB());
          if (Mouse.isButtonDown(0)) {
             this.mc.displayGuiScreen(new AlteningScreen(this));
          }
       }
 
-      if (this.u(mouseX, mouseY)) {
+      if (this.isHoveringEraseButton(mouseX, mouseY)) {
          this.mc
             .fontRendererObj
-            .D(
+            .drawStringNoShadow(
                "Right click to change erase modes",
                mouseX - this.mc.fontRendererObj.getStringWidth("Right click to change erase modes") / 2.0F,
                mouseY - 20,
@@ -332,24 +332,24 @@ public class GuiIngestServers extends GuiScreen {
       this.drawCenteredString(this.fontRendererObj, "Alt Manager", this.width / 2, 9, 16777215);
       this.drawCenteredString(
          this.fontRendererObj,
-         EnumChatFormatting.DARK_GRAY + "(" + EnumChatFormatting.GRAY + this.R.size() + EnumChatFormatting.DARK_GRAY + ")",
+         EnumChatFormatting.DARK_GRAY + "(" + EnumChatFormatting.GRAY + this.filteredAlts.size() + EnumChatFormatting.DARK_GRAY + ")",
          this.width / 2,
          19,
          16777215
       );
-      this.q.drawTextBox();
-      if (this.q.getText().isEmpty() && !this.q.isFocused()) {
-         this.mc.fontRendererObj.D("Search...", this.width / 2 + 93, 11.0F, new Color(255, 255, 255, 120).getRGB());
+      this.searchField.drawTextBox();
+      if (this.searchField.getText().isEmpty() && !this.searchField.isFocused()) {
+         this.mc.fontRendererObj.drawStringNoShadow("Search...", this.width / 2 + 93, 11.0F, new Color(255, 255, 255, 120).getRGB());
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   private boolean u(int i, int j) {
-      return this.P(this.width / 2 + 140, this.height - 55, 60, 20, i, j);
+   private boolean isHoveringEraseButton(int i, int j) {
+      return this.isMouseInBounds(this.width / 2 + 140, this.height - 55, 60, 20, i, j);
    }
 
-   private boolean P(int i, int j, int k, int l, int m, int n) {
+   private boolean isMouseInBounds(int i, int j, int k, int l, int m, int n) {
       int i2 = k;
       int i3 = l;
       if ((i2 | i3) < 0) {
@@ -363,7 +363,7 @@ public class GuiIngestServers extends GuiScreen {
       }
    }
 
-   public static ResourceLocation W(String string) {
+   public static ResourceLocation getSkinLocation(String string) {
       string = StringUtils.stripControlCodes(string);
       ResourceLocation resourceLocation = new ResourceLocation("skins/" + string);
       TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
@@ -388,21 +388,21 @@ public class GuiIngestServers extends GuiScreen {
 
       @Override
       public int getSize() {
-         return GuiIngestServers.this.R.size();
+         return GuiIngestServers.this.filteredAlts.size();
       }
 
       @Override
       public void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
-         GuiIngestServers.this.m = GuiIngestServers.this.R.get(slotIndex);
-         GuiIngestServers.this.t();
+         GuiIngestServers.this.selectedAlt = GuiIngestServers.this.filteredAlts.get(slotIndex);
+         GuiIngestServers.this.updateButtonStates();
          if (isDoubleClick) {
-            AltLogin.AUTH.loginAlt(GuiIngestServers.this.m);
+            AltLogin.AUTH.loginAlt(GuiIngestServers.this.selectedAlt);
          }
       }
 
       @Override
       public boolean isSelected(int slotIndex) {
-         return GuiIngestServers.this.R.get(slotIndex) == GuiIngestServers.this.m;
+         return GuiIngestServers.this.filteredAlts.get(slotIndex) == GuiIngestServers.this.selectedAlt;
       }
 
       @Override
@@ -413,9 +413,9 @@ public class GuiIngestServers extends GuiScreen {
       @Override
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          if (j <= GuiIngestServers.this.height && j >= 0) {
-            Alt alt = GuiIngestServers.this.R.get(entryID);
+            Alt alt = GuiIngestServers.this.filteredAlts.get(entryID);
             GuiIngestServers.this.drawString(this.mc.fontRendererObj, alt.displayName, i + 40, j + 5, -1);
-            GuiIngestServers.this.drawString(this.mc.fontRendererObj, this.Y(alt.password), i + 41, j + 15, -6513508);
+            GuiIngestServers.this.drawString(this.mc.fontRendererObj, this.maskPassword(alt.password), i + 41, j + 15, -6513508);
             RenderUtil.setColor(alt.V_boolean() ? (alt.failedLogin ? Color.YELLOW.getRGB() : Color.GREEN.getRGB()) : Color.GRAY.getRGB());
             if (alt.microsoft) {
                RenderUtil.setColor(Color.WHITE.getRGB());
@@ -474,12 +474,12 @@ public class GuiIngestServers extends GuiScreen {
             }
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.mc.getTextureManager().bindTexture(GuiIngestServers.W(alt.displayName));
+            this.mc.getTextureManager().bindTexture(GuiIngestServers.getSkinLocation(alt.displayName));
             GuiIngestServers.this.drawTexturedModalRect(i + 3, j + 2, 32, 32, 32, 32);
          }
       }
 
-      private String Y(String string) {
+      private String maskPassword(String string) {
          return org.apache.commons.lang3.StringUtils.repeat('*', string.length());
       }
    }

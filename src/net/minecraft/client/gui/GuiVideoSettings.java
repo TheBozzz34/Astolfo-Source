@@ -175,14 +175,14 @@ public class GuiVideoSettings extends GuiScreen {
       int i = this.fontRendererObj.getStringWidth(string3);
       this.drawString(this.fontRendererObj, string3, this.width - i - 2, this.height - 10, 8421504);
       super.drawScreen(mouseX, mouseY, partialTicks);
-      this.optionsRowList.U(mouseX, mouseY, this.buttonList);
+      this.optionsRowList.drawTooltips(mouseX, mouseY, this.buttonList);
    }
 
-   public static int j(GuiButton guiButton) {
+   public static int getButtonWidth(GuiButton guiButton) {
       return guiButton.width;
    }
 
-   public static int V(GuiButton guiButton) {
+   public static int getButtonHeight(GuiButton guiButton) {
       return guiButton.height;
    }
 

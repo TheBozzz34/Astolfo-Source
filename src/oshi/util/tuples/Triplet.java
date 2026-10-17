@@ -14,11 +14,11 @@ public class Triplet<A, B, C> {
       this.c = c;
    }
 
-   public final A v() {
+   public final A getA() {
       return this.a;
    }
 
-   public final B q() {
+   public final B getB() {
       return this.b;
    }
 

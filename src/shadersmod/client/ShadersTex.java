@@ -437,29 +437,29 @@ public class ShadersTex {
       ((Buffer)intBuffer).clear();
    }
 
-   public static int n(int i, int j, int k, int l) {
-      int m = i >>> 24 & 0xFF;
-      int i2 = j >>> 24 & 0xFF;
-      int i3 = k >>> 24 & 0xFF;
-      int i4 = l >>> 24 & 0xFF;
-      int i5 = m + i2 + i3 + i4;
-      int i6 = (i5 + 2) / 4;
-      int i7;
-      if (i5 != 0) {
-         i7 = i5;
+   public static int blend4Alpha(int c0, int c1, int c2, int c3) {
+      int i = c0 >>> 24 & 0xFF;
+      int j = c1 >>> 24 & 0xFF;
+      int k = c2 >>> 24 & 0xFF;
+      int l = c3 >>> 24 & 0xFF;
+      int m = i + j + k + l;
+      int n = (m + 2) / 4;
+      int i2;
+      if (m != 0) {
+         i2 = m;
       } else {
-         i7 = 4;
-         m = 1;
-         i2 = 1;
-         i3 = 1;
-         i4 = 1;
+         i2 = 4;
+         i = 1;
+         j = 1;
+         k = 1;
+         l = 1;
       }
 
-      int i8 = (i7 + 1) / 2;
-      return i6 << 24
-         | ((i >>> 16 & 0xFF) * m + (j >>> 16 & 0xFF) * i2 + (k >>> 16 & 0xFF) * i3 + (l >>> 16 & 0xFF) * i4 + i8) / i7 << 16
-         | ((i >>> 8 & 0xFF) * m + (j >>> 8 & 0xFF) * i2 + (k >>> 8 & 0xFF) * i3 + (l >>> 8 & 0xFF) * i4 + i8) / i7 << 8
-         | ((i >>> 0 & 0xFF) * m + (j >>> 0 & 0xFF) * i2 + (k >>> 0 & 0xFF) * i3 + (l >>> 0 & 0xFF) * i4 + i8) / i7 << 0;
+      int i3 = (i2 + 1) / 2;
+      return n << 24
+         | ((c0 >>> 16 & 0xFF) * i + (c1 >>> 16 & 0xFF) * j + (c2 >>> 16 & 0xFF) * k + (c3 >>> 16 & 0xFF) * l + i3) / i2 << 16
+         | ((c0 >>> 8 & 0xFF) * i + (c1 >>> 8 & 0xFF) * j + (c2 >>> 8 & 0xFF) * k + (c3 >>> 8 & 0xFF) * l + i3) / i2 << 8
+         | ((c0 >>> 0 & 0xFF) * i + (c1 >>> 0 & 0xFF) * j + (c2 >>> 0 & 0xFF) * k + (c3 >>> 0 & 0xFF) * l + i3) / i2 << 0;
    }
 
    public static int blend4Simple(int c0, int c1, int c2, int c3) {
@@ -469,107 +469,109 @@ public class ShadersTex {
          | ((c0 >>> 0 & 0xFF) + (c1 >>> 0 & 0xFF) + (c2 >>> 0 & 0xFF) + (c3 >>> 0 & 0xFF) + 2) / 4 << 0;
    }
 
-   public static void f(int[] ints, int i, int j, int k) {
-      Math.min(j, k);
-      int l = i;
-      int m = j;
-      int i2 = k;
-      int i3 = 0;
-      int i4 = 0;
-      int i5 = 0;
-      int i6 = 0;
-
-      while (m > 1 && i2 > 1) {
-         i3 = l + m * i2;
-         i4 = m / 2;
-         i5 = i2 / 2;
-
-         for (int i7 = 0; i7 < i5; i7++) {
-            int i8 = i3 + i7 * i4;
-            int i9 = l + i7 * 2 * m;
-
-            for (int i10 = 0; i10 < i4; i10++) {
-               ints[i8 + i10] = n(ints[i9 + i10 * 2], ints[i9 + i10 * 2 + 1], ints[i9 + m + i10 * 2], ints[i9 + m + i10 * 2 + 1]);
-            }
-         }
-
-         i6++;
-         m = i4;
-         i2 = i5;
-         l = i3;
-      }
-
-      while (i6 > 0) {
-         m = j >> --i6;
-         i2 = k >> i6;
-         l = i3 - m * i2;
-         int i11 = l;
-
-         for (int i12 = 0; i12 < i2; i12++) {
-            for (int i13 = 0; i13 < m; i13++) {
-               if (ints[i11] == 0) {
-                  ints[i11] = ints[i3 + i12 / 2 * i4 + i13 / 2] & 16777215;
-               }
-
-               i11++;
-            }
-         }
-
-         i3 = l;
-         i4 = m;
-      }
-   }
-
-   public static void Z(int[] ints, int i, int j, int k) {
-      Math.min(j, k);
-      int l = i;
-      int m = j;
-      int n = k;
+   public static void genMipmapAlpha(int[] aint, int offset, int width, int height) {
+      Math.min(width, height);
+      int i = offset;
+      int j = width;
+      int k = height;
+      int l = 0;
+      int m = 0;
+      int n = 0;
       int i2 = 0;
-      int i3 = 0;
-      int i4 = 0;
-      int i5 = 0;
 
-      while (m > 1 && n > 1) {
-         i2 = l + m * n;
-         i3 = m / 2;
-         i4 = n / 2;
+      while (j > 1 && k > 1) {
+         l = i + j * k;
+         m = j / 2;
+         n = k / 2;
 
-         for (int i6 = 0; i6 < i4; i6++) {
-            int i7 = i2 + i6 * i3;
-            int i8 = l + i6 * 2 * m;
+         for (int i3 = 0; i3 < n; i3++) {
+            int i4 = l + i3 * m;
+            int i5 = i + i3 * 2 * j;
 
-            for (int i9 = 0; i9 < i3; i9++) {
-               ints[i7 + i9] = blend4Simple(
-                  ints[i8 + i9 * 2], ints[i8 + i9 * 2 + 1], ints[i8 + m + i9 * 2], ints[i8 + m + i9 * 2 + 1]
+            for (int i6 = 0; i6 < m; i6++) {
+               aint[i4 + i6] = blend4Alpha(
+                  aint[i5 + i6 * 2], aint[i5 + i6 * 2 + 1], aint[i5 + j + i6 * 2], aint[i5 + j + i6 * 2 + 1]
                );
             }
          }
 
-         i5++;
-         m = i3;
-         n = i4;
-         l = i2;
+         i2++;
+         j = m;
+         k = n;
+         i = l;
       }
 
-      while (i5 > 0) {
-         m = j >> --i5;
-         n = k >> i5;
-         l = i2 - m * n;
-         int i10 = l;
+      while (i2 > 0) {
+         j = width >> --i2;
+         k = height >> i2;
+         i = l - j * k;
+         int i7 = i;
 
-         for (int i11 = 0; i11 < n; i11++) {
-            for (int i12 = 0; i12 < m; i12++) {
-               if (ints[i10] == 0) {
-                  ints[i10] = ints[i2 + i11 / 2 * i3 + i12 / 2] & 16777215;
+         for (int i8 = 0; i8 < k; i8++) {
+            for (int i9 = 0; i9 < j; i9++) {
+               if (aint[i7] == 0) {
+                  aint[i7] = aint[l + i8 / 2 * m + i9 / 2] & 16777215;
                }
 
-               i10++;
+               i7++;
             }
          }
 
-         i2 = l;
-         i3 = m;
+         l = i;
+         m = j;
+      }
+   }
+
+   public static void genMipmapSimple(int[] aint, int offset, int width, int height) {
+      Math.min(width, height);
+      int i = offset;
+      int j = width;
+      int k = height;
+      int l = 0;
+      int m = 0;
+      int n = 0;
+      int i2 = 0;
+
+      while (j > 1 && k > 1) {
+         l = i + j * k;
+         m = j / 2;
+         n = k / 2;
+
+         for (int i3 = 0; i3 < n; i3++) {
+            int i4 = l + i3 * m;
+            int i5 = i + i3 * 2 * j;
+
+            for (int i6 = 0; i6 < m; i6++) {
+               aint[i4 + i6] = blend4Simple(
+                  aint[i5 + i6 * 2], aint[i5 + i6 * 2 + 1], aint[i5 + j + i6 * 2], aint[i5 + j + i6 * 2 + 1]
+               );
+            }
+         }
+
+         i2++;
+         j = m;
+         k = n;
+         i = l;
+      }
+
+      while (i2 > 0) {
+         j = width >> --i2;
+         k = height >> i2;
+         i = l - j * k;
+         int i7 = i;
+
+         for (int i8 = 0; i8 < k; i8++) {
+            for (int i9 = 0; i9 < j; i9++) {
+               if (aint[i7] == 0) {
+                  aint[i7] = aint[l + i8 / 2 * m + i9 / 2] & 16777215;
+               }
+
+               i7++;
+            }
+         }
+
+         l = i;
+         m = j;
       }
    }
 
@@ -727,7 +729,7 @@ public class ShadersTex {
       return textureID;
    }
 
-   public static void N(int[] ints, int i, int j, int k) {
+   public static void mergeImage(int[] aint, int dstoff, int srcoff, int size) {
    }
 
    public static int blendColor(int color1, int color2, int factor1) {

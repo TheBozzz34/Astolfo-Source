@@ -13,16 +13,16 @@ public class RealmsClickableScrolledSelectionList {
       this.proxy.drawScreen(i, j, f);
    }
 
-   public int b() {
+   public int width() {
       return this.proxy.func_178044_e();
    }
 
-   public int G() {
-      return this.proxy.U();
+   public int ym() {
+      return this.proxy.getMouseY();
    }
 
-   public int s() {
-      return this.proxy.v();
+   public int xm() {
+      return this.proxy.getMouseX();
    }
 
    public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
@@ -61,11 +61,11 @@ public class RealmsClickableScrolledSelectionList {
    public void customMouseEvent(int i, int j, int k, float f, int l) {
    }
 
-   public void q(int i) {
+   public void scroll(int i) {
       this.proxy.scrollBy(i);
    }
 
-   public int j() {
+   public int getScroll() {
       return this.proxy.getAmountScrolled();
    }
 
@@ -78,7 +78,7 @@ public class RealmsClickableScrolledSelectionList {
    public void renderSelected(int i, int j, int k, Tezzelator tezzelator) {
    }
 
-   public void T(int i) {
+   public void setLeftPos(int i) {
       this.proxy.setSlotXBoundsFromLeft(i);
    }
 }

@@ -745,7 +745,7 @@ public final class ItemStack {
       return false;
    }
 
-   public NBTTagCompound V() {
+   public NBTTagCompound getRawTagCompound() {
       return this.stackTagCompound;
    }
 }

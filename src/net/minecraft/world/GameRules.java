@@ -147,7 +147,7 @@ public class GameRules {
       BOOLEAN_VALUE("BOOLEAN_VALUE", 1),
       NUMERICAL_VALUE("NUMERICAL_VALUE", 2);
 
-      private static final GameRules.ValueType[] p = new GameRules.ValueType[]{ANY_VALUE, BOOLEAN_VALUE, NUMERICAL_VALUE};
+      private static final GameRules.ValueType[] VALUES = new GameRules.ValueType[]{ANY_VALUE, BOOLEAN_VALUE, NUMERICAL_VALUE};
 
       ValueType(String string2, int j) {
       }

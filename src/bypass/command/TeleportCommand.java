@@ -81,7 +81,7 @@ public class TeleportCommand extends Command {
                   C0FPacketConfirmTransaction c0FPacketConfirmTransaction = (C0FPacketConfirmTransaction)packetEvent.getPacket();
                   luaTable.set("window_id", c0FPacketConfirmTransaction.getWindowId());
                   luaTable.set("uid", c0FPacketConfirmTransaction.getUid());
-                  luaTable.set("accept", LuaValue.valueOf(c0FPacketConfirmTransaction.N()));
+                  luaTable.set("accept", LuaValue.valueOf(c0FPacketConfirmTransaction.isAccepted()));
             }
 
             luaTable.set("packet_id", i);

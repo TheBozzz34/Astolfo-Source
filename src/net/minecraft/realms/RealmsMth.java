@@ -5,7 +5,7 @@ import net.minecraft.util.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 
 public class RealmsMth {
-   public static float P(float f) {
+   public static float sin(float f) {
       return MathHelper.sin(f);
    }
 
@@ -13,19 +13,19 @@ public class RealmsMth {
       return MathHelper.getRandomDoubleInRange(random2, d, e);
    }
 
-   public static int N(float f) {
+   public static int ceilFloat(float f) {
       return MathHelper.ceiling_float_int(f);
    }
 
-   public static int m(double d) {
+   public static int floorDouble(double d) {
       return MathHelper.floor_double(d);
    }
 
-   public static int k(int i, int j) {
+   public static int intFloorDiv(int i, int j) {
       return MathHelper.bucketInt(i, j);
    }
 
-   public static float W(float f) {
+   public static float absFloat(float f) {
       return MathHelper.abs(f);
    }
 
@@ -33,11 +33,11 @@ public class RealmsMth {
       return MathHelper.clamp_int(i, j, k);
    }
 
-   public static double L(double d, double e, double d2) {
+   public static double clampedLerp(double d, double e, double d2) {
       return MathHelper.denormalizeClamp(d, e, d2);
    }
 
-   public static int O(double d) {
+   public static int ceilDouble(double d) {
       return MathHelper.ceiling_double_int(d);
    }
 
@@ -53,7 +53,7 @@ public class RealmsMth {
       return MathHelper.sqrt_double(d);
    }
 
-   public static double X(double d, double e, double d2) {
+   public static double clampDouble(double d, double e, double d2) {
       return MathHelper.clamp_double(d, e, d2);
    }
 
@@ -65,23 +65,23 @@ public class RealmsMth {
       return MathHelper.parseDoubleWithDefault(string, d);
    }
 
-   public static int c(int i) {
+   public static int log2(int i) {
       return MathHelper.calculateLogBaseTwo(i);
    }
 
-   public static int h(double d) {
+   public static int absFloor(double d) {
       return MathHelper.func_154353_e(d);
    }
 
-   public static int s(int i) {
+   public static int smallestEncompassingPowerOfTwo(int i) {
       return MathHelper.roundUpToPowerOfTwo(i);
    }
 
-   public static float H(float f) {
+   public static float sqrtFloat(float f) {
       return MathHelper.sqrt_float(f);
    }
 
-   public static float K(float f) {
+   public static float cos(float f) {
       return MathHelper.cos(f);
    }
 
@@ -89,7 +89,7 @@ public class RealmsMth {
       return MathHelper.parseIntWithDefaultAndMax(string, i, j);
    }
 
-   public static int L(double d) {
+   public static int fastFloor(double d) {
       return MathHelper.truncateDoubleToInt(d);
    }
 
@@ -105,7 +105,7 @@ public class RealmsMth {
       return MathHelper.wrapAngleTo180_double(d);
    }
 
-   public static float G(float f) {
+   public static float wrapDegreesFloat(float f) {
       return MathHelper.wrapAngleTo180_float(f);
    }
 
@@ -117,7 +117,7 @@ public class RealmsMth {
       return MathHelper.parseDoubleWithDefaultAndMax(string, d, e);
    }
 
-   public static int u(int i, int j) {
+   public static int roundUp(int i, int j) {
       return MathHelper.roundUp(i, j);
    }
 
@@ -125,11 +125,11 @@ public class RealmsMth {
       return MathHelper.average(longs);
    }
 
-   public static int p(float f) {
+   public static int floorFloat(float f) {
       return MathHelper.floor_float(f);
    }
 
-   public static int p(int i) {
+   public static int absInt(int i) {
       return MathHelper.abs_int(i);
    }
 

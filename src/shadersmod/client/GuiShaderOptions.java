@@ -17,9 +17,9 @@ public class GuiShaderOptions extends GuiScreenOF {
    private GuiScreen prevScreen;
    public String title;
    private GameSettings settings;
-   private int N = 0;
-   private int b = 0;
-   private long i = 0L;
+   private int lastMouseX = 0;
+   private int lastMouseY = 0;
+   private long mouseStillTime = 0L;
    private String screenName = null;
    private String screenText = null;
    private boolean changed = false;
@@ -68,7 +68,7 @@ public class GuiShaderOptions extends GuiScreenOF {
                int i3 = m * i2 + 5 + i;
                int i4 = b2 + n * b3;
                int i5 = i2 - 10;
-               String string = this.o(shaderOption, i5);
+               String string = this.getButtonText(shaderOption, i5);
                GuiButtonShaderOption guiButtonShaderOption = new GuiButtonShaderOption(b + l, i3, i4, i5, b5, shaderOption, string);
                guiButtonShaderOption.enabled = shaderOption.isEnabled();
                this.buttonList.add(guiButtonShaderOption);
@@ -80,7 +80,7 @@ public class GuiShaderOptions extends GuiScreenOF {
       this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, b4, b5, I18n.format("gui.done")));
    }
 
-   private String o(ShaderOption shaderOption, int i) {
+   private String getButtonText(ShaderOption shaderOption, int i) {
       String string = shaderOption.getNameText();
       if (shaderOption instanceof ShaderOptionScreen) {
          ShaderOptionScreen shaderOptionScreen = (ShaderOptionScreen)shaderOption;
@@ -182,7 +182,7 @@ public class GuiShaderOptions extends GuiScreenOF {
                shaderOptionProfile.updateProfile();
             }
 
-            guiButtonShaderOption.displayString = this.o(shaderOption, guiButtonShaderOption.getButtonWidth());
+            guiButtonShaderOption.displayString = this.getButtonText(shaderOption, guiButtonShaderOption.getButtonWidth());
          }
       }
    }
@@ -197,18 +197,18 @@ public class GuiShaderOptions extends GuiScreenOF {
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);
-      if (Math.abs(mouseX - this.N) <= 5 && Math.abs(mouseY - this.b) <= 5) {
-         this.a(mouseX, mouseY, this.buttonList);
+      if (Math.abs(mouseX - this.lastMouseX) <= 5 && Math.abs(mouseY - this.lastMouseY) <= 5) {
+         this.drawTooltips(mouseX, mouseY, this.buttonList);
       } else {
-         this.N = mouseX;
-         this.b = mouseY;
-         this.i = System.currentTimeMillis();
+         this.lastMouseX = mouseX;
+         this.lastMouseY = mouseY;
+         this.mouseStillTime = System.currentTimeMillis();
       }
    }
 
-   private void a(int i, int j, List list) {
+   private void drawTooltips(int i, int j, List list) {
       short s = 700;
-      if (System.currentTimeMillis() >= this.i + s) {
+      if (System.currentTimeMillis() >= this.mouseStillTime + s) {
          int k = this.width / 2 - 150;
          int l = this.height / 6 - 7;
          if (j <= l + 98) {
@@ -217,11 +217,11 @@ public class GuiShaderOptions extends GuiScreenOF {
 
          int m = k + 150 + 150;
          int n = l + 84 + 10;
-         GuiButton guiButton = Y(list, i, j);
+         GuiButton guiButton = getSelectedButton(list, i, j);
          if (guiButton instanceof GuiButtonShaderOption) {
             GuiButtonShaderOption guiButtonShaderOption = (GuiButtonShaderOption)guiButton;
             ShaderOption shaderOption = guiButtonShaderOption.getShaderOption();
-            String[] strings = this.T(shaderOption, m - k);
+            String[] strings = this.makeTooltipLines(shaderOption, m - k);
             if (strings == null) {
                return;
             }
@@ -241,14 +241,14 @@ public class GuiShaderOptions extends GuiScreenOF {
       }
    }
 
-   private String[] T(ShaderOption shaderOption, int i) {
+   private String[] makeTooltipLines(ShaderOption shaderOption, int i) {
       if (shaderOption instanceof ShaderOptionProfile) {
          return null;
       }
 
       String string = shaderOption.getNameText();
       String string2 = Config.normalize(shaderOption.getDescriptionText()).trim();
-      String[] strings = this.K(string2);
+      String[] strings = this.splitDescription(string2);
       String string3 = null;
       if (!string.equals(shaderOption.getName()) && this.settings.advancedItemTooltips) {
          string3 = "§8" + Lang.get("of.general.id") + ": " + shaderOption.getName();
@@ -280,10 +280,10 @@ public class GuiShaderOptions extends GuiScreenOF {
          arrayList.add(string5);
       }
 
-      return this.L(i, arrayList);
+      return this.wrapTooltipLines(i, arrayList);
    }
 
-   private String[] K(String string) {
+   private String[] splitDescription(String string) {
       if (string.length() <= 0) {
          return new String[0];
       }
@@ -299,7 +299,7 @@ public class GuiShaderOptions extends GuiScreenOF {
       return strings;
    }
 
-   private String[] L(int i, List<String> list) {
+   private String[] wrapTooltipLines(int i, List<String> list) {
       FontRenderer fontRenderer = Config.getMinecraft().fontRendererObj;
       ArrayList arrayList = new ArrayList();
 

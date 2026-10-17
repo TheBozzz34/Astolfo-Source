@@ -47,7 +47,7 @@ public final class PlayerHead extends VarArgFunction {
       Entity entity = WorldLibrary.entitiesById.get(l);
       if (entity instanceof EntityPlayer) {
          AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entity;
-         ClientAccess.mc.getTextureManager().bindTexture(abstractClientPlayer.getPlayerInfo().c());
+         ClientAccess.mc.getTextureManager().bindTexture(abstractClientPlayer.getPlayerInfo().getDisplayedSkin());
          Gui.drawScaledCustomSizeModalRect(i, j, 8.0F, 8.0F, 8, 8, k, k, 64.0F, 64.0F);
          return valueOf(true);
       } else {

@@ -77,8 +77,12 @@ public final class Criticals extends Module {
          case PACKET:
             mc.thePlayer
                .sendQueue
-               .u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.06251 + 1.0E-5, mc.thePlayer.posZ, false));
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
+               .sendPacketNoEvent(
+                  new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.06251 + 1.0E-5, mc.thePlayer.posZ, false)
+               );
+            mc.thePlayer
+               .sendQueue
+               .sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
          case WATCHDOG:
          default:
             this.critTimer.reset();

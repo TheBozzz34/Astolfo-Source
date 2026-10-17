@@ -58,7 +58,7 @@ public final class LinuxNetworkParams extends AbstractNetworkParams {
       int i = Integer.MAX_VALUE;
 
       for (int j = 2; j < list.size(); j++) {
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(j));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(j));
          if (strings.length > 4 && strings[0].equals("0.0.0.0")) {
             boolean bl = strings[3].indexOf(71) != -1;
             int k = ParseUtil.parseIntOrDefault(strings[4], Integer.MAX_VALUE);
@@ -83,7 +83,7 @@ public final class LinuxNetworkParams extends AbstractNetworkParams {
       int i = Integer.MAX_VALUE;
 
       for (int j = 2; j < list.size(); j++) {
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(j));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(j));
          if (strings.length > 3 && strings[0].equals("::/0")) {
             boolean bl = strings[2].indexOf(71) != -1;
             int k = ParseUtil.parseIntOrDefault(strings[3], Integer.MAX_VALUE);

@@ -511,11 +511,11 @@ public abstract class CommandBase implements ICommand {
          this.field_179632_c = bl;
       }
 
-      public double J() {
+      public double getResult() {
          return this.field_179633_a;
       }
 
-      public double v() {
+      public double getAmount() {
          return this.field_179631_b;
       }
 

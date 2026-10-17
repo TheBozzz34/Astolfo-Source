@@ -282,7 +282,7 @@ public final class AutoHypixel extends Module {
                   s02PacketChat.getChatComponent().getFormattedText().contains("§cA kick occurred in your connection")
                      || s02PacketChat.getChatComponent().getFormattedText().startsWith("§c") && s02PacketChat.getChatComponent().getFormattedText().contains("so you were put")
                )) {
-               mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/back"));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage("/back"));
             }
 
             if (autoPit.getSetting("Quick-Math").asBoolean()
@@ -293,7 +293,7 @@ public final class AutoHypixel extends Module {
                String[] strings2 = string.split("Solve: ");
                if (strings2.length == 2) {
                   try {
-                     mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/ac " + (int)evaluate(strings2[1].replace("x", "*"))));
+                     mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage("/ac " + (int)evaluate(strings2[1].replace("x", "*"))));
                   } catch (RuntimeException runtimeException) {
                   }
                }
@@ -337,12 +337,14 @@ public final class AutoHypixel extends Module {
                && this.actionTimer.hasElapsed(1000.0F)) {
                mc.thePlayer
                   .sendQueue
-                  .u(new C03PacketPlayer.C06PacketPlayerPosLook(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ(), s08PacketPlayerPosLook.getYaw(), s08PacketPlayerPosLook.getPitch(), false));
+                  .sendPacketNoEvent(
+                     new C03PacketPlayer.C06PacketPlayerPosLook(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ(), s08PacketPlayerPosLook.getYaw(), s08PacketPlayerPosLook.getPitch(), false)
+                  );
 
                for (Vector3 vector3 : PathFinder.findPath(
                   new Vector3(s08PacketPlayerPosLook.getX(), s08PacketPlayerPosLook.getY(), s08PacketPlayerPosLook.getZ()), new Vector3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ), 8.9
                )) {
-                  mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
                }
 
                packetEvent.cancel();

@@ -14,23 +14,23 @@ public class WatchdogStatsReply extends AbstractReply {
    @SerializedName("watchdog_rollingDaily")
    private int watchdogRollingDaily;
 
-   public int I() {
+   public int getStaffRollingDaily() {
       return this.staffRollingDaily;
    }
 
-   public int s() {
+   public int getStaffTotal() {
       return this.staffTotal;
    }
 
-   public int G() {
+   public int getWatchdogTotal() {
       return this.watchdogTotal;
    }
 
-   public int n() {
+   public int getWatchdogLastMinute() {
       return this.watchdogLastMinute;
    }
 
-   public int c() {
+   public int getWatchdogRollingDaily() {
       return this.watchdogRollingDaily;
    }
 

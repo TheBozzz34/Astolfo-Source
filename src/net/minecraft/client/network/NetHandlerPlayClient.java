@@ -664,8 +664,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       this.netManager.sendPacket(packet);
    }
 
-   public void u(Packet packet) {
-      this.netManager.B(packet);
+   public void sendPacketNoEvent(Packet packet) {
+      this.netManager.sendPacketNoEvent(packet);
    }
 
    @Override
@@ -1350,7 +1350,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
    @Override
    public void handleResourcePack(S48PacketResourcePackSend packetIn) {
-      if (this.C(packetIn.getURL(), packetIn.getHash())) {
+      if (this.validateResourcePackUrl(packetIn.getURL(), packetIn.getHash())) {
          final String string = packetIn.getURL();
          final String string2 = packetIn.getHash();
          if (string.startsWith("level://")) {
@@ -1464,7 +1464,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       }
    }
 
-   private boolean C(String string, String string2) {
+   private boolean validateResourcePackUrl(String string, String string2) {
       try {
          URI uri = new URI(string);
          String string3 = uri.getScheme();

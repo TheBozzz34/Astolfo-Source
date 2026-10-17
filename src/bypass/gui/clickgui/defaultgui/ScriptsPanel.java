@@ -48,11 +48,11 @@ public class ScriptsPanel extends Container {
          new Color(37, 37, 37).getRGB()
       );
       int l = (int)(this.getX() + this.getWidth() - 11.0F);
-      int n = (int)this.getYPos() + 4;
+      int m = (int)this.getYPos() + 4;
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/lua.png"));
-      Gui.drawModalRectWithCustomSizedTexture(l, n, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
+      Gui.drawModalRectWithCustomSizedTexture(l, m, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPushMatrix();
-      if (this.isMouseInRect(l - 16, n, 12, n + 4, i, j)) {
+      if (this.isMouseInRect(l - 16, m, 12, m + 4, i, j)) {
          RenderUtil.setColor(new Color(127, 127, 127).getRGB());
          if (Mouse.isButtonDown(0) && this.clickTimer.hasElapsed(1500.0F)) {
             SettingsCommand.openFolder(ScriptManager.SCRIPTS_DIR);
@@ -61,13 +61,13 @@ public class ScriptsPanel extends Container {
       }
 
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/folder.png"));
-      Gui.drawModalRectWithCustomSizedTexture(l - 12, n, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
+      Gui.drawModalRectWithCustomSizedTexture(l - 12, m, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPopMatrix();
       RenderUtil.setColor(Color.WHITE.getRGB());
-      int i2 = (int)(this.getX() + this.getWidth() - 24.0F);
-      int i3 = (int)this.getYPos() + 4;
+      int n = (int)(this.getX() + this.getWidth() - 24.0F);
+      int i2 = (int)this.getYPos() + 4;
       GL11.glPushMatrix();
-      if (this.isMouseInRect(i2 - 16, i3, 12, i3 + 4, i, j)) {
+      if (this.isMouseInRect(n - 16, i2, 12, i2 + 4, i, j)) {
          RenderUtil.setColor(new Color(127, 127, 127).getRGB());
          if (Mouse.isButtonDown(0) && this.clickTimer.hasElapsed(1500.0F)) {
             mc.thePlayer.sendChatMessage(".script reload");
@@ -78,9 +78,9 @@ public class ScriptsPanel extends Container {
       }
 
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/reload.png"));
-      Gui.drawModalRectWithCustomSizedTexture(i2 - 12, i3, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
+      Gui.drawModalRectWithCustomSizedTexture(n - 12, i2, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPopMatrix();
-      GuiMainMenu.m.drawStringWithShadow(this.getName(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
+      GuiMainMenu.latoBoldFont15.drawStringWithShadow(this.getName(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
       if (this.isExpanded()) {
          byte b = 30;
 
@@ -150,7 +150,7 @@ public class ScriptsPanel extends Container {
             );
          }
 
-         GuiMainMenu.m.drawString(this.getName(), this.getX() + 2.0F, this.getYPos() + 3.0F, -1);
+         GuiMainMenu.latoBoldFont15.drawString(this.getName(), this.getX() + 2.0F, this.getYPos() + 3.0F, -1);
       }
 
       @Override

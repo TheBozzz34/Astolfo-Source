@@ -28,7 +28,7 @@ public class ServerPinger {
          networkManager.setNetHandler(new ServerPingHandler(this, serverPingData, networkManager, string));
 
          try {
-            networkManager.sendPacket(new C00Handshake(RealmsSharedConstants.e, realmsServerAddress.getHost(), realmsServerAddress.getPort(), EnumConnectionState.STATUS));
+            networkManager.sendPacket(new C00Handshake(RealmsSharedConstants.NETWORK_PROTOCOL_VERSION, realmsServerAddress.getHost(), realmsServerAddress.getPort(), EnumConnectionState.STATUS));
             networkManager.sendPacket(new C00PacketServerQuery());
          } catch (Throwable throwable) {
             logger.error(throwable);

@@ -72,7 +72,7 @@ public class StatsHud extends Component {
 
             if (PlayerListTracker.tabListNames.contains(playerStatsEntry10.name)) {
                if (playerStatsEntry10.playerInfo != null) {
-                  mc.getTextureManager().bindTexture(playerStatsEntry10.playerInfo.c());
+                  mc.getTextureManager().bindTexture(playerStatsEntry10.playerInfo.getDisplayedSkin());
                   Gui.drawScaledCustomSizeModalRect((int)(this.getX() + k - 12.0F), (int)(this.getYPos() + b2), 8.0F, 8.0F, 8, 8, 8, 8, 64.0F, 64.0F);
                }
 

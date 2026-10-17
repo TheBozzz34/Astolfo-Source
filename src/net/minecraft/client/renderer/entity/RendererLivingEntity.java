@@ -473,7 +473,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                   tessellator.draw();
                   GlStateManager.enableTexture2D();
                   GlStateManager.depthMask(true);
-                  fontRenderer.D(string, -fontRenderer.getStringWidth(string) / 2, 0.0F, 553648127);
+                  fontRenderer.drawStringNoShadow(string, -fontRenderer.getStringWidth(string) / 2, 0.0F, 553648127);
                   GlStateManager.enableLighting();
                   GlStateManager.disableBlend();
                   GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

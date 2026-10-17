@@ -187,7 +187,7 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
    public void drawTitle() {
       int i = (this.width - this.field_146555_f) / 2;
       int j = (this.height - this.field_146557_g) / 2;
-      this.fontRendererObj.D(I18n.format("gui.achievements"), i + 15, j + 5, 4210752);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("gui.achievements"), i + 15, j + 5, 4210752);
    }
 
    public void drawAchievementScreen(int i, int j, float f) {
@@ -284,8 +284,8 @@ public class GuiAchievements extends GuiScreen implements IProgressMeter {
                   i17 = -16711936;
                }
 
-               S(i12, i14, i13, i17);
-               J(i14, i13, i15, i17);
+               drawHorizontalLine(i12, i14, i13, i17);
+               drawVerticalLine(i14, i13, i15, i17);
                if (i12 > i14) {
                   this.drawTexturedModalRect(i12 - 11 - 7, i13 - 5, 114, 234, 7, 11);
                } else if (i12 < i14) {

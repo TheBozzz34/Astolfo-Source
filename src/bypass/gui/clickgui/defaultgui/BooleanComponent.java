@@ -33,7 +33,7 @@ public class BooleanComponent extends SettingComponent {
          RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), k);
       }
 
-      GuiMainMenu.m.drawString(this.getBooleanSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
+      GuiMainMenu.latoBoldFont15.drawString(this.getBooleanSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
    }
 
    private BooleanSetting getBooleanSetting() {

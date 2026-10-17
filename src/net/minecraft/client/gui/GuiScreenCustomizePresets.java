@@ -193,10 +193,10 @@ public class GuiScreenCustomizePresets extends GuiScreen {
 
       private void func_178051_a(int i, int j, ResourceLocation resourceLocation) {
          int k = i + 5;
-         GuiScreenCustomizePresets.S(k - 1, k + 32, j - 1, -2039584);
-         GuiScreenCustomizePresets.S(k - 1, k + 32, j + 32, -6250336);
-         GuiScreenCustomizePresets.J(k - 1, j - 1, j + 32, -2039584);
-         GuiScreenCustomizePresets.J(k + 32, j - 1, j + 32, -6250336);
+         GuiScreenCustomizePresets.drawHorizontalLine(k - 1, k + 32, j - 1, -2039584);
+         GuiScreenCustomizePresets.drawHorizontalLine(k - 1, k + 32, j + 32, -6250336);
+         GuiScreenCustomizePresets.drawVerticalLine(k - 1, j - 1, j + 32, -2039584);
+         GuiScreenCustomizePresets.drawVerticalLine(k + 32, j - 1, j + 32, -6250336);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(resourceLocation);
          Tessellator tessellator = Tessellator.getInstance();
@@ -213,7 +213,7 @@ public class GuiScreenCustomizePresets extends GuiScreen {
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          GuiScreenCustomizePresets.Info info = GuiScreenCustomizePresets.field_175310_f.get(entryID);
          this.func_178051_a(i, j, info.field_178953_b);
-         GuiScreenCustomizePresets.this.fontRendererObj.D(info.field_178955_a, i + 32 + 10, j + 14, 16777215);
+         GuiScreenCustomizePresets.this.fontRendererObj.drawStringNoShadow(info.field_178955_a, i + 32 + 10, j + 14, 16777215);
       }
    }
 }

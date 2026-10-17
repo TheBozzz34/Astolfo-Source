@@ -3,44 +3,44 @@ package net.minecraft.realms;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
 
 public class RealmsVertexFormatElement {
-   private VertexFormatElement v;
+   private VertexFormatElement vertexFormatElement;
 
    public RealmsVertexFormatElement(VertexFormatElement vIn) {
-      this.v = vIn;
+      this.vertexFormatElement = vIn;
    }
 
    public VertexFormatElement getVertexFormatElement() {
-      return this.v;
+      return this.vertexFormatElement;
    }
 
    public boolean isPosition() {
-      return this.v.isPositionElement();
+      return this.vertexFormatElement.isPositionElement();
    }
 
-   public int L() {
-      return this.v.getIndex();
+   public int getIndex() {
+      return this.vertexFormatElement.getIndex();
    }
 
-   public int Q() {
-      return this.v.getSize();
+   public int getByteSize() {
+      return this.vertexFormatElement.getSize();
    }
 
-   public int B() {
-      return this.v.getElementCount();
+   public int getCount() {
+      return this.vertexFormatElement.getElementCount();
    }
 
    @Override
    public int hashCode() {
-      return this.v.hashCode();
+      return this.vertexFormatElement.hashCode();
    }
 
    @Override
    public boolean equals(Object object) {
-      return this.v.equals(object);
+      return this.vertexFormatElement.equals(object);
    }
 
    @Override
    public String toString() {
-      return this.v.toString();
+      return this.vertexFormatElement.toString();
    }
 }

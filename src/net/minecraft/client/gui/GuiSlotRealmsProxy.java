@@ -40,11 +40,11 @@ public class GuiSlotRealmsProxy extends GuiSlot {
       return super.width;
    }
 
-   public int a() {
+   public int getMouseY() {
       return super.mouseY;
    }
 
-   public int N() {
+   public int getMouseX() {
       return super.mouseX;
    }
 

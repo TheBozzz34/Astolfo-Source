@@ -116,7 +116,7 @@ public class LuaApi implements ClientAccess {
    @ScriptName("evj")
    public void setSpeed(double d) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.r(d);
+         mc.thePlayer.setSpeed(d);
       }
    }
 
@@ -260,22 +260,22 @@ public class LuaApi implements ClientAccess {
                switch (objects.length) {
                   case 1:
                      if (bl2) {
-                        mc.thePlayer.sendQueue.u(new C03PacketPlayer(bl));
+                        mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(bl));
                      }
                   case 2:
                   case 5:
                   default:
                      break;
                   case 3:
-                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C05PacketPlayerLook((float)doubles[0], (float)doubles[1], bl));
+                     mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook((float)doubles[0], (float)doubles[1], bl));
                      break;
                   case 4:
-                     mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(doubles[0], doubles[1], doubles[2], bl));
+                     mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(doubles[0], doubles[1], doubles[2], bl));
                      break;
                   case 6:
                      mc.thePlayer
                         .sendQueue
-                        .u(new C03PacketPlayer.C06PacketPlayerPosLook(doubles[0], doubles[1], doubles[2], (float)doubles[3], (float)doubles[4], bl));
+                        .sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(doubles[0], doubles[1], doubles[2], (float)doubles[3], (float)doubles[4], bl));
                }
          }
       }

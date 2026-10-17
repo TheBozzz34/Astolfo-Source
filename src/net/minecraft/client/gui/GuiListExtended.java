@@ -69,7 +69,7 @@ public abstract class GuiListExtended extends GuiSlot {
 
       void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeightIn, int mouseXIn, int mouseYIn, boolean isSelected);
 
-      boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n);
+      boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m);
 
       void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY);
    }

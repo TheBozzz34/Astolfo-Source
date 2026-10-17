@@ -13,13 +13,13 @@ import net.minecraft.world.World;
 public class CustomSky {
    private static CustomSkyLayer[][] worldSkyLayers = (CustomSkyLayer[][])null;
 
-   public static void v() {
+   public static void reset() {
       worldSkyLayers = (CustomSkyLayer[][])null;
    }
 
    public static void update() {
-      v();
-      if (Config.L()) {
+      reset();
+      if (Config.isCustomSky()) {
          worldSkyLayers = readCustomSkies();
       }
    }
@@ -50,12 +50,12 @@ public class CustomSky {
                String string4 = string2 + k + ".png";
                CustomSkyLayer customSkyLayer = new CustomSkyLayer(properties2, string4);
                if (customSkyLayer.isValid(string3)) {
-                  ResourceLocation resourceLocation2 = new ResourceLocation(customSkyLayer.l);
+                  ResourceLocation resourceLocation2 = new ResourceLocation(customSkyLayer.source);
                   ITextureObject iTextureObject = TextureUtils.getTexture(resourceLocation2);
                   if (iTextureObject == null) {
                      Config.log("CustomSky: Texture not found: " + resourceLocation2);
                   } else {
-                     customSkyLayer.d = iTextureObject.getGlTextureId();
+                     customSkyLayer.textureId = iTextureObject.getGlTextureId();
                      arrayList.add(customSkyLayer);
                      inputStream.close();
                   }
@@ -78,17 +78,17 @@ public class CustomSky {
          return (CustomSkyLayer[][])null;
       }
 
-      int m = i + 1;
-      CustomSkyLayer[][] customSkyLayerss2 = new CustomSkyLayer[m][0];
+      int l = i + 1;
+      CustomSkyLayer[][] customSkyLayerss2 = new CustomSkyLayer[l][0];
 
-      for (int n = 0; n < customSkyLayerss2.length; n++) {
-         customSkyLayerss2[n] = customSkyLayerss[n];
+      for (int m = 0; m < customSkyLayerss2.length; m++) {
+         customSkyLayerss2[m] = customSkyLayerss[m];
       }
 
       return customSkyLayerss2;
    }
 
-   public static void J(World world, TextureManager textureManager, float f, float g) {
+   public static void renderSky(World world, TextureManager textureManager, float f, float g) {
       if (worldSkyLayers != null && Config.getGameSettings().renderDistanceChunks >= 8) {
          int i = world.provider.getDimensionId();
          if (i >= 0 && i < worldSkyLayers.length) {
@@ -100,7 +100,7 @@ public class CustomSky {
                for (int k = 0; k < customSkyLayers.length; k++) {
                   CustomSkyLayer customSkyLayer = customSkyLayers[k];
                   if (customSkyLayer.isActive(world, j)) {
-                     customSkyLayer.s(j, f, g);
+                     customSkyLayer.render(j, f, g);
                   }
                }
 

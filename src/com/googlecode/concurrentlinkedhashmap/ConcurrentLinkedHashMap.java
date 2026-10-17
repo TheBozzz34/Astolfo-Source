@@ -521,19 +521,19 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public Set<K> I_Set() {
-      return this.t(Integer.MAX_VALUE);
+      return this.ascendingKeySetWithLimit(Integer.MAX_VALUE);
    }
 
-   public Set<K> t(int i) {
-      return this.orderedKeySet(true, i);
+   public Set<K> ascendingKeySetWithLimit(int limit) {
+      return this.orderedKeySet(true, limit);
    }
 
-   public Set<K> Z() {
-      return this.s(Integer.MAX_VALUE);
+   public Set<K> descendingKeySet() {
+      return this.descendingKeySetWithLimit(Integer.MAX_VALUE);
    }
 
-   public Set<K> s(int i) {
-      return this.orderedKeySet(false, i);
+   public Set<K> descendingKeySetWithLimit(int limit) {
+      return this.orderedKeySet(false, limit);
    }
 
    public Set<K> orderedKeySet(boolean ascending, int limit) {
@@ -568,20 +568,20 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       return set == null ? (this.entrySet = new ConcurrentLinkedHashMap.ClhmEntrySet()) : set;
    }
 
-   public Map<K, V> i() {
-      return this.C(Integer.MAX_VALUE);
+   public Map<K, V> ascendingMap() {
+      return this.ascendingMapWithLimit(Integer.MAX_VALUE);
    }
 
-   public Map<K, V> C(int i) {
-      return this.orderedMap(true, i);
+   public Map<K, V> ascendingMapWithLimit(int limit) {
+      return this.orderedMap(true, limit);
    }
 
-   public Map<K, V> I() {
-      return this.f(Integer.MAX_VALUE);
+   public Map<K, V> descendingMap() {
+      return this.descendingMapWithLimit(Integer.MAX_VALUE);
    }
 
-   public Map<K, V> f(int i) {
-      return this.orderedMap(false, i);
+   public Map<K, V> descendingMapWithLimit(int limit) {
+      return this.orderedMap(false, limit);
    }
 
    public Map<K, V> orderedMap(boolean ascending, int limit) {
@@ -610,23 +610,23 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public static final class AddTask implements Runnable {
-      public final ConcurrentLinkedHashMap.Node D;
-      public final int N;
-      public final ConcurrentLinkedHashMap O;
+      public final ConcurrentLinkedHashMap.Node node;
+      public final int weight;
+      public final ConcurrentLinkedHashMap map;
 
       public AddTask(ConcurrentLinkedHashMap concurrentLinkedHashMap, ConcurrentLinkedHashMap.Node node, int weight) {
-         this.O = concurrentLinkedHashMap;
-         this.N = weight;
-         this.D = node;
+         this.map = concurrentLinkedHashMap;
+         this.weight = weight;
+         this.node = node;
       }
 
       @GuardedBy("evictionLock")
       @Override
       public void run() {
-         this.O.weightedSize.lazySet(this.O.weightedSize.get() + this.N);
-         if (((ConcurrentLinkedHashMap.WeightedValue)this.D.get()).isAlive()) {
-            this.O.evictionDeque.add(this.D);
-            this.O.evict();
+         this.map.weightedSize.lazySet(this.map.weightedSize.get() + this.weight);
+         if (((ConcurrentLinkedHashMap.WeightedValue)this.node.get()).isAlive()) {
+            this.map.evictionDeque.add(this.node);
+            this.map.evict();
          }
       }
    }
@@ -711,16 +711,16 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public final class ClhmEntrySet extends AbstractSet<Entry<K, V>> {
-      public final ConcurrentLinkedHashMap<K, V> N = ConcurrentLinkedHashMap.this;
+      public final ConcurrentLinkedHashMap<K, V> map = ConcurrentLinkedHashMap.this;
 
       @Override
       public int size() {
-         return this.N.size();
+         return this.map.size();
       }
 
       @Override
       public void clear() {
-         this.N.clear();
+         this.map.clear();
       }
 
       @Override
@@ -735,12 +735,12 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
          }
 
          Entry entry = (Entry)object;
-         ConcurrentLinkedHashMap.Node node = this.N.data.get(entry.getKey());
+         ConcurrentLinkedHashMap.Node node = this.map.data.get(entry.getKey());
          return node != null && node.getValue().equals(entry.getValue());
       }
 
       public boolean add(Entry<K, V> entry) {
-         return this.N.putIfAbsent((K)entry.getKey(), (V)entry.getValue()) == null;
+         return this.map.putIfAbsent((K)entry.getKey(), (V)entry.getValue()) == null;
       }
 
       @Override
@@ -750,21 +750,21 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
          }
 
          Entry entry = (Entry)object;
-         return this.N.remove(entry.getKey(), entry.getValue());
+         return this.map.remove(entry.getKey(), entry.getValue());
       }
    }
 
    public final class ClhmKeySet extends AbstractSet<K> {
-      public final ConcurrentLinkedHashMap<K, V> u = ConcurrentLinkedHashMap.this;
+      public final ConcurrentLinkedHashMap<K, V> map = ConcurrentLinkedHashMap.this;
 
       @Override
       public int size() {
-         return this.u.size();
+         return this.map.size();
       }
 
       @Override
       public void clear() {
-         this.u.clear();
+         this.map.clear();
       }
 
       @Override
@@ -779,17 +779,17 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
 
       @Override
       public boolean remove(Object object) {
-         return this.u.remove(object) != null;
+         return this.map.remove(object) != null;
       }
 
       @Override
       public Object[] toArray() {
-         return this.u.data.keySet().toArray();
+         return this.map.data.keySet().toArray();
       }
 
       @Override
       public <T> T[] toArray(T[] objects) {
-         return (T[])this.u.data.keySet().toArray(objects);
+         return (T[])this.map.data.keySet().toArray(objects);
       }
    }
 
@@ -882,59 +882,59 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public static final class EntryIterator implements Iterator<Entry> {
-      public final Iterator I;
-      public ConcurrentLinkedHashMap.Node H;
-      public final ConcurrentLinkedHashMap B;
+      public final Iterator iterator;
+      public ConcurrentLinkedHashMap.Node current;
+      public final ConcurrentLinkedHashMap map;
 
       public EntryIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
-         this.B = concurrentLinkedHashMap;
-         this.I = this.B.data.values().iterator();
+         this.map = concurrentLinkedHashMap;
+         this.iterator = this.map.data.values().iterator();
       }
 
       @Override
       public boolean hasNext() {
-         return this.I.hasNext();
+         return this.iterator.hasNext();
       }
 
       public Entry next() {
-         this.H = (ConcurrentLinkedHashMap.Node)this.I.next();
-         return new WriteThroughEntry(this.B, this.H);
+         this.current = (ConcurrentLinkedHashMap.Node)this.iterator.next();
+         return new WriteThroughEntry(this.map, this.current);
       }
 
       @Override
       public void remove() {
-         ConcurrentLinkedHashMap.checkState(this.H != null);
-         this.B.remove(this.H.key);
-         this.H = null;
+         ConcurrentLinkedHashMap.checkState(this.current != null);
+         this.map.remove(this.current.key);
+         this.current = null;
       }
    }
 
    public static final class KeyIterator implements Iterator {
-      public final Iterator L;
-      public Object S;
+      public final Iterator iterator;
+      public Object current;
       public final ConcurrentLinkedHashMap x;
 
       public KeyIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
          this.x = concurrentLinkedHashMap;
-         this.L = this.x.data.keySet().iterator();
+         this.iterator = this.x.data.keySet().iterator();
       }
 
       @Override
       public boolean hasNext() {
-         return this.L.hasNext();
+         return this.iterator.hasNext();
       }
 
       @Override
       public Object next() {
-         this.S = this.L.next();
-         return this.S;
+         this.current = this.iterator.next();
+         return this.current;
       }
 
       @Override
       public void remove() {
-         ConcurrentLinkedHashMap.checkState(this.S != null);
-         this.x.remove(this.S);
-         this.S = null;
+         ConcurrentLinkedHashMap.checkState(this.current != null);
+         this.x.remove(this.current);
+         this.current = null;
       }
    }
 
@@ -976,19 +976,19 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public static final class RemovalTask implements Runnable {
-      public final ConcurrentLinkedHashMap.Node v;
-      public final ConcurrentLinkedHashMap F;
+      public final ConcurrentLinkedHashMap.Node node;
+      public final ConcurrentLinkedHashMap map;
 
       public RemovalTask(ConcurrentLinkedHashMap concurrentLinkedHashMap, ConcurrentLinkedHashMap.Node node) {
-         this.F = concurrentLinkedHashMap;
-         this.v = node;
+         this.map = concurrentLinkedHashMap;
+         this.node = node;
       }
 
       @GuardedBy("evictionLock")
       @Override
       public void run() {
-         this.F.evictionDeque.remove(this.v);
-         this.F.makeDead(this.v);
+         this.map.evictionDeque.remove(this.node);
+         this.map.makeDead(this.node);
       }
    }
 
@@ -1021,51 +1021,51 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
    }
 
    public static final class UpdateTask implements Runnable {
-      public final int P;
-      public final ConcurrentLinkedHashMap.Node D;
-      public final ConcurrentLinkedHashMap h;
+      public final int weightDifference;
+      public final ConcurrentLinkedHashMap.Node node;
+      public final ConcurrentLinkedHashMap map;
 
       public UpdateTask(ConcurrentLinkedHashMap concurrentLinkedHashMap, ConcurrentLinkedHashMap.Node node, int weightDifference) {
-         this.h = concurrentLinkedHashMap;
-         this.P = weightDifference;
-         this.D = node;
+         this.map = concurrentLinkedHashMap;
+         this.weightDifference = weightDifference;
+         this.node = node;
       }
 
       @GuardedBy("evictionLock")
       @Override
       public void run() {
-         this.h.weightedSize.lazySet(this.h.weightedSize.get() + this.P);
-         this.h.applyRead(this.D);
-         this.h.evict();
+         this.map.weightedSize.lazySet(this.map.weightedSize.get() + this.weightDifference);
+         this.map.applyRead(this.node);
+         this.map.evict();
       }
    }
 
    public static final class ValueIterator implements Iterator {
-      public final Iterator k;
-      public ConcurrentLinkedHashMap.Node b;
-      public final ConcurrentLinkedHashMap M;
+      public final Iterator iterator;
+      public ConcurrentLinkedHashMap.Node current;
+      public final ConcurrentLinkedHashMap map;
 
       public ValueIterator(ConcurrentLinkedHashMap concurrentLinkedHashMap) {
-         this.M = concurrentLinkedHashMap;
-         this.k = this.M.data.values().iterator();
+         this.map = concurrentLinkedHashMap;
+         this.iterator = this.map.data.values().iterator();
       }
 
       @Override
       public boolean hasNext() {
-         return this.k.hasNext();
+         return this.iterator.hasNext();
       }
 
       @Override
       public Object next() {
-         this.b = (ConcurrentLinkedHashMap.Node)this.k.next();
-         return this.b.getValue();
+         this.current = (ConcurrentLinkedHashMap.Node)this.iterator.next();
+         return this.current.getValue();
       }
 
       @Override
       public void remove() {
-         ConcurrentLinkedHashMap.checkState(this.b != null);
-         this.M.remove(this.b.key);
-         this.b = null;
+         ConcurrentLinkedHashMap.checkState(this.current != null);
+         this.map.remove(this.current.key);
+         this.current = null;
       }
    }
 
@@ -1086,11 +1086,11 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
          return this.weight > 0;
       }
 
-      public boolean B() {
+      public boolean isRetired() {
          return this.weight < 0;
       }
 
-      public boolean H() {
+      public boolean isDead() {
          return this.weight == 0;
       }
    }

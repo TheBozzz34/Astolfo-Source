@@ -66,7 +66,7 @@ public class BlockAliases {
                if (i < 0) {
                   Config.warn("[Shaders] Invalid block ID: " + string2);
                } else {
-                  MatchBlock[] matchBlocks = connectedParser.t(string3);
+                  MatchBlock[] matchBlocks = connectedParser.parseMatchBlocks(string3);
                   if (matchBlocks != null && matchBlocks.length >= 1) {
                      BlockAlias blockAlias = new BlockAlias(i, matchBlocks);
                      addToList(arrayList, blockAlias);

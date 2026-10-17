@@ -58,7 +58,7 @@ public class GuiRepair extends GuiContainer implements ICrafting {
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       GlStateManager.disableLighting();
       GlStateManager.disableBlend();
-      this.fontRendererObj.D(I18n.format("container.repair"), 60.0F, 6.0F, 4210752);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("container.repair"), 60.0F, 6.0F, 4210752);
       if (this.anvil.maximumCost > 0) {
          int i = 8453920;
          boolean bl = true;
@@ -80,12 +80,12 @@ public class GuiRepair extends GuiContainer implements ICrafting {
                drawRect(k - 3, b - 2, this.xSize - 7, b + 10, -16777216);
                drawRect(k - 2, b - 1, this.xSize - 8, b + 9, -12895429);
             } else {
-               this.fontRendererObj.D(string, k, b + 1, j);
-               this.fontRendererObj.D(string, k + 1, b, j);
-               this.fontRendererObj.D(string, k + 1, b + 1, j);
+               this.fontRendererObj.drawStringNoShadow(string, k, b + 1, j);
+               this.fontRendererObj.drawStringNoShadow(string, k + 1, b, j);
+               this.fontRendererObj.drawStringNoShadow(string, k + 1, b + 1, j);
             }
 
-            this.fontRendererObj.D(string, k, b, i);
+            this.fontRendererObj.drawStringNoShadow(string, k, b, i);
          }
       }
 

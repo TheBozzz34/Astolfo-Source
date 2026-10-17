@@ -69,7 +69,7 @@ public class NetworkPlayerInfo {
       return this.skinType == null ? DefaultPlayerSkin.getSkinType(this.gameProfile.getId()) : this.skinType;
    }
 
-   public ResourceLocation c() {
+   public ResourceLocation getDisplayedSkin() {
       boolean bl = ModuleManager.streamerMode.isEnabled();
       boolean bl2 = bl && StreamerMode.hideSkins.getValue();
       if (this.locationSkin == null) {
@@ -120,7 +120,7 @@ public class NetworkPlayerInfo {
       }
    }
 
-   public void R(ResourceLocation resourceLocation) {
+   public void setLocationSkin(ResourceLocation resourceLocation) {
       this.locationSkin = resourceLocation;
    }
 

@@ -26,7 +26,7 @@ public final class ChatCommandHandler extends HiddenModule {
                return;
             } else if (chatEvent.getWords()[0].startsWith(".")) {
                if (chatEvent.getMessage().startsWith("..")) {
-                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(chatEvent.getMessage().substring(1)));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage(chatEvent.getMessage().substring(1)));
                   chatEvent.cancel();
                   return;
                } else {

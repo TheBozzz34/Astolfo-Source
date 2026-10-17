@@ -7,24 +7,24 @@ import net.minecraft.src.BlockPosM;
 import net.minecraft.util.BlockPos;
 
 public class IteratorRenderChunks implements Iterator<RenderChunk> {
-   private ViewFrustum q;
-   private Iterator3d d;
-   private BlockPosM s = new BlockPosM(0, 0, 0);
+   private ViewFrustum viewFrustum;
+   private Iterator3d iterator3d;
+   private BlockPosM posBlock = new BlockPosM(0, 0, 0);
 
    public IteratorRenderChunks(ViewFrustum viewFrustum, BlockPos posStart, BlockPos posEnd, int width, int height) {
-      this.q = viewFrustum;
-      this.d = new Iterator3d(posStart, posEnd, width, height);
+      this.viewFrustum = viewFrustum;
+      this.iterator3d = new Iterator3d(posStart, posEnd, width, height);
    }
 
    @Override
    public boolean hasNext() {
-      return this.d.hasNext();
+      return this.iterator3d.hasNext();
    }
 
    public RenderChunk next() {
-      BlockPos pos = this.d.next();
-      this.s.setXyz(pos.getX() << 4, pos.getY() << 4, pos.getZ() << 4);
-      return this.q.getRenderChunk(this.s);
+      BlockPos pos = this.iterator3d.next();
+      this.posBlock.setXyz(pos.getX() << 4, pos.getY() << 4, pos.getZ() << 4);
+      return this.viewFrustum.getRenderChunk(this.posBlock);
    }
 
    @Override

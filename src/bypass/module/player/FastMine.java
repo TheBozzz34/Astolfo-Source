@@ -45,7 +45,7 @@ public final class FastMine extends Module {
          while (iterator2.hasNext()) {
             PendingBreak pendingBreak = (PendingBreak)iterator2.next();
             if (pendingBreak.ticksLeft <= 0) {
-               mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pendingBreak.pos, pendingBreak.facing));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, pendingBreak.pos, pendingBreak.facing));
                iterator2.remove();
             } else {
                pendingBreak.ticksLeft--;
@@ -105,7 +105,9 @@ public final class FastMine extends Module {
          if (this.instant.getSetting("Enable").asBoolean() && packetEvent.getPacket() instanceof C07PacketPlayerDigging) {
             C07PacketPlayerDigging c07PacketPlayerDigging2 = (C07PacketPlayerDigging)packetEvent.getPacket();
             if (c07PacketPlayerDigging2.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK) {
-               mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
+               mc.thePlayer
+                  .sendQueue
+                  .sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
                this.pendingBreaks.add(new PendingBreak(this.instant.getSetting("Delay").asInt() + 5, c07PacketPlayerDigging2.getPosition(), c07PacketPlayerDigging2.getFacing()));
                packetEvent.cancel();
             }

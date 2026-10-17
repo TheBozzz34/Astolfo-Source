@@ -69,7 +69,7 @@ public class ShadersRender {
       }
    }
 
-   public static void r() {
+   public static void endTranslucent() {
       if (Shaders.isRenderingWorld) {
          Shaders.useProgram(3);
       }
@@ -80,7 +80,7 @@ public class ShadersRender {
          boolean bl = Shaders.isItemToRenderMainTranslucent();
          if (!bl) {
             Shaders.readCenterDepth();
-            Shaders.t();
+            Shaders.beginHand();
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             er.renderHand(par1, par2, true, false, false);
             Shaders.endHand();
@@ -93,7 +93,7 @@ public class ShadersRender {
       if (!Shaders.isShadowPass && !Shaders.e_boolean()) {
          Shaders.readCenterDepth();
          GlStateManager.enableBlend();
-         Shaders.t();
+         Shaders.beginHand();
          GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
          er.renderHand(par1, par2, true, false, true);
          Shaders.endHand();
@@ -371,16 +371,16 @@ public class ShadersRender {
       Shaders.useProgram(14);
    }
 
-   public static void t() {
+   public static void beaconBeamStartQuad1() {
    }
 
-   public static void b() {
+   public static void beaconBeamStartQuad2() {
    }
 
-   public static void j() {
+   public static void beaconBeamDraw1() {
    }
 
-   public static void S() {
+   public static void beaconBeamDraw2() {
       GlStateManager.disableBlend();
    }
 

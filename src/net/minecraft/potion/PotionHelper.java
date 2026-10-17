@@ -132,7 +132,7 @@ public class PotionHelper {
    }
 
    public static int getLiquidColor(int dataValue, boolean bypassCache) {
-      Integer integer = IntegerCache.I(dataValue);
+      Integer integer = IntegerCache.valueOf(dataValue);
       if (!bypassCache) {
          if (DATAVALUE_COLORS.containsKey(integer)) {
             return DATAVALUE_COLORS.get(integer);

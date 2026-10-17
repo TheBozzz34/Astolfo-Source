@@ -108,7 +108,7 @@ public class GameSettings {
    public boolean touchscreen;
    public int overrideWidth;
    public int overrideHeight;
-   public boolean Z9 = true;
+   public boolean heldItemTooltips = true;
    public float chatScale = 1.0F;
    public float chatWidth = 1.0F;
    public float chatHeightUnfocused = 0.44366196F;
@@ -144,15 +144,15 @@ public class GameSettings {
    public KeyBinding keyBindChat = new KeyBinding("key.chat", 20, "key.categories.multiplayer");
    public KeyBinding keyBindPlayerList = new KeyBinding("key.playerlist", 15, "key.categories.multiplayer");
    public KeyBinding keyBindCommand = new KeyBinding("key.command", 53, "key.categories.multiplayer");
-   public KeyBinding Za = new KeyBinding("key.screenshot", 60, "key.categories.misc");
+   public KeyBinding keyBindScreenshot = new KeyBinding("key.screenshot", 60, "key.categories.misc");
    public KeyBinding keyBindTogglePerspective = new KeyBinding("key.togglePerspective", 63, "key.categories.misc");
    public KeyBinding keyBindSmoothCamera = new KeyBinding("key.smoothCamera", 0, "key.categories.misc");
-   public KeyBinding p = new KeyBinding("key.fullscreen", 87, "key.categories.misc");
+   public KeyBinding keyBindFullscreen = new KeyBinding("key.fullscreen", 87, "key.categories.misc");
    public KeyBinding keyBindSpectatorOutlines = new KeyBinding("key.spectatorOutlines", 0, "key.categories.misc");
-   public KeyBinding ly = new KeyBinding("key.streamStartStop", 64, "key.categories.stream");
-   public KeyBinding ZL = new KeyBinding("key.streamPauseUnpause", 65, "key.categories.stream");
-   public KeyBinding L = new KeyBinding("key.streamCommercial", 0, "key.categories.stream");
-   public KeyBinding e = new KeyBinding("key.streamToggleMic", 0, "key.categories.stream");
+   public KeyBinding keyBindStreamStartStop = new KeyBinding("key.streamStartStop", 64, "key.categories.stream");
+   public KeyBinding keyBindStreamPauseUnpause = new KeyBinding("key.streamPauseUnpause", 65, "key.categories.stream");
+   public KeyBinding keyBindStreamCommercials = new KeyBinding("key.streamCommercial", 0, "key.categories.stream");
+   public KeyBinding keyBindStreamToggleMic = new KeyBinding("key.streamToggleMic", 0, "key.categories.stream");
    public KeyBinding[] keyBindsHotbar = new KeyBinding[]{
       new KeyBinding("key.hotbar.1", 2, "key.categories.inventory"),
       new KeyBinding("key.hotbar.2", 3, "key.categories.inventory"),
@@ -254,7 +254,7 @@ public class GameSettings {
    public static final int ANIM_ON = 0;
    public static final int ANIM_GENERATED = 1;
    public static final int ANIM_OFF = 2;
-   public static final String Zd = "Default";
+   public static final String DEFAULT_STR = "Default";
    private static final int[] OF_TREES_VALUES = new int[]{0, 1, 4, 2};
    private static final int[] OF_DYNAMIC_LIGHTS = new int[]{3, 1, 2};
    private static final String[] KEYS_DYNAMIC_LIGHTS = new String[]{"options.off", "options.graphics.fast", "options.graphics.fancy"};
@@ -279,14 +279,14 @@ public class GameSettings {
             this.keyBindPlayerList,
             this.keyBindPickBlock,
             this.keyBindCommand,
-            this.Za,
+            this.keyBindScreenshot,
             this.keyBindTogglePerspective,
             this.keyBindSmoothCamera,
-            this.ly,
-            this.ZL,
-            this.L,
-            this.e,
-            this.p,
+            this.keyBindStreamStartStop,
+            this.keyBindStreamPauseUnpause,
+            this.keyBindStreamCommercials,
+            this.keyBindStreamToggleMic,
+            this.keyBindFullscreen,
             this.keyBindSpectatorOutlines
          },
          this.keyBindsHotbar
@@ -326,14 +326,14 @@ public class GameSettings {
             this.keyBindPlayerList,
             this.keyBindPickBlock,
             this.keyBindCommand,
-            this.Za,
+            this.keyBindScreenshot,
             this.keyBindTogglePerspective,
             this.keyBindSmoothCamera,
-            this.ly,
-            this.ZL,
-            this.L,
-            this.e,
-            this.p,
+            this.keyBindStreamStartStop,
+            this.keyBindStreamPauseUnpause,
+            this.keyBindStreamCommercials,
+            this.keyBindStreamToggleMic,
+            this.keyBindFullscreen,
             this.keyBindSpectatorOutlines
          },
          this.keyBindsHotbar
@@ -760,10 +760,18 @@ public class GameSettings {
                   ? (g == 70.0F ? string2 + I18n.format("options.fov.min") : (g == 110.0F ? string2 + I18n.format("options.fov.max") : string2 + (int)g))
                   : (
                      settingOption == GameSettings.Options.FRAMERATE_LIMIT
-                        ? (g == GameSettings.Options.w(settingOption) ? string2 + I18n.format("options.framerateLimit.max") : string2 + (int)g + " fps")
+                        ? (
+                           g == GameSettings.Options.accessValueMax(settingOption)
+                              ? string2 + I18n.format("options.framerateLimit.max")
+                              : string2 + (int)g + " fps"
+                        )
                         : (
                            settingOption == GameSettings.Options.RENDER_CLOUDS
-                              ? (g == GameSettings.Options.I(settingOption) ? string2 + I18n.format("options.cloudHeight.min") : string2 + ((int)g + 128))
+                              ? (
+                                 g == GameSettings.Options.accessValueMin(settingOption)
+                                    ? string2 + I18n.format("options.cloudHeight.min")
+                                    : string2 + ((int)g + 128)
+                              )
                               : (
                                  settingOption == GameSettings.Options.GAMMA
                                     ? (
@@ -794,13 +802,16 @@ public class GameSettings {
                                                                               ? (g == 0.0F ? string2 + I18n.format("options.off") : string2 + (int)g)
                                                                               : (
                                                                                  settingOption == GameSettings.Options.STREAM_FPS
-                                                                                    ? string2 + this.O(h) + " fps"
+                                                                                    ? string2 + this.getStreamFps(h) + " fps"
                                                                                     : (
                                                                                        settingOption == GameSettings.Options.STREAM_KBPS
-                                                                                          ? string2 + this.e(h) + " Kbps"
+                                                                                          ? string2 + this.getStreamKbps(h) + " Kbps"
                                                                                           : (
                                                                                              settingOption == GameSettings.Options.STREAM_BYTES_PER_PIXEL
-                                                                                                ? string2 + String.format("%.3f bpp", this.Y(h))
+                                                                                                ? string2
+                                                                                                   + String.format(
+                                                                                                      "%.3f bpp", this.getStreamBytesPerPixel(h)
+                                                                                                   )
                                                                                                 : (
                                                                                                    h == 0.0F
                                                                                                       ? string2 + I18n.format("options.off")
@@ -875,15 +886,15 @@ public class GameSettings {
       }
    }
 
-   private int O(float f) {
+   private int getStreamFps(float f) {
       return MathHelper.floor_float(10.0F + f * 50.0F);
    }
 
-   private int e(float f) {
+   private int getStreamKbps(float f) {
       return MathHelper.floor_float(230.0F + f * 3270.0F);
    }
 
-   private float Y(float f) {
+   private float getStreamBytesPerPixel(float f) {
       return 0.1F + f * 0.1F;
    }
 
@@ -1068,7 +1079,7 @@ public class GameSettings {
                }
 
                if (strings[0].equals("heldItemTooltips")) {
-                  this.Z9 = strings[1].equals("true");
+                  this.heldItemTooltips = strings[1].equals("true");
                }
 
                if (strings[0].equals("chatHeightFocused")) {
@@ -1250,7 +1261,7 @@ public class GameSettings {
          printWriter.println("touchscreen:" + this.touchscreen);
          printWriter.println("overrideWidth:" + this.overrideWidth);
          printWriter.println("overrideHeight:" + this.overrideHeight);
-         printWriter.println("heldItemTooltips:" + this.Z9);
+         printWriter.println("heldItemTooltips:" + this.heldItemTooltips);
          printWriter.println("chatHeightFocused:" + this.chatHeightFocused);
          printWriter.println("chatHeightUnfocused:" + this.chatHeightUnfocused);
          printWriter.println("chatScale:" + this.chatScale);
@@ -1760,7 +1771,7 @@ public class GameSettings {
       }
 
       if (options == GameSettings.Options.HELD_ITEM_TOOLTIPS) {
-         this.Z9 = !this.Z9;
+         this.heldItemTooltips = !this.heldItemTooltips;
       }
    }
 
@@ -2091,12 +2102,16 @@ public class GameSettings {
                      } else if (options == GameSettings.Options.FULLSCREEN_MODE) {
                         return this.ofFullscreenMode.equals("Default") ? string + Lang.getDefault() : string + this.ofFullscreenMode;
                      } else if (options == GameSettings.Options.HELD_ITEM_TOOLTIPS) {
-                        return this.Z9 ? string + Lang.getOn() : string + Lang.getOff();
+                        return this.heldItemTooltips ? string + Lang.getOn() : string + Lang.getOff();
                      } else if (options == GameSettings.Options.FRAMERATE_LIMIT) {
                         float f = this.getOptionFloatValue(options);
                         return f == 0.0F
                            ? string + Lang.get("of.options.framerateLimit.vsync")
-                           : (f == GameSettings.Options.w(options) ? string + I18n.format("options.framerateLimit.max") : string + (int)f + " fps");
+                           : (
+                              f == GameSettings.Options.accessValueMax(options)
+                                 ? string + I18n.format("options.framerateLimit.max")
+                                 : string + (int)f + " fps"
+                           );
                      } else {
                         return null;
                      }
@@ -2538,7 +2553,7 @@ public class GameSettings {
       this.gammaSetting = 0.0F;
       this.guiScale = 0;
       this.particleSetting = 0;
-      this.Z9 = true;
+      this.heldItemTooltips = true;
       this.useVbo = false;
       this.allowBlockAlternatives = true;
       this.forceUnicodeFont = false;
@@ -2791,7 +2806,7 @@ public class GameSettings {
       private final float valueStep;
       private float valueMin;
       private float valueMax;
-      private static final GameSettings.Options[] s = new GameSettings.Options[]{
+      private static final GameSettings.Options[] VALUES = new GameSettings.Options[]{
          INVERT_MOUSE,
          SENSITIVITY,
          FOV,
@@ -2906,11 +2921,11 @@ public class GameSettings {
          return value;
       }
 
-      public static float w(GameSettings.Options options) {
+      public static float accessValueMax(GameSettings.Options options) {
          return options.valueMax;
       }
 
-      public static float I(GameSettings.Options options) {
+      public static float accessValueMin(GameSettings.Options options) {
          return options.valueMin;
       }
    }

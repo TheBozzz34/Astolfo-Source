@@ -65,7 +65,7 @@ public class VirtualMachineCheck {
    public static String detectVirtualMachine() {
       SystemInfo systemInfo = new SystemInfo();
       HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
-      String string = hardwareAbstractionLayer.getProcessor().getProcessorIdentifier().H().trim();
+      String string = hardwareAbstractionLayer.getProcessor().getProcessorIdentifier().getVendor().trim();
       if (vmSignatures.containsKey(string)) {
          return vmSignatures.get(string);
       }

@@ -45,7 +45,7 @@ public class RangeSlider extends SettingComponent {
       int k = HUD.gui.getSetting("Category-Colors").asBoolean() ? this.category.getColor() : client.getColorSetting().getValue().getRGB();
       NumberSetting numberSetting = (NumberSetting)this.maxSetting;
       int l = this.updateAndGetHandlePos(i, (int)this.getX(), this.getWidth(), this.getSetting());
-      int n = this.updateAndGetHandlePos(i, (int)this.getX(), this.getWidth(), this.maxSetting);
+      int m = this.updateAndGetHandlePos(i, (int)this.getX(), this.getWidth(), this.maxSetting);
       if (numberSetting.valueClass == Integer.class) {
          NumberSetting numberSetting2 = numberSetting;
          NumberSetting numberSetting3 = this.getMinSetting();
@@ -91,15 +91,16 @@ public class RangeSlider extends SettingComponent {
       String string = decimalFormat.format(this.getMinSetting().getValue()) + "-" + decimalFormat.format(this.maxSetting.getValue());
       string = string + this.getMinSetting().getSuffix();
       RenderUtil.drawRect(this.getX() + l - 3.0F, this.getYPos(), this.getX() + l, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB());
-      RenderUtil.drawRect(this.getX() + l, this.getYPos(), this.getX() + n, this.getYPos() + this.getHeight(), k);
-      if (n > l) {
+      RenderUtil.drawRect(this.getX() + l, this.getYPos(), this.getX() + m, this.getYPos() + this.getHeight(), k);
+      if (m > l) {
          RenderUtil.drawRect(
-            this.getX() + n - 3.0F, this.getYPos(), this.getX() + n, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB()
+            this.getX() + m - 3.0F, this.getYPos(), this.getX() + m, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB()
          );
       }
 
-      GuiMainMenu.m.drawString(this.getMinSetting().getName().replace("Min-", ""), this.getX() + 3.0F, this.getYPos(), -1);
-      GuiMainMenu.m.drawString(string, this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string, true), this.getYPos() + 1.0F, 13421772);
+      GuiMainMenu.latoBoldFont15.drawString(this.getMinSetting().getName().replace("Min-", ""), this.getX() + 3.0F, this.getYPos(), -1);
+      GuiMainMenu.latoBoldFont15
+         .drawString(string, this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(string, true), this.getYPos() + 1.0F, 13421772);
       this.lastMouseX = i;
       this.lastMouseY = j;
    }

@@ -981,10 +981,10 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
       super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.field_175339_B != 0) {
          drawRect(0, 0, this.width, this.height, Integer.MIN_VALUE);
-         S(this.width / 2 - 91, this.width / 2 + 90, 99, -2039584);
-         S(this.width / 2 - 91, this.width / 2 + 90, 185, -6250336);
-         J(this.width / 2 - 91, 99, 185, -2039584);
-         J(this.width / 2 + 90, 99, 185, -6250336);
+         drawHorizontalLine(this.width / 2 - 91, this.width / 2 + 90, 99, -2039584);
+         drawHorizontalLine(this.width / 2 - 91, this.width / 2 + 90, 185, -6250336);
+         drawVerticalLine(this.width / 2 - 91, 99, 185, -2039584);
+         drawVerticalLine(this.width / 2 + 90, 99, 185, -6250336);
          GlStateManager.disableLighting();
          GlStateManager.disableFog();
          Tessellator tessellator = Tessellator.getInstance();

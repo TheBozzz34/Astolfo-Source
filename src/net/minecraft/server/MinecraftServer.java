@@ -130,7 +130,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
    public final Queue<FutureTask<?>> futureTaskQueue = Queues.newArrayDeque();
    private Thread serverThread;
    private long currentTime = getCurrentTimeMillis();
-   public static final double[] d = new double[]{
+   public static final double[] JUMP_MOTION_VALUES = new double[]{
       0.41999998688698,
       0.41999998688698,
       0.41999998688698,

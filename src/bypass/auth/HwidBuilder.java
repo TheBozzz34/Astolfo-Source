@@ -47,7 +47,7 @@ public class HwidBuilder {
       if (HwidOptions.isGpuEnabled(hwidOptions)) {
          GraphicsCard[] graphicsCards = hardwareAbstractionLayer.getGraphicsCards();
          if (graphicsCards.length - 1 >= 0) {
-            this.hwid.append(graphicsCards[graphicsCards.length - 1].E().hashCode()).append("$");
+            this.hwid.append(graphicsCards[graphicsCards.length - 1].getName().hashCode()).append("$");
          } else {
             this.hwid.append("unk").append("$");
          }

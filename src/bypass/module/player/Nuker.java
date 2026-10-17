@@ -252,7 +252,7 @@ public class Nuker extends Module {
                axisAlignedBB = new AxisAlignedBB(0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
             }
 
-            axisAlignedBB = axisAlignedBB.K(blockPos);
+            axisAlignedBB = axisAlignedBB.offsetByBlockPos(blockPos);
             if (axisAlignedBB.isVecInside(vec34)) {
                return false;
             }

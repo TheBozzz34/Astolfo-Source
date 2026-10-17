@@ -151,18 +151,18 @@ public final class SmcUtil {
 
    @FieldOrder({"version", "length", "cpuPLimit", "gpuPLimit", "memPLimit"})
    public static class SMCKeyDataPLimitData extends Structure {
-      public short w;
-      public short n;
-      public int V;
-      public int O;
-      public int Y;
+      public short version;
+      public short length;
+      public int cpuPLimit;
+      public int gpuPLimit;
+      public int memPLimit;
    }
 
    @FieldOrder({"major", "minor", "build", "reserved", "release"})
    public static class SMCKeyDataVers extends Structure {
-      public byte c;
-      public byte O;
-      public byte w;
+      public byte major;
+      public byte minor;
+      public byte build;
       public byte x;
       public short z;
    }

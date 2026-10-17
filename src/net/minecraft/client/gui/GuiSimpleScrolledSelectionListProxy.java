@@ -47,11 +47,11 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
       return super.width;
    }
 
-   public int h() {
+   public int getMouseY() {
       return super.mouseY;
    }
 
-   public int Q() {
+   public int getMouseX() {
       return super.mouseX;
    }
 

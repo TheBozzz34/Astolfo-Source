@@ -434,7 +434,7 @@ public final class KillAura extends Module {
       int i = this.getSmoothing();
       float f = this.getLeadOff();
       if (AutoHeal.healItem != null && AutoHeal.healItem.getType() == HealItemType.POTION) {
-         ItemRenderer.J = false;
+         ItemRenderer.fakeBlocking = false;
          this.blocking = false;
       } else if (mc.currentScreen instanceof GuiInventory && this.inventoryDisable.getValue()) {
          target = null;
@@ -592,10 +592,10 @@ public final class KillAura extends Module {
                   if (!GameUtil.isHoldingSword(mc.thePlayer)
                      || autoBlock.getValue().equals(KillAuraAutoBlockMode.NONE)
                      || (!(this.blockRange.asDouble() > 0.0) || entityPlayer == null) && target == null) {
-                     ItemRenderer.J = false;
+                     ItemRenderer.fakeBlocking = false;
                   } else {
                      this.startBlocking();
-                     ItemRenderer.J = true;
+                     ItemRenderer.fakeBlocking = true;
                   }
                }
          }
@@ -1004,7 +1004,9 @@ public final class KillAura extends Module {
                      .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                   this.blocking = false;
                } else if (mc.thePlayer.swingProgressInt == 2) {
-                  mc.thePlayer.sendQueue.u(new C08PacketPlayerBlockPlacement(C08PacketPlayerBlockPlacement.field_179726_a, 255, null, 0.0F, 0.0F, 0.0F));
+                  mc.thePlayer
+                     .sendQueue
+                     .sendPacketNoEvent(new C08PacketPlayerBlockPlacement(C08PacketPlayerBlockPlacement.field_179726_a, 255, null, 0.0F, 0.0F, 0.0F));
                   this.blocking = true;
                }
             }
@@ -1030,7 +1032,7 @@ public final class KillAura extends Module {
          }
       }
 
-      ItemRenderer.J = false;
+      ItemRenderer.fakeBlocking = false;
    }
 
    private boolean shouldOptimizeBlock() {
@@ -1159,7 +1161,7 @@ public final class KillAura extends Module {
 
             for (Object object : arrayList) {
                Vector3 vector3 = (Vector3)object;
-               mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
             }
          }
 
@@ -1177,7 +1179,7 @@ public final class KillAura extends Module {
 
             for (Object object2 : arrayList) {
                Vector3 vector32 = (Vector3)object2;
-               mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector32.getX(), vector32.getY(), vector32.getZ(), true));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector32.getX(), vector32.getY(), vector32.getZ(), true));
             }
          }
 

@@ -83,9 +83,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    public double lastReportedPosZ;
    private float lastReportedYaw;
    private float lastReportedPitch;
-   private boolean eF;
-   public boolean ej;
-   private int eR;
+   private boolean serverSneakState;
+   public boolean serverSprintState;
+   private int positionUpdateTicks;
    private boolean hasValidHealth;
    private String clientBrand;
    public MovementInput movementInput;
@@ -100,9 +100,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    private float horseJumpPower;
    public float timeInPortal;
    public float prevTimeInPortal;
-   private int e8;
-   private Stopwatch eM = new Stopwatch();
-   private boolean el;
+   private int unusedTicks;
+   private Stopwatch unusedStopwatch = new Stopwatch();
+   private boolean lastReportedOnGround;
 
    public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
       super(worldIn, netHandler.getGameProfile());
@@ -143,12 +143,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                this.sendQueue.addToSendQueue(new VehicleMovePacket(this.ridingEntity));
             }
          } else {
-            this.i();
+            this.onUpdateWalkingPlayer();
          }
       }
    }
 
-   public void i() {
+   public void onUpdateWalkingPlayer() {
       if (!(this.mc.disablerTimer.timerSpeed > 1.0F) || this.mc.timer.timerSpeed != 1.0F) {
          MotionEvent motionEvent = new MotionEvent(
             this.sendQueue,
@@ -164,7 +164,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.lastReportedPosZ,
             this.lastReportedYaw,
             this.lastReportedPitch,
-            this.eR,
+            this.positionUpdateTicks,
             EventState.PRE
          );
          Astolfo.INSTANCE.getEventBus().post(motionEvent);
@@ -172,25 +172,25 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
          } else {
             boolean bl = this.isSprinting();
-            if (bl != this.ej) {
+            if (bl != this.serverSprintState) {
                if (bl) {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SPRINTING));
                } else {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SPRINTING));
                }
 
-               this.ej = bl;
+               this.serverSprintState = bl;
             }
 
             boolean bl2 = this.isSneaking();
-            if (bl2 != this.eF) {
+            if (bl2 != this.serverSneakState) {
                if (bl2) {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
                } else {
                   this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SNEAKING));
                }
 
-               this.eF = bl2;
+               this.serverSneakState = bl2;
             }
 
             if (this.isCurrentViewEntity()) {
@@ -204,7 +204,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                double d5 = d2 - this.lastReportedPosZ;
                double d6 = f - this.lastReportedYaw;
                double d7 = g - this.lastReportedPitch;
-               boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.eR >= 20;
+               boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.positionUpdateTicks >= 20;
                boolean bl4 = d6 != 0.0 || d7 != 0.0;
                boolean bl5 = motionEvent.isOnGround();
                if (this.ridingEntity == null) {
@@ -215,7 +215,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                   } else if (bl4) {
                      this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
                   } else if (RiderGod.isAtLeast1122Protocol()) {
-                     if (this.el != bl5) {
+                     if (this.lastReportedOnGround != bl5) {
                         this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                      }
                   } else {
@@ -226,12 +226,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                   bl3 = false;
                }
 
-               this.eR++;
+               this.positionUpdateTicks++;
                if (bl3) {
                   this.lastReportedPosX = d;
                   this.lastReportedPosY = e;
                   this.lastReportedPosZ = d2;
-                  this.eR = 0;
+                  this.positionUpdateTicks = 0;
                }
 
                if (bl4) {
@@ -239,7 +239,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                   this.lastReportedPitch = g;
                }
 
-               this.el = bl5;
+               this.lastReportedOnGround = bl5;
             }
 
             Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
@@ -247,7 +247,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
    }
 
-   public void k() {
+   public void sendMotionUpdate() {
       MotionEvent motionEvent = new MotionEvent(
          this.sendQueue,
          this.getEntityBoundingBox(),
@@ -262,7 +262,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          this.lastReportedPosZ,
          this.lastReportedYaw,
          this.lastReportedPitch,
-         this.eR,
+         this.positionUpdateTicks,
          EventState.PRE
       );
       Astolfo.INSTANCE.getEventBus().post(motionEvent);
@@ -270,25 +270,25 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
       } else {
          boolean bl = this.isSprinting();
-         if (bl != this.ej) {
+         if (bl != this.serverSprintState) {
             if (bl) {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SPRINTING));
             } else {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SPRINTING));
             }
 
-            this.ej = bl;
+            this.serverSprintState = bl;
          }
 
          boolean bl2 = this.isSneaking();
-         if (bl2 != this.eF) {
+         if (bl2 != this.serverSneakState) {
             if (bl2) {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
             } else {
                this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.STOP_SNEAKING));
             }
 
-            this.eF = bl2;
+            this.serverSneakState = bl2;
          }
 
          if (this.isCurrentViewEntity()) {
@@ -302,7 +302,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             double d5 = d2 - this.lastReportedPosZ;
             double d6 = f - this.lastReportedYaw;
             double d7 = g - this.lastReportedPitch;
-            boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.eR >= 20;
+            boolean bl3 = d3 * d3 + d4 * d4 + d5 * d5 > 9.0E-4 || this.positionUpdateTicks >= 20;
             boolean bl4 = d6 != 0.0 || d7 != 0.0;
             boolean bl5 = motionEvent.isOnGround();
             if (this.ridingEntity == null) {
@@ -313,7 +313,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                } else if (bl4) {
                   this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(f, g, bl5));
                } else if (RiderGod.isAtLeast1122Protocol()) {
-                  if (this.el != bl5) {
+                  if (this.lastReportedOnGround != bl5) {
                      this.sendQueue.addToSendQueue(new C03PacketPlayer(bl5));
                   }
                } else {
@@ -324,12 +324,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                bl3 = false;
             }
 
-            this.eR++;
+            this.positionUpdateTicks++;
             if (bl3) {
                this.lastReportedPosX = d;
                this.lastReportedPosY = e;
                this.lastReportedPosZ = d2;
-               this.eR = 0;
+               this.positionUpdateTicks = 0;
             }
 
             if (bl4) {
@@ -337,7 +337,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                this.lastReportedPitch = g;
             }
 
-            this.el = bl5;
+            this.lastReportedOnGround = bl5;
          }
 
          Astolfo.INSTANCE.getEventBus().post(new MotionEvent(EventState.POST, this.sendQueue));
@@ -852,21 +852,21 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
    }
 
-   public boolean m(double d) {
+   public boolean isBlockBelow(double d) {
       return !this.mc.theWorld.getCollidingBoundingBoxes(this, this.getEntityBoundingBox().offset(0.0, -d, 0.0)).isEmpty();
    }
 
-   public double B() {
+   public double getHorizontalSpeed() {
       return Math.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
    }
 
-   public void r(double d) {
-      this.motionX = -(Math.sin(this.q()) * d);
-      this.motionZ = Math.cos(this.q()) * d;
+   public void setSpeed(double d) {
+      this.motionX = -(Math.sin(this.getMoveDirection()) * d);
+      this.motionZ = Math.cos(this.getMoveDirection()) * d;
    }
 
-   public void G(double d) {
-      float f = this.q();
+   public void setSpeedIfMoving(double d) {
+      float f = this.getMoveDirection();
       if (GameUtil.isMoving(this)) {
          this.motionX = -MathHelper.sin(f) * d;
          this.motionZ = MathHelper.cos(f) * d;
@@ -876,7 +876,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
    }
 
-   public float q() {
+   public float getMoveDirection() {
       float f = this.rotationYaw;
       if (this.moveForward < 0.0F) {
          f += 180.0F;
@@ -898,16 +898,16 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       return f * (float) (Math.PI / 180.0);
    }
 
-   public double T(Entity entity) {
+   public double getDistanceToEntityBox(Entity entity) {
       Vec3 vec3 = this.getPositionEyes(1.0F);
-      Vec3 vec32 = this.d(vec3, entity.getEntityBoundingBox());
-      double e = Math.abs(vec32.xCoord - vec3.xCoord);
-      double d2 = Math.abs(vec32.yCoord - vec3.yCoord);
-      double d3 = Math.abs(vec32.zCoord - vec3.zCoord);
-      return Math.sqrt(Math.pow(e, 2.0) + Math.pow(d2, 2.0) + Math.pow(d3, 2.0));
+      Vec3 vec32 = this.getClosestPointOnBox(vec3, entity.getEntityBoundingBox());
+      double d = Math.abs(vec32.xCoord - vec3.xCoord);
+      double e = Math.abs(vec32.yCoord - vec3.yCoord);
+      double d2 = Math.abs(vec32.zCoord - vec3.zCoord);
+      return Math.sqrt(Math.pow(d, 2.0) + Math.pow(e, 2.0) + Math.pow(d2, 2.0));
    }
 
-   public Vec3 d(Vec3 vec3, AxisAlignedBB axisAlignedBB) {
+   public Vec3 getClosestPointOnBox(Vec3 vec3, AxisAlignedBB axisAlignedBB) {
       double[] doubles = new double[]{vec3.xCoord, vec3.yCoord, vec3.zCoord};
       double[] doubles2 = new double[]{axisAlignedBB.minX, axisAlignedBB.minY, axisAlignedBB.minZ};
       double[] doubles3 = new double[]{axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.maxZ};
@@ -923,7 +923,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       return new Vec3(doubles[0], doubles[1], doubles[2]);
    }
 
-   public boolean T() {
+   public boolean isOnLiquid() {
       double d = this.posY - 0.03;
 
       for (int i = MathHelper.floor_double(this.posX); i < MathHelper.ceiling_double_int(this.posX); i++) {
@@ -938,7 +938,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       return false;
    }
 
-   public boolean Yv() {
+   public boolean isInLiquid() {
       double d = this.posY + 0.01;
 
       for (int i = MathHelper.floor_double(this.posX); i < MathHelper.ceiling_double_int(this.posX); i++) {

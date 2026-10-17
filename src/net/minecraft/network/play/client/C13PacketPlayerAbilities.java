@@ -81,7 +81,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
       this.flying = isFlying;
    }
 
-   public float Q() {
+   public float getFlySpeed() {
       return this.flySpeed;
    }
 

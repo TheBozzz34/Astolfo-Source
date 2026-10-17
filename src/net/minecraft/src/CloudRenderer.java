@@ -23,7 +23,7 @@ public class CloudRenderer {
       this.updateCloudTickCounter = GLAllocation.generateDisplayLists(1);
    }
 
-   public void u(boolean bl, int i, float f) {
+   public void prepareToRender(boolean bl, int i, float f) {
       if (this.renderFancy != bl) {
          this.updated = false;
       }

@@ -17,12 +17,12 @@ public class Realms {
       return Minecraft.getMinecraft().getProxy();
    }
 
-   public static String S() {
+   public static String sessionId() {
       Session session = Minecraft.getMinecraft().getSession();
       return session == null ? null : session.getSessionID();
    }
 
-   public static String R() {
+   public static String userName() {
       Session session = Minecraft.getMinecraft().getSession();
       return session == null ? null : session.getUsername();
    }
@@ -31,15 +31,15 @@ public class Realms {
       return Minecraft.getSystemTime();
    }
 
-   public static String I() {
+   public static String getSessionId() {
       return Minecraft.getMinecraft().getSession().getSessionID();
    }
 
-   public static String T() {
+   public static String getUUID() {
       return Minecraft.getMinecraft().getSession().getPlayerID();
    }
 
-   public static String l() {
+   public static String getName() {
       return Minecraft.getMinecraft().getSession().getUsername();
    }
 
@@ -62,15 +62,15 @@ public class Realms {
       return WorldSettings.GameType.SURVIVAL.getID();
    }
 
-   public static int h() {
+   public static int creativeId() {
       return WorldSettings.GameType.CREATIVE.getID();
    }
 
-   public static int Y() {
+   public static int adventureId() {
       return WorldSettings.GameType.ADVENTURE.getID();
    }
 
-   public static int O() {
+   public static int spectatorId() {
       return WorldSettings.GameType.SPECTATOR.getID();
    }
 

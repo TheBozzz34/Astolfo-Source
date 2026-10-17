@@ -118,7 +118,7 @@ public final class HackerDetector extends Module {
                            }
 
                            if (this.autoReport.getValue()) {
-                              mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
+                              mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
                            }
 
                            this.detectedPlayers.add(entityPlayer.getName());

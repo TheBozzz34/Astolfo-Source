@@ -43,7 +43,7 @@ public class CommandClone extends CommandBase {
       BlockPos blockPos3 = parseBlockPos(sender, args, 6, false);
       StructureBoundingBox structureBoundingBox = new StructureBoundingBox(blockPos, blockPos2);
       StructureBoundingBox structureBoundingBox2 = new StructureBoundingBox(blockPos3, blockPos3.add(structureBoundingBox.func_175896_b()));
-      int i = structureBoundingBox.G() * structureBoundingBox.getYSize() * structureBoundingBox.S();
+      int i = structureBoundingBox.getXSize() * structureBoundingBox.getYSize() * structureBoundingBox.getZSize();
       if (i > 32768) {
          throw new CommandException("commands.clone.tooManyBlocks", i, 32768);
       }

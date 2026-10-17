@@ -48,8 +48,9 @@ public class NumberSlider extends SettingComponent {
       RenderUtil.drawRect(
          this.getX() + Math.max(l - 3, 0), this.getYPos(), this.getX() + l, this.getYPos() + this.getHeight(), new Color(k).darker().getRGB()
       );
-      GuiMainMenu.m.drawString(this.getNumberSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
-      GuiMainMenu.m.drawString(string, this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string, true), this.getYPos() + 1.0F, 13421772);
+      GuiMainMenu.latoBoldFont15.drawString(this.getNumberSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
+      GuiMainMenu.latoBoldFont15
+         .drawString(string, this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(string, true), this.getYPos() + 1.0F, 13421772);
    }
 
    public int updateAndGetFillWidth(int i, int j, int k) {

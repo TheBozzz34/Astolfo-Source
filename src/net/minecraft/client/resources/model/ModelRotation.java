@@ -36,7 +36,7 @@ public enum ModelRotation implements IModelState, ITransformation {
    private final Matrix4f matrix4d;
    private final int quartersX;
    private final int quartersY;
-   private static final ModelRotation[] u = new ModelRotation[]{
+   private static final ModelRotation[] VALUES = new ModelRotation[]{
       X0_Y0, X0_Y90, X0_Y180, X0_Y270, X90_Y0, X90_Y90, X90_Y180, X90_Y270, X180_Y0, X180_Y90, X180_Y180, X180_Y270, X270_Y0, X270_Y90, X270_Y180, X270_Y270
    };
 
@@ -78,23 +78,23 @@ public enum ModelRotation implements IModelState, ITransformation {
       return enumFacing2;
    }
 
-   public int g(EnumFacing enumFacing, int i) {
-      int j = i;
-      if (enumFacing.getAxis() == EnumFacing.Axis.X) {
-         j = (i + this.quartersX) % 4;
+   public int rotateVertex(EnumFacing facing, int vertexIndex) {
+      int i = vertexIndex;
+      if (facing.getAxis() == EnumFacing.Axis.X) {
+         i = (vertexIndex + this.quartersX) % 4;
       }
 
-      EnumFacing enumFacing2 = enumFacing;
+      EnumFacing enumFacing = facing;
 
-      for (int k = 0; k < this.quartersX; k++) {
-         enumFacing2 = enumFacing2.rotateAround(EnumFacing.Axis.X);
+      for (int j = 0; j < this.quartersX; j++) {
+         enumFacing = enumFacing.rotateAround(EnumFacing.Axis.X);
       }
 
-      if (enumFacing2.getAxis() == EnumFacing.Axis.Y) {
-         j = (j + this.quartersY) % 4;
+      if (enumFacing.getAxis() == EnumFacing.Axis.Y) {
+         i = (i + this.quartersY) % 4;
       }
 
-      return j;
+      return i;
    }
 
    public static ModelRotation getModelRotation(int i, int j) {
@@ -120,7 +120,7 @@ public enum ModelRotation implements IModelState, ITransformation {
 
    @Override
    public int x(EnumFacing enumFacing, int i) {
-      return this.g(enumFacing, i);
+      return this.rotateVertex(enumFacing, i);
    }
 
    static {

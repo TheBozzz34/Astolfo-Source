@@ -1,64 +1,64 @@
 package net.minecraft.src;
 
 public class IntArray {
-   private int[] c = null;
-   private int M = 0;
-   private int r = 0;
+   private int[] array = null;
+   private int position = 0;
+   private int limit = 0;
 
    public IntArray(int size) {
-      this.c = new int[size];
+      this.array = new int[size];
    }
 
-   public void W(int i) {
-      this.c[this.M] = i;
-      this.M++;
-      if (this.r < this.M) {
-         this.r = this.M;
+   public void put(int x) {
+      this.array[this.position] = x;
+      this.position++;
+      if (this.limit < this.position) {
+         this.limit = this.position;
       }
    }
 
-   public void m(int i, int j) {
-      this.c[i] = j;
-      if (this.r < i) {
-         this.r = i;
+   public void putAt(int i, int j) {
+      this.array[i] = j;
+      if (this.limit < i) {
+         this.limit = i;
       }
    }
 
-   public void J(int i) {
-      this.M = i;
+   public void position(int pos) {
+      this.position = pos;
    }
 
-   public void s(int[] ints) {
+   public void putAll(int[] ints) {
       int i = ints.length;
 
       for (int j = 0; j < i; j++) {
-         this.c[this.M] = ints[j];
-         this.M++;
+         this.array[this.position] = ints[j];
+         this.position++;
       }
 
-      if (this.r < this.M) {
-         this.r = this.M;
+      if (this.limit < this.position) {
+         this.limit = this.position;
       }
    }
 
-   public int D(int i) {
-      return this.c[i];
+   public int get(int pos) {
+      return this.array[pos];
    }
 
-   public int[] J() {
-      return this.c;
+   public int[] getArray() {
+      return this.array;
    }
 
-   public void h() {
-      this.M = 0;
-      this.r = 0;
+   public void clear() {
+      this.position = 0;
+      this.limit = 0;
    }
 
-   public int Z() {
-      return this.r;
+   public int getLimit() {
+      return this.limit;
    }
 
-   public int T() {
-      return this.M;
+   public int getPosition() {
+      return this.position;
    }
 }

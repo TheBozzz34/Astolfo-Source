@@ -22,23 +22,23 @@ import oshi.util.platform.windows.WmiUtil;
 
 @ThreadSafe
 public class WindowsFileSystem extends AbstractFileSystem {
-   private static final int S = 255;
-   private static final int T = 2;
-   private static final int V = 16;
+   private static final int BUFSIZE = 255;
+   private static final int FILE_CASE_PRESERVED_NAMES = 2;
+   private static final int FILE_FILE_COMPRESSION = 16;
    private static final int z = 536870912;
-   private static final int M = 262144;
-   private static final int R = 8;
-   private static final int I = 524288;
-   private static final int d = 1048576;
-   private static final int q = 131072;
-   private static final int n = 65536;
-   private static final int k = 128;
+   private static final int FILE_NAMED_STREAMS = 262144;
+   private static final int FILE_PERSISTENT_ACLS = 8;
+   private static final int FILE_READ_ONLY_VOLUME = 524288;
+   private static final int FILE_SEQUENTIAL_WRITE_ONCE = 1048576;
+   private static final int FILE_SUPPORTS_ENCRYPTION = 131072;
+   private static final int FILE_SUPPORTS_OBJECT_IDS = 65536;
+   private static final int FILE_SUPPORTS_REPARSE_POINTS = 128;
    private static final int y = 64;
-   private static final int t = 2097152;
-   private static final int u = 33554432;
-   private static final int j = 4;
-   private static final int c = 32768;
-   private static final int Q = 32;
+   private static final int FILE_SUPPORTS_TRANSACTIONS = 2097152;
+   private static final int FILE_SUPPORTS_USN_JOURNAL = 33554432;
+   private static final int FILE_UNICODE_ON_DISK = 4;
+   private static final int FILE_VOLUME_IS_COMPRESSED = 32768;
+   private static final int FILE_VOLUME_QUOTAS = 32;
    private static final Map<Integer, String> OPTIONS_MAP = new HashMap<>();
    private static final long MAX_WINDOWS_HANDLES;
 

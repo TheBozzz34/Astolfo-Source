@@ -893,7 +893,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             this.renderInfosEntities.clear();
             this.renderInfosTileEntities.clear();
             RenderInfoLazy renderInfoLazy = new RenderInfoLazy();
-            Iterator iterator2 = ShadowUtils.Q(this.theWorld, partialTicks, viewEntity, this.renderDistanceChunks, this.viewFrustum);
+            Iterator iterator2 = ShadowUtils.makeShadowChunkIterator(this.theWorld, partialTicks, viewEntity, this.renderDistanceChunks, this.viewFrustum);
 
             while (iterator2.hasNext()) {
                RenderChunk renderChunk3 = (RenderChunk)iterator2.next();
@@ -1415,7 +1415,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
          float f14 = 1.0F - this.theWorld.getRainStrength(partialTicks);
          GlStateManager.color(1.0F, 1.0F, 1.0F, f14);
          GlStateManager.rotate(-90.0F, 0.0F, 1.0F, 0.0F);
-         CustomSky.J(this.theWorld, this.renderEngine, this.theWorld.getCelestialAngle(partialTicks), f14);
+         CustomSky.renderSky(this.theWorld, this.renderEngine, this.theWorld.getCelestialAngle(partialTicks), f14);
          if (bl) {
             Shaders.preCelestialRotate();
          }
@@ -1577,7 +1577,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             if (Config.isCloudsFancy()) {
                this.renderCloudsFancy(partialTicks, pass);
             } else {
-               this.cloudRenderer.u(false, this.cloudTickCounter, partialTicks);
+               this.cloudRenderer.prepareToRender(false, this.cloudTickCounter, partialTicks);
                partialTicks = 0.0F;
                GlStateManager.disableCull();
                float f = (float)(
@@ -1664,7 +1664,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
    }
 
    private void renderCloudsFancy(float partialTicks, int pass) {
-      this.cloudRenderer.u(true, this.cloudTickCounter, partialTicks);
+      this.cloudRenderer.prepareToRender(true, this.cloudTickCounter, partialTicks);
       partialTicks = 0.0F;
       GlStateManager.disableCull();
       float f = (float)(
@@ -1914,7 +1914,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
          while (iterator2.hasNext()) {
             RenderChunk renderChunk = (RenderChunk)iterator2.next();
-            if (!this.renderDispatcher.N(renderChunk)) {
+            if (!this.renderDispatcher.updateChunkLater(renderChunk)) {
                break;
             }
 
@@ -1942,7 +1942,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
 
       while (iterator4.hasNext()) {
          RenderChunk renderChunk3 = (RenderChunk)iterator4.next();
-         if (!this.renderDispatcher.N(renderChunk3)) {
+         if (!this.renderDispatcher.updateChunkLater(renderChunk3)) {
             break;
          }
 

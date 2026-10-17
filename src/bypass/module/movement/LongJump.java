@@ -49,7 +49,7 @@ public final class LongJump extends Module {
          double d2 = mc.thePlayer.rotationYaw;
          switch ((LongJumpMode)this.mode.getValue()) {
             case WATCHDOG:
-               if (mc.thePlayer.m(0.01) || this.jumpTicks > 0) {
+               if (mc.thePlayer.isBlockBelow(0.01) || this.jumpTicks > 0) {
                   switch (this.jumpTicks) {
                      case 0:
                         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.004 * Math.random(), mc.thePlayer.posZ);
@@ -72,7 +72,7 @@ public final class LongJump extends Module {
 
                   moveEvent.setY(mc.thePlayer.motionY = this.motionY);
                   this.jumpTicks++;
-                  if (mc.thePlayer.m(0.01) && this.jumpTicks > 4) {
+                  if (mc.thePlayer.isBlockBelow(0.01) && this.jumpTicks > 4) {
                      this.setEnabled(false);
                   }
 
@@ -179,7 +179,7 @@ public final class LongJump extends Module {
             C03PacketPlayer c03PacketPlayer = (C03PacketPlayer)packetEvent.getPacket();
             if (this.safeLanded && this.landedTicks == 2) {
                c03PacketPlayer.y += 0.40426326F;
-               c03PacketPlayer.E(false);
+               c03PacketPlayer.setOnGround(false);
             }
          }
 
@@ -227,8 +227,8 @@ public final class LongJump extends Module {
          e += d2 - 0.012500048F;
       }
 
-      mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
-      mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
+      mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(true));
+      mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, true));
    }
 
    @Override
@@ -241,7 +241,7 @@ public final class LongJump extends Module {
    @Override
    public void onDisable() {
       if (this.unusedSpoofItem != null && mc.thePlayer != null) {
-         mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
       }
 
       this.unusedSpoofItem = null;

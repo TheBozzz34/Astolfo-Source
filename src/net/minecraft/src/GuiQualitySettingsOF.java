@@ -30,7 +30,7 @@ public class GuiQualitySettingsOF extends GuiScreen {
       GameSettings.Options.CUSTOM_ITEMS,
       GameSettings.Options.DYNAMIC_LIGHTS
    };
-   private TooltipProviderOptions c = new TooltipProviderOptions(this);
+   private TooltipProviderOptions tooltipManager = new TooltipProviderOptions(this);
 
    public GuiQualitySettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;
@@ -81,6 +81,6 @@ public class GuiQualitySettingsOF extends GuiScreen {
       this.drawDefaultBackground();
       this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
-      this.c.U(mouseX, mouseY, this.buttonList);
+      this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
    }
 }

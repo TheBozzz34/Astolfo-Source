@@ -8,7 +8,7 @@ import oshi.util.ParseUtil;
 public class SolarisOSVersionInfoEx extends AbstractOSVersionInfoEx {
    public SolarisOSVersionInfoEx() {
       String string = ExecutingCommand.getFirstAnswer("uname -rv");
-      String[] strings = ParseUtil.Q.split(string);
+      String[] strings = ParseUtil.whitespaces.split(string);
       this.setVersion(strings[0]);
       if (strings.length > 1) {
          this.setBuildNumber(strings[1]);

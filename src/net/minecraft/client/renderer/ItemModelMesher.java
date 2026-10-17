@@ -46,7 +46,7 @@ public class ItemModelMesher {
       }
 
       if (Config.isCustomItems()) {
-         iBakedModel = CustomItems.r(stack, iBakedModel, (ResourceLocation)null, true);
+         iBakedModel = CustomItems.getCustomItemModel(stack, iBakedModel, (ResourceLocation)null, true);
       }
 
       return iBakedModel;

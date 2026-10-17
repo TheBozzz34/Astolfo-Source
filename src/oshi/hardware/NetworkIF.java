@@ -124,7 +124,7 @@ public class NetworkIF {
       return Arrays.copyOf(this.prefixLengths, this.prefixLengths.length);
    }
 
-   public int s() {
+   public int getIfType() {
       return this.ifType;
    }
 
@@ -132,7 +132,7 @@ public class NetworkIF {
       this.ifType = ifType;
    }
 
-   public int U() {
+   public int getNdisPhysicalMediumType() {
       return this.ndisPhysicalMediumType;
    }
 

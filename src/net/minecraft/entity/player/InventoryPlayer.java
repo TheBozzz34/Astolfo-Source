@@ -56,15 +56,15 @@ public class InventoryPlayer implements IInventory, Cloneable {
       return -1;
    }
 
-   private int h(ItemStack itemStack) {
+   private int storeItemStack(ItemStack itemStackIn) {
       for (int i = 0; i < this.mainInventory.length; i++) {
          if (this.mainInventory[i] != null
-            && this.mainInventory[i].getItem() == itemStack.getItem()
+            && this.mainInventory[i].getItem() == itemStackIn.getItem()
             && this.mainInventory[i].isStackable()
             && this.mainInventory[i].stackSize < this.mainInventory[i].getMaxStackSize()
             && this.mainInventory[i].stackSize < this.getInventoryStackLimit()
-            && (!this.mainInventory[i].getHasSubtypes() || this.mainInventory[i].getMetadata() == itemStack.getMetadata())
-            && ItemStack.areItemStackTagsEqual(this.mainInventory[i], itemStack)) {
+            && (!this.mainInventory[i].getHasSubtypes() || this.mainInventory[i].getMetadata() == itemStackIn.getMetadata())
+            && ItemStack.areItemStackTagsEqual(this.mainInventory[i], itemStackIn)) {
             return i;
          }
       }
@@ -203,10 +203,10 @@ public class InventoryPlayer implements IInventory, Cloneable {
       return i;
    }
 
-   private int o(ItemStack itemStack) {
-      Item item = itemStack.getItem();
-      int i = itemStack.stackSize;
-      int j = this.h(itemStack);
+   private int storePartialItemStack(ItemStack itemStackIn) {
+      Item item = itemStackIn.getItem();
+      int i = itemStackIn.stackSize;
+      int j = this.storeItemStack(itemStackIn);
       if (j < 0) {
          j = this.getFirstEmptyStack();
       }
@@ -216,9 +216,9 @@ public class InventoryPlayer implements IInventory, Cloneable {
       }
 
       if (this.mainInventory[j] == null) {
-         this.mainInventory[j] = new ItemStack(item, 0, itemStack.getMetadata());
-         if (itemStack.hasTagCompound()) {
-            this.mainInventory[j].setTagCompound((NBTTagCompound)itemStack.getTagCompound().copy());
+         this.mainInventory[j] = new ItemStack(item, 0, itemStackIn.getMetadata());
+         if (itemStackIn.hasTagCompound()) {
+            this.mainInventory[j].setTagCompound((NBTTagCompound)itemStackIn.getTagCompound().copy());
          }
       }
 
@@ -287,7 +287,7 @@ public class InventoryPlayer implements IInventory, Cloneable {
                int j;
                do {
                   j = itemStackIn.stackSize;
-                  itemStackIn.stackSize = this.o(itemStackIn);
+                  itemStackIn.stackSize = this.storePartialItemStack(itemStackIn);
                } while (itemStackIn.stackSize > 0 && itemStackIn.stackSize < j);
 
                if (itemStackIn.stackSize == j && this.player.capabilities.isCreativeMode) {

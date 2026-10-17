@@ -6,95 +6,95 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.client.renderer.vertex.VertexFormatElement;
 
 public class RealmsVertexFormat {
-   private VertexFormat v;
+   private VertexFormat vertexFormat;
 
    public RealmsVertexFormat(VertexFormat vIn) {
-      this.v = vIn;
+      this.vertexFormat = vIn;
    }
 
    public RealmsVertexFormat from(VertexFormat vertexFormat) {
-      this.v = vertexFormat;
+      this.vertexFormat = vertexFormat;
       return this;
    }
 
    public VertexFormat getVertexFormat() {
-      return this.v;
+      return this.vertexFormat;
    }
 
    public void clear() {
-      this.v.clear();
+      this.vertexFormat.clear();
    }
 
-   public int N(int i) {
-      return this.v.getUvOffsetById(i);
+   public int getUvOffset(int i) {
+      return this.vertexFormat.getUvOffsetById(i);
    }
 
-   public int W() {
-      return this.v.getElementCount();
+   public int getElementCount() {
+      return this.vertexFormat.getElementCount();
    }
 
-   public boolean C() {
-      return this.v.hasColor();
+   public boolean hasColor() {
+      return this.vertexFormat.hasColor();
    }
 
    public boolean hasUv(int i) {
-      return this.v.hasUvOffset(i);
+      return this.vertexFormat.hasUvOffset(i);
    }
 
    public RealmsVertexFormatElement getElement(int i) {
-      return new RealmsVertexFormatElement(this.v.getElement(i));
+      return new RealmsVertexFormatElement(this.vertexFormat.getElement(i));
    }
 
    public RealmsVertexFormat addElement(RealmsVertexFormatElement realmsVertexFormatElement) {
-      return this.from(this.v.addElement(realmsVertexFormatElement.getVertexFormatElement()));
+      return this.from(this.vertexFormat.addElement(realmsVertexFormatElement.getVertexFormatElement()));
    }
 
-   public int w() {
-      return this.v.getColorOffset();
+   public int getColorOffset() {
+      return this.vertexFormat.getColorOffset();
    }
 
    public List<RealmsVertexFormatElement> getElements() {
       ArrayList arrayList = new ArrayList();
 
-      for (VertexFormatElement vertexFormatElement : this.v.getElements()) {
+      for (VertexFormatElement vertexFormatElement : this.vertexFormat.getElements()) {
          arrayList.add(new RealmsVertexFormatElement(vertexFormatElement));
       }
 
       return arrayList;
    }
 
-   public boolean c() {
-      return this.v.hasNormal();
+   public boolean hasNormal() {
+      return this.vertexFormat.hasNormal();
    }
 
    public int z() {
-      return this.v.getNextOffset();
+      return this.vertexFormat.getNextOffset();
    }
 
-   public int q(int i) {
-      return this.v.getOffset(i);
+   public int getOffset(int i) {
+      return this.vertexFormat.getOffset(i);
    }
 
-   public int F() {
-      return this.v.getNormalOffset();
+   public int getNormalOffset() {
+      return this.vertexFormat.getNormalOffset();
    }
 
-   public int b() {
-      return this.v.getIntegerSize();
+   public int getIntegerSize() {
+      return this.vertexFormat.getIntegerSize();
    }
 
    @Override
    public boolean equals(Object object) {
-      return this.v.equals(object);
+      return this.vertexFormat.equals(object);
    }
 
    @Override
    public int hashCode() {
-      return this.v.hashCode();
+      return this.vertexFormat.hashCode();
    }
 
    @Override
    public String toString() {
-      return this.v.toString();
+      return this.vertexFormat.toString();
    }
 }

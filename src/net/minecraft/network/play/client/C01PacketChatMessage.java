@@ -37,7 +37,7 @@ public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
       return this.message;
    }
 
-   public void b(String string) {
+   public void setMessage(String string) {
       this.message = string;
    }
 }

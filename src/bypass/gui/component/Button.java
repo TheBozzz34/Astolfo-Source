@@ -23,10 +23,10 @@ public abstract class Button extends Component {
       int m = client.getSidebarGui().getSurfaceColor();
       RenderUtil.drawRect(this.getX() + 1.0F, this.getYPos() + 1.0F, this.getX() + this.getWidth() - 2.0F, this.getYPos() + this.getHeight() - 2.0F, k);
       RenderUtil.drawRect(this.getX() + 2.0F, this.getYPos() + 2.0F, this.getX() + this.getWidth() - 3.0F, this.getYPos() + this.getHeight() - 3.0F, m);
-      GuiMainMenu.c
+      GuiMainMenu.robotoRegularFont10
          .drawString(
             this.getName(),
-            this.getX() + (this.getWidth() - GuiMainMenu.c.getStringWidth(this.getName())) / 2 + 1.0F,
+            this.getX() + (this.getWidth() - GuiMainMenu.robotoRegularFont10.getStringWidth(this.getName())) / 2 + 1.0F,
             this.getYPos() + this.getHeight() / 2 - 3.0F,
             Color.WHITE.getRGB()
          );

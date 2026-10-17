@@ -20,7 +20,7 @@ public final class CpuStat {
       }
 
       String string = (String)list.get(0);
-      String[] strings = ParseUtil.Q.split(string);
+      String[] strings = ParseUtil.whitespaces.split(string);
       if (strings.length <= CentralProcessor.TickType.IDLE.getIndex()) {
          return longs;
       }
@@ -38,7 +38,7 @@ public final class CpuStat {
 
       for (String string : FileUtil.readFile(ProcPath.STAT)) {
          if (string.startsWith("cpu") && !string.startsWith("cpu ")) {
-            String[] strings = ParseUtil.Q.split(string);
+            String[] strings = ParseUtil.whitespaces.split(string);
             if (strings.length <= CentralProcessor.TickType.IDLE.getIndex()) {
                return longss;
             }
@@ -59,7 +59,7 @@ public final class CpuStat {
    public static long getContextSwitches() {
       for (String string : FileUtil.readFile(ProcPath.STAT)) {
          if (string.startsWith("ctxt ")) {
-            String[] strings = ParseUtil.Q.split(string);
+            String[] strings = ParseUtil.whitespaces.split(string);
             if (strings.length == 2) {
                return ParseUtil.parseLongOrDefault(strings[1], 0L);
             }
@@ -72,7 +72,7 @@ public final class CpuStat {
    public static long getInterrupts() {
       for (String string : FileUtil.readFile(ProcPath.STAT)) {
          if (string.startsWith("intr ")) {
-            String[] strings = ParseUtil.Q.split(string);
+            String[] strings = ParseUtil.whitespaces.split(string);
             if (strings.length > 2) {
                return ParseUtil.parseLongOrDefault(strings[1], 0L);
             }
@@ -85,7 +85,7 @@ public final class CpuStat {
    public static long getBootTime() {
       for (String string : FileUtil.readFile(ProcPath.STAT)) {
          if (string.startsWith("btime")) {
-            String[] strings = ParseUtil.Q.split(string);
+            String[] strings = ParseUtil.whitespaces.split(string);
             return ParseUtil.parseLongOrDefault(strings[1], 0L);
          }
       }

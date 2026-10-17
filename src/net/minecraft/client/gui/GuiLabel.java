@@ -76,10 +76,10 @@ public class GuiLabel extends Gui {
          int m = this.field_146162_g - this.field_146163_s;
          int n = this.field_146174_h - this.field_146163_s;
          drawRect(m, n, m + k, n + l, this.field_146169_o);
-         S(m, m + k, n, this.field_146166_p);
-         S(m, m + k, n + l, this.field_146165_q);
-         J(m, n, n + l, this.field_146166_p);
-         J(m + k, n, n + l, this.field_146165_q);
+         drawHorizontalLine(m, m + k, n, this.field_146166_p);
+         drawHorizontalLine(m, m + k, n + l, this.field_146165_q);
+         drawVerticalLine(m, n, n + l, this.field_146166_p);
+         drawVerticalLine(m + k, n, n + l, this.field_146165_q);
       }
    }
 }

@@ -28,11 +28,11 @@ public class Banner {
       @SerializedName("Color")
       private String color;
 
-      public String F() {
+      public String getPattern() {
          return this.pattern;
       }
 
-      public String e() {
+      public String getColor() {
          return this.color;
       }
 

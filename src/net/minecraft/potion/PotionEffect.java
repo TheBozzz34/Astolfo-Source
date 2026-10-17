@@ -68,7 +68,7 @@ public class PotionEffect {
       return this.duration;
    }
 
-   public void w(int i) {
+   public void setDuration(int i) {
       this.duration = i;
    }
 

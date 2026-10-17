@@ -129,7 +129,7 @@ public final class Blink extends Module {
                break;
             }
 
-            mc.thePlayer.sendQueue.u(packet);
+            mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
          }
       } else {
          this.setEnabled(false);
@@ -149,7 +149,7 @@ public final class Blink extends Module {
    private void flushPackets() {
       Packet packet;
       while ((packet = this.packetQueue.poll()) != null) {
-         mc.thePlayer.sendQueue.u(packet);
+         mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
       }
 
       if (this.entity.getValue() && fakePlayer != null) {

@@ -8,37 +8,37 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.world.World;
 
 public class CustomSkyLayer {
-   public String l = null;
-   private int v = -1;
-   private int j = -1;
-   private int X = -1;
-   private int I = -1;
-   private int Y = 1;
-   private boolean T = false;
-   private float O = 1.0F;
-   private float[] b;
-   private RangeListInt G;
+   public String source = null;
+   private int startFadeIn = -1;
+   private int endFadeIn = -1;
+   private int startFadeOut = -1;
+   private int endFadeOut = -1;
+   private int blend = 1;
+   private boolean rotate = false;
+   private float speed = 1.0F;
+   private float[] axis;
+   private RangeListInt days;
    private int x;
-   public int d;
-   public static final float[] N = new float[]{1.0F, 0.0F, 0.0F};
+   public int textureId;
+   public static final float[] DEFAULT_AXIS = new float[]{1.0F, 0.0F, 0.0F};
 
    public CustomSkyLayer(Properties props, String defSource) {
-      this.b = N;
-      this.G = null;
+      this.axis = DEFAULT_AXIS;
+      this.days = null;
       this.x = 8;
-      this.d = -1;
+      this.textureId = -1;
       ConnectedParser connectedParser = new ConnectedParser("CustomSky");
-      this.l = props.getProperty("source", defSource);
-      this.v = this.parseTime(props.getProperty("startFadeIn"));
-      this.j = this.parseTime(props.getProperty("endFadeIn"));
-      this.X = this.parseTime(props.getProperty("startFadeOut"));
-      this.I = this.parseTime(props.getProperty("endFadeOut"));
-      this.Y = Blender.parseBlend(props.getProperty("blend"));
-      this.T = this.parseBoolean(props.getProperty("rotate"), true);
-      this.O = this.parseFloat(props.getProperty("speed"), 1.0F);
-      this.b = this.parseAxis(props.getProperty("axis"), N);
-      this.G = connectedParser.F(props.getProperty("days"));
-      this.x = connectedParser.O(props.getProperty("daysLoop"), 8);
+      this.source = props.getProperty("source", defSource);
+      this.startFadeIn = this.parseTime(props.getProperty("startFadeIn"));
+      this.endFadeIn = this.parseTime(props.getProperty("endFadeIn"));
+      this.startFadeOut = this.parseTime(props.getProperty("startFadeOut"));
+      this.endFadeOut = this.parseTime(props.getProperty("endFadeOut"));
+      this.blend = Blender.parseBlend(props.getProperty("blend"));
+      this.rotate = this.parseBoolean(props.getProperty("rotate"), true);
+      this.speed = this.parseFloat(props.getProperty("speed"), 1.0F);
+      this.axis = this.parseAxis(props.getProperty("axis"), DEFAULT_AXIS);
+      this.days = connectedParser.parseRangeListInt(props.getProperty("days"));
+      this.x = connectedParser.parseIntOrDefault(props.getProperty("daysLoop"), 8);
    }
 
    private int parseTime(String str) {
@@ -138,30 +138,30 @@ public class CustomSkyLayer {
    }
 
    public boolean isValid(String path) {
-      if (this.l == null) {
+      if (this.source == null) {
          Config.warn("No source texture: " + path);
          return false;
       }
 
-      this.l = TextureUtils.fixResourcePath(this.l, TextureUtils.getBasePath(path));
-      if (this.v >= 0 && this.j >= 0 && this.I >= 0) {
-         int i = this.normalizeTime(this.j - this.v);
-         if (this.X < 0) {
-            this.X = this.normalizeTime(this.I - i);
-            if (this.timeBetween(this.X, this.v, this.j)) {
-               this.X = this.j;
+      this.source = TextureUtils.fixResourcePath(this.source, TextureUtils.getBasePath(path));
+      if (this.startFadeIn >= 0 && this.endFadeIn >= 0 && this.endFadeOut >= 0) {
+         int i = this.normalizeTime(this.endFadeIn - this.startFadeIn);
+         if (this.startFadeOut < 0) {
+            this.startFadeOut = this.normalizeTime(this.endFadeOut - i);
+            if (this.timeBetween(this.startFadeOut, this.startFadeIn, this.endFadeIn)) {
+               this.startFadeOut = this.endFadeIn;
             }
          }
 
-         int k = this.normalizeTime(this.X - this.j);
-         int m = this.normalizeTime(this.I - this.X);
-         int n = this.normalizeTime(this.v - this.I);
-         int i2 = i + k + m + n;
-         if (i2 != 24000) {
-            Config.warn("Invalid fadeIn/fadeOut times, sum is not 24h: " + i2);
+         int j = this.normalizeTime(this.startFadeOut - this.endFadeIn);
+         int k = this.normalizeTime(this.endFadeOut - this.startFadeOut);
+         int l = this.normalizeTime(this.startFadeIn - this.endFadeOut);
+         int m = i + j + k + l;
+         if (m != 24000) {
+            Config.warn("Invalid fadeIn/fadeOut times, sum is not 24h: " + m);
             return false;
-         } else if (this.O < 0.0F) {
-            Config.warn("Invalid speed: " + this.O);
+         } else if (this.speed < 0.0F) {
+            Config.warn("Invalid speed: " + this.speed);
             return false;
          } else if (this.x <= 0) {
             Config.warn("Invalid daysLoop: " + this.x);
@@ -187,15 +187,15 @@ public class CustomSkyLayer {
       return timeMc;
    }
 
-   public void s(int i, float f, float g) {
+   public void render(int i, float f, float g) {
       float h = g * this.getFadeBrightness(i);
       h = Config.limit(h, 0.0F, 1.0F);
       if (h >= 1.0E-4F) {
-         GlStateManager.bindTexture(this.d);
-         Blender.setupBlend(this.Y, h);
+         GlStateManager.bindTexture(this.textureId);
+         Blender.setupBlend(this.blend, h);
          GlStateManager.pushMatrix();
-         if (this.T) {
-            GlStateManager.rotate(f * 360.0F * this.O, this.b[0], this.b[1], this.b[2]);
+         if (this.rotate) {
+            GlStateManager.rotate(f * 360.0F * this.speed, this.axis[0], this.axis[1], this.axis[2]);
          }
 
          Tessellator tessellator = Tessellator.getInstance();
@@ -221,16 +221,16 @@ public class CustomSkyLayer {
    }
 
    private float getFadeBrightness(int timeOfDay) {
-      if (this.timeBetween(timeOfDay, this.v, this.j)) {
-         int i = this.normalizeTime(this.j - this.v);
-         int k = this.normalizeTime(timeOfDay - this.v);
-         return (float)k / i;
-      } else if (this.timeBetween(timeOfDay, this.j, this.X)) {
+      if (this.timeBetween(timeOfDay, this.startFadeIn, this.endFadeIn)) {
+         int i = this.normalizeTime(this.endFadeIn - this.startFadeIn);
+         int j = this.normalizeTime(timeOfDay - this.startFadeIn);
+         return (float)j / i;
+      } else if (this.timeBetween(timeOfDay, this.endFadeIn, this.startFadeOut)) {
          return 1.0F;
-      } else if (this.timeBetween(timeOfDay, this.X, this.I)) {
-         int l = this.normalizeTime(this.I - this.X);
-         int m = this.normalizeTime(timeOfDay - this.X);
-         return 1.0F - (float)m / l;
+      } else if (this.timeBetween(timeOfDay, this.startFadeOut, this.endFadeOut)) {
+         int k = this.normalizeTime(this.endFadeOut - this.startFadeOut);
+         int l = this.normalizeTime(timeOfDay - this.startFadeOut);
+         return 1.0F - (float)l / k;
       } else {
          return 0.0F;
       }
@@ -249,13 +249,13 @@ public class CustomSkyLayer {
    }
 
    public boolean isActive(World world, int timeOfDay) {
-      if (this.timeBetween(timeOfDay, this.I, this.v)) {
+      if (this.timeBetween(timeOfDay, this.endFadeOut, this.startFadeIn)) {
          return false;
       }
 
-      if (this.G != null) {
+      if (this.days != null) {
          long l = world.getWorldTime();
-         long m = l - this.v;
+         long m = l - this.startFadeIn;
 
          while (m < 0L) {
             m += 24000 * this.x;
@@ -263,7 +263,7 @@ public class CustomSkyLayer {
 
          int i = (int)(m / 24000L);
          int j = i % this.x;
-         if (!this.G.isInRange(j)) {
+         if (!this.days.isInRange(j)) {
             return false;
          }
       }

@@ -13,27 +13,27 @@ public class Gui {
    public static final ResourceLocation icons = new ResourceLocation("textures/gui/icons.png");
    public float zLevel;
 
-   public static void f(double d, double e, double d2, double d3, int i) {
+   public static void drawThickVerticalLine(double d, double e, double d2, double d3, int i) {
       if (d3 < d2) {
          double d4 = d2;
          d2 = d3;
          d3 = d4;
       }
 
-      H(d, d2, e, d3, i);
+      drawDoubleRect(d, d2, e, d3, i);
    }
 
-   public static void v(double d, double e, double d2, double d3, int i) {
+   public static void drawThickHorizontalLine(double d, double e, double d2, double d3, int i) {
       if (e < d) {
          double d4 = d;
          d = e;
          e = d4;
       }
 
-      H(d, d2, e + 1.0, d3, i);
+      drawDoubleRect(d, d2, e + 1.0, d3, i);
    }
 
-   public static void H(double d, double e, double d2, double d3, int i) {
+   public static void drawDoubleRect(double d, double e, double d2, double d3, int i) {
       if (d < d2) {
          double d4 = d;
          d = d2;
@@ -66,24 +66,24 @@ public class Gui {
       GlStateManager.disableBlend();
    }
 
-   public static void S(int i, int j, int k, int l) {
-      if (j < i) {
-         int m = i;
-         i = j;
-         j = m;
+   public static void drawHorizontalLine(int i, int startX, int endX, int y) {
+      if (startX < i) {
+         int j = i;
+         i = startX;
+         startX = j;
       }
 
-      drawRect(i, k, j + 1, k + 1, l);
+      drawRect(i, endX, startX + 1, endX + 1, y);
    }
 
-   public static void J(int i, int j, int k, int l) {
-      if (k < j) {
-         int m = j;
-         j = k;
-         k = m;
+   public static void drawVerticalLine(int i, int x, int startY, int endY) {
+      if (startY < x) {
+         int j = x;
+         x = startY;
+         startY = j;
       }
 
-      drawRect(i, j + 1, i + 1, k, l);
+      drawRect(i, x + 1, i + 1, startY, endY);
    }
 
    public static void drawRect(int left, int top, int right, int bottom, int color) {

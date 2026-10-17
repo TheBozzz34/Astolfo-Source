@@ -273,7 +273,7 @@ public class GuiNewChat extends Gui {
       return this.getChatHeight() / 9;
    }
 
-   public List<ChatLine> B() {
+   public List<ChatLine> getChatLines() {
       return this.chatLines;
    }
 }

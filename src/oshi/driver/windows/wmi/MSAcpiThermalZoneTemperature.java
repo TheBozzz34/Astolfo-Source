@@ -7,7 +7,7 @@ import oshi.util.platform.windows.WmiQueryHandler;
 
 @ThreadSafe
 public final class MSAcpiThermalZoneTemperature {
-   public static final String a = "ROOT\\WMI";
+   public static final String WMI_NAMESPACE = "ROOT\\WMI";
 
    private MSAcpiThermalZoneTemperature() {
    }

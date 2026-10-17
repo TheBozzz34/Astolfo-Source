@@ -33,7 +33,7 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer> {
       return this.status;
    }
 
-   public void X(C16PacketClientStatus.EnumState enumState) {
+   public void setStatus(C16PacketClientStatus.EnumState enumState) {
       this.status = enumState;
    }
 

@@ -147,7 +147,7 @@ public final class Xray extends Module {
                         IBlockState iBlockState = mc.theWorld.getBlockState(blockPos);
                         if (iBlockState != null && Scaffold.canPlaceAgainst(blockPos) && iBlockState.getBlock() != Blocks.cobblestone && iBlockState.getBlock() != Blocks.air) {
                            C07PacketPlayerDigging c07PacketPlayerDigging = new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, blockPos, EnumFacing.UP);
-                           mc.thePlayer.sendQueue.u(c07PacketPlayerDigging);
+                           mc.thePlayer.sendQueue.sendPacketNoEvent(c07PacketPlayerDigging);
 
                            try {
                               Thread.sleep(further.getSetting("Delay").asInt());

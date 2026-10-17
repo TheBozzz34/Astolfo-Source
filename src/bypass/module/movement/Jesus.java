@@ -56,7 +56,7 @@ public final class Jesus extends Module {
                         || mc.gameSettings.keyBindRight.isKeyDown()
                         || mc.gameSettings.keyBindLeft.isKeyDown()
                   )) {
-                  mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
                }
 
                if (P_boolean()) {

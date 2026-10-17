@@ -16,10 +16,10 @@ import oshi.util.Util;
 @Immutable
 public final class LinuxFirmware extends AbstractFirmware {
    private static final DateTimeFormatter VCGEN_FORMATTER = DateTimeFormatter.ofPattern("MMM d uuuu HH:mm:ss", Locale.ENGLISH);
-   private final Supplier<String> manufacturer = Memoizer.memoize(this::r);
-   private final Supplier<String> description = Memoizer.memoize(this::j);
-   private final Supplier<String> version = Memoizer.memoize(this::g);
-   private final Supplier<String> releaseDate = Memoizer.memoize(this::v);
+   private final Supplier<String> manufacturer = Memoizer.memoize(this::queryManufacturer);
+   private final Supplier<String> description = Memoizer.memoize(this::queryDescription);
+   private final Supplier<String> version = Memoizer.memoize(this::queryVersion);
+   private final Supplier<String> releaseDate = Memoizer.memoize(this::queryReleaseDate);
    private final Supplier<String> name = Memoizer.memoize(this::queryName);
    private final Supplier<LinuxFirmware.VcGenCmdStrings> vcGenCmd = Memoizer.memoize(this::queryVcGenCmd);
    private final Supplier<LinuxFirmware.BiosStrings> bios = Memoizer.memoize(this::queryBios);
@@ -49,29 +49,36 @@ public final class LinuxFirmware extends AbstractFirmware {
       return this.name.get();
    }
 
-   private String r() {
+   private String queryManufacturer() {
       String string = null;
-      return (string = queryManufacturerFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.Z(this.vcGenCmd.get())) == null ? "unknown" : string;
+      return (string = queryManufacturerFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.manufacturerOf(this.vcGenCmd.get())) == null
+         ? "unknown"
+         : string;
    }
 
-   private String j() {
+   private String queryDescription() {
       String string = null;
-      return (string = queryDescriptionFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.Q(this.vcGenCmd.get())) == null ? "unknown" : string;
+      return (string = queryDescriptionFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.descriptionOf(this.vcGenCmd.get())) == null
+         ? "unknown"
+         : string;
    }
 
-   private String g() {
+   private String queryVersion() {
       String string = null;
       return (string = this.queryVersionFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.y(this.vcGenCmd.get())) == null ? "unknown" : string;
    }
 
-   private String v() {
+   private String queryReleaseDate() {
       String string = null;
-      return (string = queryReleaseDateFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.w(this.vcGenCmd.get())) == null ? "unknown" : string;
+      return (string = queryReleaseDateFromSysfs()) == null && (string = LinuxFirmware.VcGenCmdStrings.releaseDateOf(this.vcGenCmd.get())) == null
+         ? "unknown"
+         : string;
    }
 
    private String queryName() {
       String string = null;
-      return (string = LinuxFirmware.BiosStrings.g(this.bios.get())) == null && (string = LinuxFirmware.VcGenCmdStrings.k(this.vcGenCmd.get())) == null
+      return (string = LinuxFirmware.BiosStrings.biosNameOf(this.bios.get())) == null
+            && (string = LinuxFirmware.VcGenCmdStrings.nameOf(this.vcGenCmd.get())) == null
          ? "unknown"
          : string;
    }
@@ -89,7 +96,7 @@ public final class LinuxFirmware extends AbstractFirmware {
    private String queryVersionFromSysfs() {
       String string = FileUtil.getStringFromFile("/sys/devices/virtual/dmi/id/bios_version").trim();
       if (!string.isEmpty()) {
-         String string2 = LinuxFirmware.BiosStrings.J(this.bios.get());
+         String string2 = LinuxFirmware.BiosStrings.biosRevisionOf(this.bios.get());
          return string + (Util.isBlank(string2) ? "" : " (revision " + string2 + ")");
       } else {
          return null;
@@ -107,7 +114,7 @@ public final class LinuxFirmware extends AbstractFirmware {
 
       for (String string3 : ExecutingCommand.runNative("dmidecode -t bios")) {
          if (string3.contains("SMBIOS")) {
-            String[] strings = ParseUtil.Q.split(string3);
+            String[] strings = ParseUtil.whitespaces.split(string3);
             if (strings.length >= 2) {
                string = strings[0] + " " + strings[1];
             }
@@ -134,7 +141,7 @@ public final class LinuxFirmware extends AbstractFirmware {
             string = "unknown";
          }
 
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(1));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(1));
          string2 = strings[strings.length - 1];
          string3 = ((String)list.get(2)).replace("version ", "");
          return new LinuxFirmware.VcGenCmdStrings(string, string2, string3, "RPi", "Bootloader");
@@ -152,11 +159,11 @@ public final class LinuxFirmware extends AbstractFirmware {
          this.biosRevision = biosRevision;
       }
 
-      public static String g(LinuxFirmware.BiosStrings biosStrings) {
+      public static String biosNameOf(LinuxFirmware.BiosStrings biosStrings) {
          return biosStrings.biosName;
       }
 
-      public static String J(LinuxFirmware.BiosStrings biosStrings) {
+      public static String biosRevisionOf(LinuxFirmware.BiosStrings biosStrings) {
          return biosStrings.biosRevision;
       }
    }
@@ -176,11 +183,11 @@ public final class LinuxFirmware extends AbstractFirmware {
          this.description = descriptionIn;
       }
 
-      public static String Z(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
+      public static String manufacturerOf(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
          return vcGenCmdStrings.manufacturer;
       }
 
-      public static String Q(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
+      public static String descriptionOf(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
          return vcGenCmdStrings.description;
       }
 
@@ -188,11 +195,11 @@ public final class LinuxFirmware extends AbstractFirmware {
          return vcGenCmdStrings.version;
       }
 
-      public static String w(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
+      public static String releaseDateOf(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
          return vcGenCmdStrings.releaseDate;
       }
 
-      public static String k(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
+      public static String nameOf(LinuxFirmware.VcGenCmdStrings vcGenCmdStrings) {
          return vcGenCmdStrings.name;
       }
    }

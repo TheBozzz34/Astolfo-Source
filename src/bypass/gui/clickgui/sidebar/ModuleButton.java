@@ -92,14 +92,19 @@ public class ModuleButton extends Container {
          || this.getCategoryTab().getPreviousModule() == null && this.getCategoryTab().getSelectedModule() == this
          || this.getCategoryTab().getPreviousModule() != this && this.getCategoryTab().getSelectedModule() == this) {
          int m = Astolfo.INSTANCE.getSidebarGui().getPulseColor();
-         GuiMainMenu.P
-            .drawString(this.module.getName(), this.getX() + 172.5F - GuiMainMenu.P.getStringWidth(this.module.getName()) / 2.0F, sidebar.getYPos() + 3.0F, m);
+         GuiMainMenu.robotoRegularFont28
+            .drawString(
+               this.module.getName(),
+               this.getX() + 172.5F - GuiMainMenu.robotoRegularFont28.getStringWidth(this.module.getName()) / 2.0F,
+               sidebar.getYPos() + 3.0F,
+               m
+            );
          RenderUtil.drawRect(this.getX() + 135.0F, sidebar.getYPos() + 17.0F, this.getX() + 210.0F, sidebar.getYPos() + 18.0F, m);
          if (this.getSelectedMap() != null) {
-            GuiMainMenu.P
+            GuiMainMenu.robotoRegularFont28
                .drawString(
                   this.getSelectedMap().getMapSetting().getName(),
-                  this.getX() + 310.0F - GuiMainMenu.P.getStringWidth(this.getSelectedMap().getMapSetting().getName()) / 2.0F,
+                  this.getX() + 310.0F - GuiMainMenu.robotoRegularFont28.getStringWidth(this.getSelectedMap().getMapSetting().getName()) / 2.0F,
                   sidebar.getYPos() + 3.0F,
                   -1
                );

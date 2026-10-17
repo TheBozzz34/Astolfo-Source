@@ -49,7 +49,7 @@ public final class LinuxGlobalMemory extends AbstractGlobalMemory {
       long l3 = 0L;
 
       for (String string : FileUtil.readFile(ProcPath.MEMINFO)) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length > 1) {
             switch (strings[0]) {
                case "MemTotal:":

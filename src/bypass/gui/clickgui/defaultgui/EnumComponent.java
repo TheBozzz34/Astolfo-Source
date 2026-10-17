@@ -13,11 +13,11 @@ public class EnumComponent extends SettingComponent {
 
    @Override
    public void render(int i, int j) {
-      GuiMainMenu.m.drawString(this.getEnumSetting().getName().replace("-", " "), this.getX() + 3.0F, this.getYPos(), -1);
-      GuiMainMenu.m
+      GuiMainMenu.latoBoldFont15.drawString(this.getEnumSetting().getName().replace("-", " "), this.getX() + 3.0F, this.getYPos(), -1);
+      GuiMainMenu.latoBoldFont15
          .drawString(
             String.valueOf(this.getEnumSetting().getValue()),
-            this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(String.valueOf(this.getEnumSetting().getValue()), true),
+            this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(String.valueOf(this.getEnumSetting().getValue()), true),
             this.getYPos(),
             13421772
          );

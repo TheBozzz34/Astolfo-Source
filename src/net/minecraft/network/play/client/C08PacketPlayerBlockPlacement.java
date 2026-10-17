@@ -60,7 +60,7 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
       return this.position;
    }
 
-   public void d(BlockPos blockPos) {
+   public void setPosition(BlockPos blockPos) {
       this.position = blockPos;
    }
 
@@ -72,15 +72,15 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
       return this.stack;
    }
 
-   public void s(ItemStack itemStack) {
+   public void setStack(ItemStack itemStack) {
       this.stack = itemStack;
    }
 
-   public void T(float f) {
+   public void setFacingX(float f) {
       this.facingX = f;
    }
 
-   public void a(float f) {
+   public void setFacingY(float f) {
       this.facingY = f;
    }
 
@@ -88,7 +88,7 @@ public class C08PacketPlayerBlockPlacement implements Packet<INetHandlerPlayServ
       this.facingZ = f;
    }
 
-   public void h(int i) {
+   public void setPlacedBlockDirection(int i) {
       this.placedBlockDirection = i;
    }
 

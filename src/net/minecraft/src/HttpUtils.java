@@ -11,8 +11,8 @@ import java.util.Map;
 import net.minecraft.client.Minecraft;
 
 public class HttpUtils {
-   public static final String v = "http://s.optifine.net";
-   public static final String I = "http://optifine.net";
+   public static final String SERVER_URL = "http://s.optifine.net";
+   public static final String POST_URL = "http://optifine.net";
 
    public static byte[] get(String urlStr) throws IOException {
       HttpURLConnection httpURLConnection = null;

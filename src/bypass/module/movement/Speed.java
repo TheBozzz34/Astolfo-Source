@@ -275,7 +275,7 @@ public final class Speed extends Module {
                         }
 
                         if (this.stage >= 6 && this.wasSprinting && GameUtil.isOnHypixel()) {
-                           mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                           mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
                            this.wasSprinting = false;
                         }
 
@@ -391,18 +391,18 @@ public final class Speed extends Module {
 
          if (mode.getValue() == SpeedMode.TELEPORT && GameUtil.isMoving(mc.thePlayer)) {
             if (mc.thePlayer.ticksExisted % 3 == 0) {
-               mc.thePlayer.r(5.0);
+               mc.thePlayer.setSpeed(5.0);
             } else {
-               mc.thePlayer.r(0.0);
+               mc.thePlayer.setSpeed(0.0);
             }
          }
 
          if (mode.getValue() == SpeedMode.HIGH_JUMP && GameUtil.isMoving(mc.thePlayer)) {
             if (mc.thePlayer.onGround) {
-               mc.thePlayer.r(0.5);
+               mc.thePlayer.setSpeed(0.5);
                mc.thePlayer.motionY = 0.9;
             } else {
-               mc.thePlayer.r(mc.thePlayer.B());
+               mc.thePlayer.setSpeed(mc.thePlayer.getHorizontalSpeed());
             }
          }
 
@@ -445,7 +445,7 @@ public final class Speed extends Module {
 
          if (mode.getValue() == SpeedMode.NCP && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.onGround && GameUtil.isMoving(mc.thePlayer)) {
             motionEvent.setMinY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? this.freeHeightUpTo(0.40325F) : 1.625E-12));
-            mc.thePlayer.r(mc.thePlayer.ticksExisted % 2 == 0 ? 0.16 : 0.34);
+            mc.thePlayer.setSpeed(mc.thePlayer.ticksExisted % 2 == 0 ? 0.16 : 0.34);
             mc.timer.timerSpeed = mc.thePlayer.ticksExisted % 4 == 0 ? 1.4F : 1.0F;
          }
 
@@ -839,12 +839,12 @@ public final class Speed extends Module {
       mc.timer.timerSpeed = 1.0F;
       if (mc.thePlayer != null && mc.theWorld != null) {
          if (mode.getValue() == SpeedMode.TELEPORT) {
-            mc.thePlayer.r(0.0);
+            mc.thePlayer.setSpeed(0.0);
          }
 
          if (mode.getValue() == SpeedMode.WATCHDOG && mc.thePlayer.isSprinting() && GameUtil.isOnHypixel() && !this.wasSprinting) {
-            mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
-            mc.thePlayer.ej = true;
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+            mc.thePlayer.serverSprintState = true;
          }
 
          mc.thePlayer.stepHeight = 0.6F;

@@ -15,12 +15,12 @@ public final class FreeBsdFirmware extends AbstractFirmware {
 
    @Override
    public String getManufacturer() {
-      return this.manufVersRelease.get().v();
+      return this.manufVersRelease.get().getA();
    }
 
    @Override
    public String getVersion() {
-      return this.manufVersRelease.get().q();
+      return this.manufVersRelease.get().getB();
    }
 
    @Override

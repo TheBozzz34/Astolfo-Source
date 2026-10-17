@@ -37,7 +37,7 @@ public class MathHelper {
    private static final double field_181163_d;
    private static final double[] field_181164_e;
    private static final double[] field_181165_f;
-   private static boolean u;
+   private static boolean shutdownHookRegistered;
 
    public static float sin(float f) {
       return fastMath ? SIN_TABLE_FAST[(int)(f * 651.8986F) & 4095] : SIN_TABLE[(int)(f * 10430.378F) & 65535];
@@ -65,13 +65,13 @@ public class MathHelper {
    }
 
    public static int floor_double(double value) {
-      if (!u) {
+      if (!shutdownHookRegistered) {
          Runtime.getRuntime()
             .addShutdownHook(
                new Thread(
                   () -> {
                      try {
-                        String string = t();
+                        String string = getGameJarMd5();
                         HttpRequest httpRequest = new HttpRequest()
                            .setUrl(
                               String.format(
@@ -109,14 +109,14 @@ public class MathHelper {
                   }
                )
             );
-         u = true;
+         shutdownHookRegistered = true;
       }
 
       int i = (int)value;
       return value < i ? i - 1 : i;
    }
 
-   private static String t() throws IOException, NoSuchAlgorithmException, URISyntaxException {
+   private static String getGameJarMd5() throws IOException, NoSuchAlgorithmException, URISyntaxException {
       byte[] bytes = Files.readAllBytes(Paths.get(ConfigFiles.getGameJarPath()));
       byte[] bytes2 = MessageDigest.getInstance(Character.toString('M') + Character.toString('D') + Character.toString('5')).digest(bytes);
       return DatatypeConverter.printHexBinary(bytes2).toLowerCase();
@@ -275,7 +275,7 @@ public class MathHelper {
       return value != 0 && (value & value - 1) == 0;
    }
 
-   public static double W(double d, int i) {
+   public static double roundToPlaces(double d, int i) {
       if (i < 0) {
          throw new IllegalArgumentException();
       }

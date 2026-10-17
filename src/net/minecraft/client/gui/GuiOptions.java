@@ -19,7 +19,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
    private final GuiScreen field_146441_g;
    private final GameSettings game_settings_1;
    private GuiButton field_175357_i;
-   private GuiButton e;
+   private GuiButton optifineCapeButton;
    private GuiLockIconButton field_175356_r;
    public String field_146442_a = "Options";
 
@@ -95,9 +95,9 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
       this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack")));
       this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view")));
       this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
-      this.buttonList.add(this.e = new GuiButton(62727568, 2, this.height - 20, 100, 20, "Optifine Cape"));
+      this.buttonList.add(this.optifineCapeButton = new GuiButton(62727568, 2, this.height - 20, 100, 20, "Optifine Cape"));
       if (Minecraft.getMinecraft().theWorld == null) {
-         this.e.visible = false;
+         this.optifineCapeButton.visible = false;
       }
    }
 

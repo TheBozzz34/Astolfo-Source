@@ -33,8 +33,8 @@ public abstract class GuiSlot {
    public boolean hasListHeader;
    public int headerPadding;
    private boolean enabled = true;
-   private static final int v = new Color(7, 7, 7).getRGB();
-   private static final int l = new Color(17, 17, 17).getRGB();
+   private static final int OVERLAY_GRADIENT_TOP = new Color(7, 7, 7).getRGB();
+   private static final int OVERLAY_GRADIENT_BOTTOM = new Color(17, 17, 17).getRGB();
 
    public GuiSlot(Minecraft mcIn, int width, int height, int topIn, int bottomIn, int slotHeightIn) {
       this.mc = mcIn;
@@ -347,18 +347,18 @@ public abstract class GuiSlot {
    }
 
    public void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
-      this.W(0, startY, this.width, endY, v, l);
+      this.drawVerticalGradient(0, startY, this.width, endY, OVERLAY_GRADIENT_TOP, OVERLAY_GRADIENT_BOTTOM);
    }
 
-   public void W(int i, int j, int k, int m, int n, int i2) {
-      float f = (n >> 24 & 0xFF) / 255.0F;
-      float g = (n >> 16 & 0xFF) / 255.0F;
-      float h = (n >> 8 & 0xFF) / 255.0F;
-      float f2 = (n & 0xFF) / 255.0F;
-      float f3 = (i2 >> 24 & 0xFF) / 255.0F;
-      float f4 = (i2 >> 16 & 0xFF) / 255.0F;
-      float f5 = (i2 >> 8 & 0xFF) / 255.0F;
-      float f6 = (i2 & 0xFF) / 255.0F;
+   public void drawVerticalGradient(int i, int j, int k, int l, int m, int n) {
+      float f = (m >> 24 & 0xFF) / 255.0F;
+      float g = (m >> 16 & 0xFF) / 255.0F;
+      float h = (m >> 8 & 0xFF) / 255.0F;
+      float f2 = (m & 0xFF) / 255.0F;
+      float f3 = (n >> 24 & 0xFF) / 255.0F;
+      float f4 = (n >> 16 & 0xFF) / 255.0F;
+      float f5 = (n >> 8 & 0xFF) / 255.0F;
+      float f6 = (n & 0xFF) / 255.0F;
       GlStateManager.disableTexture2D();
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
@@ -369,8 +369,8 @@ public abstract class GuiSlot {
       worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
       worldRenderer.pos(k, j, 0.0).color(g, h, f2, f).endVertex();
       worldRenderer.pos(i, j, 0.0).color(g, h, f2, f).endVertex();
-      worldRenderer.pos(i, m, 0.0).color(f4, f5, f6, f3).endVertex();
-      worldRenderer.pos(k, m, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(i, l, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(k, l, 0.0).color(f4, f5, f6, f3).endVertex();
       tessellator.draw();
       GlStateManager.shadeModel(7424);
       GlStateManager.disableBlend();

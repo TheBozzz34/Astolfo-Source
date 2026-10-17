@@ -41,7 +41,7 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
 
       for (String string3 : ExecutingCommand.runNative("df -i")) {
          if (string3.startsWith("/")) {
-            String[] strings = ParseUtil.Q.split(string3);
+            String[] strings = ParseUtil.whitespaces.split(string3);
             if (strings.length > 7) {
                hashMap2.put(strings[0], ParseUtil.parseLongOrDefault(strings[6], 0L));
                hashMap3.put(strings[0], (Long)hashMap2.get(strings[0]) + ParseUtil.parseLongOrDefault(strings[5], 0L));
@@ -50,7 +50,7 @@ public final class FreeBsdFileSystem extends AbstractFileSystem {
       }
 
       for (String string4 : ExecutingCommand.runNative("mount -p")) {
-         String[] strings2 = ParseUtil.Q.split(string4);
+         String[] strings2 = ParseUtil.whitespaces.split(string4);
          if (strings2.length >= 5) {
             String string5 = strings2[0];
             String string6 = strings2[1];

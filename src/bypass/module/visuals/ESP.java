@@ -256,7 +256,7 @@ public final class ESP extends Module {
             if (this.menuTarget != null) {
                float f = renderEvent.getResolution().getScaledWidth() / 2.0F;
                float g = renderEvent.getResolution().getScaledHeight() / 2.0F;
-               this.menuX = this.menuX - mc.mouseHelper.a();
+               this.menuX = this.menuX - mc.mouseHelper.getDeltaX();
                this.menuY = this.menuY + mc.mouseHelper.z();
                int i3 = mc.fontRendererObj.getStringWidth(this.menuTarget.getName());
                RenderUtil.drawRect(
@@ -370,16 +370,16 @@ public final class ESP extends Module {
       mc.fontRendererObj.drawStringWithShadow(string, (f5 + f3) / 2.0F - i, f6 - 13.0F, -1);
       switch (string) {
          case "Teleport":
-            GuiMainMenu.G(new ResourceLocation("client/icon/teleport.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
+            GuiMainMenu.drawIcon(new ResourceLocation("client/icon/teleport.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
             break;
          case "Friend":
-            GuiMainMenu.G(new ResourceLocation("client/icon/friend.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
+            GuiMainMenu.drawIcon(new ResourceLocation("client/icon/friend.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
             break;
          case "Enemy":
-            GuiMainMenu.G(new ResourceLocation("client/icon/enemy.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
+            GuiMainMenu.drawIcon(new ResourceLocation("client/icon/enemy.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
             break;
          case "Custom":
-            GuiMainMenu.G(new ResourceLocation("client/icon/options.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
+            GuiMainMenu.drawIcon(new ResourceLocation("client/icon/options.png"), 16.0F, (f5 + f3) / 2.0F - 16.0F, f4 + 5.0F);
       }
    }
 
@@ -629,7 +629,7 @@ public final class ESP extends Module {
                                  : String.valueOf(entityLivingBase.getHealth())
                            );
                         client.getFontRenderer()
-                           .O(
+                           .drawOutlinedString(
                               string,
                               (k - 4 + k - 2) / 2 - client.getFontRenderer().getStringWidth(string) - 4,
                               i5 - client.getFontRenderer().FONT_HEIGHT + 9,
@@ -694,7 +694,7 @@ public final class ESP extends Module {
                               float f13 = 1.0F;
                               GlStateManager.scale(f13, f13, 0.0F);
                               float f14 = -i13 + f11;
-                              mc.getRenderItem().K(itemStack2, f14 / f13, f12 / f13);
+                              mc.getRenderItem().renderItemAndEffectIntoGUIFloat(itemStack2, f14 / f13, f12 / f13);
                               mc.getRenderItem().renderItemOverlays(mc.fontRendererObj, itemStack2, (int)(f14 / f13), (int)(f12 / f13));
                               GlStateManager.scale(1.0F / f13, 1.0F / f13, 0.0F);
                               GlStateManager.disableLighting();
@@ -784,10 +784,13 @@ public final class ESP extends Module {
                   float f18 = i4 / f17;
                   float f19 = n / f17;
                   if (entityLivingBase instanceof EntityPlayer && entityLivingBase.getHeldItem() != null && this.itemName.getValue()) {
-                     if (this.pitItemPerks.getValue() && GameUtil.isOnHypixel() && GameUtil.scoreboardTitleContains("PIT") && entityLivingBase.getHeldItem().V() != null) {
+                     if (this.pitItemPerks.getValue()
+                        && GameUtil.isOnHypixel()
+                        && GameUtil.scoreboardTitleContains("PIT")
+                        && entityLivingBase.getHeldItem().getRawTagCompound() != null) {
                         byte b3 = 32;
-                        if (entityLivingBase.getHeldItem().V().hasKey("display", 10)) {
-                           NBTTagCompound nbtTagCompound = entityLivingBase.getHeldItem().V().getCompoundTag("display");
+                        if (entityLivingBase.getHeldItem().getRawTagCompound().hasKey("display", 10)) {
+                           NBTTagCompound nbtTagCompound = entityLivingBase.getHeldItem().getRawTagCompound().getCompoundTag("display");
                            NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
                            if (nbtTagList.tagCount() > 0) {
                               for (int i16 = 0; i16 < nbtTagList.tagCount(); i16++) {
@@ -932,7 +935,7 @@ public final class ESP extends Module {
       }
 
       if (this.nameTags.getSetting("Outline").asBoolean()) {
-         client.getFontRenderer().O(string2, (int)(f - j), (int)(g - client.getFontRenderer().FONT_HEIGHT - 4.0F), i);
+         client.getFontRenderer().drawOutlinedString(string2, (int)(f - j), (int)(g - client.getFontRenderer().FONT_HEIGHT - 4.0F), i);
       } else if (bl2) {
          client.getCustomFontRenderer()
             .drawStringWithShadow(string2, f - j, g - client.getCustomFontRenderer().getGlyphPage().getMaxGlyphHeight() / 2.0F - 3.0F, i);
@@ -1060,25 +1063,25 @@ public final class ESP extends Module {
       switch (espBoxMode) {
          case FULL:
             if (bl) {
-               Gui.v(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
+               Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, k, m);
+            Gui.drawHorizontalLine(i, j, k, m);
             if (bl) {
-               Gui.v(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
+               Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, l, m);
+            Gui.drawHorizontalLine(i, j, l, m);
             if (bl) {
-               Gui.f(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+               Gui.drawThickVerticalLine(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
             }
 
-            Gui.J(i, l, k, m);
+            Gui.drawVerticalLine(i, l, k, m);
             if (bl) {
-               Gui.f(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+               Gui.drawThickVerticalLine(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
             }
 
-            Gui.J(j, l, k, m);
+            Gui.drawVerticalLine(j, l, k, m);
             break;
          case RAINBOW:
             long n = Minecraft.getSystemTime();
@@ -1102,39 +1105,39 @@ public final class ESP extends Module {
                this.drawHorizontalCorners(i, j, k, m, bl, i4, i5);
             } else {
                if (bl) {
-                  Gui.v(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
+                  Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
                }
 
-               Gui.S(i, j, k, m);
+               Gui.drawHorizontalLine(i, j, k, m);
                if (bl) {
-                  Gui.v(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
+                  Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
                }
 
-               Gui.S(i, j, l, m);
+               Gui.drawHorizontalLine(i, j, l, m);
             }
 
             if (i3 != 1) {
                if (bl) {
-                  Gui.f(i - 1.0, i + 2.0, k + 1, k + i6 + 1, this.outlineColor);
+                  Gui.drawThickVerticalLine(i - 1.0, i + 2.0, k + 1, k + i6 + 1, this.outlineColor);
                }
 
-               Gui.J(i, k, k + i6, m);
+               Gui.drawVerticalLine(i, k, k + i6, m);
                if (bl) {
-                  Gui.f(j - 1.0, j + 2.0, k + 1, k + i6 + 1, this.outlineColor);
+                  Gui.drawThickVerticalLine(j - 1.0, j + 2.0, k + 1, k + i6 + 1, this.outlineColor);
                }
 
-               Gui.J(j, k, k + i6, m);
+               Gui.drawVerticalLine(j, k, k + i6, m);
             } else {
                if (bl) {
-                  Gui.f(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+                  Gui.drawThickVerticalLine(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
                }
 
-               Gui.J(i, l, k, m);
+               Gui.drawVerticalLine(i, l, k, m);
                if (bl) {
-                  Gui.f(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+                  Gui.drawThickVerticalLine(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
                }
 
-               Gui.J(j, l, k, m);
+               Gui.drawVerticalLine(j, l, k, m);
             }
 
             if (i2 != 1) {
@@ -1143,58 +1146,58 @@ public final class ESP extends Module {
 
             if (i3 != 1) {
                if (bl) {
-                  Gui.f(i - 1.0, i + 2.0, l - 1, l + i7, this.outlineColor);
+                  Gui.drawThickVerticalLine(i - 1.0, i + 2.0, l - 1, l + i7, this.outlineColor);
                }
 
-               Gui.J(i, l, l + i7, m);
+               Gui.drawVerticalLine(i, l, l + i7, m);
                if (bl) {
-                  Gui.f(j - 1.0, j + 2.0, l - 1, l + i7, this.outlineColor);
+                  Gui.drawThickVerticalLine(j - 1.0, j + 2.0, l - 1, l + i7, this.outlineColor);
                }
 
-               Gui.J(j, l, l + i7, m);
+               Gui.drawVerticalLine(j, l, l + i7, m);
             }
             break;
          case TRANS:
             int i8 = (l - k) / 3;
             int i9 = (k - l) / 3;
             if (bl) {
-               Gui.v(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
+               Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, k - 1.0, k + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, k, HUDFlagColor.BLUE.getColor().getRGB());
+            Gui.drawHorizontalLine(i, j, k, HUDFlagColor.BLUE.getColor().getRGB());
             if (bl) {
-               Gui.f(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+               Gui.drawThickVerticalLine(i - 1.0, i + 2.0, l - 1.0, k + 1.0, this.outlineColor);
             }
 
-            Gui.J(i, l, k, Color.WHITE.getRGB());
+            Gui.drawVerticalLine(i, l, k, Color.WHITE.getRGB());
             if (bl) {
-               Gui.f(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
+               Gui.drawThickVerticalLine(j - 1.0, j + 2.0, l - 1.0, k + 1.0, this.outlineColor);
             }
 
-            Gui.J(j, l, k, Color.WHITE.getRGB());
-            Gui.J(i, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
-            Gui.J(j, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.drawVerticalLine(j, l, k, Color.WHITE.getRGB());
+            Gui.drawVerticalLine(i, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.drawVerticalLine(j, k, k + i8, HUDFlagColor.PINK.getColor().getRGB());
             if (bl) {
-               Gui.v(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
+               Gui.drawThickHorizontalLine(i - 1.0, j + 1.0, l - 1.0, l + 2.0, this.outlineColor);
             }
 
-            Gui.S(i, j, l, HUDFlagColor.BLUE.getColor().getRGB());
-            Gui.J(i, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
-            Gui.J(j, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.drawHorizontalLine(i, j, l, HUDFlagColor.BLUE.getColor().getRGB());
+            Gui.drawVerticalLine(i, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
+            Gui.drawVerticalLine(j, l, l + i9, HUDFlagColor.PINK.getColor().getRGB());
       }
    }
 
    private void drawHorizontalCorners(int i, int j, int k, int l, boolean bl, int m, int n) {
       if (bl) {
-         Gui.v(i - 1, i + m + 1.0, k - 1.0, k + 2.0, this.outlineColor);
+         Gui.drawThickHorizontalLine(i - 1, i + m + 1.0, k - 1.0, k + 2.0, this.outlineColor);
       }
 
-      Gui.S(i, i + m, k, l);
+      Gui.drawHorizontalLine(i, i + m, k, l);
       if (bl) {
-         Gui.v(j + 1, j + n - 1.0, k - 1.0, k + 2.0, this.outlineColor);
+         Gui.drawThickHorizontalLine(j + 1, j + n - 1.0, k - 1.0, k + 2.0, this.outlineColor);
       }
 
-      Gui.S(j, j + n, k, l);
+      Gui.drawHorizontalLine(j, j + n, k, l);
    }
 
    private int getTileEntityColor(TileEntity tileEntity) {

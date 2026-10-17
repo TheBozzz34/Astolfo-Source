@@ -457,10 +457,10 @@ public final class ModulesStage extends AbstractLoadStage {
             String[] strings2 = string3.split("/");
             ModuleManager.setPositionDivisor(Double.parseDouble(strings[1]));
             ModuleManager.setModelViewMatrixMode(Integer.parseInt(strings[2]));
-            ClientAccess.mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
-            EntityRenderer.Z0 = Integer.parseInt(strings[4]);
-            EntityRenderer.C = Integer.parseInt(strings[5]);
-            EntityRenderer.ZE = Integer.parseInt(strings[6]);
+            ClientAccess.mc.mouseHelper.getAuthSession().setAccount(new AuthAccount(strings[3]));
+            EntityRenderer.authFovMultiplier = Integer.parseInt(strings[4]);
+            EntityRenderer.authClearMask = Integer.parseInt(strings[5]);
+            EntityRenderer.authMatrixParam = Integer.parseInt(strings[6]);
 
             for (int i2 = 0; i2 < strings2.length; i2++) {
                String string7 = strings2[i2];

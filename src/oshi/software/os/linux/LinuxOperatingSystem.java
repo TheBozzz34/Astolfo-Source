@@ -34,13 +34,13 @@ import oshi.util.tuples.Triplet;
 
 @ThreadSafe
 public class LinuxOperatingSystem extends AbstractOperatingSystem {
-   private static final String k = "ls -f " + ProcPath.PID_FD;
-   private static final long s;
+   private static final String LS_F_PROC_PID_FD = "ls -f " + ProcPath.PID_FD;
+   private static final long BOOTTIME;
    private final int z;
    private static final int[] PROC_PID_STAT_ORDERS;
-   private static final int P;
-   private static final long d;
-   private static final long v;
+   private static final int PROC_PID_STAT_LENGTH;
+   private static final long USER_HZ;
+   private static final long BOOT_TIME;
 
    public LinuxOperatingSystem() {
       super.getVersionInfo();
@@ -59,7 +59,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       String string = null;
       List list = FileUtil.readFile(ProcPath.VERSION);
       if (!list.isEmpty()) {
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(0));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(0));
 
          for (String string2 : strings) {
             if (!"Linux".equals(string2) && !"version".equals(string2)) {
@@ -69,8 +69,8 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
          }
       }
 
-      OperatingSystem.OSVersionInfo osVersionInfo = new OperatingSystem.OSVersionInfo((String)triplet.q(), (String)triplet.getC(), string);
-      return new AbstractOperatingSystem.FamilyVersionInfo((String)triplet.v(), osVersionInfo);
+      OperatingSystem.OSVersionInfo osVersionInfo = new OperatingSystem.OSVersionInfo((String)triplet.getB(), (String)triplet.getC(), string);
+      return new AbstractOperatingSystem.FamilyVersionInfo((String)triplet.getA(), osVersionInfo);
    }
 
    @Override
@@ -132,11 +132,11 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
          return null;
       }
 
-      long[] longs = ParseUtil.parseStringToLongArray(string3, PROC_PID_STAT_ORDERS, P, ' ');
+      long[] longs = ParseUtil.parseStringToLongArray(string3, PROC_PID_STAT_ORDERS, PROC_PID_STAT_LENGTH, ' ');
       OSProcess osProcess = new OSProcess(this);
       osProcess.setProcessID(pid);
       osProcess.setCommandLine(FileUtil.getStringFromFile(String.format(ProcPath.PID_CMDLINE, pid)));
-      long m = v + longs[LinuxOperatingSystem.ProcPidStat.START_TIME.ordinal()] * 1000L / d;
+      long m = BOOT_TIME + longs[LinuxOperatingSystem.ProcPidStat.START_TIME.ordinal()] * 1000L / USER_HZ;
       if (m >= l) {
          m = l - 1L;
       }
@@ -147,13 +147,13 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       osProcess.setPriority((int)longs[LinuxOperatingSystem.ProcPidStat.PRIORITY.ordinal()]);
       osProcess.setVirtualSize(longs[LinuxOperatingSystem.ProcPidStat.VSZ.ordinal()]);
       osProcess.setResidentSetSize(longs[LinuxOperatingSystem.ProcPidStat.RSS.ordinal()] * this.z);
-      osProcess.setKernelTime(longs[LinuxOperatingSystem.ProcPidStat.KERNEL_TIME.ordinal()] * 1000L / d);
-      osProcess.setUserTime(longs[LinuxOperatingSystem.ProcPidStat.USER_TIME.ordinal()] * 1000L / d);
+      osProcess.setKernelTime(longs[LinuxOperatingSystem.ProcPidStat.KERNEL_TIME.ordinal()] * 1000L / USER_HZ);
+      osProcess.setUserTime(longs[LinuxOperatingSystem.ProcPidStat.USER_TIME.ordinal()] * 1000L / USER_HZ);
       osProcess.setUpTime(l - osProcess.getStartTime());
       osProcess.setBytesRead(ParseUtil.parseLongOrDefault((java.lang.String)(map.getOrDefault("read_bytes", "")), 0L));
       osProcess.setBytesWritten(ParseUtil.parseLongOrDefault((java.lang.String)(map.getOrDefault("write_bytes", "")), 0L));
       if (slowFields) {
-         List list = ExecutingCommand.runNative(String.format(k, pid));
+         List list = ExecutingCommand.runNative(String.format(LS_F_PROC_PID_FD, pid));
          osProcess.setOpenFiles(list.size() - 1L);
          byte[] bytes = new byte[5];
          if (!string.isEmpty()) {
@@ -189,8 +189,8 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
             osProcess.setState(OSProcess.State.OTHER);
       }
 
-      osProcess.setUserID(ParseUtil.Q.split((java.lang.CharSequence)(map2.getOrDefault("Uid", "")))[0]);
-      osProcess.setGroupID(ParseUtil.Q.split((java.lang.CharSequence)(map2.getOrDefault("Gid", "")))[0]);
+      osProcess.setUserID(ParseUtil.whitespaces.split((java.lang.CharSequence)(map2.getOrDefault("Uid", "")))[0]);
+      osProcess.setGroupID(ParseUtil.whitespaces.split((java.lang.CharSequence)(map2.getOrDefault("Gid", "")))[0]);
       Pair pair = userGroupInfo.getUser(osProcess.getUserID());
       osProcess.setUser((String)pair.getB());
       osProcess.setGroup(userGroupInfo.getGroupName(osProcess.getGroupID()));
@@ -229,14 +229,14 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 
    private static int getParentPidFromProcFile(int pid) {
       String string = FileUtil.getStringFromFile(String.format("/proc/%d/stat", pid));
-      long[] longs = ParseUtil.parseStringToLongArray(string, PROC_PID_STAT_ORDERS, P, ' ');
+      long[] longs = ParseUtil.parseStringToLongArray(string, PROC_PID_STAT_ORDERS, PROC_PID_STAT_LENGTH, ' ');
       return (int)longs[LinuxOperatingSystem.ProcPidStat.PPID.ordinal()];
    }
 
    @Override
    public long getProcessAffinityMask(int processId) {
       String string = ExecutingCommand.getFirstAnswer("taskset -p " + processId);
-      String[] strings = ParseUtil.Q.split(string);
+      String[] strings = ParseUtil.whitespaces.split(string);
 
       try {
          return new BigInteger(strings[strings.length - 1], 16).longValue();
@@ -272,7 +272,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public long getSystemBootTime() {
-      return s;
+      return BOOTTIME;
    }
 
    @Override
@@ -347,9 +347,9 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
             string4 = string4.replace("Description:", "").trim();
             if (string4.contains(" release ")) {
                Triplet triplet = parseRelease(string4, " release ");
-               string = (String)triplet.v();
+               string = (String)triplet.getA();
                if (string2.equals("unknown")) {
-                  string2 = (String)triplet.q();
+                  string2 = (String)triplet.getB();
                }
 
                if (string3.equals("unknown")) {
@@ -378,9 +378,9 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
             string4 = string4.replace("DISTRIB_DESCRIPTION=", "").replaceAll("^\"|\"$", "").trim();
             if (string4.contains(" release ")) {
                Triplet triplet = parseRelease(string4, " release ");
-               string = (String)triplet.v();
+               string = (String)triplet.getA();
                if (string2.equals("unknown")) {
-                  string2 = (String)triplet.q();
+                  string2 = (String)triplet.getB();
                }
 
                if (string3.equals("unknown")) {
@@ -507,8 +507,8 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       }
    }
 
-   public static long H() {
-      return d;
+   public static long getHz() {
+      return USER_HZ;
    }
 
    @Override
@@ -525,7 +525,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       boolean bl = false;
 
       for (String string : ExecutingCommand.runNative("systemctl list-unit-files")) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length == 2 && strings[0].endsWith(".service") && "enabled".equals(strings[1])) {
             String string2 = strings[0].substring(0, strings[0].length() - 8);
             int i = string2.lastIndexOf(46);
@@ -562,7 +562,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
          l = System.currentTimeMillis() / 1000L - (long)UpTime.getSystemUptimeSeconds();
       }
 
-      s = l;
+      BOOTTIME = l;
       PROC_PID_STAT_ORDERS = new int[LinuxOperatingSystem.ProcPidStat.values().length];
 
       for (LinuxOperatingSystem.ProcPidStat procPidStat : LinuxOperatingSystem.ProcPidStat.values()) {
@@ -571,16 +571,16 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
 
       String string = FileUtil.getStringFromFile(ProcPath.SELF_STAT);
       if (!string.isEmpty() && string.contains(")")) {
-         P = ParseUtil.countStringToLongArray(string, ' ') + 3;
+         PROC_PID_STAT_LENGTH = ParseUtil.countStringToLongArray(string, ' ') + 3;
       } else {
-         P = 52;
+         PROC_PID_STAT_LENGTH = 52;
       }
 
-      d = ParseUtil.parseLongOrDefault(ExecutingCommand.getFirstAnswer("getconf CLK_TCK"), 100L);
-      double e = UpTime.getSystemUptimeSeconds();
+      USER_HZ = ParseUtil.parseLongOrDefault(ExecutingCommand.getFirstAnswer("getconf CLK_TCK"), 100L);
+      double d = UpTime.getSystemUptimeSeconds();
       long m = System.currentTimeMillis();
-      double d2 = e + UpTime.getSystemUptimeSeconds();
-      v = m - (long)(500.0 * d2 + 0.5);
+      double e = d + UpTime.getSystemUptimeSeconds();
+      BOOT_TIME = m - (long)(500.0 * e + 0.5);
    }
 
    public enum ProcPidStat {
@@ -594,7 +594,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
       RSS(24);
 
       private int order;
-      private static final LinuxOperatingSystem.ProcPidStat[] I = new LinuxOperatingSystem.ProcPidStat[]{
+      private static final LinuxOperatingSystem.ProcPidStat[] VALUES = new LinuxOperatingSystem.ProcPidStat[]{
          PPID, USER_TIME, KERNEL_TIME, PRIORITY, THREAD_COUNT, START_TIME, VSZ, RSS
       };
 

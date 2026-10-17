@@ -71,10 +71,10 @@ public class CategoryTab extends Container {
          .bindTexture(new ResourceLocation(String.format("client/categories/%s_good.png", this.category.getDisplayName().toLowerCase())));
       Gui.drawModalRectWithCustomSizedTexture((int)(this.getX() + 10.0F), (int)this.getYPos() + 6, 0.0F, 0.0F, 16, 16, 16.0F, 16.0F);
       if (this.getSidebar().getSelectedTab() == this || k > 35) {
-         GuiMainMenu.c
+         GuiMainMenu.robotoRegularFont10
             .drawString(
                this.getName().toUpperCase(),
-               this.getX() + this.getWidth() / 2.0F - GuiMainMenu.c.getStringWidth(this.getName()) / 2.0F - 0.5F,
+               this.getX() + this.getWidth() / 2.0F - GuiMainMenu.robotoRegularFont10.getStringWidth(this.getName()) / 2.0F - 0.5F,
                this.getYPos() + 23.0F,
                new Color(255, 255, 255, k).getRGB()
             );

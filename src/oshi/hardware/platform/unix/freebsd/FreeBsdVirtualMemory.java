@@ -26,18 +26,18 @@ public final class FreeBsdVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long L() {
+   public long getSwapPagesIn() {
       return this.pagesIn.get();
    }
 
    @Override
-   public long I() {
+   public long getSwapPagesOut() {
       return this.pagesOut.get();
    }
 
    private static long querySwapUsed() {
       String string = ExecutingCommand.getAnswerAt("swapinfo -k", 1);
-      String[] strings = ParseUtil.Q.split(string);
+      String[] strings = ParseUtil.whitespaces.split(string);
       return strings.length < 5 ? 0L : ParseUtil.parseLongOrDefault(strings[2], 0L) << 10;
    }
 

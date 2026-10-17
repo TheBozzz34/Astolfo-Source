@@ -21,8 +21,8 @@ public class GuiFurnace extends GuiContainer {
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       String string = this.tileFurnace.getDisplayName().getUnformattedText();
-      this.fontRendererObj.D(string, this.xSize / 2 - this.fontRendererObj.getStringWidth(string) / 2, 6.0F, 4210752);
-      this.fontRendererObj.D(this.playerInventory.getDisplayName().getUnformattedText(), 8.0F, this.ySize - 96 + 2, 4210752);
+      this.fontRendererObj.drawStringNoShadow(string, this.xSize / 2 - this.fontRendererObj.getStringWidth(string) / 2, 6.0F, 4210752);
+      this.fontRendererObj.drawStringNoShadow(this.playerInventory.getDisplayName().getUnformattedText(), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override

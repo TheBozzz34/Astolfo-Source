@@ -11,7 +11,7 @@ public final class FreeBsdNetworks extends Networks {
    public static boolean updateNetworkStats(NetworkIF netIF) {
       String string = ExecutingCommand.getAnswerAt("netstat -bI " + netIF.getName(), 1);
       netIF.setTimeStamp(System.currentTimeMillis());
-      String[] strings = ParseUtil.Q.split(string);
+      String[] strings = ParseUtil.whitespaces.split(string);
       if (strings.length < 12) {
          return false;
       }

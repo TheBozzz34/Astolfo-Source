@@ -172,21 +172,21 @@ public class TextureUtils {
       return b;
    }
 
-   public static int g(int i) {
+   public static int getPowerOfTwo(int val) {
       byte b = 1;
 
-      int j;
-      for (j = 0; b < i; j++) {
+      int i;
+      for (i = 0; b < val; i++) {
          b *= 2;
       }
 
-      return j;
+      return i;
    }
 
-   public static int P(int i) {
+   public static int twoToPower(int power) {
       byte b = 1;
 
-      for (int j = 0; j < i; j++) {
+      for (int i = 0; i < power; i++) {
          b *= 2;
       }
 
@@ -211,18 +211,18 @@ public class TextureUtils {
    public static void resourcesReloaded(IResourceManager rm) {
       if (getTextureMapBlocks() != null) {
          Config.dbg("*** Reloading custom textures ***");
-         CustomSky.v();
-         TextureAnimations.n();
+         CustomSky.reset();
+         TextureAnimations.reset();
          update();
          NaturalTextures.update();
-         BetterGrass.G();
-         BetterSnow.R();
-         TextureAnimations.f();
+         BetterGrass.update();
+         BetterSnow.update();
+         TextureAnimations.update();
          CustomColors.update();
          CustomSky.update();
          RandomMobs.resetTextures();
-         CustomItems.G();
-         Shaders.j();
+         CustomItems.updateModels();
+         Shaders.resourcesReloaded();
          Lang.resourcesReloaded();
          Config.updateTexturePackClouds();
          SmartLeaves.updateLeavesModels();
@@ -372,30 +372,30 @@ public class TextureUtils {
       return bufferedImage;
    }
 
-   public static BufferedImage m(BufferedImage bufferedImage, int i) {
-      if (bufferedImage == null) {
-         return bufferedImage;
+   public static BufferedImage scaleMinTo(BufferedImage bi, int minSize) {
+      if (bi == null) {
+         return bi;
       }
 
-      int j = bufferedImage.getWidth();
-      int k = bufferedImage.getHeight();
-      if (j >= i) {
-         return bufferedImage;
+      int i = bi.getWidth();
+      int j = bi.getHeight();
+      if (i >= minSize) {
+         return bi;
       }
 
-      int l = j;
+      int k = i;
 
-      while (l < i) {
-         l *= 2;
+      while (k < minSize) {
+         k *= 2;
       }
 
-      int n = k * l / j;
-      BufferedImage bufferedImage2 = new BufferedImage(l, n, 2);
-      Graphics2D graphics2D = bufferedImage2.createGraphics();
+      int l = j * k / i;
+      BufferedImage bufferedImage = new BufferedImage(k, l, 2);
+      Graphics2D graphics2D = bufferedImage.createGraphics();
       Object object = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
       graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
-      graphics2D.drawImage(bufferedImage, 0, 0, l, n, (ImageObserver)null);
-      return bufferedImage2;
+      graphics2D.drawImage(bi, 0, 0, k, l, (ImageObserver)null);
+      return bufferedImage;
    }
 
    public static Dimension getImageSize(InputStream in, String suffix) {

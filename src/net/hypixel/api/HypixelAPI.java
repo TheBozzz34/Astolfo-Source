@@ -48,9 +48,9 @@ public class HypixelAPI {
       .registerTypeAdapterFactory(new BoostersTypeAdapterFactory<>(BoostersReply.Booster.class))
       .create();
    private UUID apiKey;
-   public static final ExecutorService H = Executors.newCachedThreadPool();
+   public static final ExecutorService executorService = Executors.newCachedThreadPool();
    private final HttpClient httpClient;
-   public static int O = 0;
+   public static int pendingRequests = 0;
 
    public HypixelAPI(UUID apiKey) {
       this.apiKey = apiKey;
@@ -58,14 +58,14 @@ public class HypixelAPI {
    }
 
    public void shutdown() {
-      H.shutdown();
+      executorService.shutdown();
    }
 
    public UUID getApiKey() {
       return this.apiKey;
    }
 
-   public void l(UUID uuid) {
+   public void setApiKey(UUID uuid) {
       this.apiKey = uuid;
    }
 
@@ -180,7 +180,7 @@ public class HypixelAPI {
 
    private <R extends AbstractReply> CompletableFuture<R> get(Class<R> clazz, String request, Object... params) {
       CompletableFuture completableFuture = new CompletableFuture();
-      O++;
+      pendingRequests++;
 
       try {
          if (params.length % 2 != 0) {
@@ -195,7 +195,7 @@ public class HypixelAPI {
             stringBuilder.append("&").append(params[i]).append("=").append(params[i + 1]);
          }
 
-         H.submit(() -> {
+         executorService.submit(() -> {
             try {
                AbstractReply abstractReply = this.httpClient.execute(new HttpGet(stringBuilder.toString()), obj -> {
                   String string = EntityUtils.toString(obj.getEntity(), Charset.defaultCharset());
@@ -203,14 +203,14 @@ public class HypixelAPI {
                });
                this.checkReply(abstractReply);
                completableFuture.complete(abstractReply);
-               O--;
+               pendingRequests--;
             } catch (Throwable throwable) {
                completableFuture.completeExceptionally(throwable);
-               O--;
+               pendingRequests--;
             }
          });
       } catch (Throwable throwable2) {
-         O--;
+         pendingRequests--;
          completableFuture.completeExceptionally(throwable2);
       }
 
@@ -223,7 +223,7 @@ public class HypixelAPI {
       try {
          StringBuilder stringBuilder = new StringBuilder("https://api.hypixel.net/");
          stringBuilder.append("resources/").append(resource);
-         H.submit(() -> {
+         executorService.submit(() -> {
             try {
                ResourceReply response = this.httpClient.execute(new HttpGet(stringBuilder.toString()), obj -> {
                   String content = EntityUtils.toString(obj.getEntity(), "UTF-8");

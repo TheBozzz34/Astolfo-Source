@@ -27,7 +27,7 @@ public class Vec3 {
       this(vec3i.getX(), vec3i.getY(), vec3i.getZ());
    }
 
-   public Vec3 e(double d) {
+   public Vec3 scale(double d) {
       return new Vec3(this.xCoord * d, this.yCoord * d, this.zCoord * d);
    }
 

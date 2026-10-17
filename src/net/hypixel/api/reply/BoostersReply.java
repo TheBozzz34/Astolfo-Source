@@ -40,11 +40,11 @@ public class BoostersReply extends AbstractReply {
          return this.amount;
       }
 
-      public int W() {
+      public int getOriginalLength() {
          return this.originalLength;
       }
 
-      public int v() {
+      public int getLength() {
          return this.length;
       }
 

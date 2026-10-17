@@ -11,22 +11,24 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
 public class ShadowUtils {
-   public static Iterator<RenderChunk> Q(WorldClient worldClient, double d, Entity entity, int i, ViewFrustum viewFrustum) {
+   public static Iterator<RenderChunk> makeShadowChunkIterator(
+      WorldClient world, double partialTicks, Entity viewEntity, int renderDistanceChunks, ViewFrustum viewFrustum
+   ) {
       float f = Shaders.getShadowRenderDistance();
-      if (f > 0.0F && f < (i - 1) * 16) {
-         int j = MathHelper.ceiling_float_int(f / 16.0F) + 1;
-         float g = worldClient.getCelestialAngleRadians((float)d);
+      if (f > 0.0F && f < (renderDistanceChunks - 1) * 16) {
+         int i = MathHelper.ceiling_float_int(f / 16.0F) + 1;
+         float g = world.getCelestialAngleRadians((float)partialTicks);
          float h = Shaders.sunPathRotation * (float) (Math.PI / 180.0);
          float f2 = g > (float) (Math.PI / 2) && g < (float) (Math.PI * 3.0 / 2.0) ? g + (float) Math.PI : g;
          float f3 = -MathHelper.sin(f2);
          float f4 = MathHelper.cos(f2) * MathHelper.cos(h);
          float f5 = -MathHelper.cos(f2) * MathHelper.sin(h);
          BlockPos blockPos = new BlockPos(
-            MathHelper.floor_double(entity.posX) >> 4, MathHelper.floor_double(entity.posY) >> 4, MathHelper.floor_double(entity.posZ) >> 4
+            MathHelper.floor_double(viewEntity.posX) >> 4, MathHelper.floor_double(viewEntity.posY) >> 4, MathHelper.floor_double(viewEntity.posZ) >> 4
          );
-         BlockPos blockPos2 = blockPos.add(-f3 * j, -f4 * j, -f5 * j);
-         BlockPos blockPos3 = blockPos.add(f3 * i, f4 * i, f5 * i);
-         return new IteratorRenderChunks(viewFrustum, blockPos2, blockPos3, j, j);
+         BlockPos blockPos2 = blockPos.add(-f3 * i, -f4 * i, -f5 * i);
+         BlockPos blockPos3 = blockPos.add(f3 * renderDistanceChunks, f4 * renderDistanceChunks, f5 * renderDistanceChunks);
+         return new IteratorRenderChunks(viewFrustum, blockPos2, blockPos3, i, i);
       } else {
          List list = Arrays.asList(viewFrustum.renderChunks);
          return list.iterator();

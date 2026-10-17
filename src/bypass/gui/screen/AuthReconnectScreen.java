@@ -55,10 +55,10 @@ public class AuthReconnectScreen extends GuiScreen {
       if (button.id == 0 && !this.reconnecting) {
          this.mc
             .mouseHelper
-            .Y()
+            .getAuthSession()
             .getEndpoint()
             .getConnection()
-            .connect(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
+            .connect(this.mc.mouseHelper.getAuthSession().getEndpoint().getHost(), this.mc.mouseHelper.getAuthSession().getEndpoint().getPort().getPort());
          this.reconnecting = true;
          this.reconnectTimer.reset();
       }

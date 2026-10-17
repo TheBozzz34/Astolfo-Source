@@ -83,7 +83,7 @@ public class AxisAlignedBB {
       return new AxisAlignedBB(d, e, d2, d3, d4, d5);
    }
 
-   public AxisAlignedBB X(double d, double e, double d2) {
+   public AxisAlignedBB offsetInPlace(double d, double e, double d2) {
       this.minX += d;
       this.minY += e;
       this.minZ += d2;
@@ -107,7 +107,7 @@ public class AxisAlignedBB {
       return new AxisAlignedBB(this.minX + x, this.minY + y, this.minZ + z, this.maxX + x, this.maxY + y, this.maxZ + z);
    }
 
-   public AxisAlignedBB K(BlockPos blockPos) {
+   public AxisAlignedBB offsetByBlockPos(BlockPos blockPos) {
       return this.offset(blockPos.getX(), blockPos.getY(), blockPos.getZ());
    }
 

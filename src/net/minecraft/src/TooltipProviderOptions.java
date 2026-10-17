@@ -10,37 +10,37 @@ import net.minecraft.client.gui.GuiVideoSettings;
 import net.minecraft.client.settings.GameSettings;
 
 public class TooltipProviderOptions {
-   private GuiScreen t = null;
-   private int Q = 0;
-   private int r = 0;
-   private long c = 0L;
+   private GuiScreen guiScreen = null;
+   private int lastMouseX = 0;
+   private int lastMouseY = 0;
+   private long mouseStillTime = 0L;
 
    public TooltipProviderOptions(GuiScreen guiScreen) {
-      this.t = guiScreen;
+      this.guiScreen = guiScreen;
    }
 
-   public void U(int i, int j, List list) {
-      if (Math.abs(i - this.Q) <= 5 && Math.abs(j - this.r) <= 5) {
+   public void drawTooltips(int i, int j, List list) {
+      if (Math.abs(i - this.lastMouseX) <= 5 && Math.abs(j - this.lastMouseY) <= 5) {
          short s = 700;
-         if (System.currentTimeMillis() >= this.c + s) {
-            int k = this.t.width / 2 - 150;
-            int l = this.t.height / 6 - 7;
+         if (System.currentTimeMillis() >= this.mouseStillTime + s) {
+            int k = this.guiScreen.width / 2 - 150;
+            int l = this.guiScreen.height / 6 - 7;
             if (j <= l + 98) {
                l += 105;
             }
 
             int m = k + 150 + 150;
             int n = l + 84 + 10;
-            GuiButton guiButton = this.w(i, j, list);
+            GuiButton guiButton = this.getSelectedButton(i, j, list);
             if (guiButton instanceof IOptionControl) {
                IOptionControl iOptionControl = (IOptionControl)guiButton;
                GameSettings.Options options = iOptionControl.getOption();
-               String[] strings = i(options);
+               String[] strings = getTooltipLinesForOption(options);
                if (strings == null) {
                   return;
                }
 
-               GuiVideoSettings.drawGradientRect(this.t, k, l, m, n, -536870912, -536870912);
+               GuiVideoSettings.drawGradientRect(this.guiScreen, k, l, m, n, -536870912, -536870912);
 
                for (int i2 = 0; i2 < strings.length; i2++) {
                   String string = strings[i2];
@@ -55,17 +55,17 @@ public class TooltipProviderOptions {
             }
          }
       } else {
-         this.Q = i;
-         this.r = j;
-         this.c = System.currentTimeMillis();
+         this.lastMouseX = i;
+         this.lastMouseY = j;
+         this.mouseStillTime = System.currentTimeMillis();
       }
    }
 
-   private GuiButton w(int i, int j, List list) {
+   private GuiButton getSelectedButton(int i, int j, List list) {
       for (int k = 0; k < list.size(); k++) {
          GuiButton guiButton = (GuiButton)list.get(k);
-         int l = GuiVideoSettings.j(guiButton);
-         int m = GuiVideoSettings.V(guiButton);
+         int l = GuiVideoSettings.getButtonWidth(guiButton);
+         int m = GuiVideoSettings.getButtonHeight(guiButton);
          boolean bl = i >= guiButton.xPosition && j >= guiButton.yPosition && i < guiButton.xPosition + l && j < guiButton.yPosition + m;
          if (bl) {
             return guiButton;
@@ -75,7 +75,7 @@ public class TooltipProviderOptions {
       return null;
    }
 
-   private static String[] i(GameSettings.Options options) {
+   private static String[] getTooltipLinesForOption(GameSettings.Options options) {
       return getTooltipLines(options.getEnumString());
    }
 

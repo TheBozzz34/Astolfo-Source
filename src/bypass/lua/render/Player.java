@@ -16,7 +16,7 @@ public final class Player extends VarArgFunction {
       int k = 8;
       int l = -1;
       float f = 0.0F;
-      float h = 0.0F;
+      float g = 0.0F;
       int m = 1;
       if (varargs.narg() < 6) {
          return valueOf(false);
@@ -47,7 +47,7 @@ public final class Player extends VarArgFunction {
                break;
             case 5:
                if (luaValue.isnumber()) {
-                  h = luaValue.tofloat();
+                  g = luaValue.tofloat();
                }
                break;
             case 6:
@@ -59,7 +59,7 @@ public final class Player extends VarArgFunction {
 
       Entity entity = WorldLibrary.entitiesById.get(l);
       if (entity instanceof EntityLivingBase) {
-         GuiInventory.g(i, j, f, h, k, (EntityLivingBase)entity);
+         GuiInventory.drawEntityWithRotation(i, j, f, g, k, (EntityLivingBase)entity);
       }
 
       return valueOf(false);

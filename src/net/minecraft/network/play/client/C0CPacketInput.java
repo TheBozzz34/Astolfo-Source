@@ -62,7 +62,7 @@ public class C0CPacketInput implements Packet<INetHandlerPlayServer> {
       return this.jumping;
    }
 
-   public void d(boolean bl) {
+   public void setSneaking(boolean bl) {
       this.sneaking = bl;
    }
 

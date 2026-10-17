@@ -41,8 +41,8 @@ public class RealmsScreen {
       this.proxy.func_154325_a(string, i, j, k);
    }
 
-   public void S(String string, int i, int j, int k) {
-      this.proxy.V(string, i, j, k);
+   public void drawString(String string, int i, int j, int k) {
+      this.proxy.drawStringNoShadow(string, i, j, k);
    }
 
    public void blit(int i, int j, int k, int l, int m, int n) {
@@ -125,8 +125,8 @@ public class RealmsScreen {
       return this.proxy.func_154326_c(string);
    }
 
-   public void B(String string, int i, int j, int k) {
-      this.proxy.X(string, i, j, k);
+   public void fontDrawShadow(String string, int i, int j, int k) {
+      this.proxy.drawStringWithShadow(string, i, j, k);
    }
 
    public List<String> fontSplit(String string, int i) {

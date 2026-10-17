@@ -8,14 +8,14 @@ import net.minecraft.client.renderer.ImageBufferDownload;
 import net.minecraft.util.ResourceLocation;
 
 public class CapeImageBuffer implements IImageBuffer {
-   public ImageBufferDownload r;
-   public final WeakReference<AbstractClientPlayer> m;
-   public final ResourceLocation E;
+   public ImageBufferDownload imageBufferDownload;
+   public final WeakReference<AbstractClientPlayer> playerRef;
+   public final ResourceLocation resourceLocation;
 
    public CapeImageBuffer(AbstractClientPlayer player, ResourceLocation resourceLocation) {
-      this.m = new WeakReference<>(player);
-      this.E = resourceLocation;
-      this.r = new ImageBufferDownload();
+      this.playerRef = new WeakReference<>(player);
+      this.resourceLocation = resourceLocation;
+      this.imageBufferDownload = new ImageBufferDownload();
    }
 
    @Override
@@ -25,9 +25,9 @@ public class CapeImageBuffer implements IImageBuffer {
 
    @Override
    public void skinAvailable() {
-      AbstractClientPlayer abstractClientPlayer = this.m.get();
+      AbstractClientPlayer abstractClientPlayer = this.playerRef.get();
       if (abstractClientPlayer != null) {
-         abstractClientPlayer.setLocationOfCape(this.E);
+         abstractClientPlayer.setLocationOfCape(this.resourceLocation);
       }
    }
 }

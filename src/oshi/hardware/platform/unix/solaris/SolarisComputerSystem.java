@@ -16,35 +16,35 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
 
    @Override
    public String getManufacturer() {
-      return SolarisComputerSystem.SmbiosStrings.L(this.smbiosStrings.get());
+      return SolarisComputerSystem.SmbiosStrings.manufacturerOf(this.smbiosStrings.get());
    }
 
    @Override
    public String getModel() {
-      return SolarisComputerSystem.SmbiosStrings.v(this.smbiosStrings.get());
+      return SolarisComputerSystem.SmbiosStrings.modelOf(this.smbiosStrings.get());
    }
 
    @Override
    public String getSerialNumber() {
-      return SolarisComputerSystem.SmbiosStrings.X(this.smbiosStrings.get());
+      return SolarisComputerSystem.SmbiosStrings.serialNumberOf(this.smbiosStrings.get());
    }
 
    @Override
    public Firmware createFirmware() {
       return new SolarisFirmware(
-         SolarisComputerSystem.SmbiosStrings.V(this.smbiosStrings.get()),
-         SolarisComputerSystem.SmbiosStrings.C(this.smbiosStrings.get()),
-         SolarisComputerSystem.SmbiosStrings.P(this.smbiosStrings.get())
+         SolarisComputerSystem.SmbiosStrings.biosVendorOf(this.smbiosStrings.get()),
+         SolarisComputerSystem.SmbiosStrings.biosVersionOf(this.smbiosStrings.get()),
+         SolarisComputerSystem.SmbiosStrings.biosDateOf(this.smbiosStrings.get())
       );
    }
 
    @Override
    public Baseboard createBaseboard() {
       return new SolarisBaseboard(
-         SolarisComputerSystem.SmbiosStrings.Y(this.smbiosStrings.get()),
-         SolarisComputerSystem.SmbiosStrings.a(this.smbiosStrings.get()),
-         SolarisComputerSystem.SmbiosStrings.r(this.smbiosStrings.get()),
-         SolarisComputerSystem.SmbiosStrings.O(this.smbiosStrings.get())
+         SolarisComputerSystem.SmbiosStrings.boardManufacturerOf(this.smbiosStrings.get()),
+         SolarisComputerSystem.SmbiosStrings.boardModelOf(this.smbiosStrings.get()),
+         SolarisComputerSystem.SmbiosStrings.boardSerialNumberOf(this.smbiosStrings.get()),
+         SolarisComputerSystem.SmbiosStrings.boardVersionOf(this.smbiosStrings.get())
       );
    }
 
@@ -167,43 +167,43 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
          this.boardSerialNumber = Util.isBlank(boardSerialNumber) ? "unknown" : boardSerialNumber;
       }
 
-      public static String L(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String manufacturerOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.manufacturer;
       }
 
-      public static String v(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String modelOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.model;
       }
 
-      public static String X(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String serialNumberOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.serialNumber;
       }
 
-      public static String V(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String biosVendorOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.biosVendor;
       }
 
-      public static String C(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String biosVersionOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.biosVersion;
       }
 
-      public static String P(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String biosDateOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.biosDate;
       }
 
-      public static String Y(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String boardManufacturerOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.boardManufacturer;
       }
 
-      public static String a(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String boardModelOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.boardModel;
       }
 
-      public static String r(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String boardSerialNumberOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.boardSerialNumber;
       }
 
-      public static String O(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
+      public static String boardVersionOf(SolarisComputerSystem.SmbiosStrings smbiosStrings2) {
          return smbiosStrings2.boardVersion;
       }
    }

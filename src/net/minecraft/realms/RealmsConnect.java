@@ -95,11 +95,11 @@ public class RealmsConnect {
          .start();
    }
 
-   public void l() {
+   public void abort() {
       this.aborted = true;
    }
 
-   public void E() {
+   public void tick() {
       if (this.connection != null) {
          if (this.connection.isChannelOpen()) {
             this.connection.processReceivedPackets();

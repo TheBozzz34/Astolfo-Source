@@ -7,7 +7,7 @@ public interface Map<K, V> extends Iterable<Pair<K, V>> {
 
    Map<K, V> remove(K object);
 
-   Iterable<K> H();
+   Iterable<K> keys();
 
    Iterable<V> values();
 

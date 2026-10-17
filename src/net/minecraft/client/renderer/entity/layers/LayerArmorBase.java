@@ -222,7 +222,7 @@ public abstract class LayerArmorBase<T extends ModelBase> implements LayerRender
       return resourceLocation;
    }
 
-   public static void i(boolean bl) {
+   public static void setRenderEnchantGlint(boolean bl) {
       z = !bl;
    }
 }

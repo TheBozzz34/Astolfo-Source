@@ -5,12 +5,12 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class PlayerItemRenderer {
    private int attachTo = 0;
-   private float q = 0.0F;
+   private float scaleFactor = 0.0F;
    private ModelRenderer modelRenderer = null;
 
    public PlayerItemRenderer(int i, float f, ModelRenderer modelRenderer) {
       this.attachTo = i;
-      this.q = f;
+      this.scaleFactor = f;
       this.modelRenderer = modelRenderer;
    }
 
@@ -24,6 +24,6 @@ public class PlayerItemRenderer {
          modelRenderer2.postRender(scale);
       }
 
-      this.modelRenderer.render(scale * this.q);
+      this.modelRenderer.render(scale * this.scaleFactor);
    }
 }

@@ -28,35 +28,35 @@ public final class Memoizer {
    }
 
    public static final class ExpiringSupplier implements Supplier {
-      public final Supplier g;
-      public volatile Object F;
-      public volatile long m;
-      public final Supplier E;
+      public final Supplier delegate;
+      public volatile Object value;
+      public volatile long expirationNanos;
+      public final Supplier original;
       public final long y;
 
       public ExpiringSupplier(Supplier supplier, long l) {
-         this.E = supplier;
+         this.original = supplier;
          this.y = l;
-         this.g = this.E;
+         this.delegate = this.original;
       }
 
       @Override
       public Object get() {
-         long l = this.m;
-         long n = System.nanoTime();
-         if (l == 0L || this.y >= 0L && n - l >= 0L) {
+         long l = this.expirationNanos;
+         long m = System.nanoTime();
+         if (l == 0L || this.y >= 0L && m - l >= 0L) {
             synchronized (this) {
-               if (l == this.m) {
-                  Object object = this.g.get();
-                  this.F = object;
-                  l = n + this.y;
-                  this.m = l == 0L ? 1L : l;
+               if (l == this.expirationNanos) {
+                  Object object = this.delegate.get();
+                  this.value = object;
+                  l = m + this.y;
+                  this.expirationNanos = l == 0L ? 1L : l;
                   return object;
                }
             }
          }
 
-         return this.F;
+         return this.value;
       }
    }
 }

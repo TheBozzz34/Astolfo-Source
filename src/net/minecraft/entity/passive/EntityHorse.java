@@ -396,7 +396,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       }
    }
 
-   public void O(float f, float g, float h) {
+   public void moveWithRiderInput(float f, float g, float h) {
       EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
       this.rotationYaw = entityPlayerSP.rotationYaw;
       this.prevRotationYaw = this.rotationYaw;

@@ -34,10 +34,10 @@ public class LoginResponseHandler extends PacketHandler<LoginResponse> {
 
             ModuleManager.setPositionDivisor(Double.parseDouble(strings[1]));
             ModuleManager.setModelViewMatrixMode(Integer.parseInt(strings[2]));
-            mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
-            EntityRenderer.Z0 = Integer.parseInt(strings[4]);
-            EntityRenderer.C = Integer.parseInt(strings[5]);
-            EntityRenderer.ZE = Integer.parseInt(strings[6]);
+            mc.mouseHelper.getAuthSession().setAccount(new AuthAccount(strings[3]));
+            EntityRenderer.authFovMultiplier = Integer.parseInt(strings[4]);
+            EntityRenderer.authClearMask = Integer.parseInt(strings[5]);
+            EntityRenderer.authMatrixParam = Integer.parseInt(strings[6]);
          }
 
          LoginScreen.authenticating = false;

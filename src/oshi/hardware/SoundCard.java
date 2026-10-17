@@ -4,9 +4,9 @@ import oshi.annotation.concurrent.Immutable;
 
 @Immutable
 public interface SoundCard {
-   String b();
+   String getDriverVersion();
 
-   String M();
+   String getName();
 
-   String g();
+   String getCodec();
 }

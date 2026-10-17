@@ -29,7 +29,7 @@ public class C0DPacketCloseWindow implements Packet<INetHandlerPlayServer> {
       buf.writeByte(this.windowId);
    }
 
-   public int e() {
+   public int getWindowId() {
       return this.windowId;
    }
 }

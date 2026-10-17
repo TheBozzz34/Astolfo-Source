@@ -84,12 +84,12 @@ public class GuiIngame extends Gui {
    private int lastPlayerHealth = 0;
    private long lastSystemTime = 0L;
    private long healthUpdateCounter = 0L;
-   public static boolean A;
-   private String w = "";
-   public static boolean E;
-   public static boolean b;
-   public static String Y = "by ";
-   public static String G = " ";
+   public static boolean serverIdChanged;
+   private String lastScoreboardServerId = "";
+   public static boolean isPitSpireEvent;
+   public static boolean isRankedMode;
+   public static String unusedByPrefix = "by ";
+   public static String unusedSeparator = " ";
 
    public GuiIngame(Minecraft mcIn) {
       this.mc = mcIn;
@@ -182,7 +182,7 @@ public class GuiIngame extends Gui {
          this.renderExpBar(scaledResolution, m);
       }
 
-      if (this.mc.gameSettings.Z9 && !this.mc.playerController.isSpectator()) {
+      if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator()) {
          this.renderSelectedItem(scaledResolution);
       } else if (this.mc.thePlayer.isSpectator()) {
          this.spectatorGui.renderSelectedItem(scaledResolution);
@@ -215,7 +215,9 @@ public class GuiIngame extends Gui {
             }
 
             this.getFontRenderer()
-               .D(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4.0F, i2 + (n << 24 & 0xFF000000));
+               .drawStringNoShadow(
+                  this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4.0F, i2 + (n << 24 & 0xFF000000)
+               );
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
          }
@@ -224,7 +226,7 @@ public class GuiIngame extends Gui {
       }
 
       if (this.titlesTimer > 0 && (!ModuleManager.noTitle.isEnabled() || !TitleAnnouncer.titleTimer.hasElapsed(4500.0F))) {
-         String string = this.mc.mouseHelper.Y().getAccount().getUsername().toLowerCase();
+         String string = this.mc.mouseHelper.getAuthSession().getAccount().getUsername().toLowerCase();
          if (string.equals("belle")
             || string.equals("triangle")
             || string.equals("god")
@@ -382,11 +384,11 @@ public class GuiIngame extends Gui {
          String string = "" + this.mc.thePlayer.experienceLevel;
          int m = (scaledRes.getScaledWidth() - this.getFontRenderer().getStringWidth(string)) / 2;
          int n = scaledRes.getScaledHeight() - 31 - 4;
-         this.getFontRenderer().D(string, m + 1, n, 0);
-         this.getFontRenderer().D(string, m - 1, n, 0);
-         this.getFontRenderer().D(string, m, n + 1, 0);
-         this.getFontRenderer().D(string, m, n - 1, 0);
-         this.getFontRenderer().D(string, m, n, l);
+         this.getFontRenderer().drawStringNoShadow(string, m + 1, n, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m - 1, n, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n + 1, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n - 1, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n, l);
          this.mc.mcProfiler.endSection();
       }
    }
@@ -500,45 +502,45 @@ public class GuiIngame extends Gui {
       }
 
       boolean bl = !scoreboard2.isEnabled() || !bypass.module.visuals.Scoreboard.remove.getValue();
-      byte b2 = 3;
-      int m = scaledRes.getScaledWidth() - i - b2;
+      byte b = 3;
+      int m = scaledRes.getScaledWidth() - i - b;
       int n = 0;
-      b = false;
-      E = false;
+      isRankedMode = false;
+      isPitSpireEvent = false;
 
       for (Object object2 : arrayList2) {
          n++;
          ScorePlayerTeam scorePlayerTeam2 = scoreboard.getPlayersTeam(((Score)object2).getPlayerName());
          String string2 = ScorePlayerTeam.formatPlayerName(scorePlayerTeam2, ((Score)object2).getPlayerName());
          if (n == arrayList2.size() && string2.contains("  §8")) {
-            String string3 = V(string2);
-            if (!V(this.w).equals(string3)) {
-               A = true;
+            String string3 = stripToAlphanumeric(string2);
+            if (!stripToAlphanumeric(this.lastScoreboardServerId).equals(string3)) {
+               serverIdChanged = true;
             }
 
-            this.w = string3;
+            this.lastScoreboardServerId = string3;
             if (streamerMode2.isEnabled()) {
                string2 = string2.replaceAll("§8", "§8§k");
             }
          }
 
          int i2 = l - n * this.getFontRenderer().FONT_HEIGHT;
-         int i3 = scaledRes.getScaledWidth() - b2 + 2;
+         int i3 = scaledRes.getScaledWidth() - b + 2;
          if (bl) {
             drawRect(m - 2, i2, i3, i2 + this.getFontRenderer().FONT_HEIGHT, 1342177280);
          }
 
          String string4 = StringUtils.stripControlCodes(string2);
          if (string4.contains("SPIRE")) {
-            E = true;
+            isPitSpireEvent = true;
          }
 
          if (string4.contains("Mode: Ranked")) {
-            b = true;
+            isRankedMode = true;
          }
 
          if (bl) {
-            this.getFontRenderer().D(string2, m, i2, 553648127);
+            this.getFontRenderer().drawStringNoShadow(string2, m, i2, 553648127);
          }
 
          if (n == arrayList2.size()) {
@@ -547,7 +549,9 @@ public class GuiIngame extends Gui {
                drawRect(m - 2, i2 - this.getFontRenderer().FONT_HEIGHT - 1, i3, i2 - 1, 1610612736);
                drawRect(m - 2, i2 - 1, i3, i2, 1342177280);
                this.getFontRenderer()
-                  .D(string5, m + i / 2 - this.getFontRenderer().getStringWidth(string5) / 2, i2 - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                  .drawStringNoShadow(
+                     string5, m + i / 2 - this.getFontRenderer().getStringWidth(string5) / 2, i2 - this.getFontRenderer().FONT_HEIGHT, 553648127
+                  );
             }
          }
       }
@@ -773,7 +777,7 @@ public class GuiIngame extends Gui {
       }
    }
 
-   public static String V(String string) {
+   public static String stripToAlphanumeric(String string) {
       return StringUtils.stripControlCodes(string).replaceAll("[^a-zA-Z0-9]", "");
    }
 

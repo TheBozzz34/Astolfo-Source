@@ -28,12 +28,12 @@ public final class SolarisVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long L() {
+   public long getSwapPagesIn() {
       return this.pagesIn.get();
    }
 
    @Override
-   public long I() {
+   public long getSwapPagesOut() {
       return this.pagesOut.get();
    }
 

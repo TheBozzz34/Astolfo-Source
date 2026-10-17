@@ -25,12 +25,12 @@ public final class LinuxVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long L() {
+   public long getSwapPagesIn() {
       return this.inOut.get().getA();
    }
 
    @Override
-   public long I() {
+   public long getSwapPagesOut() {
       return this.inOut.get().getB();
    }
 
@@ -39,7 +39,7 @@ public final class LinuxVirtualMemory extends AbstractVirtualMemory {
       long m = 0L;
 
       for (String string : FileUtil.readFile(ProcPath.MEMINFO)) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length > 1) {
             switch (strings[0]) {
                case "SwapTotal:":
@@ -59,7 +59,7 @@ public final class LinuxVirtualMemory extends AbstractVirtualMemory {
       long m = 0L;
 
       for (String string : FileUtil.readFile(ProcPath.VMSTAT)) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length > 1) {
             switch (strings[0]) {
                case "pgpgin":

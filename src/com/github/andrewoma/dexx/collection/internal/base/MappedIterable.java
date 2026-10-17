@@ -24,7 +24,7 @@ public class MappedIterable<T, F> extends AbstractIterable<T> {
 
          @Override
          public T next() {
-            return (T)MappedIterable.i(MappedIterable.this).invoke(iterator.next());
+            return (T)MappedIterable.accessMapFunction(MappedIterable.this).invoke(iterator.next());
          }
 
          @Override
@@ -34,7 +34,7 @@ public class MappedIterable<T, F> extends AbstractIterable<T> {
       };
    }
 
-   public static Function i(MappedIterable mappedIterable) {
+   public static Function accessMapFunction(MappedIterable mappedIterable) {
       return mappedIterable.mapFunction;
    }
 }

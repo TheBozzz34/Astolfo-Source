@@ -285,7 +285,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
       CreativeTabs creativeTabs = CreativeTabs.creativeTabArray[selectedTabIndex];
       if (creativeTabs.drawInForegroundOfTab()) {
          GlStateManager.disableBlend();
-         this.fontRendererObj.D(I18n.format(creativeTabs.getTranslatedTabLabel()), 8.0F, 6.0F, 4210752);
+         this.fontRendererObj.drawStringNoShadow(I18n.format(creativeTabs.getTranslatedTabLabel()), 8.0F, 6.0F, 4210752);
       }
    }
 
@@ -700,8 +700,8 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
    public class CreativeSlot extends Slot {
       private final Slot slot;
 
-      public CreativeSlot(Slot slot, int j) {
-         super(slot.inventory, j, 0, 0);
+      public CreativeSlot(Slot slot, int i) {
+         super(slot.inventory, i, 0, 0);
          this.slot = slot;
       }
 

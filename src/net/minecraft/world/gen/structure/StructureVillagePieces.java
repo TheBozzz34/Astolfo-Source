@@ -1262,7 +1262,7 @@ public class StructureVillagePieces {
          super(startIn, i);
          this.coordBaseMode = facing;
          this.boundingBox = structureBoundingBox;
-         this.length = Math.max(structureBoundingBox.G(), structureBoundingBox.S());
+         this.length = Math.max(structureBoundingBox.getXSize(), structureBoundingBox.getZSize());
       }
 
       @Override
@@ -1284,7 +1284,7 @@ public class StructureVillagePieces {
          for (int i = rand.nextInt(5); i < this.length - 8; i += 2 + rand.nextInt(5)) {
             StructureComponent structureComponent = this.getNextComponentNN((StructureVillagePieces.Start)componentIn, listIn, rand, 0, i);
             if (structureComponent != null) {
-               i += Math.max(structureComponent.boundingBox.G(), structureComponent.boundingBox.S());
+               i += Math.max(structureComponent.boundingBox.getXSize(), structureComponent.boundingBox.getZSize());
                bl = true;
             }
          }
@@ -1292,7 +1292,7 @@ public class StructureVillagePieces {
          for (int j = rand.nextInt(5); j < this.length - 8; j += 2 + rand.nextInt(5)) {
             StructureComponent structureComponent2 = this.getNextComponentPP((StructureVillagePieces.Start)componentIn, listIn, rand, 0, j);
             if (structureComponent2 != null) {
-               j += Math.max(structureComponent2.boundingBox.G(), structureComponent2.boundingBox.S());
+               j += Math.max(structureComponent2.boundingBox.getXSize(), structureComponent2.boundingBox.getZSize());
                bl = true;
             }
          }

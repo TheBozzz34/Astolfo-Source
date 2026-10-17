@@ -33,7 +33,7 @@ public final class WindowsFirmware extends AbstractFirmware {
 
    @Override
    public String getVersion() {
-      return this.manufNameDescVersRelease.get().J();
+      return this.manufNameDescVersRelease.get().getD();
    }
 
    @Override

@@ -77,7 +77,7 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private String parseIdentifier(String identifier, String key) {
-      String[] strings = ParseUtil.Q.split(identifier);
+      String[] strings = ParseUtil.whitespaces.split(identifier);
       boolean bl = false;
 
       for (String string : strings) {

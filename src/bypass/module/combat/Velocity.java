@@ -108,7 +108,7 @@ public final class Velocity extends Module {
          boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
          if (bl) {
             if (mc.thePlayer != null && mc.theWorld != null && GameUtil.isOnHypixel() && this.isStaffCheckEnabled()) {
-               if (GameUtil.scoreboardTitleContains("PIT") && !GuiIngame.E) {
+               if (GameUtil.scoreboardTitleContains("PIT") && !GuiIngame.isPitSpireEvent) {
                   if (Math.abs(AutoHypixel.pitSpawnY - mc.thePlayer.posY) < 4.0) {
                      return;
                   }

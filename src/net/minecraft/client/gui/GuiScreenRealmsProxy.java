@@ -31,7 +31,7 @@ public class GuiScreenRealmsProxy extends GuiScreen {
       super.drawCenteredString(this.fontRendererObj, string, i, j, k);
    }
 
-   public void V(String string, int i, int j, int k) {
+   public void drawStringNoShadow(String string, int i, int j, int k) {
       super.drawString(this.fontRendererObj, string, i, j, k);
    }
 
@@ -95,7 +95,7 @@ public class GuiScreenRealmsProxy extends GuiScreen {
       return this.fontRendererObj.getStringWidth(string);
    }
 
-   public void X(String string, int i, int j, int k) {
+   public void drawStringWithShadow(String string, int i, int j, int k) {
       this.fontRendererObj.drawStringWithShadow(string, i, j, k);
    }
 
@@ -143,9 +143,9 @@ public class GuiScreenRealmsProxy extends GuiScreen {
    }
 
    @Override
-   public void I() throws IOException {
+   public void handleKeyboardEvent() throws IOException {
       this.field_154330_a.keyboardEvent();
-      super.I();
+      super.handleKeyboardEvent();
    }
 
    @Override

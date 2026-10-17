@@ -40,10 +40,10 @@ public class CustomItems {
    private static Map mapPotionIds = null;
    private static ItemModelGenerator itemModelGenerator = new ItemModelGenerator();
    private static boolean useGlint = true;
-   private static boolean w = false;
-   public static final int u = 16384;
-   public static final int C = 63;
-   public static final int r = 64;
+   private static boolean renderOffHand = false;
+   public static final int MASK_POTION_SPLASH = 16384;
+   public static final int MASK_POTION_NAME = 63;
+   public static final int MASK_POTION_EXTENDED = 64;
    public static final String KEY_TEXTURE_OVERLAY = "texture.potion_overlay";
    public static final String KEY_TEXTURE_SPLASH = "texture.potion_bottle_splash";
    public static final String KEY_TEXTURE_DRINKABLE = "texture.potion_bottle_drinkable";
@@ -52,7 +52,7 @@ public class CustomItems {
    public static final String DEFAULT_TEXTURE_DRINKABLE = "items/potion_bottle_drinkable";
    private static final int[][] EMPTY_INT2_ARRAY = new int[0][];
 
-   public static void N() {
+   public static void update() {
       itemProperties = (CustomItemProperties[][])null;
       enchantmentProperties = (CustomItemProperties[][])null;
       useGlint = true;
@@ -180,35 +180,35 @@ public class CustomItems {
    }
 
    public static void updateIcons(TextureMap textureMap) {
-      for (CustomItemProperties customItemProperties : Z()) {
+      for (CustomItemProperties customItemProperties : getAllProperties()) {
          customItemProperties.updateIcons(textureMap);
       }
    }
 
-   public static void F(ModelBakery modelBakery) {
-      for (CustomItemProperties customItemProperties : Z()) {
-         customItemProperties.X(modelBakery);
+   public static void loadModels(ModelBakery modelBakery) {
+      for (CustomItemProperties customItemProperties : getAllProperties()) {
+         customItemProperties.loadModels(modelBakery);
       }
    }
 
-   public static void G() {
-      for (CustomItemProperties customItemProperties : Z()) {
+   public static void updateModels() {
+      for (CustomItemProperties customItemProperties : getAllProperties()) {
          if (customItemProperties.type == 1) {
             TextureMap textureMap = Minecraft.getMinecraft().getTextureMapBlocks();
             customItemProperties.updateModel(textureMap, itemModelGenerator);
-            customItemProperties.h();
+            customItemProperties.updateModelsFull();
          }
       }
    }
 
-   private static List<CustomItemProperties> Z() {
+   private static List<CustomItemProperties> getAllProperties() {
       ArrayList arrayList = new ArrayList();
-      V(itemProperties, arrayList);
-      V(enchantmentProperties, arrayList);
+      addAll(itemProperties, arrayList);
+      addAll(enchantmentProperties, arrayList);
       return arrayList;
    }
 
-   private static void V(CustomItemProperties[][] customItemPropertiess, List<CustomItemProperties> list) {
+   private static void addAll(CustomItemProperties[][] customItemPropertiess, List<CustomItemProperties> list) {
       if (customItemPropertiess != null) {
          for (int i = 0; i < customItemPropertiess.length; i++) {
             CustomItemProperties[] customItemPropertiess2 = customItemPropertiess[i];
@@ -226,13 +226,13 @@ public class CustomItems {
 
    private static Map makeAutoImageProperties(IResourcePack rp) {
       HashMap hashMap = new HashMap();
-      hashMap.putAll(q(rp, "normal", Item.getIdFromItem(Items.potionitem)));
-      hashMap.putAll(q(rp, "splash", Item.getIdFromItem(Items.potionitem)));
-      hashMap.putAll(q(rp, "linger", Item.getIdFromItem(Items.potionitem)));
+      hashMap.putAll(makePotionImageProperties(rp, "normal", Item.getIdFromItem(Items.potionitem)));
+      hashMap.putAll(makePotionImageProperties(rp, "splash", Item.getIdFromItem(Items.potionitem)));
+      hashMap.putAll(makePotionImageProperties(rp, "linger", Item.getIdFromItem(Items.potionitem)));
       return hashMap;
    }
 
-   private static Map q(IResourcePack iResourcePack, String string, int i) {
+   private static Map makePotionImageProperties(IResourcePack iResourcePack, String string, int i) {
       HashMap hashMap = new HashMap();
       String string2 = string + "/";
       String[] strings = new String[]{"mcpatcher/cit/potion/" + string2, "mcpatcher/cit/Potion/" + string2};
@@ -242,7 +242,7 @@ public class CustomItems {
       for (int j = 0; j < strings3.length; j++) {
          String string3 = strings3[j];
          String string4 = StrUtils.removePrefixSuffix(string3, strings, strings2);
-         Properties properties2 = Q(string4, string, i, string3);
+         Properties properties2 = makePotionProperties(string4, string, i, string3);
          if (properties2 != null) {
             String string5 = StrUtils.removeSuffix(string3, strings2) + ".properties";
             CustomItemProperties customItemProperties = new CustomItemProperties(properties2, string5);
@@ -253,7 +253,7 @@ public class CustomItems {
       return hashMap;
    }
 
-   private static Properties Q(String string, String string2, int i, String string3) {
+   private static Properties makePotionProperties(String string, String string2, int i, String string3) {
       if (StrUtils.endsWith(string, new String[]{"_n", "_s"})) {
          return null;
       }
@@ -309,20 +309,20 @@ public class CustomItems {
    private static Map getMapPotionIds() {
       if (mapPotionIds == null) {
          mapPotionIds = new LinkedHashMap();
-         mapPotionIds.put("water", G(0, 0));
-         mapPotionIds.put("awkward", G(0, 1));
-         mapPotionIds.put("thick", G(0, 2));
-         mapPotionIds.put("potent", G(0, 3));
+         mapPotionIds.put("water", getPotionId(0, 0));
+         mapPotionIds.put("awkward", getPotionId(0, 1));
+         mapPotionIds.put("thick", getPotionId(0, 2));
+         mapPotionIds.put("potent", getPotionId(0, 3));
          mapPotionIds.put("regeneration", getPotionIds(1));
          mapPotionIds.put("movespeed", getPotionIds(2));
          mapPotionIds.put("fireresistance", getPotionIds(3));
          mapPotionIds.put("poison", getPotionIds(4));
          mapPotionIds.put("heal", getPotionIds(5));
          mapPotionIds.put("nightvision", getPotionIds(6));
-         mapPotionIds.put("clear", G(7, 0));
-         mapPotionIds.put("bungling", G(7, 1));
-         mapPotionIds.put("charming", G(7, 2));
-         mapPotionIds.put("rank", G(7, 3));
+         mapPotionIds.put("clear", getPotionId(7, 0));
+         mapPotionIds.put("bungling", getPotionId(7, 1));
+         mapPotionIds.put("charming", getPotionId(7, 2));
+         mapPotionIds.put("rank", getPotionId(7, 3));
          mapPotionIds.put("weakness", getPotionIds(8));
          mapPotionIds.put("damageboost", getPotionIds(9));
          mapPotionIds.put("moveslowdown", getPotionIds(10));
@@ -330,11 +330,11 @@ public class CustomItems {
          mapPotionIds.put("harm", getPotionIds(12));
          mapPotionIds.put("waterbreathing", getPotionIds(13));
          mapPotionIds.put("invisibility", getPotionIds(14));
-         mapPotionIds.put("thin", G(15, 0));
-         mapPotionIds.put("debonair", G(15, 1));
-         mapPotionIds.put("sparkling", G(15, 2));
-         mapPotionIds.put("stinky", G(15, 3));
-         mapPotionIds.put("mundane", G(0, 4));
+         mapPotionIds.put("thin", getPotionId(15, 0));
+         mapPotionIds.put("debonair", getPotionId(15, 1));
+         mapPotionIds.put("sparkling", getPotionId(15, 2));
+         mapPotionIds.put("stinky", getPotionId(15, 3));
+         mapPotionIds.put("mundane", getPotionId(0, 4));
          mapPotionIds.put("speed", mapPotionIds.get("movespeed"));
          mapPotionIds.put("fire_resistance", mapPotionIds.get("fireresistance"));
          mapPotionIds.put("instant_health", mapPotionIds.get("heal"));
@@ -352,7 +352,7 @@ public class CustomItems {
       return new int[]{baseId, baseId + 16, baseId + 32, baseId + 48};
    }
 
-   private static int[] G(int i, int j) {
+   private static int[] getPotionId(int i, int j) {
       return new int[]{i + j * 16};
    }
 
@@ -425,7 +425,7 @@ public class CustomItems {
       list2.add(cp);
    }
 
-   public static IBakedModel r(ItemStack itemStack, IBakedModel iBakedModel, ResourceLocation resourceLocation, boolean bl) {
+   public static IBakedModel getCustomItemModel(ItemStack itemStack, IBakedModel iBakedModel, ResourceLocation resourceLocation, boolean bl) {
       if (!bl && iBakedModel.isGui3d()) {
          return iBakedModel;
       }
@@ -439,7 +439,7 @@ public class CustomItems {
          return iBakedModel;
       }
 
-      IBakedModel iBakedModel2 = customItemProperties.T(resourceLocation, bl);
+      IBakedModel iBakedModel2 = customItemProperties.getBakedModel(resourceLocation, bl);
       return iBakedModel2 != null ? iBakedModel2 : iBakedModel;
    }
 
@@ -583,18 +583,18 @@ public class CustomItems {
 
          for (int i2 = 0; i2 < cip.nbtTagValues.length; i2++) {
             NbtTagValue nbtTagValue = cip.nbtTagValues[i2];
-            if (!nbtTagValue.S(nbtTagCompound)) {
+            if (!nbtTagValue.matches(nbtTagCompound)) {
                return false;
             }
          }
       }
 
-      if (cip.T != 0) {
-         if (cip.T == 1 && w) {
+      if (cip.hand != 0) {
+         if (cip.hand == 1 && renderOffHand) {
             return false;
          }
 
-         if (cip.T == 2 && !w) {
+         if (cip.hand == 2 && !renderOffHand) {
             return false;
          }
       }

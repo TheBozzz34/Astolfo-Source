@@ -7,7 +7,7 @@ import org.lwjgl.opengl.Display;
 public class MouseHelper {
    public int deltaX;
    public int deltaY;
-   private AuthSession b = new AuthSession();
+   private AuthSession authSession = new AuthSession();
 
    public void grabMouseCursor() {
       Mouse.setGrabbed(true);
@@ -25,7 +25,7 @@ public class MouseHelper {
       this.deltaY = Mouse.getDY();
    }
 
-   public int a() {
+   public int getDeltaX() {
       return this.deltaX;
    }
 
@@ -33,7 +33,7 @@ public class MouseHelper {
       return this.deltaY;
    }
 
-   public AuthSession Y() {
-      return this.b;
+   public AuthSession getAuthSession() {
+      return this.authSession;
    }
 }

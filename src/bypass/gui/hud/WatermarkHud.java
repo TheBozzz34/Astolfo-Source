@@ -32,7 +32,7 @@ public class WatermarkHud extends HudElement {
          string = string.replace("%ip%", mc.getCurrentServerData().serverIP);
       }
 
-      string = string.replace("%user%", mc.mouseHelper.Y().getAccount().getUsername());
+      string = string.replace("%user%", mc.mouseHelper.getAuthSession().getAccount().getUsername());
       if (DisconnectHandler.disconnected) {
          string = string + EnumChatFormatting.GRAY + " - DISCONNECTED";
       }

@@ -21,11 +21,11 @@ public class FriendsReply extends AbstractReply {
       private UUID uuidReceiver;
       private ZonedDateTime started;
 
-      public UUID T() {
+      public UUID getUuidSender() {
          return this.uuidSender;
       }
 
-      public UUID F() {
+      public UUID getUuidReceiver() {
          return this.uuidReceiver;
       }
 

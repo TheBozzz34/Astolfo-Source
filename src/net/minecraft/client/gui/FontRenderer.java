@@ -61,7 +61,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
    public ResourceLocation locationFontTextureBase;
    public boolean enabled = true;
    public float offsetBold = 1.0F;
-   private int g = new Color(0, 0, 0, 120).getRGB();
+   private int unusedShadowColor = new Color(0, 0, 0, 120).getRGB();
 
    public FontRenderer(GameSettings gameSettingsIn, ResourceLocation location, TextureManager textureManagerIn, boolean unicode) {
       this.gameSettings = gameSettingsIn;
@@ -268,7 +268,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
       return this.drawString(text, x, y, color, true);
    }
 
-   public int D(String string, float f, float g, int i) {
+   public int drawStringNoShadow(String string, float f, float g, int i) {
       return !this.enabled ? 0 : this.drawString(string, f, g, i, false);
    }
 
@@ -278,7 +278,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
          if (StreamerMode.scrambleNames.getValue()) {
             for (String string : StreamerMode.seenPlayerNames) {
                if (text.contains(string)) {
-                  text = this.F(text, string);
+                  text = this.obfuscateName(text, string);
                }
             }
 
@@ -286,7 +286,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
                if (networkPlayerInfo.getGameProfile() != null && entityPlayerSP.getPlayerInfo() != networkPlayerInfo) {
                   String string2 = StreamerMode.getPlayerListName(networkPlayerInfo);
                   if (text.contains(string2)) {
-                     text = this.F(text, string2);
+                     text = this.obfuscateName(text, string2);
                   }
                }
             }
@@ -312,7 +312,7 @@ public class FontRenderer implements IResourceManagerReloadListener {
       return i;
    }
 
-   private String F(String string, String string2) {
+   private String obfuscateName(String string, String string2) {
       return string.replace(string2, "§k" + string2 + "§r");
    }
 
@@ -499,20 +499,20 @@ public class FontRenderer implements IResourceManagerReloadListener {
       return (int)this.posX;
    }
 
-   public void O(String string, int i, int j, int k) {
-      this.D(StringUtils.stripControlCodes(string), i + 1, j, -16777216);
-      this.D(StringUtils.stripControlCodes(string), i - 1, j, -16777216);
-      this.D(StringUtils.stripControlCodes(string), i, j + 1, -16777216);
-      this.D(StringUtils.stripControlCodes(string), i, j - 1, -16777216);
-      this.D(string, i, j, k);
+   public void drawOutlinedString(String string, int i, int j, int k) {
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), i + 1, j, -16777216);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), i - 1, j, -16777216);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), i, j + 1, -16777216);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), i, j - 1, -16777216);
+      this.drawStringNoShadow(string, i, j, k);
    }
 
-   public void N(String string, float f, float g, int i) {
-      this.D(StringUtils.stripControlCodes(string), f + 0.5F, g, i);
-      this.D(StringUtils.stripControlCodes(string), f - 0.5F, g, i);
-      this.D(StringUtils.stripControlCodes(string), f, g + 0.5F, i);
-      this.D(StringUtils.stripControlCodes(string), f, g - 0.5F, i);
-      this.D(string, f, g, i);
+   public void drawBoldString(String string, float f, float g, int i) {
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), f + 0.5F, g, i);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), f - 0.5F, g, i);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), f, g + 0.5F, i);
+      this.drawStringNoShadow(StringUtils.stripControlCodes(string), f, g - 0.5F, i);
+      this.drawStringNoShadow(string, f, g, i);
    }
 
    public int getStringWidth(String text) {

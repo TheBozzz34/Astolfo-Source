@@ -395,7 +395,7 @@ public class GuiPageButtonList extends GuiListExtended {
       }
 
       @Override
-      public boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n) {
+      public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
          boolean bl = this.func_178026_a(this.field_178029_b, i, j, k);
          boolean bl2 = this.func_178026_a(this.field_178030_c, i, j, k);
          return bl || bl2;

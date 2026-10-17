@@ -46,8 +46,8 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    }
 
    @Override
-   public String P() {
-      return this.getProcessorIdentifier().H();
+   public String getVendor() {
+      return this.getProcessorIdentifier().getVendor();
    }
 
    @Override
@@ -56,18 +56,18 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    }
 
    @Override
-   public String v() {
-      return this.getProcessorIdentifier().d();
+   public String getFamily() {
+      return this.getProcessorIdentifier().getFamily();
    }
 
    @Override
-   public String Z() {
-      return this.getProcessorIdentifier().V();
+   public String getModel() {
+      return this.getProcessorIdentifier().getModel();
    }
 
    @Override
    public String y() {
-      return this.getProcessorIdentifier().r();
+      return this.getProcessorIdentifier().getStepping();
    }
 
    @Override
@@ -76,7 +76,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    }
 
    @Override
-   public String w() {
+   public String getIdentifier() {
       return this.getProcessorIdentifier().getIdentifier();
    }
 
@@ -86,7 +86,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    }
 
    @Override
-   public long g() {
+   public long getVendorFreq() {
       return this.getProcessorIdentifier().getVendorFreq();
    }
 
@@ -105,14 +105,14 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    public abstract long[] queryCurrentFreq();
 
    @Override
-   public long Q() {
+   public long getContextSwitches() {
       return this.contextSwitches.get();
    }
 
    public abstract long queryContextSwitches();
 
    @Override
-   public long m() {
+   public long getInterrupts() {
       return this.interrupts.get();
    }
 

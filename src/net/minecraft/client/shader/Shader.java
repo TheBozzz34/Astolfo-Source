@@ -100,7 +100,7 @@ public class Shader {
       }
    }
 
-   public void Q(float f) {
+   public void renderBlended(float f) {
       GL11.glEnable(3042);
       this.framebufferIn.unbindFramebuffer();
       float g = this.framebufferOut.framebufferTextureWidth;

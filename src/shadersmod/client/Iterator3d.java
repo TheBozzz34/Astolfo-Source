@@ -12,7 +12,7 @@ public class Iterator3d implements Iterator<BlockPos> {
    private int kX;
    private int kY;
    private int kZ;
-   private static final int Q = 2;
+   private static final int AXIS_Z = 2;
 
    public Iterator3d(BlockPos posStart, BlockPos posEnd, int width, int height) {
       boolean bl = posStart.getX() > posEnd.getX();

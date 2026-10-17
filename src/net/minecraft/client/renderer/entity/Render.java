@@ -299,10 +299,10 @@ public abstract class Render<T extends Entity> {
          worldRenderer.pos(i + 1, -1 + b, 0.0).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
          tessellator.draw();
          GlStateManager.enableTexture2D();
-         fontRenderer.D(str, -fontRenderer.getStringWidth(str) / 2, b, 553648127);
+         fontRenderer.drawStringNoShadow(str, -fontRenderer.getStringWidth(str) / 2, b, 553648127);
          GlStateManager.enableDepth();
          GlStateManager.depthMask(true);
-         fontRenderer.D(str, -fontRenderer.getStringWidth(str) / 2, b, -1);
+         fontRenderer.drawStringNoShadow(str, -fontRenderer.getStringWidth(str) / 2, b, -1);
          GlStateManager.enableLighting();
          GlStateManager.disableBlend();
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

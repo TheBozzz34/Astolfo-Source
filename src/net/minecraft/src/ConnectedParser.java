@@ -17,7 +17,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 
 public class ConnectedParser {
    private String context = null;
-   private static final MatchBlock[] C = new MatchBlock[0];
+   private static final MatchBlock[] NO_MATCH_BLOCKS = new MatchBlock[0];
 
    public ConnectedParser(String context) {
       this.context = context;
@@ -43,19 +43,19 @@ public class ConnectedParser {
       return i < 0 ? "" : path.substring(0, i);
    }
 
-   public MatchBlock[] t(String string) {
-      if (string == null) {
+   public MatchBlock[] parseMatchBlocks(String propMatchBlocks) {
+      if (propMatchBlocks == null) {
          return null;
       }
 
       ArrayList arrayList = new ArrayList();
-      String[] strings = Config.tokenize(string, " ");
+      String[] strings = Config.tokenize(propMatchBlocks, " ");
 
       for (int i = 0; i < strings.length; i++) {
-         String string2 = strings[i];
-         MatchBlock[] matchBlocks = this.g(string2);
+         String string = strings[i];
+         MatchBlock[] matchBlocks = this.parseMatchBlock(string);
          if (matchBlocks == null) {
-            return C;
+            return NO_MATCH_BLOCKS;
          }
 
          arrayList.addAll(Arrays.asList(matchBlocks));
@@ -64,30 +64,30 @@ public class ConnectedParser {
       return (net.minecraft.src.MatchBlock[])(arrayList.toArray(new MatchBlock[arrayList.size()]));
    }
 
-   public MatchBlock[] g(String string) {
-      if (string == null) {
+   public MatchBlock[] parseMatchBlock(String blockStr) {
+      if (blockStr == null) {
          return null;
       }
 
-      string = string.trim();
-      if (string.length() <= 0) {
+      blockStr = blockStr.trim();
+      if (blockStr.length() <= 0) {
          return null;
       }
 
-      String[] strings = Config.tokenize(string, ":");
-      String string2 = "minecraft";
+      String[] strings = Config.tokenize(blockStr, ":");
+      String string = "minecraft";
       byte b = 0;
       if (strings.length > 1 && this.isFullBlockName(strings)) {
-         string2 = strings[0];
+         string = strings[0];
          b = 1;
       } else {
-         string2 = "minecraft";
+         string = "minecraft";
          b = 0;
       }
 
-      String string3 = strings[b];
+      String string2 = strings[b];
       String[] strings2 = Arrays.copyOfRange(strings, b + 1, strings.length);
-      Block[] blocks = this.parseBlockPart(string2, string3);
+      Block[] blocks = this.parseBlockPart(string, string2);
       if (blocks == null) {
          return null;
       }
@@ -147,7 +147,7 @@ public class ConnectedParser {
             int j = ints[i];
             Block block = Block.getBlockById(j);
             if (block == null) {
-               this.c("Block not found for id: " + j);
+               this.warn("Block not found for id: " + j);
                return null;
             }
 
@@ -159,7 +159,7 @@ public class ConnectedParser {
          String string = domain + ":" + blockPart;
          Block block2 = Block.getBlockFromName(string);
          if (block2 == null) {
-            this.c("Block not found for name: " + string);
+            this.warn("Block not found for name: " + string);
             return null;
          } else {
             return new Block[]{block2};
@@ -186,7 +186,7 @@ public class ConnectedParser {
          if (string2.length() > 0) {
             String[] strings = Config.tokenize(string2, "=");
             if (strings.length != 2) {
-               this.c("Invalid block property: " + string2);
+               this.warn("Invalid block property: " + string2);
                return null;
             }
 
@@ -194,7 +194,7 @@ public class ConnectedParser {
             String string4 = strings[1];
             IProperty iProperty = ConnectedProperties.getProperty(string3, collection);
             if (iProperty == null) {
-               this.c("Property not found: " + string3 + ", block: " + block);
+               this.warn("Property not found: " + string3 + ", block: " + block);
                return null;
             }
 
@@ -210,7 +210,7 @@ public class ConnectedParser {
                String string5 = strings2[j];
                Comparable comparable = parsePropertyValue(iProperty, string5);
                if (comparable == null) {
-                  this.c("Property value not found: " + string5 + ", property: " + string3 + ", block: " + block);
+                  this.warn("Property value not found: " + string5 + ", property: " + string3 + ", block: " + block);
                   return null;
                }
 
@@ -329,9 +329,9 @@ public class ConnectedParser {
 
       for (int i = 0; i < strings.length; i++) {
          String string2 = strings[i];
-         BiomeGenBase biomeGenBase = this.I(string2);
+         BiomeGenBase biomeGenBase = this.findBiome(string2);
          if (biomeGenBase == null) {
-            this.c("Biome not found: " + string2);
+            this.warn("Biome not found: " + string2);
          } else {
             arrayList.add(biomeGenBase);
          }
@@ -340,9 +340,9 @@ public class ConnectedParser {
       return (net.minecraft.world.biome.BiomeGenBase[])(arrayList.toArray(new BiomeGenBase[arrayList.size()]));
    }
 
-   public BiomeGenBase I(String string) {
-      string = string.toLowerCase();
-      if (string.equals("nether")) {
+   public BiomeGenBase findBiome(String biomeName) {
+      biomeName = biomeName.toLowerCase();
+      if (biomeName.equals("nether")) {
          return BiomeGenBase.hell;
       }
 
@@ -351,8 +351,8 @@ public class ConnectedParser {
       for (int i = 0; i < biomeGenBases.length; i++) {
          BiomeGenBase biomeGenBase = biomeGenBases[i];
          if (biomeGenBase != null) {
-            String string2 = biomeGenBase.biomeName.replace(" ", "").toLowerCase();
-            if (string2.equals(string)) {
+            String string = biomeGenBase.biomeName.replace(" ", "").toLowerCase();
+            if (string.equals(biomeName)) {
                return biomeGenBase;
             }
          }
@@ -361,26 +361,26 @@ public class ConnectedParser {
       return null;
    }
 
-   public int Y(String string) {
-      if (string == null) {
+   public int parseInt(String str) {
+      if (str == null) {
          return -1;
       }
 
-      int i = Config.parseInt(string, -1);
+      int i = Config.parseInt(str, -1);
       if (i < 0) {
-         this.c("Invalid number: " + string);
+         this.warn("Invalid number: " + str);
       }
 
       return i;
    }
 
-   public int O(String string, int i) {
+   public int parseIntOrDefault(String string, int i) {
       if (string == null) {
          return i;
       } else {
          int j = Config.parseInt(string, -1);
          if (j < 0) {
-            this.c("Invalid number: " + string);
+            this.warn("Invalid number: " + string);
             return i;
          } else {
             return j;
@@ -401,7 +401,7 @@ public class ConnectedParser {
          if (string.contains("-")) {
             String[] strings2 = Config.tokenize(string, "-");
             if (strings2.length != 2) {
-               this.c("Invalid interval: " + string + ", when parsing: " + str);
+               this.warn("Invalid interval: " + string + ", when parsing: " + str);
             } else {
                int j = Config.parseInt(strings2[0], -1);
                int k = Config.parseInt(strings2[1], -1);
@@ -410,13 +410,13 @@ public class ConnectedParser {
                      arrayList.add(l);
                   }
                } else {
-                  this.c("Invalid interval: " + string + ", when parsing: " + str);
+                  this.warn("Invalid interval: " + string + ", when parsing: " + str);
                }
             }
          } else {
             int m = Config.parseInt(string, -1);
             if (m < 0) {
-               this.c("Invalid number: " + string + ", when parsing: " + str);
+               this.warn("Invalid number: " + string + ", when parsing: " + str);
             } else {
                arrayList.add(m);
             }
@@ -450,7 +450,7 @@ public class ConnectedParser {
          } else if (string.equals("all")) {
             enumSet.addAll(Arrays.asList(EnumFacing.VALUES));
          } else {
-            EnumFacing enumFacing = this.p(string);
+            EnumFacing enumFacing = this.parseFace(string);
             if (enumFacing != null) {
                enumSet.add(enumFacing);
             }
@@ -466,33 +466,33 @@ public class ConnectedParser {
       return booleans;
    }
 
-   public EnumFacing p(String string) {
-      string = string.toLowerCase();
-      if (string.equals("bottom") || string.equals("down")) {
+   public EnumFacing parseFace(String str) {
+      str = str.toLowerCase();
+      if (str.equals("bottom") || str.equals("down")) {
          return EnumFacing.DOWN;
       }
 
-      if (string.equals("top") || string.equals("up")) {
+      if (str.equals("top") || str.equals("up")) {
          return EnumFacing.UP;
       }
 
-      if (string.equals("north")) {
+      if (str.equals("north")) {
          return EnumFacing.NORTH;
       }
 
-      if (string.equals("south")) {
+      if (str.equals("south")) {
          return EnumFacing.SOUTH;
       }
 
-      if (string.equals("east")) {
+      if (str.equals("east")) {
          return EnumFacing.EAST;
       }
 
-      if (string.equals("west")) {
+      if (str.equals("west")) {
          return EnumFacing.WEST;
       }
 
-      Config.warn("Unknown face: " + string);
+      Config.warn("Unknown face: " + str);
       return null;
    }
 
@@ -500,21 +500,21 @@ public class ConnectedParser {
       Config.dbg("" + this.context + ": " + string);
    }
 
-   public void c(String string) {
-      Config.warn("" + this.context + ": " + string);
+   public void warn(String str) {
+      Config.warn("" + this.context + ": " + str);
    }
 
-   public RangeListInt F(String string) {
-      if (string == null) {
+   public RangeListInt parseRangeListInt(String str) {
+      if (str == null) {
          return null;
       }
 
       RangeListInt rangeListInt = new RangeListInt();
-      String[] strings = Config.tokenize(string, " ,");
+      String[] strings = Config.tokenize(str, " ,");
 
       for (int i = 0; i < strings.length; i++) {
-         String string2 = strings[i];
-         RangeInt rangeInt = this.w(string2);
+         String string = strings[i];
+         RangeInt rangeInt = this.parseRangeInt(string);
          if (rangeInt == null) {
             return null;
          }
@@ -525,15 +525,15 @@ public class ConnectedParser {
       return rangeListInt;
    }
 
-   private RangeInt w(String string) {
-      if (string == null) {
+   private RangeInt parseRangeInt(String str) {
+      if (str == null) {
          return null;
       }
 
-      if (string.indexOf(45) >= 0) {
-         String[] strings = Config.tokenize(string, "-");
+      if (str.indexOf(45) >= 0) {
+         String[] strings = Config.tokenize(str, "-");
          if (strings.length != 2) {
-            this.c("Invalid range: " + string);
+            this.warn("Invalid range: " + str);
             return null;
          }
 
@@ -543,12 +543,12 @@ public class ConnectedParser {
             return new RangeInt(i, j);
          }
 
-         this.c("Invalid range: " + string);
+         this.warn("Invalid range: " + str);
          return null;
       } else {
-         int k = Config.parseInt(string, -1);
+         int k = Config.parseInt(str, -1);
          if (k < 0) {
-            this.c("Invalid integer: " + string);
+            this.warn("Invalid integer: " + str);
             return null;
          } else {
             return new RangeInt(k, k);
@@ -564,17 +564,17 @@ public class ConnectedParser {
       }
    }
 
-   public static int w(String string, int i) {
-      if (string == null) {
-         return i;
+   public static int parseColor(String str, int defVal) {
+      if (str == null) {
+         return defVal;
       }
 
-      string = string.trim();
+      str = str.trim();
 
       try {
-         return Integer.parseInt(string, 16) & 16777215;
+         return Integer.parseInt(str, 16) & 16777215;
       } catch (NumberFormatException numberFormatException) {
-         return i;
+         return defVal;
       }
    }
 }

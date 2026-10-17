@@ -18,12 +18,12 @@ public final class MacComputerSystem extends AbstractComputerSystem {
 
    @Override
    public String getManufacturer() {
-      return this.manufacturerModelSerial.get().v();
+      return this.manufacturerModelSerial.get().getA();
    }
 
    @Override
    public String getModel() {
-      return this.manufacturerModelSerial.get().q();
+      return this.manufacturerModelSerial.get().getB();
    }
 
    @Override

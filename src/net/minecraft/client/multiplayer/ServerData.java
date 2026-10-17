@@ -17,7 +17,7 @@ public class ServerData {
    private ServerData.ServerResourceMode resourceMode = ServerData.ServerResourceMode.PROMPT;
    private String serverIcon;
    private boolean lanServer;
-   public static String I;
+   public static String currentServerIp;
 
    public ServerData(String name, String ip, boolean isLan) {
       this.serverName = name;

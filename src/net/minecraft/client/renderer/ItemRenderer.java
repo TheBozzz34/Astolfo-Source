@@ -50,8 +50,8 @@ public class ItemRenderer {
    private final RenderManager renderManager;
    private final RenderItem itemRenderer;
    private int equippedItemSlot = -1;
-   public static boolean J;
-   private float p = 0.0F;
+   public static boolean fakeBlocking;
+   private float spinAngle = 0.0F;
 
    public ItemRenderer(Minecraft mcIn) {
       this.mc = mcIn;
@@ -88,10 +88,10 @@ public class ItemRenderer {
       return blockIn != null && blockIn.getBlockLayer() == EnumWorldBlockLayer.TRANSLUCENT;
    }
 
-   private void R(float f, float g) {
+   private void rotateArroundXAndY(float angle, float angleY) {
       GlStateManager.pushMatrix();
-      GlStateManager.rotate(f, 1.0F, 0.0F, 0.0F);
-      GlStateManager.rotate(g, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(angle, 1.0F, 0.0F, 0.0F);
+      GlStateManager.rotate(angleY, 0.0F, 1.0F, 0.0F);
       RenderHelper.enableStandardItemLighting();
       GlStateManager.popMatrix();
    }
@@ -243,7 +243,7 @@ public class ItemRenderer {
       GlStateManager.rotate(f2 * 30.0F, 0.0F, 0.0F, 1.0F);
    }
 
-   private void L(float f, float g) {
+   private void transformFirstPersonItem(float equipProgress, float swingProgress) {
       GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
       if (Astolfo.INSTANCE.getModuleManager().get(Camera.class).isEnabled()) {
          GlStateManager.translate(
@@ -251,17 +251,17 @@ public class ItemRenderer {
          );
       }
 
-      GlStateManager.translate(0.0F, f * -0.6F, 0.0F);
+      GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
       GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
-      float h = MathHelper.sin((float)(g * g * Math.PI));
-      float f2 = MathHelper.sin((float)(MathHelper.sqrt_float(g) * Math.PI));
-      GlStateManager.rotate(h * -20.0F, 0.0F, 1.0F, 0.0F);
-      GlStateManager.rotate(f2 * -20.0F, 0.0F, 0.0F, 1.0F);
-      GlStateManager.rotate(f2 * -80.0F, 1.0F, 0.0F, 0.0F);
+      float f = MathHelper.sin((float)(swingProgress * swingProgress * Math.PI));
+      float g = MathHelper.sin((float)(MathHelper.sqrt_float(swingProgress) * Math.PI));
+      GlStateManager.rotate(f * -20.0F, 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(g * -20.0F, 0.0F, 0.0F, 1.0F);
+      GlStateManager.rotate(g * -80.0F, 1.0F, 0.0F, 0.0F);
       GlStateManager.scale(0.4F, 0.4F, 0.4F);
    }
 
-   private void e(float f, float g) {
+   private void transformFirstPersonItemAstolfo(float f, float g) {
       GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
       GlStateManager.translate(0.0F, f * -0.6F, 0.0F);
       GlStateManager.rotate(45.0F, 0.0F, 1.0F, 0.0F);
@@ -303,10 +303,10 @@ public class ItemRenderer {
       GlStateManager.rotate(60.0F, 0.0F, 1.0F, 0.0F);
    }
 
-   private void i() {
+   private void doSpinTransformations() {
       GlStateManager.translate(0.5F, 0.1F, 0.0F);
       GlStateManager.rotate(10.0F, -2.0F, 1.0F, 0.0F);
-      GlStateManager.rotate(this.t(Animations.spin.getValue()), 0.0F, 1.0F, 0.0F);
+      GlStateManager.rotate(this.updateSpinAngle(Animations.spin.getValue()), 0.0F, 1.0F, 0.0F);
    }
 
    // $VF: Unable to simplify switch on enum
@@ -317,36 +317,36 @@ public class ItemRenderer {
       float g = entityPlayerSP.getSwingProgress(partialTicks);
       float h = entityPlayerSP.prevRotationPitch + (entityPlayerSP.rotationPitch - entityPlayerSP.prevRotationPitch) * partialTicks;
       float f2 = entityPlayerSP.prevRotationYaw + (entityPlayerSP.rotationYaw - entityPlayerSP.prevRotationYaw) * partialTicks;
-      this.R(h, f2);
+      this.rotateArroundXAndY(h, f2);
       this.setLightMapFromPlayer(entityPlayerSP);
       this.rotateWithPlayerRotations(entityPlayerSP, partialTicks);
       GlStateManager.enableRescaleNormal();
       GlStateManager.pushMatrix();
       if (this.itemToRender != null) {
-         if (!(this.itemToRender.getItem() instanceof ItemSword) && J) {
-            J = false;
+         if (!(this.itemToRender.getItem() instanceof ItemSword) && fakeBlocking) {
+            fakeBlocking = false;
          }
 
          if (this.itemToRender.getItem() instanceof ItemMap) {
             this.renderItemMap(entityPlayerSP, h, f, g);
-         } else if (entityPlayerSP.getItemInUseCount() <= 0 && !J) {
+         } else if (entityPlayerSP.getItemInUseCount() <= 0 && !fakeBlocking) {
             this.doItemUsedTransformations(g);
-            this.L(f, g);
+            this.transformFirstPersonItem(f, g);
          } else {
             EnumAction enumAction = this.itemToRender.getItemUseAction();
-            if (J) {
+            if (fakeBlocking) {
                enumAction = EnumAction.BLOCK;
             }
 
             label46:
             switch (enumAction) {
                case NONE:
-                  this.L(f, 0.0F);
+                  this.transformFirstPersonItem(f, 0.0F);
                   break;
                case EAT:
                case DRINK:
                   this.performDrinking(entityPlayerSP, partialTicks);
-                  this.L(f, 0.0F);
+                  this.transformFirstPersonItem(f, 0.0F);
                   break;
                case BLOCK:
                   if (Astolfo.INSTANCE.getModuleManager().get(Animations.class).isEnabled()) {
@@ -361,24 +361,24 @@ public class ItemRenderer {
                      float f6 = f;
                      switch ((AnimationsMode)Animations.mode.getValue()) {
                         case DEFAULT:
-                           this.L(f, g);
+                           this.transformFirstPersonItem(f, g);
                            this.doBlockTransformations();
                            break label46;
                         case ASTOLFO:
-                           this.e(f, g);
+                           this.transformFirstPersonItemAstolfo(f, g);
                            GlStateManager.rotate(-f4 * 25.0F, -8.0F, -0.2F, 9.0F);
                            GlStateManager.rotate(-f3 * 30.0F, 1.0F, f3 / 2.0F, -0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case POINT:
-                           this.L(f6 / 4.0F, 0.0F);
+                           this.transformFirstPersonItem(f6 / 4.0F, 0.0F);
                            GlStateManager.rotate(-f4 * 40.0F / 2.0F, f4 / 2.0F, -0.0F, 9.0F);
                            GlStateManager.rotate(-f4 * 30.0F, 1.0F, f4 / 2.0F, -0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case DOWN:
                            GlStateManager.translate(0.0, 0.15F, 0.0);
-                           this.L(0.1F, 0.0F);
+                           this.transformFirstPersonItem(0.1F, 0.0F);
                            this.doBlockTransformations();
                            GlStateManager.translate(-0.1F, 0.2F, 0.0F);
                            GlStateManager.rotate(-f4 * 80.0F / 2.0F, -8.0F, -0.0F, 9.0F);
@@ -386,70 +386,70 @@ public class ItemRenderer {
                            break label46;
                         case OLD:
                            GlStateManager.translate(0.08F, -0.027F, -0.33F);
-                           this.L(f, g);
+                           this.transformFirstPersonItem(f, g);
                            this.doBlockTransformations();
                            break label46;
                         case WINGY:
                            GlStateManager.translate(0.1F, 0.09F, 0.1F);
                            GlStateManager.rotate(-f4 * 25.0F, -8.0F, -0.2F, 9.0F);
-                           this.L(f, g);
+                           this.transformFirstPersonItem(f, g);
                            this.doBlockTransformations();
                            break label46;
                         case PLAIN:
                            GlStateManager.translate(0.0F, 0.1F, 0.0F);
-                           this.L(f, 0.0F);
+                           this.transformFirstPersonItem(f, 0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case SPIN:
-                           GlStateManager.rotate(this.t(Animations.spin.getValue()), 0.0F, 1.0F, 5.0F);
-                           this.L(f, 0.0F);
+                           GlStateManager.rotate(this.updateSpinAngle(Animations.spin.getValue()), 0.0F, 1.0F, 5.0F);
+                           this.transformFirstPersonItem(f, 0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case SPINNY:
-                           this.L(f, 0.0F);
-                           this.i();
+                           this.transformFirstPersonItem(f, 0.0F);
+                           this.doSpinTransformations();
                            break label46;
                         case BLICKY:
-                           this.L(f6 / 2.0F, f5);
+                           this.transformFirstPersonItem(f6 / 2.0F, f5);
                            float f7 = MathHelper.sin(MathHelper.sqrt_float(g) * (float) Math.PI);
                            GlStateManager.rotate(f7 * 30.0F / 2.0F, -f7, -0.0F, 9.0F);
                            GlStateManager.rotate(f7 * 40.0F, 1.0F, -f7 / 2.0F, -0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case FRONT:
-                           this.L(f6 / 2.0F, 0.0F);
+                           this.transformFirstPersonItem(f6 / 2.0F, 0.0F);
                            float f8 = MathHelper.sin(f5 * f5 * (float) Math.PI);
                            GlStateManager.rotate(-f8 * 40.0F / 2.0F, f8 / 2.0F, -0.0F, 9.0F);
                            GlStateManager.rotate(-f8 * 30.0F, 1.0F, f8 / 2.0F, -0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case DOWN_2:
-                           this.L(f6, 0.0F);
+                           this.transformFirstPersonItem(f6, 0.0F);
                            this.doBlockTransformations();
                            GlStateManager.rotate(-f4 * 70.0F / 2.0F, -8.0F, -0.0F, 9.0F);
                            GlStateManager.rotate(-f4 * 70.0F, 1.5F, -0.4F, -0.0F);
                            break label46;
                         case DASH:
-                           this.L(f6 / 2.0F, 0.0F);
+                           this.transformFirstPersonItem(f6 / 2.0F, 0.0F);
                            GlStateManager.rotate(-f4 * 30.0F, 9.0F, -0.2F, 9.0F);
                            GlStateManager.rotate(-f4 * 45.0F / 2.0F, f4, -0.0F, 9.0F);
                            GlStateManager.rotate(-f4 * 30.0F, f4, f4 / 2.0F, -0.0F);
                            this.doBlockTransformations();
                            break label46;
                         case EDIT:
-                           this.L(f6 / 2.0F, f5);
+                           this.transformFirstPersonItem(f6 / 2.0F, f5);
                            float f9 = MathHelper.sin(MathHelper.sqrt_float(f5) * (float) Math.PI);
                            GlStateManager.rotate(f9 * 30.0F, -f9, -0.0F, 9.0F);
                            GlStateManager.rotate(f9 * 40.0F, 1.0F, -f9, -0.0F);
                            this.doBlockTransformations();
                      }
                   } else {
-                     this.L(f, g);
+                     this.transformFirstPersonItem(f, g);
                      this.doBlockTransformations();
                   }
                   break;
                case BOW:
-                  this.L(f, 0.0F);
+                  this.transformFirstPersonItem(f, 0.0F);
                   this.doBowTransformations(partialTicks, entityPlayerSP);
             }
          }
@@ -464,13 +464,13 @@ public class ItemRenderer {
       RenderHelper.disableStandardItemLighting();
    }
 
-   public float t(float f) {
-      this.p += f;
-      if (this.p > 360.0F) {
-         this.p -= 360.0F;
+   public float updateSpinAngle(float f) {
+      this.spinAngle += f;
+      if (this.spinAngle > 360.0F) {
+         this.spinAngle -= 360.0F;
       }
 
-      return this.p;
+      return this.spinAngle;
    }
 
    public void renderOverlays(float partialTicks) {

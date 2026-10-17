@@ -54,9 +54,9 @@ public abstract class GuiContainer extends GuiScreen {
    private int lastClickButton;
    private boolean doubleClick;
    private ItemStack shiftClickedSlot;
-   private GuiButton d;
-   private GuiButton i;
-   private GuiButton Xk;
+   private GuiButton disableKillAuraButton;
+   private GuiButton disableInventoryManagerButton;
+   private GuiButton disableStealerButton;
 
    public GuiContainer(Container inventorySlotsIn) {
       this.inventorySlots = inventorySlotsIn;
@@ -69,15 +69,15 @@ public abstract class GuiContainer extends GuiScreen {
       this.mc.thePlayer.openContainer = this.inventorySlots;
       this.guiLeft = (this.width - this.xSize) / 2;
       this.guiTop = (this.height - this.ySize) / 2;
-      this.buttonList.add(this.d = new GuiButton(32, 2, 1, 140, 20, "Disable KillAura"));
-      this.buttonList.add(this.i = new GuiButton(33, 2, 20, 140, 20, "Disable InventoryManager"));
-      this.buttonList.add(this.Xk = new GuiButton(34, 2, 40, 140, 20, "Disable Stealer"));
+      this.buttonList.add(this.disableKillAuraButton = new GuiButton(32, 2, 1, 140, 20, "Disable KillAura"));
+      this.buttonList.add(this.disableInventoryManagerButton = new GuiButton(33, 2, 20, 140, 20, "Disable InventoryManager"));
+      this.buttonList.add(this.disableStealerButton = new GuiButton(34, 2, 40, 140, 20, "Disable Stealer"));
       KillAura killAura = Astolfo.INSTANCE.getModuleManager().get(KillAura.class);
       InventoryManager inventoryManager = Astolfo.INSTANCE.getModuleManager().get(InventoryManager.class);
       Stealer stealer = Astolfo.INSTANCE.getModuleManager().get(Stealer.class);
-      this.d.enabled = killAura.isEnabled();
-      this.i.enabled = inventoryManager.isEnabled();
-      this.Xk.enabled = stealer.isEnabled();
+      this.disableKillAuraButton.enabled = killAura.isEnabled();
+      this.disableInventoryManagerButton.enabled = inventoryManager.isEnabled();
+      this.disableStealerButton.enabled = stealer.isEnabled();
    }
 
    @Override
@@ -363,17 +363,17 @@ public abstract class GuiContainer extends GuiScreen {
          case 32:
             KillAura killAura = Astolfo.INSTANCE.getModuleManager().get(KillAura.class);
             killAura.setEnabled(false);
-            this.d.enabled = false;
+            this.disableKillAuraButton.enabled = false;
             break;
          case 33:
             InventoryManager inventoryManager = Astolfo.INSTANCE.getModuleManager().get(InventoryManager.class);
             inventoryManager.setEnabled(false);
-            this.i.enabled = false;
+            this.disableInventoryManagerButton.enabled = false;
             break;
          case 34:
             Stealer stealer = Astolfo.INSTANCE.getModuleManager().get(Stealer.class);
             stealer.setEnabled(false);
-            this.Xk.enabled = false;
+            this.disableStealerButton.enabled = false;
       }
 
       super.actionPerformed(button);

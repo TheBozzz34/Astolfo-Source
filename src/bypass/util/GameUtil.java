@@ -225,11 +225,11 @@ public final class GameUtil implements ClientAccess {
    }
 
    public static boolean isOnHypixel() {
-      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.c;
+      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.hypixelInHostsFile;
    }
 
    public static boolean isInHypixelGame() {
-      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.c && hasSidebar();
+      return ServerManager.currentServerType == ServerType.HYPIXEL && !Minecraft.hypixelInHostsFile && hasSidebar();
    }
 
    public static boolean isOnHypixelAddress() {

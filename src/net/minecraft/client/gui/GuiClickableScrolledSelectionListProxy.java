@@ -8,8 +8,8 @@ import org.lwjgl.input.Mouse;
 public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
    private final RealmsClickableScrolledSelectionList field_178046_u;
 
-   public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList selectionList, int i, int j, int k, int m, int n) {
-      super(Minecraft.getMinecraft(), i, j, k, m, n);
+   public GuiClickableScrolledSelectionListProxy(RealmsClickableScrolledSelectionList selectionList, int i, int j, int k, int l, int m) {
+      super(Minecraft.getMinecraft(), i, j, k, l, m);
       this.field_178046_u = selectionList;
    }
 
@@ -42,11 +42,11 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
       return super.width;
    }
 
-   public int U() {
+   public int getMouseY() {
       return super.mouseY;
    }
 
-   public int v() {
+   public int getMouseX() {
       return super.mouseX;
    }
 

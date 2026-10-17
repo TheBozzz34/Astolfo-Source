@@ -4,13 +4,13 @@ import oshi.annotation.concurrent.Immutable;
 
 @Immutable
 public interface GraphicsCard {
-   String E();
+   String getName();
 
-   String S();
+   String getDeviceId();
 
-   String L();
+   String getVendor();
 
-   String e();
+   String getVersionInfo();
 
    long getVRam();
 }

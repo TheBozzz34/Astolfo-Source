@@ -5,25 +5,25 @@ import net.minecraft.util.Util;
 
 public class ShaderMacros {
    private static String PREFIX_MACRO = "MC_";
-   public static final String j = "MC_VERSION";
-   public static final String D = "MC_GL_VERSION";
-   public static final String Z = "MC_GLSL_VERSION";
-   public static final String O = "MC_OS_WINDOWS";
-   public static final String b = "MC_OS_MAC";
-   public static final String M = "MC_OS_LINUX";
-   public static final String c = "MC_OS_OTHER";
-   public static final String P = "MC_GL_VENDOR_ATI";
-   public static final String K = "MC_GL_VENDOR_INTEL";
-   public static final String A = "MC_GL_VENDOR_NVIDIA";
-   public static final String e = "MC_GL_VENDOR_XORG";
-   public static final String k = "MC_GL_VENDOR_OTHER";
-   public static final String C = "MC_GL_RENDERER_RADEON";
-   public static final String H = "MC_GL_RENDERER_GEFORCE";
-   public static final String J = "MC_GL_RENDERER_QUADRO";
-   public static final String v = "MC_GL_RENDERER_INTEL";
-   public static final String F = "MC_GL_RENDERER_GALLIUM";
-   public static final String I = "MC_GL_RENDERER_MESA";
-   public static final String u = "MC_GL_RENDERER_OTHER";
+   public static final String MC_VERSION = "MC_VERSION";
+   public static final String MC_GL_VERSION = "MC_GL_VERSION";
+   public static final String MC_GLSL_VERSION = "MC_GLSL_VERSION";
+   public static final String MC_OS_WINDOWS = "MC_OS_WINDOWS";
+   public static final String MC_OS_MAC = "MC_OS_MAC";
+   public static final String MC_OS_LINUX = "MC_OS_LINUX";
+   public static final String MC_OS_OTHER = "MC_OS_OTHER";
+   public static final String MC_GL_VENDOR_ATI = "MC_GL_VENDOR_ATI";
+   public static final String MC_GL_VENDOR_INTEL = "MC_GL_VENDOR_INTEL";
+   public static final String MC_GL_VENDOR_NVIDIA = "MC_GL_VENDOR_NVIDIA";
+   public static final String MC_GL_VENDOR_XORG = "MC_GL_VENDOR_XORG";
+   public static final String MC_GL_VENDOR_OTHER = "MC_GL_VENDOR_OTHER";
+   public static final String MC_GL_RENDERER_RADEON = "MC_GL_RENDERER_RADEON";
+   public static final String MC_GL_RENDERER_GEFORCE = "MC_GL_RENDERER_GEFORCE";
+   public static final String MC_GL_RENDERER_QUADRO = "MC_GL_RENDERER_QUADRO";
+   public static final String MC_GL_RENDERER_INTEL = "MC_GL_RENDERER_INTEL";
+   public static final String MC_GL_RENDERER_GALLIUM = "MC_GL_RENDERER_GALLIUM";
+   public static final String MC_GL_RENDERER_MESA = "MC_GL_RENDERER_MESA";
+   public static final String MC_GL_RENDERER_OTHER = "MC_GL_RENDERER_OTHER";
    private static String[] extensionMacros;
 
    public static String getOs() {

@@ -79,7 +79,7 @@ public class RenderItem implements IResourceManagerReloadListener {
    private final TextureManager textureManager;
    private ModelResourceLocation modelLocation = null;
    private boolean renderItemGui = false;
-   private boolean k = true;
+   private boolean renderEnchantGlint = true;
    public ModelManager modelManager = null;
 
    public RenderItem(TextureManager textureManager, ModelManager modelManager) {
@@ -162,11 +162,11 @@ public class RenderItem implements IResourceManagerReloadListener {
          } else {
             GlStateManager.translate(-0.5F, -0.5F, -0.5F);
             if (Config.isCustomItems()) {
-               model = CustomItems.r(stack, model, null, false);
+               model = CustomItems.getCustomItemModel(stack, model, null, false);
             }
 
             this.renderModel(model, stack);
-            if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model)) && this.k) {
+            if (stack.hasEffect() && (!Config.isCustomItems() || !CustomItems.renderCustomEffect(this, stack, model)) && this.renderEnchantGlint) {
                this.renderEffect(model);
             }
          }
@@ -313,7 +313,7 @@ public class RenderItem implements IResourceManagerReloadListener {
             if (modelResourceLocation != null) {
                iBakedModel = this.itemModelMesher.getModelManager().getModel(modelResourceLocation);
                if (Config.isCustomItems()) {
-                  iBakedModel = CustomItems.r(stack, iBakedModel, modelResourceLocation, true);
+                  iBakedModel = CustomItems.getCustomItemModel(stack, iBakedModel, modelResourceLocation, true);
                }
             }
          }
@@ -384,7 +384,7 @@ public class RenderItem implements IResourceManagerReloadListener {
       this.renderItemGui = false;
    }
 
-   public void c(ItemStack itemStack, float f, float g) {
+   public void renderItemIntoGUIFloat(ItemStack itemStack, float f, float g) {
       this.renderItemGui = true;
       IBakedModel iBakedModel = this.itemModelMesher.getItemModel(itemStack);
       GlStateManager.pushMatrix();
@@ -396,7 +396,7 @@ public class RenderItem implements IResourceManagerReloadListener {
       GlStateManager.enableBlend();
       GlStateManager.blendFunc(770, 771);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-      this.I(f, g, iBakedModel.isGui3d());
+      this.setupGuiTransformFloat(f, g, iBakedModel.isGui3d());
       if (Reflector.ForgeHooksClient_handleCameraTransforms.exists()) {
          iBakedModel = (IBakedModel)Reflector.call(Reflector.ForgeHooksClient_handleCameraTransforms, iBakedModel, ItemCameraTransforms.TransformType.GUI);
       } else {
@@ -430,7 +430,7 @@ public class RenderItem implements IResourceManagerReloadListener {
       }
    }
 
-   private void I(float f, float g, boolean bl) {
+   private void setupGuiTransformFloat(float f, float g, boolean bl) {
       GlStateManager.translate(f, g, 100.0F + this.zLevel);
       GlStateManager.translate(8.0F, 8.0F, 0.0F);
       GlStateManager.scale(1.0F, 1.0F, -1.0F);
@@ -483,12 +483,12 @@ public class RenderItem implements IResourceManagerReloadListener {
       }
    }
 
-   public void K(ItemStack itemStack, float f, float g) {
+   public void renderItemAndEffectIntoGUIFloat(ItemStack itemStack, float f, float g) {
       if (itemStack != null && itemStack.getItem() != null) {
          this.zLevel += 50.0F;
 
          try {
-            this.c(itemStack, f, g);
+            this.renderItemIntoGUIFloat(itemStack, f, g);
          } catch (Throwable throwable) {
             CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Rendering item");
             CrashReportCategory crashReportCategory = crashReport.makeCategory("Item being rendered");
@@ -1172,63 +1172,63 @@ public class RenderItem implements IResourceManagerReloadListener {
       }
    }
 
-   public void k(boolean bl) {
-      this.k = bl;
+   public void setRenderEnchantGlint(boolean bl) {
+      this.renderEnchantGlint = bl;
    }
 
    public static class ItemAuxCallable implements Callable<String> {
-      public final ItemStack J;
-      public final RenderItem r;
+      public final ItemStack stack;
+      public final RenderItem renderItem;
 
       public ItemAuxCallable(RenderItem renderItem, ItemStack itemStack) {
-         this.r = renderItem;
-         this.J = itemStack;
+         this.renderItem = renderItem;
+         this.stack = itemStack;
       }
 
       public String call() throws Exception {
-         return String.valueOf(this.J.getMetadata());
+         return String.valueOf(this.stack.getMetadata());
       }
    }
 
    public static class ItemFoilCallable implements Callable<String> {
-      public final ItemStack i;
-      public final RenderItem E;
+      public final ItemStack stack;
+      public final RenderItem renderItem;
 
       public ItemFoilCallable(RenderItem renderItem, ItemStack itemStack) {
-         this.E = renderItem;
-         this.i = itemStack;
+         this.renderItem = renderItem;
+         this.stack = itemStack;
       }
 
       public String call() throws Exception {
-         return String.valueOf(this.i.hasEffect());
+         return String.valueOf(this.stack.hasEffect());
       }
    }
 
    public static class ItemNbtCallable implements Callable<String> {
-      public final ItemStack m;
-      public final RenderItem d;
+      public final ItemStack stack;
+      public final RenderItem renderItem;
 
       public ItemNbtCallable(RenderItem renderItem, ItemStack itemStack) {
-         this.d = renderItem;
-         this.m = itemStack;
+         this.renderItem = renderItem;
+         this.stack = itemStack;
       }
 
       public String call() throws Exception {
-         return String.valueOf(this.m.getTagCompound());
+         return String.valueOf(this.stack.getTagCompound());
       }
    }
 
    public static class ItemTypeCallable implements Callable<String> {
-      public final ItemStack b;
-      public final RenderItem C;
+      public final ItemStack stack;
+      public final RenderItem renderItem;
 
       public ItemTypeCallable(RenderItem renderItem, ItemStack itemStack) {
-         this.C = renderItem;
-         this.b = itemStack;
+         this.renderItem = renderItem;
+         this.stack = itemStack;
       }
 
       public String call() throws Exception {
-         return String.valueOf(this.b.getItem());
+         return String.valueOf(this.stack.getItem());
       }
    }
 }

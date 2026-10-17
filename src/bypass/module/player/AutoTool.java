@@ -67,7 +67,7 @@ public final class AutoTool extends Module {
                   if (entity instanceof EntityLivingBase) {
                      if (entity instanceof EntityCow) {
                         int j = findItemSlot(Items.bucket);
-                        if (j != -1 && ((ItemBucket)mc.thePlayer.inventoryContainer.getSlot(j).getStack().getItem()).N() == Blocks.air) {
+                        if (j != -1 && ((ItemBucket)mc.thePlayer.inventoryContainer.getSlot(j).getStack().getItem()).getContainedBlock() == Blocks.air) {
                            this.switchToSlot(j);
                         }
                      }

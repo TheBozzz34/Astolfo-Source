@@ -4,14 +4,14 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public class Quintet<A, B, C, D, E> {
-   private final A N;
+   private final A a;
    private final B b;
    private final C c;
    private final D d;
    private final E e;
 
    public Quintet(A a, B b, C c, D d, E e) {
-      this.N = a;
+      this.a = a;
       this.b = b;
       this.c = c;
       this.d = d;
@@ -19,7 +19,7 @@ public class Quintet<A, B, C, D, E> {
    }
 
    public final A y() {
-      return this.N;
+      return this.a;
    }
 
    public final B getB() {
@@ -30,7 +30,7 @@ public class Quintet<A, B, C, D, E> {
       return this.c;
    }
 
-   public final D J() {
+   public final D getD() {
       return this.d;
    }
 

@@ -37,15 +37,15 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
       buf.writeByte(this.accepted ? 1 : 0);
    }
 
-   public void i(short s) {
+   public void setUid(short s) {
       this.uid = s;
    }
 
-   public void J(boolean bl) {
+   public void setAccepted(boolean bl) {
       this.accepted = bl;
    }
 
-   public void k(int i) {
+   public void setWindowId(int i) {
       this.windowId = i;
    }
 
@@ -53,7 +53,7 @@ public class C0FPacketConfirmTransaction implements Packet<INetHandlerPlayServer
       return this.windowId;
    }
 
-   public boolean N() {
+   public boolean isAccepted() {
       return this.accepted;
    }
 

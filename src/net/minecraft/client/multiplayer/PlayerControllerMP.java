@@ -349,7 +349,7 @@ public class PlayerControllerMP {
       }
    }
 
-   public boolean K(
+   public boolean onPlayerRightClickHideItem(
       EntityPlayerSP entityPlayerSP, WorldClient worldClient, ItemStack itemStack, BlockPos blockPos, EnumFacing enumFacing, Vec3 vec3, boolean bl
    ) {
       this.syncCurrentPlayItem();
@@ -449,10 +449,10 @@ public class PlayerControllerMP {
       return itemStack;
    }
 
-   public ItemStack Z(int i, int j, int k, int l, EntityPlayer entityPlayer) {
+   public ItemStack windowClickNoEvent(int i, int j, int k, int l, EntityPlayer entityPlayer) {
       short s = entityPlayer.openContainer.getNextTransactionID(entityPlayer.inventory);
       ItemStack itemStack = entityPlayer.openContainer.slotClick(j, k, l, entityPlayer);
-      this.netClientHandler.u(new C0EPacketClickWindow(i, j, k, l, itemStack, s));
+      this.netClientHandler.sendPacketNoEvent(new C0EPacketClickWindow(i, j, k, l, itemStack, s));
       return itemStack;
    }
 

@@ -19,7 +19,7 @@ public final class VclipCommand extends Command {
             return;
          }
 
-         mc.thePlayer.getEntityBoundingBox().X(0.0, d, 0.0);
+         mc.thePlayer.getEntityBoundingBox().offsetInPlace(0.0, d, 0.0);
          chat.printSuccess("Teleported " + (d != Double.NaN && d != 0.0 ? (d > 0.0 ? "up " : "down ") : "nowhere ") + d + " blocks");
       } else {
          chat.print("Vclip: " + this.getUsage());

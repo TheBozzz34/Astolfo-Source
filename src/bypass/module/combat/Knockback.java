@@ -33,7 +33,7 @@ public final class Knockback extends Module {
             mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
             mc.thePlayer.sendQueue.addToSendQueue(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
             mc.thePlayer.setSprinting(true);
-            mc.thePlayer.ej = true;
+            mc.thePlayer.serverSprintState = true;
          }
       }
    };

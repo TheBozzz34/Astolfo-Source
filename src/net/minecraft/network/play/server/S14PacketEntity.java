@@ -16,7 +16,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
    public byte pitch;
    public boolean onGround;
    public boolean field_149069_g;
-   public boolean E;
+   public boolean hasMovement;
 
    public S14PacketEntity() {
    }
@@ -72,8 +72,8 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
       return this.field_149069_g;
    }
 
-   public boolean t() {
-      return this.E;
+   public boolean hasMovement() {
+      return this.hasMovement;
    }
 
    public boolean getOnGround() {
@@ -90,7 +90,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.posY = y;
          this.posZ = z;
          this.onGround = onGroundIn;
-         this.E = true;
+         this.hasMovement = true;
       }
 
       @Override
@@ -156,7 +156,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.pitch = b5;
          this.onGround = bl;
          this.field_149069_g = true;
-         this.E = true;
+         this.hasMovement = true;
       }
 
       @Override

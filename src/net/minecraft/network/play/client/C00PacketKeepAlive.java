@@ -33,7 +33,7 @@ public class C00PacketKeepAlive implements Packet<INetHandlerPlayServer> {
       return this.key;
    }
 
-   public void A(int i) {
+   public void setKey(int i) {
       this.key = i;
    }
 }

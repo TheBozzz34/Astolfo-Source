@@ -43,8 +43,8 @@ public interface CLibrary extends LibCAPI, Library {
 
    @FieldOrder({"sa_family", "sa_data"})
    class Sockaddr extends Structure {
-      public short k;
-      public byte[] G = new byte[14];
+      public short sa_family;
+      public byte[] sa_data = new byte[14];
    }
 
    class SockaddrByReference extends CLibrary.Sockaddr implements com.sun.jna.Structure.ByReference {

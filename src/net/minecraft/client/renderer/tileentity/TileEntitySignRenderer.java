@@ -83,9 +83,9 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
                String string = list != null && list.size() > 0 ? ((IChatComponent)list.get(0)).getFormattedText() : "";
                if (k == te.lineBeingEdited) {
                   string = "> " + string + " <";
-                  fontRenderer.D(string, -fontRenderer.getStringWidth(string) / 2, k * 10 - te.signText.length * 5, j);
+                  fontRenderer.drawStringNoShadow(string, -fontRenderer.getStringWidth(string) / 2, k * 10 - te.signText.length * 5, j);
                } else {
-                  fontRenderer.D(string, -fontRenderer.getStringWidth(string) / 2, k * 10 - te.signText.length * 5, j);
+                  fontRenderer.drawStringNoShadow(string, -fontRenderer.getStringWidth(string) / 2, k * 10 - te.signText.length * 5, j);
                }
             }
          }

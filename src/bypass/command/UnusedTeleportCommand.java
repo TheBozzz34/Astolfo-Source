@@ -44,7 +44,7 @@ public final class UnusedTeleportCommand extends Command {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (packetEvent.getPacket() instanceof C0CPacketInput && mc.thePlayer.isRiding()) {
             C0CPacketInput c0CPacketInput = (C0CPacketInput)packetEvent.getPacket();
-            c0CPacketInput.d(true);
+            c0CPacketInput.setSneaking(true);
             return;
          }
 
@@ -315,20 +315,24 @@ public final class UnusedTeleportCommand extends Command {
    }
 
    public static void sendFakeJump() {
-      mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42F, mc.thePlayer.posZ, false));
       mc.thePlayer
          .sendQueue
-         .u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42F + 0.33319999363422426, mc.thePlayer.posZ, false));
+         .sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42F, mc.thePlayer.posZ, false));
       mc.thePlayer
          .sendQueue
-         .u(
+         .sendPacketNoEvent(
+            new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42F + 0.33319999363422426, mc.thePlayer.posZ, false)
+         );
+      mc.thePlayer
+         .sendQueue
+         .sendPacketNoEvent(
             new C03PacketPlayer.C04PacketPlayerPosition(
                mc.thePlayer.posX, mc.thePlayer.posY + 0.42F + 0.33319999363422426 + 0.24813599859093927, mc.thePlayer.posZ, false
             )
          );
       mc.thePlayer
          .sendQueue
-         .u(
+         .sendPacketNoEvent(
             new C03PacketPlayer.C04PacketPlayerPosition(
                mc.thePlayer.posX, mc.thePlayer.posY + 0.42F + 0.33319999363422426 + 0.24813599859093927 + 0.1647732818260721, mc.thePlayer.posZ, false
             )
@@ -353,10 +357,10 @@ public final class UnusedTeleportCommand extends Command {
                .sendQueue
                .addToSendQueue(new VehicleMovePacket(vector3.getX(), vector3.getY(), vector3.getZ(), mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch));
          } else if (e > 2.85) {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
             e = 0.0;
          } else {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), false));
          }
 
          d = vector3.getY();

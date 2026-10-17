@@ -7,7 +7,7 @@ import oshi.util.Memoizer;
 @NotThreadSafe
 public class OSProcess {
    private final OperatingSystem operatingSystem;
-   private final Supplier<Double> cumulativeCpuLoad = Memoizer.memoize(this::S);
+   private final Supplier<Double> cumulativeCpuLoad = Memoizer.memoize(this::queryCumulativeCpuLoad);
    private String name = "";
    private String path = "";
    private String commandLine = "";
@@ -67,7 +67,7 @@ public class OSProcess {
       return this.path;
    }
 
-   public String L() {
+   public String getCommandLine() {
       return this.commandLine;
    }
 
@@ -75,7 +75,7 @@ public class OSProcess {
       return this.currentWorkingDirectory;
    }
 
-   public String d() {
+   public String getUser() {
       return this.user;
    }
 
@@ -83,7 +83,7 @@ public class OSProcess {
       return this.userID;
    }
 
-   public String k() {
+   public String getGroup() {
       return this.group;
    }
 
@@ -103,19 +103,19 @@ public class OSProcess {
       return this.parentProcessID;
    }
 
-   public int a() {
+   public int getThreadCount() {
       return this.threadCount;
    }
 
-   public int m() {
+   public int getPriority() {
       return this.priority;
    }
 
-   public long K() {
+   public long getVirtualSize() {
       return this.virtualSize;
    }
 
-   public long h() {
+   public long getResidentSetSize() {
       return this.residentSetSize;
    }
 
@@ -123,7 +123,7 @@ public class OSProcess {
       return this.kernelTime;
    }
 
-   public long W() {
+   public long getUserTime() {
       return this.userTime;
    }
 
@@ -135,11 +135,11 @@ public class OSProcess {
       return this.startTime;
    }
 
-   public long j() {
+   public long getBytesRead() {
       return this.bytesRead;
    }
 
-   public long C() {
+   public long getBytesWritten() {
       return this.bytesWritten;
    }
 
@@ -231,12 +231,12 @@ public class OSProcess {
       this.openFiles = count;
    }
 
-   public long O() {
+   public long getOpenFiles() {
       return this.openFiles;
    }
 
    @Deprecated
-   public double Q() {
+   public double calculateCpuPercent() {
       return this.getProcessCpuLoadCumulative();
    }
 
@@ -244,7 +244,7 @@ public class OSProcess {
       return this.cumulativeCpuLoad.get();
    }
 
-   private double S() {
+   private double queryCumulativeCpuLoad() {
       return (double)(this.kernelTime + this.userTime) / this.upTime;
    }
 
@@ -254,7 +254,7 @@ public class OSProcess {
          : this.getProcessCpuLoadCumulative();
    }
 
-   public int N() {
+   public int getBitness() {
       return this.bitness;
    }
 

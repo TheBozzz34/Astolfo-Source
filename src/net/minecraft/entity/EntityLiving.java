@@ -960,7 +960,7 @@ public abstract class EntityLiving extends EntityLivingBase {
       IN_AIR("IN_AIR", 1),
       IN_WATER("IN_WATER", 2);
 
-      private static final EntityLiving.SpawnPlacementType[] c = new EntityLiving.SpawnPlacementType[]{ON_GROUND, IN_AIR, IN_WATER};
+      private static final EntityLiving.SpawnPlacementType[] VALUES = new EntityLiving.SpawnPlacementType[]{ON_GROUND, IN_AIR, IN_WATER};
 
       SpawnPlacementType(String string2, int j) {
       }

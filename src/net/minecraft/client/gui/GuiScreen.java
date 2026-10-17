@@ -64,8 +64,8 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    private long lastMouseEvent;
    private int touchValue;
    private URI clickedLinkURI;
-   private static final int I = new Color(7, 7, 7).getRGB();
-   private static final int Z = new Color(17, 17, 17).getRGB();
+   private static final int BACKGROUND_GRADIENT_TOP = new Color(7, 7, 7).getRGB();
+   private static final int BACKGROUND_GRADIENT_BOTTOM = new Color(17, 17, 17).getRGB();
 
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       for (LoadStage loadStage : Astolfo.INSTANCE.getLoaderGuard().getStageList().getStageContainer().getOwnedContainer().getValue()) {
@@ -370,10 +370,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
             LoginScreen.loginFailed = false;
             this.mc
                .mouseHelper
-               .Y()
+               .getAuthSession()
                .getEndpoint()
                .getConnection()
-               .connect(this.mc.mouseHelper.Y().getEndpoint().getHost(), this.mc.mouseHelper.Y().getEndpoint().getPort().getPort());
+               .connect(this.mc.mouseHelper.getAuthSession().getEndpoint().getHost(), this.mc.mouseHelper.getAuthSession().getEndpoint().getPort().getPort());
       }
    }
 
@@ -399,7 +399,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
 
       if (Keyboard.isCreated()) {
          while (Keyboard.next()) {
-            this.I();
+            this.handleKeyboardEvent();
          }
       }
    }
@@ -429,7 +429,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   public void I() throws IOException {
+   public void handleKeyboardEvent() throws IOException {
       switch (Util.getOSType()) {
          case WINDOWS:
             this.handleKeyboardInput();
@@ -437,7 +437,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
          case LINUX:
          case OSX:
             try {
-               this.j();
+               this.handleKeyboardInputWithPaste();
             } catch (Exception exception) {
                this.handleKeyboardInput();
             }
@@ -454,7 +454,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
       }
    }
 
-   private void j() throws IOException {
+   private void handleKeyboardInputWithPaste() throws IOException {
       char c = Keyboard.getEventCharacter();
       int i = Keyboard.getEventKey();
       if (Keyboard.getEventKeyState() || i == 0 && Character.isDefined(c)) {
@@ -493,7 +493,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
    }
 
    public void drawBackground(int tint) {
-      this.drawGradientRect(0, 0, this.width, this.height, I, Z);
+      this.drawGradientRect(0, 0, this.width, this.height, BACKGROUND_GRADIENT_TOP, BACKGROUND_GRADIENT_BOTTOM);
    }
 
    public boolean doesGuiPauseGame() {

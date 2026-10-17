@@ -33,12 +33,12 @@ public final class WindowsVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long L() {
+   public long getSwapPagesIn() {
       return this.swapInOut.get().getA();
    }
 
    @Override
-   public long I() {
+   public long getSwapPagesOut() {
       return this.swapInOut.get().getB();
    }
 

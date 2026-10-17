@@ -92,7 +92,7 @@ public final class Phase extends Module {
       if (this.mode.getValue() == PhaseMode.SKIP && updateEvent.getState() == EventState.PRE && mc.thePlayer.isSneaking() && mc.thePlayer.isCollidedHorizontally) {
          float f = mc.thePlayer.rotationYaw;
          float g = 1.2F;
-         mc.thePlayer.getEntityBoundingBox().X(g * Math.cos(Math.toRadians(f + 90.0F)), 0.0, g * Math.sin(Math.toRadians(f + 90.0F)));
+         mc.thePlayer.getEntityBoundingBox().offsetInPlace(g * Math.cos(Math.toRadians(f + 90.0F)), 0.0, g * Math.sin(Math.toRadians(f + 90.0F)));
       }
 
       if (this.mode.getValue() == PhaseMode.VANILLA && mc.gameSettings.keyBindSneak.isPressed() && !this.isInsideBlock(mc.thePlayer)) {
@@ -156,7 +156,7 @@ public final class Phase extends Module {
                   double d4 = mc.thePlayer.moveForward * d * d2 + mc.thePlayer.moveStrafing * d * e;
                   if (bl) {
                      motionEvent.setOnGround(true);
-                     mc.thePlayer.r(mc.thePlayer.B());
+                     mc.thePlayer.setSpeed(mc.thePlayer.getHorizontalSpeed());
                      mc.thePlayer.motionY = mc.thePlayer.movementInput.jump ? 0.525 : (mc.thePlayer.movementInput.sneak ? -0.525 : 0.0);
                      mc.thePlayer.setPosition(mc.thePlayer.posX + d3, mc.thePlayer.posY, mc.thePlayer.posZ + d4);
                   }

@@ -334,7 +334,7 @@ public class Block {
                return true;
             }
 
-            if (this.D(worldIn, pos.offset(enumFacing), enumFacing)) {
+            if (this.isSideExposed(worldIn, pos.offset(enumFacing), enumFacing)) {
                return true;
             }
          }
@@ -375,7 +375,7 @@ public class Block {
       return !worldIn.getBlockState(pos).getBlock().isOpaqueCube();
    }
 
-   public boolean D(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing enumFacing) {
+   public boolean isSideExposed(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing enumFacing) {
       return enumFacing == EnumFacing.DOWN && this.minY > 0.0
          ? true
          : (
