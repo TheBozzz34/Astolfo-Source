@@ -7,6 +7,6 @@ import org.luaj.vm2.lib.ZeroArgFunction;
 public final class GetSpeed extends ZeroArgFunction {
    @Override
    public LuaValue call() {
-      return ClientAccess.mc.thePlayer != null ? valueOf(ClientAccess.mc.thePlayer.B()) : valueOf(-1);
+      return ClientAccess.mc.thePlayer != null ? valueOf(ClientAccess.mc.thePlayer.getHorizontalSpeed()) : valueOf(-1);
    }
 }

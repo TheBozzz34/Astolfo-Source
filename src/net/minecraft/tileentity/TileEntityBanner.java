@@ -224,11 +224,11 @@ public class TileEntityBanner extends TileEntity {
          return this.craftingLayers;
       }
 
-      public boolean m() {
+      public boolean hasValidCrafting() {
          return this.patternCraftingStack != null || this.craftingLayers[0] != null;
       }
 
-      public boolean o() {
+      public boolean hasCraftingStack() {
          return this.patternCraftingStack != null;
       }
 

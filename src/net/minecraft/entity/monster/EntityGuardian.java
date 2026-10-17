@@ -427,7 +427,7 @@ public class EntityGuardian extends EntityMob {
 
    @Override
    public void moveEntityWithHeading(float strafe, float forward) {
-      if (this.C()) {
+      if (this.isServerWorld()) {
          if (this.isInWater()) {
             this.moveFlying(strafe, forward, 0.1F);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -485,7 +485,7 @@ public class EntityGuardian extends EntityMob {
          EntityLivingBase entityLivingBase = this.theEntity.getAttackTarget();
          this.theEntity.getNavigator().clearPathEntity();
          this.theEntity.getLookHelper().setLookPositionWithEntity(entityLivingBase, 90.0F, 90.0F);
-         if (!this.theEntity.C(entityLivingBase)) {
+         if (!this.theEntity.canEntityBeSeen(entityLivingBase)) {
             this.theEntity.setAttackTarget((EntityLivingBase)null);
          } else {
             this.tickCounter++;
@@ -550,9 +550,9 @@ public class EntityGuardian extends EntityMob {
             double d7 = this.entityGuardian.posX + d / d3 * 2.0;
             double d8 = this.entityGuardian.getEyeHeight() + this.entityGuardian.posY + e / d3 * 1.0;
             double d9 = this.entityGuardian.posZ + d2 / d3 * 2.0;
-            double d10 = entityLookHelper.s();
-            double d11 = entityLookHelper.t();
-            double d12 = entityLookHelper.i();
+            double d10 = entityLookHelper.getLookPosX();
+            double d11 = entityLookHelper.getLookPosY();
+            double d12 = entityLookHelper.getLookPosZ();
             if (!entityLookHelper.getIsLooking()) {
                d10 = d7;
                d11 = d8;

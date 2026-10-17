@@ -24,12 +24,12 @@ public final class MacGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(MacGlobalMemory::createVirtualMemory);
 
    @Override
-   public long d() {
+   public long getAvailable() {
       return this.available.get();
    }
 
    @Override
-   public long f() {
+   public long getTotal() {
       return this.total.get();
    }
 

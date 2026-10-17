@@ -464,14 +464,14 @@ public abstract class Entity implements ICommandSender {
 
          for (Object object2 : list) {
             AxisAlignedBB axisAlignedBB3 = (AxisAlignedBB)object2;
-            x = axisAlignedBB3.A(this.getEntityBoundingBox(), x);
+            x = axisAlignedBB3.calculateXOffset(this.getEntityBoundingBox(), x);
          }
 
          this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, 0.0, 0.0));
 
          for (Object object3 : list) {
             AxisAlignedBB axisAlignedBB4 = (AxisAlignedBB)object3;
-            z = axisAlignedBB4.v(this.getEntityBoundingBox(), z);
+            z = axisAlignedBB4.calculateZOffset(this.getEntityBoundingBox(), z);
          }
 
          this.setEntityBoundingBox(this.getEntityBoundingBox().offset(0.0, 0.0, z));
@@ -505,7 +505,7 @@ public abstract class Entity implements ICommandSender {
 
             for (Object object5 : list2) {
                AxisAlignedBB axisAlignedBB9 = (AxisAlignedBB)object5;
-               d11 = axisAlignedBB9.A(axisAlignedBB6, d11);
+               d11 = axisAlignedBB9.calculateXOffset(axisAlignedBB6, d11);
             }
 
             axisAlignedBB6 = axisAlignedBB6.offset(d11, 0.0, 0.0);
@@ -513,7 +513,7 @@ public abstract class Entity implements ICommandSender {
 
             for (Object object6 : list2) {
                AxisAlignedBB axisAlignedBB10 = (AxisAlignedBB)object6;
-               d12 = axisAlignedBB10.v(axisAlignedBB6, d12);
+               d12 = axisAlignedBB10.calculateZOffset(axisAlignedBB6, d12);
             }
 
             axisAlignedBB6 = axisAlignedBB6.offset(0.0, 0.0, d12);
@@ -530,7 +530,7 @@ public abstract class Entity implements ICommandSender {
 
             for (Object object8 : list2) {
                AxisAlignedBB axisAlignedBB13 = (AxisAlignedBB)object8;
-               d14 = axisAlignedBB13.A(axisAlignedBB11, d14);
+               d14 = axisAlignedBB13.calculateXOffset(axisAlignedBB11, d14);
             }
 
             axisAlignedBB11 = axisAlignedBB11.offset(d14, 0.0, 0.0);
@@ -538,7 +538,7 @@ public abstract class Entity implements ICommandSender {
 
             for (Object object9 : list2) {
                AxisAlignedBB axisAlignedBB14 = (AxisAlignedBB)object9;
-               d15 = axisAlignedBB14.v(axisAlignedBB11, d15);
+               d15 = axisAlignedBB14.calculateZOffset(axisAlignedBB11, d15);
             }
 
             axisAlignedBB11 = axisAlignedBB11.offset(0.0, 0.0, d15);
@@ -647,8 +647,8 @@ public abstract class Entity implements ICommandSender {
             throw new ReportedException(crashReport);
          }
 
-         boolean bl3 = this.G();
-         if (this.worldObj.a(this.getEntityBoundingBox().contract(0.001, 0.001, 0.001))) {
+         boolean bl3 = this.isWet();
+         if (this.worldObj.isFlammableWithin(this.getEntityBoundingBox().contract(0.001, 0.001, 0.001))) {
             this.dealFireDamage(1);
             if (!bl3) {
                this.fire++;
@@ -669,17 +669,17 @@ public abstract class Entity implements ICommandSender {
       }
    }
 
-   public static Vec3 x(Entity entity, double d, double d2, double d3, double d4, double d5, AxisAlignedBB axisAlignedBB) {
+   public static Vec3 x(Entity entity, double d, double e, double d2, double d3, double d4, AxisAlignedBB axisAlignedBB) {
       AxisAlignedBB axisAlignedBB2 = entity.getEntityBoundingBox();
-      double e = d3;
-      double d6 = d5;
+      double d5 = d2;
+      double d6 = d4;
       AxisAlignedBB axisAlignedBB3 = axisAlignedBB2;
       axisAlignedBB2 = axisAlignedBB;
-      d4 = 2.0;
-      List list = entity.worldObj.getCollidingBoundingBoxes(entity, axisAlignedBB2.addCoord(d, d4, d2));
+      d3 = 2.0;
+      List list = entity.worldObj.getCollidingBoundingBoxes(entity, axisAlignedBB2.addCoord(d, d3, e));
       AxisAlignedBB axisAlignedBB4 = axisAlignedBB2;
-      AxisAlignedBB axisAlignedBB5 = axisAlignedBB4.addCoord(d, 0.0, d2);
-      double d7 = d4;
+      AxisAlignedBB axisAlignedBB5 = axisAlignedBB4.addCoord(d, 0.0, e);
+      double d7 = d3;
       int i = 0;
 
       for (int j = list.size(); i < j; i++) {
@@ -691,20 +691,20 @@ public abstract class Entity implements ICommandSender {
       int k = 0;
 
       for (int l = list.size(); k < l; k++) {
-         d8 = ((AxisAlignedBB)list.get(k)).A(axisAlignedBB4, d8);
+         d8 = ((AxisAlignedBB)list.get(k)).calculateXOffset(axisAlignedBB4, d8);
       }
 
       axisAlignedBB4 = axisAlignedBB4.offset(d8, 0.0, 0.0);
-      double d9 = d2;
+      double d9 = e;
       int m = 0;
 
       for (int n = list.size(); m < n; m++) {
-         d9 = ((AxisAlignedBB)list.get(m)).v(axisAlignedBB4, d9);
+         d9 = ((AxisAlignedBB)list.get(m)).calculateZOffset(axisAlignedBB4, d9);
       }
 
       axisAlignedBB4 = axisAlignedBB4.offset(0.0, 0.0, d9);
       AxisAlignedBB axisAlignedBB6 = axisAlignedBB2;
-      double d10 = d4;
+      double d10 = d3;
       int i2 = 0;
 
       for (int i3 = list.size(); i2 < i3; i2++) {
@@ -716,40 +716,40 @@ public abstract class Entity implements ICommandSender {
       int i4 = 0;
 
       for (int i5 = list.size(); i4 < i5; i4++) {
-         d11 = ((AxisAlignedBB)list.get(i4)).A(axisAlignedBB6, d11);
+         d11 = ((AxisAlignedBB)list.get(i4)).calculateXOffset(axisAlignedBB6, d11);
       }
 
       axisAlignedBB6 = axisAlignedBB6.offset(d11, 0.0, 0.0);
-      double d12 = d2;
+      double d12 = e;
       int i6 = 0;
 
       for (int i7 = list.size(); i6 < i7; i6++) {
-         d12 = ((AxisAlignedBB)list.get(i6)).v(axisAlignedBB6, d12);
+         d12 = ((AxisAlignedBB)list.get(i6)).calculateZOffset(axisAlignedBB6, d12);
       }
 
       axisAlignedBB6 = axisAlignedBB6.offset(0.0, 0.0, d12);
       double d13 = d8 * d8 + d9 * d9;
       double d14 = d11 * d11 + d12 * d12;
       if (d13 > d14) {
-         d3 = d8;
-         d5 = d9;
-         d4 = -d7;
+         d2 = d8;
+         d4 = d9;
+         d3 = -d7;
          axisAlignedBB2 = axisAlignedBB4;
       } else {
-         d3 = d11;
-         d5 = d12;
-         d4 = -d10;
+         d2 = d11;
+         d4 = d12;
+         d3 = -d10;
          axisAlignedBB2 = axisAlignedBB6;
       }
 
       int i8 = 0;
 
       for (int i9 = list.size(); i8 < i9; i8++) {
-         d4 = ((AxisAlignedBB)list.get(i8)).calculateYOffset(axisAlignedBB2, d4);
+         d3 = ((AxisAlignedBB)list.get(i8)).calculateYOffset(axisAlignedBB2, d3);
       }
 
-      axisAlignedBB2 = axisAlignedBB2.offset(0.0, d4, 0.0);
-      if (e * e + d6 * d6 >= d3 * d3 + d5 * d5) {
+      axisAlignedBB2 = axisAlignedBB2.offset(0.0, d3, 0.0);
+      if (d5 * d5 + d6 * d6 >= d2 * d2 + d4 * d4) {
          axisAlignedBB2 = axisAlignedBB3;
       }
 
@@ -856,7 +856,7 @@ public abstract class Entity implements ICommandSender {
       }
    }
 
-   public boolean G() {
+   public boolean isWet() {
       return this.inWater
          || this.worldObj.isRainingAt(new BlockPos(this.posX, this.posY, this.posZ))
          || this.worldObj.isRainingAt(new BlockPos(this.posX, this.posY + this.height, this.posZ));
@@ -1180,7 +1180,7 @@ public abstract class Entity implements ICommandSender {
       double d2 = this.posZ - z;
       double d3 = d * d + e * e + d2 * d2;
       if (ModuleManager.noRender.isEnabled()) {
-         return !Minecraft.getMinecraft().thePlayer.C(this) && NoRender.visGraph.getValue() && !(this instanceof EntityPlayer)
+         return !Minecraft.getMinecraft().thePlayer.canEntityBeSeen(this) && NoRender.visGraph.getValue() && !(this instanceof EntityPlayer)
             ? false
             : !NoRender.smart.getValue() || this.isInRangeToRenderDist(d3 * 10.0);
       } else {
@@ -1594,7 +1594,7 @@ public abstract class Entity implements ICommandSender {
       return !this.isImmuneToFire && (this.fire > 0 || bl && this.getFlag(0));
    }
 
-   public boolean E() {
+   public boolean isRiding() {
       return this.ridingEntity != null;
    }
 
@@ -1602,8 +1602,8 @@ public abstract class Entity implements ICommandSender {
       return this.getFlag(1);
    }
 
-   public void v(boolean bl) {
-      this.setFlag(1, bl);
+   public void setSneaking(boolean sneaking) {
+      this.setFlag(1, sneaking);
    }
 
    public boolean isSprinting() {
@@ -1626,7 +1626,7 @@ public abstract class Entity implements ICommandSender {
       this.setFlag(5, invisible);
    }
 
-   public boolean m() {
+   public boolean isEating() {
       return this.getFlag(4);
    }
 
@@ -1790,8 +1790,8 @@ public abstract class Entity implements ICommandSender {
       return this.invulnerable && source != DamageSource.outOfWorld && !source.isCreativePlayer();
    }
 
-   public void z(Entity entity) {
-      this.setLocationAndAngles(entity.posX, entity.posY, entity.posZ, entity.rotationYaw, entity.rotationPitch);
+   public void copyLocationAndAnglesFrom(Entity entityIn) {
+      this.setLocationAndAngles(entityIn.posX, entityIn.posY, entityIn.posZ, entityIn.rotationYaw, entityIn.rotationPitch);
    }
 
    public void copyDataFromOld(Entity entityIn) {

@@ -14,7 +14,7 @@ public class GuiScreenOF extends GuiScreen {
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
       super.mouseClicked(mouseX, mouseY, mouseButton);
       if (mouseButton == 1) {
-         GuiButton guiButton = Y(this.buttonList, mouseX, mouseY);
+         GuiButton guiButton = getSelectedButton(this.buttonList, mouseX, mouseY);
          if (guiButton != null && guiButton.enabled) {
             guiButton.playPressSound(this.mc.getSoundHandler());
             this.actionPerformedRightClick(guiButton);
@@ -22,12 +22,12 @@ public class GuiScreenOF extends GuiScreen {
       }
    }
 
-   public static GuiButton Y(List<GuiButton> list, int i, int j) {
+   public static GuiButton getSelectedButton(List<GuiButton> list, int i, int j) {
       for (int k = 0; k < list.size(); k++) {
          GuiButton guiButton = (GuiButton)list.get(k);
          if (guiButton.visible) {
-            int l = GuiVideoSettings.j(guiButton);
-            int m = GuiVideoSettings.V(guiButton);
+            int l = GuiVideoSettings.getButtonWidth(guiButton);
+            int m = GuiVideoSettings.getButtonHeight(guiButton);
             if (i >= guiButton.xPosition && j >= guiButton.yPosition && i < guiButton.xPosition + l && j < guiButton.yPosition + m) {
                return guiButton;
             }

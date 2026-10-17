@@ -10,13 +10,13 @@ public class PathNode {
    private double stepCost;
    private double totalCost;
 
-   public PathNode(Vector3 vector3, PathNode pathNode, ArrayList<Vector3> arrayList, double d, double d2, double d3) {
+   public PathNode(Vector3 vector3, PathNode pathNode, ArrayList<Vector3> arrayList, double d, double e, double d2) {
       this.position = vector3;
       this.parent = pathNode;
       this.path = arrayList;
       this.distanceToGoalSq = d;
-      this.stepCost = d2;
-      this.totalCost = d3;
+      this.stepCost = e;
+      this.totalCost = d2;
    }
 
    public Vector3 getPosition() {

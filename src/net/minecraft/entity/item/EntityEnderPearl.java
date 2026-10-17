@@ -62,7 +62,7 @@ public class EntityEnderPearl extends EntityThrowable {
                   this.worldObj.spawnEntityInWorld(entityEndermite);
                }
 
-               if (entityLivingBase.E()) {
+               if (entityLivingBase.isRiding()) {
                   entityLivingBase.mountEntity((Entity)null);
                }
 

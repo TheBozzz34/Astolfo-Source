@@ -1037,7 +1037,7 @@ public final class OldInventoryManager extends Module {
    }
 
    private static boolean isSafeFood(ItemFood itemFood) {
-      return itemFood.J() != Potion.hunger.id && itemFood.J() != Potion.poison.id;
+      return itemFood.getPotionId() != Potion.hunger.id && itemFood.getPotionId() != Potion.poison.id;
    }
 
    public static boolean isHead(ItemStack itemStack) {
@@ -1101,8 +1101,8 @@ public final class OldInventoryManager extends Module {
 
    public static String getLore(ItemStack itemStack) {
       StringBuilder stringBuilder = new StringBuilder();
-      if (itemStack.V() != null && itemStack.V().hasKey("display", 10)) {
-         NBTTagCompound nbtTagCompound = itemStack.V().getCompoundTag("display");
+      if (itemStack.getRawTagCompound() != null && itemStack.getRawTagCompound().hasKey("display", 10)) {
+         NBTTagCompound nbtTagCompound = itemStack.getRawTagCompound().getCompoundTag("display");
          NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
          if (nbtTagList.tagCount() > 0) {
             for (int i = 0; i < nbtTagList.tagCount(); i++) {

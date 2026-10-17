@@ -25,35 +25,35 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
 public class BetterSnow {
-   private static IBakedModel u = null;
+   private static IBakedModel modelSnowLayer = null;
 
-   public static void R() {
-      u = Config.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.snow_layer.getDefaultState());
+   public static void update() {
+      modelSnowLayer = Config.getMinecraft().getBlockRendererDispatcher().getBlockModelShapes().getModelForState(Blocks.snow_layer.getDefaultState());
    }
 
-   public static IBakedModel r() {
-      return u;
+   public static IBakedModel getModelSnowLayer() {
+      return modelSnowLayer;
    }
 
-   public static IBlockState V() {
+   public static IBlockState getStateSnowLayer() {
       return Blocks.snow_layer.getDefaultState();
    }
 
-   public static boolean V(IBlockAccess iBlockAccess, Block block, IBlockState iBlockState, BlockPos blockPos) {
-      return !E(block, iBlockState) ? false : v(iBlockAccess, blockPos);
+   public static boolean shouldRender(IBlockAccess blockAccess, Block block, IBlockState blockState, BlockPos blockPos) {
+      return !checkBlock(block, blockState) ? false : hasSnowNeighbours(blockAccess, blockPos);
    }
 
-   private static boolean v(IBlockAccess iBlockAccess, BlockPos blockPos) {
+   private static boolean hasSnowNeighbours(IBlockAccess blockAccess, BlockPos pos) {
       Block block = Blocks.snow_layer;
-      return iBlockAccess.getBlockState(blockPos.north()).getBlock() != block
-            && iBlockAccess.getBlockState(blockPos.south()).getBlock() != block
-            && iBlockAccess.getBlockState(blockPos.west()).getBlock() != block
-            && iBlockAccess.getBlockState(blockPos.east()).getBlock() != block
+      return blockAccess.getBlockState(pos.north()).getBlock() != block
+            && blockAccess.getBlockState(pos.south()).getBlock() != block
+            && blockAccess.getBlockState(pos.west()).getBlock() != block
+            && blockAccess.getBlockState(pos.east()).getBlock() != block
          ? false
-         : iBlockAccess.getBlockState(blockPos.down()).getBlock().isOpaqueCube();
+         : blockAccess.getBlockState(pos.down()).getBlock().isOpaqueCube();
    }
 
-   private static boolean E(Block block, IBlockState iBlockState) {
+   private static boolean checkBlock(Block block, IBlockState blockState) {
       if (block.isFullCube()) {
          return false;
       }
@@ -81,12 +81,12 @@ public class BetterSnow {
             return true;
          }
 
-         if (block instanceof BlockRedstoneTorch && iBlockState.getValue(BlockTorch.FACING) == EnumFacing.UP) {
+         if (block instanceof BlockRedstoneTorch && blockState.getValue(BlockTorch.FACING) == EnumFacing.UP) {
             return true;
          }
 
          if (block instanceof BlockLever) {
-            Comparable comparable = iBlockState.getValue(BlockLever.FACING);
+            Comparable comparable = blockState.getValue(BlockLever.FACING);
             if (comparable == BlockLever.EnumOrientation.UP_X || comparable == BlockLever.EnumOrientation.UP_Z) {
                return true;
             }

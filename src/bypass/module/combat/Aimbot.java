@@ -198,11 +198,11 @@ public class Aimbot extends Module {
       return false;
    }
 
-   public double distance(double d, double d2, double d3, double d4, double d5, double d6) {
-      double e = d - d4;
-      double d7 = d2 - d5;
-      double d8 = d3 - d6;
-      return MathHelper.sqrt_double(e * e + d7 * d7 + d8 * d8);
+   public double distance(double d, double e, double d2, double d3, double d4, double d5) {
+      double d6 = d - d3;
+      double d7 = e - d4;
+      double d8 = d2 - d5;
+      return MathHelper.sqrt_double(d6 * d6 + d7 * d7 + d8 * d8);
    }
 
    private double[] predictPosition(EntityLivingBase entityLivingBase) {
@@ -236,20 +236,20 @@ public class Aimbot extends Module {
       return new double[]{e + d9, d2 + d10, d3 + d11};
    }
 
-   private float[] getBowRotations(double d, double d2, double d3, double d4, double d5) {
+   private float[] getBowRotations(double d, double e, double d2, double d3, double d4) {
       Vector3d vector3d = new Vector3d(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
-      double e = mc.thePlayer.posX;
+      double d5 = mc.thePlayer.posX;
       double d6 = mc.thePlayer.posY;
       d6 += mc.thePlayer.getEyeHeight();
       double d7 = mc.thePlayer.posZ;
-      double d8 = this.horizontalDistance(d3, d5, e, d7);
-      double d9 = d4 - d6;
-      double d10 = Math.pow(d2, 4.0) - d * (d * Math.pow(d8, 2.0) + 2.0 * d9 * Math.pow(d2, 2.0));
+      double d8 = this.horizontalDistance(d2, d4, d5, d7);
+      double d9 = d3 - d6;
+      double d10 = Math.pow(e, 4.0) - d * (d * Math.pow(d8, 2.0) + 2.0 * d9 * Math.pow(e, 2.0));
       if (d10 >= 0.0) {
-         double d11 = (Math.pow(d2, 2.0) - Math.sqrt(d10)) / (d * d8);
+         double d11 = (Math.pow(e, 2.0) - Math.sqrt(d10)) / (d * d8);
          double d12 = Math.atan(d11);
          double d13 = d12 * 180.0 / Math.PI;
-         Vector3d vector3d2 = new Vector3d(d3, d4, d5);
+         Vector3d vector3d2 = new Vector3d(d2, d3, d4);
          Rotation rotation = rotator.rotationTo(vector3d2, vector3d);
          float f = MathHelper.wrapAngleTo180_float(rotation.getYaw() - mc.thePlayer.rotationYaw);
          float g = mc.thePlayer.rotationYaw + f;
@@ -260,14 +260,14 @@ public class Aimbot extends Module {
       }
    }
 
-   private double horizontalDistance(double d, double d2, double d3, double d4) {
-      return Math.sqrt(Math.pow(d3 - d, 2.0) + Math.pow(d4 - d2, 2.0));
+   private double horizontalDistance(double d, double e, double d2, double d3) {
+      return Math.sqrt(Math.pow(d2 - d, 2.0) + Math.pow(d3 - e, 2.0));
    }
 
-   private double flightTime(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
-      double e = mc.thePlayer.posX;
+   private double flightTime(double d, double e, double d2, double d3, double d4, double d5, double d6) {
+      double d7 = mc.thePlayer.posX;
       double d8 = mc.thePlayer.posZ;
-      return this.horizontalDistance(e, d8, d5, d7) / (Math.cos(d3) * d2);
+      return this.horizontalDistance(d7, d8, d4, d6) / (Math.cos(d2) * e);
    }
 
    private double heightAboveGround(EntityLivingBase entityLivingBase) {

@@ -11,7 +11,7 @@ public class LimboCommand extends Command {
    @Override
    public void runCommand(String[] strings) {
       if (GameUtil.isOnHypixel()) {
-         mc.thePlayer.sendQueue.u(new C02PacketUseEntity(mc.thePlayer, C02PacketUseEntity.Action.ATTACK));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C02PacketUseEntity(mc.thePlayer, C02PacketUseEntity.Action.ATTACK));
       }
    }
 }

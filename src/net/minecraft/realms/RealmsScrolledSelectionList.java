@@ -14,15 +14,15 @@ public class RealmsScrolledSelectionList {
    }
 
    public int z() {
-      return this.proxy.J();
+      return this.proxy.getWidth();
    }
 
-   public int M() {
-      return this.proxy.a();
+   public int ym() {
+      return this.proxy.getMouseY();
    }
 
-   public int Q() {
-      return this.proxy.N();
+   public int xm() {
+      return this.proxy.getMouseX();
    }
 
    public void renderItem(int i, int j, int k, int l, Tezzelator tezzelator, int m, int n) {
@@ -32,7 +32,7 @@ public class RealmsScrolledSelectionList {
       this.renderItem(i, j, k, l, Tezzelator.instance, m, n);
    }
 
-   public int h() {
+   public int getItemCount() {
       return 0;
    }
 
@@ -43,15 +43,15 @@ public class RealmsScrolledSelectionList {
       return false;
    }
 
-   public void i() {
+   public void renderBackground() {
    }
 
-   public int n() {
+   public int getMaxPosition() {
       return 0;
    }
 
-   public int r() {
-      return this.proxy.J() / 2 + 124;
+   public int getScrollbarPosition() {
+      return this.proxy.getWidth() / 2 + 124;
    }
 
    public void h_void() {
@@ -62,8 +62,8 @@ public class RealmsScrolledSelectionList {
       this.proxy.scrollBy(i);
    }
 
-   public int F() {
-      return this.proxy.Y();
+   public int getScroll() {
+      return this.proxy.getAmountScrolled();
    }
 
    public void renderList(int i, int j, int k, int l) {

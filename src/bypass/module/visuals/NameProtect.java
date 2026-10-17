@@ -45,7 +45,7 @@ public final class NameProtect extends Module {
                   }
 
                   packetEvent.cancel();
-                  mc.thePlayer.sendQueue.u(new C01PacketChatMessage(string));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage(string));
                }
                break;
             case RECEIVED:

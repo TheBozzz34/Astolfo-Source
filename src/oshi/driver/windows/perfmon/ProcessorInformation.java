@@ -63,23 +63,23 @@ public final class ProcessorInformation {
    public enum InterruptsProperty implements PerfCounterQuery.PdhCounterProperty {
       INTERRUPTSPERSEC("_Total", "Interrupts/sec");
 
-      private final String S;
-      private final String w;
+      private final String instance;
+      private final String counter;
       private static final ProcessorInformation.InterruptsProperty[] y = new ProcessorInformation.InterruptsProperty[]{INTERRUPTSPERSEC};
 
       InterruptsProperty(String instance, String counter) {
-         this.S = instance;
-         this.w = counter;
+         this.instance = instance;
+         this.counter = counter;
       }
 
       @Override
       public String getInstance() {
-         return this.S;
+         return this.instance;
       }
 
       @Override
       public String getCounter() {
-         return this.w;
+         return this.counter;
       }
    }
 
@@ -88,7 +88,7 @@ public final class ProcessorInformation {
       PERCENTOFMAXIMUMFREQUENCY("% of Maximum Frequency");
 
       private final String counter;
-      private static final ProcessorInformation.ProcessorFrequencyProperty[] s = new ProcessorInformation.ProcessorFrequencyProperty[]{
+      private static final ProcessorInformation.ProcessorFrequencyProperty[] VALUES = new ProcessorInformation.ProcessorFrequencyProperty[]{
          NAME, PERCENTOFMAXIMUMFREQUENCY
       };
 
@@ -111,7 +111,7 @@ public final class ProcessorInformation {
       PERCENTUSERTIME("% User Time");
 
       private final String counter;
-      private static final ProcessorInformation.ProcessorTickCountProperty[] B = new ProcessorInformation.ProcessorTickCountProperty[]{
+      private static final ProcessorInformation.ProcessorTickCountProperty[] VALUES = new ProcessorInformation.ProcessorTickCountProperty[]{
          NAME, PERCENTDPCTIME, PERCENTINTERRUPTTIME, PERCENTPRIVILEGEDTIME, PERCENTPROCESSORTIME, PERCENTUSERTIME
       };
 
@@ -129,25 +129,25 @@ public final class ProcessorInformation {
       PERCENTDPCTIME("_Total", "% DPC Time"),
       PERCENTINTERRUPTTIME("_Total", "% Interrupt Time");
 
-      private final String s;
-      private final String n;
-      private static final ProcessorInformation.SystemTickCountProperty[] u = new ProcessorInformation.SystemTickCountProperty[]{
+      private final String instance;
+      private final String counter;
+      private static final ProcessorInformation.SystemTickCountProperty[] VALUES = new ProcessorInformation.SystemTickCountProperty[]{
          PERCENTDPCTIME, PERCENTINTERRUPTTIME
       };
 
       SystemTickCountProperty(String instance, String counter) {
-         this.s = instance;
-         this.n = counter;
+         this.instance = instance;
+         this.counter = counter;
       }
 
       @Override
       public String getInstance() {
-         return this.s;
+         return this.instance;
       }
 
       @Override
       public String getCounter() {
-         return this.n;
+         return this.counter;
       }
    }
 }

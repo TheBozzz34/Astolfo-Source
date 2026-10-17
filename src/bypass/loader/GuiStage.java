@@ -7,12 +7,12 @@ public final class GuiStage extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new GuiStage.a82(this);
+      return new GuiStage.GuiStageAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new GuiStage.rs2(this);
+      return new GuiStage.IntegrityCheckValue(this);
    }
 
    public IntegrityCheckHolder getIntegrityCheckHolder() {
@@ -33,8 +33,8 @@ public final class GuiStage extends AbstractLoadStage {
       return guiStage.integrityCheckHolder;
    }
 
-   public class a82 extends StageAction {
-      public a82(LoadStage loadStage) {
+   public class GuiStageAction extends StageAction {
+      public GuiStageAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -43,8 +43,8 @@ public final class GuiStage extends AbstractLoadStage {
       }
    }
 
-   public class rs2 extends StageValue {
-      public rs2(LoadStage loadStage) {
+   public class IntegrityCheckValue extends StageValue {
+      public IntegrityCheckValue(LoadStage loadStage) {
          super(loadStage);
       }
 

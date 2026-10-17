@@ -275,7 +275,7 @@ public final class Speed extends Module {
                         }
 
                         if (this.stage >= 6 && this.wasSprinting && GameUtil.isOnHypixel()) {
-                           mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                           mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
                            this.wasSprinting = false;
                         }
 
@@ -391,18 +391,18 @@ public final class Speed extends Module {
 
          if (mode.getValue() == SpeedMode.TELEPORT && GameUtil.isMoving(mc.thePlayer)) {
             if (mc.thePlayer.ticksExisted % 3 == 0) {
-               mc.thePlayer.r(5.0);
+               mc.thePlayer.setSpeed(5.0);
             } else {
-               mc.thePlayer.r(0.0);
+               mc.thePlayer.setSpeed(0.0);
             }
          }
 
          if (mode.getValue() == SpeedMode.HIGH_JUMP && GameUtil.isMoving(mc.thePlayer)) {
             if (mc.thePlayer.onGround) {
-               mc.thePlayer.r(0.5);
+               mc.thePlayer.setSpeed(0.5);
                mc.thePlayer.motionY = 0.9;
             } else {
-               mc.thePlayer.r(mc.thePlayer.B());
+               mc.thePlayer.setSpeed(mc.thePlayer.getHorizontalSpeed());
             }
          }
 
@@ -445,12 +445,14 @@ public final class Speed extends Module {
 
          if (mode.getValue() == SpeedMode.NCP && !mc.thePlayer.isCollidedHorizontally && mc.thePlayer.onGround && GameUtil.isMoving(mc.thePlayer)) {
             motionEvent.setMinY(mc.thePlayer.posY + (mc.thePlayer.ticksExisted % 2 == 0 ? this.freeHeightUpTo(0.40325F) : 1.625E-12));
-            mc.thePlayer.r(mc.thePlayer.ticksExisted % 2 == 0 ? 0.16 : 0.34);
+            mc.thePlayer.setSpeed(mc.thePlayer.ticksExisted % 2 == 0 ? 0.16 : 0.34);
             mc.timer.timerSpeed = mc.thePlayer.ticksExisted % 4 == 0 ? 1.4F : 1.0F;
          }
 
          if (mode.getValue() == SpeedMode.AAC_3_BHOP) {
-            if (!GameUtil.isMoving(mc.thePlayer) || mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || mc.thePlayer.E()) {
+            if (!GameUtil.isMoving(mc.thePlayer) || mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isOnLadder() || mc.thePlayer.isRiding()
+               )
+             {
                return;
             }
 
@@ -577,16 +579,16 @@ public final class Speed extends Module {
       this.addSettings(this.timeOut, this.watchdog, mode, this.damageBooster, this.iceBooster);
    }
 
-   public double angleBetween(double d, double d2, double d3, double d4) {
-      double e = Math.PI * 2;
+   public double angleBetween(double d, double e, double d2, double d3) {
+      double d4 = Math.PI * 2;
       double d5 = 180.0 / Math.PI;
-      if (d == d3 && d2 == d4) {
+      if (d == d2 && e == d3) {
          return -1.0;
       }
 
-      double d6 = Math.atan2(d3 - d, d2 - d4);
-      d6 += e / 2.0;
-      d6 = d6 < 0.0 ? d6 + e : d6;
+      double d6 = Math.atan2(d2 - d, e - d3);
+      d6 += d4 / 2.0;
+      d6 = d6 < 0.0 ? d6 + d4 : d6;
       return d5 * d6;
    }
 
@@ -630,10 +632,10 @@ public final class Speed extends Module {
       return Math.sqrt(Math.pow(mc.thePlayer.posX - this.lastX, 2.0) + Math.pow(mc.thePlayer.posZ - this.lastZ, 2.0));
    }
 
-   public double[] toVector(double d, double d2) {
-      double e = d2 * Math.cos(Math.toRadians(d + 90.0));
-      double d3 = d2 * Math.sin(Math.toRadians(d + 90.0));
-      return new double[]{e, d3};
+   public double[] toVector(double d, double e) {
+      double d2 = e * Math.cos(Math.toRadians(d + 90.0));
+      double d3 = e * Math.sin(Math.toRadians(d + 90.0));
+      return new double[]{d2, d3};
    }
 
    public double dot(double[] doubles, double[] doubles2) {
@@ -672,12 +674,12 @@ public final class Speed extends Module {
       return this.scale(this.normalize(doubles), d);
    }
 
-   public void strafeTowards(MoveEvent moveEvent, double d, double d2) {
+   public void strafeTowards(MoveEvent moveEvent, double d, double e) {
       double[] doubles = this.toVector(this.getMovedAngle(), this.getMovedDistance());
       double[] doubles2 = this.toVector(this.getMoveYaw360(), d);
       double[] doubles3;
-      if (this.length(this.subtract(doubles, doubles2)) > d2) {
-         doubles3 = this.add(doubles, this.toVector(this.getMoveYaw360(), d2));
+      if (this.length(this.subtract(doubles, doubles2)) > e) {
+         doubles3 = this.add(doubles, this.toVector(this.getMoveYaw360(), e));
       } else {
          doubles3 = doubles2;
       }
@@ -694,7 +696,7 @@ public final class Speed extends Module {
       setMotion(moveEvent, f, g, h, d, 1.0);
    }
 
-   public static void setMotion(MoveEvent moveEvent, float f, float g, float h, double d, double d2) {
+   public static void setMotion(MoveEvent moveEvent, float f, float g, float h, double d, double e) {
       float f2 = f * f + g * g;
       if (f2 >= 1.0E-4F) {
          f2 = MathHelper.sqrt_float(f2);
@@ -707,10 +709,10 @@ public final class Speed extends Module {
          g *= f2;
          float f3 = MathHelper.sin(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
          float f4 = MathHelper.cos(mc.thePlayer.rotationYaw * (float) Math.PI / 180.0F);
-         double e = f * d * f4 - g * d * f3;
+         double d2 = f * d * f4 - g * d * f3;
          double d3 = g * d * f4 + f * d * f3;
-         moveEvent.setX(e * d2);
-         moveEvent.setZ(d3 * d2);
+         moveEvent.setX(d2 * e);
+         moveEvent.setZ(d3 * e);
       }
    }
 
@@ -730,18 +732,18 @@ public final class Speed extends Module {
       return Math.floor(e * 30.0 * d);
    }
 
-   public double unusedRatio(double d, double d2) {
-      double e = getBaseSpeed(1.0, true);
-      double d3 = e * 10.0 * 2.0;
-      double d4 = this.speedOffset * e * 1.5;
-      return d / (d3 + d4 + d2);
+   public double unusedRatio(double d, double e) {
+      double d2 = getBaseSpeed(1.0, true);
+      double d3 = d2 * 10.0 * 2.0;
+      double d4 = this.speedOffset * d2 * 1.5;
+      return d / (d3 + d4 + e);
    }
 
-   public double unusedRatio2(double d, double d2, double d3) {
-      double e = getBaseSpeed(1.0, true);
-      double d4 = e * 10.0 * 2.0;
-      double d5 = this.speedOffset / d2 * e * 1.5;
-      return d / ((d4 + d5) * (e * (d3 * 1.4)));
+   public double unusedRatio2(double d, double e, double d2) {
+      double d3 = getBaseSpeed(1.0, true);
+      double d4 = d3 * 10.0 * 2.0;
+      double d5 = this.speedOffset / e * d3 * 1.5;
+      return d / ((d4 + d5) * (d3 * (d2 * 1.4)));
    }
 
    public static double getNcpBaseSpeed() {
@@ -837,12 +839,12 @@ public final class Speed extends Module {
       mc.timer.timerSpeed = 1.0F;
       if (mc.thePlayer != null && mc.theWorld != null) {
          if (mode.getValue() == SpeedMode.TELEPORT) {
-            mc.thePlayer.r(0.0);
+            mc.thePlayer.setSpeed(0.0);
          }
 
          if (mode.getValue() == SpeedMode.WATCHDOG && mc.thePlayer.isSprinting() && GameUtil.isOnHypixel() && !this.wasSprinting) {
-            mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
-            mc.thePlayer.ej = true;
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+            mc.thePlayer.serverSprintState = true;
          }
 
          mc.thePlayer.stepHeight = 0.6F;

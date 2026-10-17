@@ -64,7 +64,7 @@ public class Main {
 
       String string2 = (java.lang.String)(optionSet.valueOf(argumentAcceptingOptionSpec8));
       String string3 = (java.lang.String)(optionSet.valueOf(argumentAcceptingOptionSpec9));
-      if (!proxy.equals(Proxy.NO_PROXY) && b(string2) && b(string3)) {
+      if (!proxy.equals(Proxy.NO_PROXY) && isNotEmpty(string2) && isNotEmpty(string3)) {
          Authenticator.setDefault(new ProxyAuthenticator(string2, string3));
       }
 
@@ -99,7 +99,7 @@ public class Main {
       new Minecraft(gameConfiguration).run();
    }
 
-   private static boolean b(String string) {
+   private static boolean isNotEmpty(String string) {
       return string != null && !string.isEmpty();
    }
 }

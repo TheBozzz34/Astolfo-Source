@@ -60,8 +60,8 @@ public class WorldClient extends World {
       this.setSpawnPoint(new BlockPos(8, 64, 8));
       this.chunkProvider = this.createChunkProvider();
       this.mapStorage = new SaveDataMemoryStorage();
-      this.a();
-      this.H();
+      this.calculateInitialSkylight();
+      this.calculateInitialWeather();
       Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, this);
       if (this.mc.playerController != null && this.mc.playerController.getClass() == PlayerControllerMP.class) {
          this.mc.playerController = new PlayerControllerOF(this.mc, netHandler);
@@ -71,7 +71,7 @@ public class WorldClient extends World {
    @Override
    public void tick() {
       super.tick();
-      this.m(this.getTotalWorldTime() + 1L);
+      this.setTotalWorldTime(this.getTotalWorldTime() + 1L);
       if (this.getGameRules().getBoolean("doDaylightCycle")) {
          this.setWorldTime(this.getWorldTime() + 1L);
       }
@@ -386,7 +386,7 @@ public class WorldClient extends World {
       }
    }
 
-   public boolean o() {
+   public boolean isPlayerUpdate() {
       return this.playerUpdate;
    }
 }

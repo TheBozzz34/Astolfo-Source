@@ -53,12 +53,12 @@ public class RenderChunk {
    private final VertexBuffer[] vertexBuffers = new VertexBuffer[EnumWorldBlockLayer.values().length];
    public AxisAlignedBB boundingBox;
    private int frameIndex = -1;
-   private boolean j = true;
+   private boolean needsUpdate = true;
    private EnumMap<EnumFacing, BlockPos> mapEnumFacing;
    private BlockPos[] positionOffsets16 = new BlockPos[EnumFacing.VALUES.length];
    private static EnumWorldBlockLayer[] ENUM_WORLD_BLOCK_LAYERS = EnumWorldBlockLayer.values();
    private EnumWorldBlockLayer[] blockLayersSingle = new EnumWorldBlockLayer[1];
-   private boolean isMipmaps = Config.pm();
+   private boolean isMipmaps = Config.isMipmaps();
    private boolean fixBlockLayer = !Reflector.BetterFoliageClient.exists();
    private boolean playerUpdate = false;
 
@@ -143,7 +143,7 @@ public class RenderChunk {
          renderChunksUpdated++;
          boolean[] booleans = new boolean[ENUM_WORLD_BLOCK_LAYERS.length];
          BlockRendererDispatcher blockRendererDispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
-         Iterator iterator2 = BlockPosM.m(blockPos, blockPos2).iterator();
+         Iterator iterator2 = BlockPosM.getAllInBoxPosM(blockPos, blockPos2).iterator();
          boolean bl = Reflector.ForgeBlock_hasTileEntity.exists();
          boolean bl2 = Reflector.ForgeBlock_canRenderInLayer.exists();
          boolean bl3 = Reflector.ForgeHooksClient_setRenderLayer.exists();
@@ -197,7 +197,7 @@ public class RenderChunk {
                   WorldRenderer worldRenderer = generator.getRegionRenderCacheBuilder().getWorldRendererByLayerId(j);
                   worldRenderer.setBlockLayer(enumWorldBlockLayer);
                   if (!compiledChunk.isLayerStarted(enumWorldBlockLayer)) {
-                     compiledChunk.G(enumWorldBlockLayer);
+                     compiledChunk.setLayerStarted(enumWorldBlockLayer);
                      this.preRenderBlocks(worldRenderer, blockPos);
                   }
 
@@ -208,7 +208,7 @@ public class RenderChunk {
 
          for (EnumWorldBlockLayer enumWorldBlockLayer2 : ENUM_WORLD_BLOCK_LAYERS) {
             if (booleans[enumWorldBlockLayer2.ordinal()]) {
-               compiledChunk.q(enumWorldBlockLayer2);
+               compiledChunk.setLayerUsed(enumWorldBlockLayer2);
             }
 
             if (compiledChunk.isLayerStarted(enumWorldBlockLayer2)) {
@@ -358,8 +358,8 @@ public class RenderChunk {
    }
 
    public void setNeedsUpdate(boolean needsUpdateIn) {
-      this.j = needsUpdateIn;
-      if (this.j) {
+      this.needsUpdate = needsUpdateIn;
+      if (this.needsUpdate) {
          if (this.isWorldPlayerUpdate()) {
             this.playerUpdate = true;
          }
@@ -368,8 +368,8 @@ public class RenderChunk {
       }
    }
 
-   public boolean Q() {
-      return this.j;
+   public boolean isNeedsUpdate() {
+      return this.needsUpdate;
    }
 
    public BlockPos getBlockPosOffset16(EnumFacing enumFacing) {
@@ -390,13 +390,13 @@ public class RenderChunk {
    private boolean isWorldPlayerUpdate() {
       if (this.world instanceof WorldClient) {
          WorldClient worldClient = (WorldClient)this.world;
-         return worldClient.o();
+         return worldClient.isPlayerUpdate();
       } else {
          return false;
       }
    }
 
-   public boolean P() {
+   public boolean isPlayerUpdate() {
       return this.playerUpdate;
    }
 

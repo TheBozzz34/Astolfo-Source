@@ -46,7 +46,7 @@ public class C0BPacketEntityAction implements Packet<INetHandlerPlayServer> {
       return this.action;
    }
 
-   public int g() {
+   public int getEntityId() {
       return this.entityID;
    }
 

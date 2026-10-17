@@ -16,12 +16,12 @@ public final class SolarisFirmware extends AbstractFirmware {
    }
 
    @Override
-   public String R() {
+   public String getManufacturer() {
       return this.manufacturer;
    }
 
    @Override
-   public String P() {
+   public String getVersion() {
       return this.version;
    }
 

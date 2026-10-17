@@ -22,7 +22,7 @@ public abstract class SMCLog {
       LOGGER.debug("[Shaders] " + message);
    }
 
-   public static void o(String string, Object... objects) {
+   public static void severeFormatted(String string, Object... objects) {
       String string2 = String.format(string, objects);
       LOGGER.error("[Shaders] " + string2);
    }
@@ -32,12 +32,12 @@ public abstract class SMCLog {
       LOGGER.warn("[Shaders] " + string);
    }
 
-   public static void v(String string, Object... objects) {
+   public static void infoFormatted(String string, Object... objects) {
       String string2 = String.format(string, objects);
       LOGGER.info("[Shaders] " + string2);
    }
 
-   public static void T(String string, Object... objects) {
+   public static void fineFormatted(String string, Object... objects) {
       String string2 = String.format(string, objects);
       LOGGER.debug("[Shaders] " + string2);
    }

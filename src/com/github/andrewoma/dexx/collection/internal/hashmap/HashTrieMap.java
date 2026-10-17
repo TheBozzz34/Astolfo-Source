@@ -26,7 +26,7 @@ public class HashTrieMap<K, V> extends CompactHashMap<K, V> {
    }
 
    public CompactHashMap<K, V> getElem(int index, KeyFunction<K, V> keyFunction) {
-      return this.G(this.elems[index], keyFunction);
+      return this.wrap(this.elems[index], keyFunction);
    }
 
    @Override
@@ -87,7 +87,7 @@ public class HashTrieMap<K, V> extends CompactHashMap<K, V> {
                System.arraycopy(this.elems, 0, objects, 0, k);
                System.arraycopy(this.elems, k + 1, objects, k, this.elems.length - k - 1);
                int m = this.size - compactHashMap.size();
-               return objects.length == 1 && !(objects[0] instanceof HashTrieMap) ? this.G(objects[0], keyFunction) : new HashTrieMap<>(l, objects, m);
+               return objects.length == 1 && !(objects[0] instanceof HashTrieMap) ? this.wrap(objects[0], keyFunction) : new HashTrieMap<>(l, objects, m);
             } else {
                return CompactHashMap.empty();
             }

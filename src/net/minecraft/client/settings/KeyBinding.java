@@ -72,7 +72,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
       return this.keyCategory;
    }
 
-   public boolean h() {
+   public boolean isPressed() {
       if (this.pressTime == 0) {
          return false;
       }

@@ -8,7 +8,7 @@ import com.github.andrewoma.dexx.collection.internal.adapter.MapAdapter;
 
 public abstract class AbstractMap<K, V> extends AbstractIterable<Pair<K, V>> implements Map<K, V> {
    @Override
-   public Iterable<K> H() {
+   public Iterable<K> keys() {
       return new MappedIterable<>(this, new AbstractMap.rts());
    }
 

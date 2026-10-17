@@ -110,8 +110,8 @@ public class WorldServer extends World implements IThreadListener {
       this.provider.registerWorld(this);
       this.chunkProvider = this.createChunkProvider();
       this.worldTeleporter = new Teleporter(this);
-      this.a();
-      this.H();
+      this.calculateInitialSkylight();
+      this.calculateInitialWeather();
       this.getWorldBorder().setSize(server.getMaxWorldSize());
    }
 

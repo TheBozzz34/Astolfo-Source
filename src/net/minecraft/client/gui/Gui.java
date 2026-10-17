@@ -13,37 +13,37 @@ public class Gui {
    public static final ResourceLocation icons = new ResourceLocation("textures/gui/icons.png");
    public float zLevel;
 
-   public static void f(double d, double d2, double d3, double d4, int i) {
-      if (d4 < d3) {
-         double e = d3;
+   public static void drawThickVerticalLine(double d, double e, double d2, double d3, int i) {
+      if (d3 < d2) {
+         double d4 = d2;
+         d2 = d3;
          d3 = d4;
-         d4 = e;
       }
 
-      H(d, d3, d2, d4, i);
+      drawDoubleRect(d, d2, e, d3, i);
    }
 
-   public static void v(double d, double d2, double d3, double d4, int i) {
-      if (d2 < d) {
-         double e = d;
+   public static void drawThickHorizontalLine(double d, double e, double d2, double d3, int i) {
+      if (e < d) {
+         double d4 = d;
+         d = e;
+         e = d4;
+      }
+
+      drawDoubleRect(d, d2, e + 1.0, d3, i);
+   }
+
+   public static void drawDoubleRect(double d, double e, double d2, double d3, int i) {
+      if (d < d2) {
+         double d4 = d;
          d = d2;
-         d2 = e;
-      }
-
-      H(d, d3, d2 + 1.0, d4, i);
-   }
-
-   public static void H(double d, double d2, double d3, double d4, int i) {
-      if (d < d3) {
-         double e = d;
-         d = d3;
-         d3 = e;
-      }
-
-      if (d2 < d4) {
-         double d5 = d2;
          d2 = d4;
-         d4 = d5;
+      }
+
+      if (e < d3) {
+         double d5 = e;
+         e = d3;
+         d3 = d5;
       }
 
       float f = (i >> 24 & 0xFF) / 255.0F;
@@ -57,33 +57,33 @@ public class Gui {
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.color(g, h, f2, f);
       worldRenderer.begin(7, DefaultVertexFormats.POSITION);
-      worldRenderer.pos(d, d4, 0.0).endVertex();
-      worldRenderer.pos(d3, d4, 0.0).endVertex();
-      worldRenderer.pos(d3, d2, 0.0).endVertex();
-      worldRenderer.pos(d, d2, 0.0).endVertex();
+      worldRenderer.pos(d, d3, 0.0).endVertex();
+      worldRenderer.pos(d2, d3, 0.0).endVertex();
+      worldRenderer.pos(d2, e, 0.0).endVertex();
+      worldRenderer.pos(d, e, 0.0).endVertex();
       tessellator.draw();
       GlStateManager.enableTexture2D();
       GlStateManager.disableBlend();
    }
 
-   public static void S(int i, int j, int k, int l) {
-      if (j < i) {
-         int m = i;
-         i = j;
-         j = m;
+   public static void drawHorizontalLine(int i, int startX, int endX, int y) {
+      if (startX < i) {
+         int j = i;
+         i = startX;
+         startX = j;
       }
 
-      drawRect(i, k, j + 1, k + 1, l);
+      drawRect(i, endX, startX + 1, endX + 1, y);
    }
 
-   public static void J(int i, int j, int k, int l) {
-      if (k < j) {
-         int m = j;
-         j = k;
-         k = m;
+   public static void drawVerticalLine(int i, int x, int startY, int endY) {
+      if (startY < x) {
+         int j = x;
+         x = startY;
+         startY = j;
       }
 
-      drawRect(i, j + 1, i + 1, k, l);
+      drawRect(i, x + 1, i + 1, startY, endY);
    }
 
    public static void drawRect(int left, int top, int right, int bottom, int color) {
@@ -147,12 +147,12 @@ public class Gui {
       GlStateManager.enableTexture2D();
    }
 
-   public void d(FontRenderer fontRenderer, String string, int i, int j, int k) {
-      fontRenderer.drawStringWithShadow(string, i - fontRenderer.getStringWidth(string) / 2, j, k);
+   public void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+      fontRendererIn.drawStringWithShadow(text, x - fontRendererIn.getStringWidth(text) / 2, y, color);
    }
 
-   public void I(FontRenderer fontRenderer, String string, int i, int j, int k) {
-      fontRenderer.drawStringWithShadow(string, i, j, k);
+   public void drawString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
+      fontRendererIn.drawStringWithShadow(text, x, y, color);
    }
 
    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {

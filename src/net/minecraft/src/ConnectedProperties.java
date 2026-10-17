@@ -21,10 +21,10 @@ public class ConnectedProperties {
    public int connect = 0;
    public int faces = 63;
    public BiomeGenBase[] biomes = null;
-   public int N = 0;
-   public int l = 1024;
+   public int minHeight = 0;
+   public int maxHeight = 1024;
    public int renderPass = 0;
-   public boolean w = false;
+   public boolean innerSeams = false;
    public int width = 0;
    public int height = 0;
    public int[] weights = null;
@@ -66,7 +66,7 @@ public class ConnectedProperties {
       ConnectedParser connectedParser = new ConnectedParser("ConnectedTextures");
       this.name = connectedParser.parseName(path);
       this.basePath = connectedParser.parseBasePath(path);
-      this.matchBlocks = connectedParser.t(props.getProperty("matchBlocks"));
+      this.matchBlocks = connectedParser.parseMatchBlocks(props.getProperty("matchBlocks"));
       this.metadatas = connectedParser.parseIntList(props.getProperty("metadata"));
       this.matchTiles = this.parseMatchTiles(props.getProperty("matchTiles"));
       this.method = parseMethod(props.getProperty("method"));
@@ -74,12 +74,12 @@ public class ConnectedProperties {
       this.connect = parseConnect(props.getProperty("connect"));
       this.faces = parseFaces(props.getProperty("faces"));
       this.biomes = connectedParser.y(props.getProperty("biomes"));
-      this.N = connectedParser.O(props.getProperty("minHeight"), -1);
-      this.l = connectedParser.O(props.getProperty("maxHeight"), 1024);
-      this.renderPass = connectedParser.Y(props.getProperty("renderPass"));
-      this.w = ConnectedParser.parseBoolean(props.getProperty("innerSeams"));
-      this.width = connectedParser.Y(props.getProperty("width"));
-      this.height = connectedParser.Y(props.getProperty("height"));
+      this.minHeight = connectedParser.parseIntOrDefault(props.getProperty("minHeight"), -1);
+      this.maxHeight = connectedParser.parseIntOrDefault(props.getProperty("maxHeight"), 1024);
+      this.renderPass = connectedParser.parseInt(props.getProperty("renderPass"));
+      this.innerSeams = ConnectedParser.parseBoolean(props.getProperty("innerSeams"));
+      this.width = connectedParser.parseInt(props.getProperty("width"));
+      this.height = connectedParser.parseInt(props.getProperty("height"));
       this.weights = connectedParser.parseIntList(props.getProperty("weights"));
       this.symmetry = parseSymmetry(props.getProperty("symmetry"));
    }
@@ -507,7 +507,7 @@ public class ConnectedProperties {
                Config.warn("Less weights defined than tiles, expanding weights: " + path);
                int[] ints2 = new int[this.tiles.length];
                System.arraycopy(this.weights, 0, ints2, 0, this.weights.length);
-               int i = MathUtils.o(this.weights);
+               int i = MathUtils.getAverage(this.weights);
 
                for (int j = this.weights.length; j < ints2.length; j++) {
                   ints2[j] = i;

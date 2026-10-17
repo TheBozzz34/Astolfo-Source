@@ -36,7 +36,7 @@ public class CommandOp extends CommandBase {
             throw new CommandException("commands.op.failed", args[0]);
          }
 
-         minecraftServer.getConfigurationManager().J(gameProfile);
+         minecraftServer.getConfigurationManager().addOp(gameProfile);
          notifyOperators(sender, this, "commands.op.success", args[0]);
       } else {
          throw new WrongUsageException("commands.op.usage");

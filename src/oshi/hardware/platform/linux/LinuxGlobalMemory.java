@@ -18,12 +18,12 @@ public final class LinuxGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(LinuxGlobalMemory::createVirtualMemory);
 
    @Override
-   public long d() {
+   public long getAvailable() {
       return this.availTotal.get().getA();
    }
 
    @Override
-   public long f() {
+   public long getTotal() {
       return this.availTotal.get().getB();
    }
 
@@ -49,7 +49,7 @@ public final class LinuxGlobalMemory extends AbstractGlobalMemory {
       long l3 = 0L;
 
       for (String string : FileUtil.readFile(ProcPath.MEMINFO)) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length > 1) {
             switch (strings[0]) {
                case "MemTotal:":

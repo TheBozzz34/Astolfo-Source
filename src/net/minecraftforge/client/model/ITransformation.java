@@ -4,9 +4,9 @@ import javax.vecmath.Matrix4f;
 import net.minecraft.util.EnumFacing;
 
 public interface ITransformation {
-   Matrix4f m();
+   Matrix4f getMatrix();
 
-   EnumFacing E(EnumFacing enumFacing);
+   EnumFacing rotate(EnumFacing enumFacing);
 
    int x(EnumFacing enumFacing, int i);
 }

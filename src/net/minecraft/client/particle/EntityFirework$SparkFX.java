@@ -15,11 +15,11 @@ public class EntityFirework$SparkFX extends EntityFX {
    private float fadeColourBlue;
    private boolean hasFadeColour;
 
-   public EntityFirework$SparkFX(World world, double d, double d2, double d3, double d4, double d5, double d6, EffectRenderer effectRenderer) {
-      super(world, d, d2, d3);
-      this.motionX = d4;
-      this.motionY = d5;
-      this.motionZ = d6;
+   public EntityFirework$SparkFX(World world, double d, double e, double d2, double d3, double d4, double d5, EffectRenderer effectRenderer) {
+      super(world, d, e, d2);
+      this.motionX = d3;
+      this.motionY = d4;
+      this.motionZ = d5;
       this.field_92047_az = effectRenderer;
       this.particleScale *= 0.75F;
       this.particleMaxAge = 48 + this.rand.nextInt(12);

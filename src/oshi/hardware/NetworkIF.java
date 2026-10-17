@@ -124,7 +124,7 @@ public class NetworkIF {
       return Arrays.copyOf(this.prefixLengths, this.prefixLengths.length);
    }
 
-   public int s() {
+   public int getIfType() {
       return this.ifType;
    }
 
@@ -132,15 +132,15 @@ public class NetworkIF {
       this.ifType = ifType;
    }
 
-   public int U() {
+   public int getNdisPhysicalMediumType() {
       return this.ndisPhysicalMediumType;
    }
 
-   public void d(int i) {
-      this.ndisPhysicalMediumType = i;
+   public void setNdisPhysicalMediumType(int ndisPhysicalMediumType) {
+      this.ndisPhysicalMediumType = ndisPhysicalMediumType;
    }
 
-   public boolean k() {
+   public boolean isConnectorPresent() {
       return this.connectorPresent;
    }
 
@@ -220,7 +220,7 @@ public class NetworkIF {
       this.speed = ParseUtil.unsignedLongToSignedLong(speed);
    }
 
-   public long a() {
+   public long getTimeStamp() {
       return this.timeStamp;
    }
 

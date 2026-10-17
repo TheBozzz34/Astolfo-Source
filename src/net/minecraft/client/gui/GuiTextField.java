@@ -22,25 +22,25 @@ public class GuiTextField extends Gui {
    private final int height;
    private String text = "";
    private int maxStringLength = 32;
-   private int A;
+   private int cursorCounter;
    private boolean enableBackgroundDrawing = true;
    private boolean canLoseFocus = true;
    private boolean isFocused;
-   private boolean o = true;
+   private boolean isEnabled = true;
    private int lineScrollOffset;
    private int cursorPosition;
    private int selectionEnd;
-   private int t = 14737632;
-   private int b = 7368816;
-   private boolean i = true;
+   private int enabledColor = 14737632;
+   private int disabledColor = 7368816;
+   private boolean visible = true;
    private GuiPageButtonList.GuiResponder field_175210_x;
    private Predicate<String> validator = Predicates.alwaysTrue();
-   public boolean w;
-   public int I;
-   private static boolean u;
-   private static int r;
-   private static int n;
-   public float d = 0.1F;
+   public boolean useCustomAlpha;
+   public int customAlpha;
+   private static boolean shaderInitialized;
+   private static int outlineShaderProgram;
+   private static int colorUniformLocation;
+   public float outlineAlpha = 0.1F;
 
    public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height) {
       this.id = componentId;
@@ -56,7 +56,7 @@ public class GuiTextField extends Gui {
    }
 
    public void updateCursorCounter() {
-      this.A++;
+      this.cursorCounter++;
    }
 
    public void setText(String string) {
@@ -236,14 +236,14 @@ public class GuiTextField extends Gui {
       }
 
       if (GuiScreen.isKeyComboCtrlV(i)) {
-         if (this.o) {
+         if (this.isEnabled) {
             this.writeText(GuiScreen.getClipboardString());
          }
 
          return true;
       } else if (GuiScreen.isKeyComboCtrlX(i)) {
          GuiScreen.setClipboardString(this.getSelectedText());
-         if (this.o) {
+         if (this.isEnabled) {
             this.writeText("");
          }
 
@@ -252,10 +252,10 @@ public class GuiTextField extends Gui {
          switch (i) {
             case 14:
                if (GuiScreen.isCtrlKeyDown()) {
-                  if (this.o) {
+                  if (this.isEnabled) {
                      this.deleteWords(-1);
                   }
-               } else if (this.o) {
+               } else if (this.isEnabled) {
                   this.deleteFromCursor(-1);
                }
 
@@ -271,9 +271,9 @@ public class GuiTextField extends Gui {
             case 203:
                if (GuiScreen.isShiftKeyDown()) {
                   if (GuiScreen.isCtrlKeyDown()) {
-                     this.setSelectionPos(this.getNthWordFromPos(-1, this.m()));
+                     this.setSelectionPos(this.getNthWordFromPos(-1, this.getSelectionEnd()));
                   } else {
-                     this.setSelectionPos(this.m() - 1);
+                     this.setSelectionPos(this.getSelectionEnd() - 1);
                   }
                } else if (GuiScreen.isCtrlKeyDown()) {
                   this.setCursorPosition(this.getNthWordFromCursor(-1));
@@ -285,9 +285,9 @@ public class GuiTextField extends Gui {
             case 205:
                if (GuiScreen.isShiftKeyDown()) {
                   if (GuiScreen.isCtrlKeyDown()) {
-                     this.setSelectionPos(this.getNthWordFromPos(1, this.m()));
+                     this.setSelectionPos(this.getNthWordFromPos(1, this.getSelectionEnd()));
                   } else {
-                     this.setSelectionPos(this.m() + 1);
+                     this.setSelectionPos(this.getSelectionEnd() + 1);
                   }
                } else if (GuiScreen.isCtrlKeyDown()) {
                   this.setCursorPosition(this.getNthWordFromCursor(1));
@@ -306,17 +306,17 @@ public class GuiTextField extends Gui {
                return true;
             case 211:
                if (GuiScreen.isCtrlKeyDown()) {
-                  if (this.o) {
+                  if (this.isEnabled) {
                      this.deleteWords(1);
                   }
-               } else if (this.o) {
+               } else if (this.isEnabled) {
                   this.deleteFromCursor(1);
                }
 
                return true;
             default:
                if (ChatAllowedCharacters.isAllowedCharacter(c)) {
-                  if (this.o) {
+                  if (this.isEnabled) {
                      this.writeText(Character.toString(c));
                   }
 
@@ -347,44 +347,44 @@ public class GuiTextField extends Gui {
 
    public void drawTextBox() {
       if (this.getVisible()) {
-         if (!u) {
+         if (!shaderInitialized) {
             int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
             ARBShaderObjects.glShaderSourceARB(i, "#version 110\nuniform vec4 color;void main() { gl_FragColor = color;}");
             ARBShaderObjects.glCompileShaderARB(i);
             System.err.println(ARBShaderObjects.glGetInfoLogARB(i, 200));
-            ARBShaderObjects.glAttachObjectARB(r = ARBShaderObjects.glCreateProgramObjectARB(), i);
-            ARBShaderObjects.glLinkProgramARB(r);
-            ARBShaderObjects.glValidateProgramARB(r);
-            u = true;
+            ARBShaderObjects.glAttachObjectARB(outlineShaderProgram = ARBShaderObjects.glCreateProgramObjectARB(), i);
+            ARBShaderObjects.glLinkProgramARB(outlineShaderProgram);
+            ARBShaderObjects.glValidateProgramARB(outlineShaderProgram);
+            shaderInitialized = true;
          }
 
          if (this.getEnableBackgroundDrawing()) {
             float f = Minecraft.getMinecraft().theWorld == null ? 0.1F : 0.01F;
-            if (this.isFocused() && this.d < 1.0F) {
-               this.d += f;
-            } else if (this.d > 0.5F && !this.isFocused) {
-               this.d -= f;
+            if (this.isFocused() && this.outlineAlpha < 1.0F) {
+               this.outlineAlpha += f;
+            } else if (this.outlineAlpha > 0.5F && !this.isFocused) {
+               this.outlineAlpha -= f;
             }
 
-            if (this.d < 0.5F) {
-               this.d = 0.5F;
-            } else if (this.d > 1.0F) {
-               this.d = 1.0F;
+            if (this.outlineAlpha < 0.5F) {
+               this.outlineAlpha = 0.5F;
+            } else if (this.outlineAlpha > 1.0F) {
+               this.outlineAlpha = 1.0F;
             }
 
-            ARBShaderObjects.glUseProgramObjectARB(r);
+            ARBShaderObjects.glUseProgramObjectARB(outlineShaderProgram);
             float g = Astolfo.INSTANCE.getColor().getRed() / 255.0F;
             float h = Astolfo.INSTANCE.getColor().getGreen() / 255.0F;
             float f2 = Astolfo.INSTANCE.getColor().getBlue() / 255.0F;
-            if (this.isFocused() && this.o) {
-               ARBShaderObjects.glUniform4fARB(n, g, h, f2, this.d);
-            } else if (this.o) {
-               ARBShaderObjects.glUniform4fARB(n, 0.5F, 0.5F, 0.5F, this.d);
+            if (this.isFocused() && this.isEnabled) {
+               ARBShaderObjects.glUniform4fARB(colorUniformLocation, g, h, f2, this.outlineAlpha);
+            } else if (this.isEnabled) {
+               ARBShaderObjects.glUniform4fARB(colorUniformLocation, 0.5F, 0.5F, 0.5F, this.outlineAlpha);
             } else {
-               ARBShaderObjects.glUniform4fARB(n, 0.1F, 0.1F, 0.1F, this.d);
+               ARBShaderObjects.glUniform4fARB(colorUniformLocation, 0.1F, 0.1F, 0.1F, this.outlineAlpha);
             }
 
-            n = ARBShaderObjects.glGetUniformLocationARB(r, "color");
+            colorUniformLocation = ARBShaderObjects.glGetUniformLocationARB(outlineShaderProgram, "color");
             drawRect(
                this.xPosition,
                this.yPosition + this.height - 1,
@@ -395,48 +395,48 @@ public class GuiTextField extends Gui {
             ARBShaderObjects.glUseProgramObjectARB(0);
          }
 
-         int j = this.w ? new Color(224, 224, 224, this.I).getRGB() : (this.o ? this.t : this.b);
+         int j = this.useCustomAlpha ? new Color(224, 224, 224, this.customAlpha).getRGB() : (this.isEnabled ? this.enabledColor : this.disabledColor);
          int k = this.cursorPosition - this.lineScrollOffset;
          int l = this.selectionEnd - this.lineScrollOffset;
          String string = this.fontRendererInstance.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.getWidth());
          boolean bl = k >= 0 && k <= string.length();
-         boolean bl2 = this.isFocused && this.A / 6 % 2 == 0 && bl;
+         boolean bl2 = this.isFocused && this.cursorCounter / 6 % 2 == 0 && bl;
          int m = this.enableBackgroundDrawing ? this.xPosition + 4 : this.xPosition;
-         int i2 = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
-         int i3 = m;
+         int n = this.enableBackgroundDrawing ? this.yPosition + (this.height - 8) / 2 : this.yPosition;
+         int i2 = m;
          if (l > string.length()) {
             l = string.length();
          }
 
          if (string.length() > 0) {
             String string2 = bl ? string.substring(0, k) : string;
-            i3 = this.fontRendererInstance.drawStringWithShadow(string2, m, i2, j);
+            i2 = this.fontRendererInstance.drawStringWithShadow(string2, m, n, j);
          }
 
-         boolean bl3 = this.cursorPosition < this.text.length() || this.text.length() >= this.M();
-         int i4 = i3;
+         boolean bl3 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
+         int i3 = i2;
          if (!bl) {
-            i4 = k > 0 ? m + this.width : m;
+            i3 = k > 0 ? m + this.width : m;
          } else if (bl3) {
-            i4 = i3 - 1;
-            i3--;
+            i3 = i2 - 1;
+            i2--;
          }
 
          if (string.length() > 0 && bl && k < string.length()) {
-            i3 = this.fontRendererInstance.drawStringWithShadow(string.substring(k), i3, i2, j);
+            i2 = this.fontRendererInstance.drawStringWithShadow(string.substring(k), i2, n, j);
          }
 
          if (bl2) {
             if (bl3) {
-               Gui.drawRect(i4, i2 - 1, i4 + 1, i2 + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
+               Gui.drawRect(i3, n - 1, i3 + 1, n + 1 + this.fontRendererInstance.FONT_HEIGHT, -3092272);
             } else {
-               this.fontRendererInstance.drawStringWithShadow("_", i4, i2, j);
+               this.fontRendererInstance.drawStringWithShadow("_", i3, n, j);
             }
          }
 
          if (l != k) {
-            int i5 = m + this.fontRendererInstance.getStringWidth(string.substring(0, l));
-            this.drawCursorVertical(i4, i2 - 1, i5 - 1, i2 + 1 + this.fontRendererInstance.FONT_HEIGHT);
+            int i4 = m + this.fontRendererInstance.getStringWidth(string.substring(0, l));
+            this.drawCursorVertical(i3, n - 1, i4 - 1, n + 1 + this.fontRendererInstance.FONT_HEIGHT);
          }
       }
    }
@@ -485,7 +485,7 @@ public class GuiTextField extends Gui {
       }
    }
 
-   public int M() {
+   public int getMaxStringLength() {
       return this.maxStringLength;
    }
 
@@ -502,16 +502,16 @@ public class GuiTextField extends Gui {
    }
 
    public void setTextColor(int i) {
-      this.t = i;
+      this.enabledColor = i;
    }
 
    public void setDisabledTextColour(int i) {
-      this.b = i;
+      this.disabledColor = i;
    }
 
    public void setFocused(boolean bl) {
       if (bl && !this.isFocused) {
-         this.A = 0;
+         this.cursorCounter = 0;
       }
 
       this.isFocused = bl;
@@ -522,10 +522,10 @@ public class GuiTextField extends Gui {
    }
 
    public void setEnabled(boolean bl) {
-      this.o = bl;
+      this.isEnabled = bl;
    }
 
-   public int m() {
+   public int getSelectionEnd() {
       return this.selectionEnd;
    }
 
@@ -571,10 +571,10 @@ public class GuiTextField extends Gui {
    }
 
    public boolean getVisible() {
-      return this.i;
+      return this.visible;
    }
 
    public void setVisible(boolean bl) {
-      this.i = bl;
+      this.visible = bl;
    }
 }

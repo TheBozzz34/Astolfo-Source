@@ -10,12 +10,12 @@ public interface PowerSource {
    String getDeviceName();
 
    @Deprecated
-   double t();
+   double getRemainingCapacity();
 
    double getRemainingCapacityPercent();
 
    @Deprecated
-   double l();
+   double getTimeRemaining();
 
    double getTimeRemainingEstimated();
 

@@ -33,12 +33,12 @@ public class MacOperatingSystem extends AbstractOperatingSystem {
    private final String osXVersion;
    private final int major;
    private final int minor;
-   private static final int X = 4;
-   private static final int R = 2;
-   private static final int D = 3;
-   private static final int S = 4;
-   private static final int Y = 5;
-   private static final int H = 6;
+   private static final int P_LP64 = 4;
+   private static final int SWAIT = 2;
+   private static final int SRUN = 3;
+   private static final int SIDL = 4;
+   private static final int SZOMB = 5;
+   private static final int SSTOP = 6;
    private static final long BOOTTIME;
 
    public MacOperatingSystem() {

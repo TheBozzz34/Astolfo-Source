@@ -157,7 +157,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
       return 64;
    }
 
-   public boolean Y() {
+   public boolean isBurning() {
       return this.furnaceBurnTime > 0;
    }
 
@@ -167,17 +167,17 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
 
    @Override
    public void update() {
-      boolean bl = this.Y();
+      boolean bl = this.isBurning();
       boolean bl2 = false;
-      if (this.Y()) {
+      if (this.isBurning()) {
          this.furnaceBurnTime--;
       }
 
       if (!this.worldObj.isRemote) {
-         if (this.Y() || this.furnaceItemStacks[1] != null && this.furnaceItemStacks[0] != null) {
-            if (!this.Y() && this.P()) {
+         if (this.isBurning() || this.furnaceItemStacks[1] != null && this.furnaceItemStacks[0] != null) {
+            if (!this.isBurning() && this.canSmelt()) {
                this.currentItemBurnTime = this.furnaceBurnTime = getItemBurnTime(this.furnaceItemStacks[1]);
-               if (this.Y()) {
+               if (this.isBurning()) {
                   bl2 = true;
                   if (this.furnaceItemStacks[1] != null) {
                      this.furnaceItemStacks[1].stackSize--;
@@ -189,24 +189,24 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
                }
             }
 
-            if (this.Y() && this.P()) {
+            if (this.isBurning() && this.canSmelt()) {
                this.cookTime++;
                if (this.cookTime == this.totalCookTime) {
                   this.cookTime = 0;
                   this.totalCookTime = this.getCookTime(this.furnaceItemStacks[0]);
-                  this.y();
+                  this.smeltItem();
                   bl2 = true;
                }
             } else {
                this.cookTime = 0;
             }
-         } else if (!this.Y() && this.cookTime > 0) {
+         } else if (!this.isBurning() && this.cookTime > 0) {
             this.cookTime = MathHelper.clamp_int(this.cookTime - 2, 0, this.totalCookTime);
          }
 
-         if (bl != this.Y()) {
+         if (bl != this.isBurning()) {
             bl2 = true;
-            BlockFurnace.setState(this.Y(), this.worldObj, this.pos);
+            BlockFurnace.setState(this.isBurning(), this.worldObj, this.pos);
          }
       }
 
@@ -219,7 +219,7 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
       return 200;
    }
 
-   private boolean P() {
+   private boolean canSmelt() {
       if (this.furnaceItemStacks[0] == null) {
          return false;
       }
@@ -243,8 +243,8 @@ public class TileEntityFurnace extends TileEntityLockable implements ITickable, 
          );
    }
 
-   public void y() {
-      if (this.P()) {
+   public void smeltItem() {
+      if (this.canSmelt()) {
          ItemStack itemStack = FurnaceRecipes.instance().getSmeltingResult(this.furnaceItemStacks[0]);
          if (this.furnaceItemStacks[2] == null) {
             this.furnaceItemStacks[2] = itemStack.copy();

@@ -212,7 +212,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       }
    }
 
-   public boolean TC() {
+   public boolean isHorseJumping() {
       return this.horseJumping;
    }
 
@@ -220,8 +220,8 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       this.setHorseWatchableBoolean(2, tamed);
    }
 
-   public void N(boolean bl) {
-      this.horseJumping = bl;
+   public void setHorseJumping(boolean jumping) {
+      this.horseJumping = jumping;
    }
 
    @Override
@@ -320,7 +320,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       return this.riddenByEntity == null;
    }
 
-   public boolean Tx() {
+   public boolean prepareChunkForSpawn() {
       int i = MathHelper.floor_double(this.posX);
       int j = MathHelper.floor_double(this.posZ);
       this.worldObj.getBiomeGenForCoords(new BlockPos(i, 0, j));
@@ -396,7 +396,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       }
    }
 
-   public void O(float f, float g, float h) {
+   public void moveWithRiderInput(float f, float g, float h) {
       EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
       this.rotationYaw = entityPlayerSP.rotationYaw;
       this.prevRotationYaw = this.rotationYaw;
@@ -416,9 +416,9 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
          h = 0.0F;
       }
 
-      if (this.jumpPower > 0.0F && !this.TC() && this.onGround) {
+      if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround) {
          this.motionY = this.getHorseJumpStrength() * this.jumpPower;
-         this.N(true);
+         this.setHorseJumping(true);
          this.isAirBorne = true;
          if (h > 0.0F) {
             float f2 = MathHelper.sin(this.rotationYaw * (float) (Math.PI / 180.0));
@@ -435,7 +435,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
       super.moveEntityWithHeading(f, g);
       if (this.onGround) {
          this.jumpPower = 0.0F;
-         this.N(false);
+         this.setHorseJumping(false);
       }
 
       this.prevLimbSwingAmount = this.limbSwingAmount;
@@ -470,7 +470,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 
    @Override
    public boolean getCanSpawnHere() {
-      this.Tx();
+      this.prepareChunkForSpawn();
       return super.getCanSpawnHere();
    }
 
@@ -1062,13 +1062,13 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
             forward = 0.0F;
          }
 
-         if (this.jumpPower > 0.0F && !this.TC() && this.onGround) {
+         if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround) {
             this.motionY = this.getHorseJumpStrength() * this.jumpPower;
             if (this.isPotionActive(Potion.jump)) {
                this.motionY = this.motionY + (this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
             }
 
-            this.N(true);
+            this.setHorseJumping(true);
             this.isAirBorne = true;
             if (forward > 0.0F) {
                float f = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
@@ -1090,7 +1090,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic {
 
          if (this.onGround) {
             this.jumpPower = 0.0F;
-            this.N(false);
+            this.setHorseJumping(false);
          }
 
          this.prevLimbSwingAmount = this.limbSwingAmount;

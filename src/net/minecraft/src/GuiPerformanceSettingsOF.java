@@ -19,7 +19,7 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
       GameSettings.Options.CHUNK_UPDATES_DYNAMIC,
       GameSettings.Options.LAZY_CHUNK_LOADING
    };
-   private TooltipProviderOptions Y = new TooltipProviderOptions(this);
+   private TooltipProviderOptions tooltipManager = new TooltipProviderOptions(this);
 
    public GuiPerformanceSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;
@@ -63,8 +63,8 @@ public class GuiPerformanceSettingsOF extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
-      this.Y.U(mouseX, mouseY, this.buttonList);
+      this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
    }
 }

@@ -9,13 +9,13 @@ public class ImageBufferDownload implements IImageBuffer {
    private int[] imageData;
    private int imageWidth;
    private int imageHeight;
-   public boolean p;
+   public boolean skipLegacyConversion;
 
    public ImageBufferDownload() {
    }
 
    public ImageBufferDownload(boolean bl) {
-      this.p = bl;
+      this.skipLegacyConversion = bl;
    }
 
    @Override
@@ -38,7 +38,7 @@ public class ImageBufferDownload implements IImageBuffer {
       BufferedImage bufferedImage = new BufferedImage(this.imageWidth, this.imageHeight, 2);
       Graphics graphics = bufferedImage.getGraphics();
       graphics.drawImage(image, 0, 0, (ImageObserver)null);
-      if (image.getHeight() == 32 * b && !this.p) {
+      if (image.getHeight() == 32 * b && !this.skipLegacyConversion) {
          graphics.drawImage(bufferedImage, 24 * b, 48 * b, 20 * b, 52 * b, 4 * b, 16 * b, 8 * b, 20 * b, (ImageObserver)null);
          graphics.drawImage(bufferedImage, 28 * b, 48 * b, 24 * b, 52 * b, 8 * b, 16 * b, 12 * b, 20 * b, (ImageObserver)null);
          graphics.drawImage(bufferedImage, 20 * b, 52 * b, 16 * b, 64 * b, 8 * b, 20 * b, 12 * b, 32 * b, (ImageObserver)null);
@@ -55,7 +55,7 @@ public class ImageBufferDownload implements IImageBuffer {
 
       graphics.dispose();
       this.imageData = ((DataBufferInt)bufferedImage.getRaster().getDataBuffer()).getData();
-      if (!this.p) {
+      if (!this.skipLegacyConversion) {
          this.setAreaOpaque(0, 0, 32 * b, 16 * b);
          this.setAreaTransparent(32 * b, 0, 64 * b, 32 * b);
          this.setAreaOpaque(0, 16 * b, 64 * b, 32 * b);

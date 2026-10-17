@@ -110,7 +110,7 @@ public class GuiControls extends GuiScreen {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.keyBindingList.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 8, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 8, 16777215);
       boolean bl = true;
 
       for (KeyBinding keyBinding : this.options.keyBindings) {

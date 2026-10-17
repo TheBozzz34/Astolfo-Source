@@ -21,7 +21,7 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 
 @ThreadSafe
 public class SolarisOperatingSystem extends AbstractOperatingSystem {
-   private static final long A = querySystemBootTime();
+   private static final long BOOTTIME = querySystemBootTime();
 
    public SolarisOperatingSystem() {
       this.version = new SolarisOSVersionInfoEx();
@@ -34,7 +34,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo() {
-      String[] strings = ParseUtil.Q.split(ExecutingCommand.getFirstAnswer("uname -rv"));
+      String[] strings = ParseUtil.whitespaces.split(ExecutingCommand.getFirstAnswer("uname -rv"));
       String string = strings[0];
       String string2 = null;
       if (strings.length > 1) {
@@ -88,7 +88,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
          for (Object object : list) {
             String string = (String)object;
-            String[] strings = ParseUtil.Q.split(string.trim(), 15);
+            String[] strings = ParseUtil.whitespaces.split(string.trim(), 15);
             if (strings.length >= 15) {
                long l = System.currentTimeMillis();
                OSProcess osProcess = new OSProcess(this);
@@ -169,7 +169,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
       String string = ExecutingCommand.getFirstAnswer("pbind -q " + processId);
       if (string.isEmpty()) {
          for (String string2 : ExecutingCommand.runNative("psrinfo")) {
-            String[] strings = ParseUtil.Q.split(string2);
+            String[] strings = ParseUtil.whitespaces.split(string2);
             int i = ParseUtil.parseIntOrDefault(strings[0], -1);
             if (i >= 0) {
                l |= 1L << i;
@@ -180,7 +180,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
       } else {
          if (string.endsWith(".") && string.contains("strongly bound to processor(s)")) {
             String string3 = string.substring(0, string.length() - 1);
-            String[] strings2 = ParseUtil.Q.split(string3);
+            String[] strings2 = ParseUtil.whitespaces.split(string3);
 
             for (int j = strings2.length - 1; j >= 0; j--) {
                int k = ParseUtil.parseIntOrDefault(strings2[j], -1);
@@ -230,7 +230,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public long getSystemBootTime() {
-      return A;
+      return BOOTTIME;
    }
 
    private static long querySystemBootTime() {
@@ -273,7 +273,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
                arrayList.add(new OSService(string2, 0, OSService.State.STOPPED));
             }
          } else if (string.startsWith(" ")) {
-            String[] strings = ParseUtil.Q.split(string.trim());
+            String[] strings = ParseUtil.whitespaces.split(string.trim());
             if (strings.length == 3) {
                arrayList.add(new OSService(strings[2], ParseUtil.parseIntOrDefault(strings[1], 0), OSService.State.RUNNING));
             }

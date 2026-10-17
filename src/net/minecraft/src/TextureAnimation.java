@@ -106,7 +106,7 @@ public class TextureAnimation {
       return textureAnimationFrame.index;
    }
 
-   public int f() {
+   public int getFrameCount() {
       return this.frames.length;
    }
 
@@ -143,7 +143,7 @@ public class TextureAnimation {
       return true;
    }
 
-   public String K() {
+   public String getSrcTex() {
       return this.srcTex;
    }
 

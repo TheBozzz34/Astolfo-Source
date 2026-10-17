@@ -4,13 +4,13 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
 import net.minecraft.util.EnumFacing;
 
 public interface IVertexConsumer {
-   VertexFormat Z();
+   VertexFormat getVertexFormat();
 
    void z(int i);
 
-   void v(EnumFacing enumFacing);
+   void setQuadOrientation(EnumFacing enumFacing);
 
-   void U();
+   void setQuadColored();
 
    void x(int i, float... floats);
 }

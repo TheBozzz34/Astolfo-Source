@@ -91,7 +91,7 @@ public class CompactHashMap<K, V> {
       return hashMap instanceof HashMap1 ? ((HashMap1)hashMap).value : hashMap;
    }
 
-   public CompactHashMap<K, V> G(Object object, KeyFunction<K, V> keyFunction) {
+   public CompactHashMap<K, V> wrap(Object object, KeyFunction<K, V> keyFunction) {
       if (object instanceof CompactHashMap) {
          return (CompactHashMap<K, V>)object;
       }

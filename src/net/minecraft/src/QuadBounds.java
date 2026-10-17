@@ -3,104 +3,104 @@ package net.minecraft.src;
 import net.minecraft.util.EnumFacing;
 
 public class QuadBounds {
-   private float j = Float.MAX_VALUE;
+   private float minX = Float.MAX_VALUE;
    private float z = Float.MAX_VALUE;
-   private float E = Float.MAX_VALUE;
-   private float k = -Float.MAX_VALUE;
+   private float minZ = Float.MAX_VALUE;
+   private float maxX = -Float.MAX_VALUE;
    private float x = -Float.MAX_VALUE;
-   private float A = -Float.MAX_VALUE;
+   private float maxZ = -Float.MAX_VALUE;
 
    public QuadBounds(int[] vertexData) {
       int i = vertexData.length / 4;
 
-      for (int l = 0; l < 4; l++) {
-         int m = l * i;
-         float f = Float.intBitsToFloat(vertexData[m + 0]);
-         float g = Float.intBitsToFloat(vertexData[m + 1]);
-         float h = Float.intBitsToFloat(vertexData[m + 2]);
-         if (this.j > f) {
-            this.j = f;
+      for (int j = 0; j < 4; j++) {
+         int k = j * i;
+         float f = Float.intBitsToFloat(vertexData[k + 0]);
+         float g = Float.intBitsToFloat(vertexData[k + 1]);
+         float h = Float.intBitsToFloat(vertexData[k + 2]);
+         if (this.minX > f) {
+            this.minX = f;
          }
 
          if (this.z > g) {
             this.z = g;
          }
 
-         if (this.E > h) {
-            this.E = h;
+         if (this.minZ > h) {
+            this.minZ = h;
          }
 
-         if (this.k < f) {
-            this.k = f;
+         if (this.maxX < f) {
+            this.maxX = f;
          }
 
          if (this.x < g) {
             this.x = g;
          }
 
-         if (this.A < h) {
-            this.A = h;
+         if (this.maxZ < h) {
+            this.maxZ = h;
          }
       }
    }
 
-   public float x() {
-      return this.j;
+   public float getMinX() {
+      return this.minX;
    }
 
-   public float T() {
+   public float getMinY() {
       return this.z;
    }
 
-   public float J() {
-      return this.E;
+   public float getMinZ() {
+      return this.minZ;
    }
 
-   public float G() {
-      return this.k;
+   public float getMaxX() {
+      return this.maxX;
    }
 
-   public float R() {
+   public float getMaxY() {
       return this.x;
    }
 
-   public float s() {
-      return this.A;
+   public float getMaxZ() {
+      return this.maxZ;
    }
 
-   public boolean j(EnumFacing enumFacing) {
+   public boolean isFaceQuad(EnumFacing face) {
       float f;
       float g;
       float h;
-      switch (enumFacing) {
+      switch (face) {
          case DOWN:
-            f = this.T();
-            g = this.R();
+            f = this.getMinY();
+            g = this.getMaxY();
             h = 0.0F;
             break;
          case UP:
-            f = this.T();
-            g = this.R();
+            f = this.getMinY();
+            g = this.getMaxY();
             h = 1.0F;
             break;
          case NORTH:
-            f = this.J();
-            g = this.s();
+            f = this.getMinZ();
+            g = this.getMaxZ();
             h = 0.0F;
             break;
          case SOUTH:
-            f = this.J();
-            g = this.s();
+            f = this.getMinZ();
+            g = this.getMaxZ();
             h = 1.0F;
             break;
          case WEST:
-            f = this.x();
-            g = this.G();
+            f = this.getMinX();
+            g = this.getMaxX();
             h = 0.0F;
             break;
          case EAST:
-            f = this.x();
-            g = this.G();
+            f = this.getMinX();
+            g = this.getMaxX();
             h = 1.0F;
             break;
          default:
@@ -110,32 +110,32 @@ public class QuadBounds {
       return f == h && g == h;
    }
 
-   public boolean K(EnumFacing enumFacing) {
+   public boolean isFullQuad(EnumFacing face) {
       float f;
       float g;
       float h;
       float f2;
-      switch (enumFacing) {
+      switch (face) {
          case DOWN:
          case UP:
-            f = this.x();
-            g = this.G();
-            h = this.J();
-            f2 = this.s();
+            f = this.getMinX();
+            g = this.getMaxX();
+            h = this.getMinZ();
+            f2 = this.getMaxZ();
             break;
          case NORTH:
          case SOUTH:
-            f = this.x();
-            g = this.G();
-            h = this.T();
-            f2 = this.R();
+            f = this.getMinX();
+            g = this.getMaxX();
+            h = this.getMinY();
+            f2 = this.getMaxY();
             break;
          case WEST:
          case EAST:
-            f = this.T();
-            g = this.R();
-            h = this.J();
-            f2 = this.s();
+            f = this.getMinY();
+            g = this.getMaxY();
+            h = this.getMinZ();
+            f2 = this.getMaxZ();
             break;
          default:
             return false;

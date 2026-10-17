@@ -96,7 +96,7 @@ public class DirectLoginScreen extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, "Direct Login", this.width / 2, 30, 65531);
+      this.drawCenteredString(this.fontRendererObj, "Direct Login", this.width / 2, 30, 65531);
       String string = "Username or email:";
       this.passwordField.setVisible(true);
       if (this.usernameField.getText().contains("@")) {
@@ -111,7 +111,7 @@ public class DirectLoginScreen extends GuiScreen {
       }
 
       if (this.passwordField.getVisible()) {
-         this.I(
+         this.drawString(
             this.fontRendererObj,
             this.passwordField.getText().contains("key:") ? "Session key:" : "Password or session key:",
             this.width / 2 - 100,
@@ -120,7 +120,7 @@ public class DirectLoginScreen extends GuiScreen {
          );
       }
 
-      this.I(this.fontRendererObj, string, this.width / 2 - 100, this.height / 6 + 23, 16777215);
+      this.drawString(this.fontRendererObj, string, this.width / 2 - 100, this.height / 6 + 23, 16777215);
       this.passwordField.setPasswordMode(this.hidePasswordCheckbox.isChecked());
       this.usernameField.drawTextBox();
       this.passwordField.drawTextBox();

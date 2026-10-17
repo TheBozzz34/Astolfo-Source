@@ -17,28 +17,28 @@ public final class WindowsFirmware extends AbstractFirmware {
    );
 
    @Override
-   public String R() {
+   public String getManufacturer() {
       return this.manufNameDescVersRelease.get().y();
    }
 
    @Override
    public String getName() {
-      return this.manufNameDescVersRelease.get().x();
+      return this.manufNameDescVersRelease.get().getB();
    }
 
    @Override
    public String getDescription() {
-      return this.manufNameDescVersRelease.get().q();
+      return this.manufNameDescVersRelease.get().getC();
    }
 
    @Override
-   public String P() {
-      return this.manufNameDescVersRelease.get().J();
+   public String getVersion() {
+      return this.manufNameDescVersRelease.get().getD();
    }
 
    @Override
    public String getReleaseDate() {
-      return this.manufNameDescVersRelease.get().s();
+      return this.manufNameDescVersRelease.get().getE();
    }
 
    private static Quintet<String, String, String, String, String> queryManufNameDescVersRelease() {

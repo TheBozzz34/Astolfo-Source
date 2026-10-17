@@ -22,7 +22,7 @@ public class PlayerItemsLayer implements LayerRenderer {
    }
 
    public void renderEquippedItems(EntityLivingBase entityLiving, float scale, float partialTicks) {
-      if (Config.b() && entityLiving instanceof AbstractClientPlayer) {
+      if (Config.isShowCapes() && entityLiving instanceof AbstractClientPlayer) {
          AbstractClientPlayer abstractClientPlayer = (AbstractClientPlayer)entityLiving;
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          GlStateManager.disableRescaleNormal();

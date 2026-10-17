@@ -32,7 +32,7 @@ public final class Crosshair extends Module {
          float f = this.gap.getValue();
          if (!mc.thePlayer.isSpectator() && this.dynamic.getValue() && mc.thePlayer.getHeldItem() != null) {
             ItemStack itemStack = mc.thePlayer.getHeldItem();
-            int l = mc.thePlayer.p();
+            int l = mc.thePlayer.getItemInUseCount();
             if (itemStack.getItem() == Items.bow) {
                float g = (itemStack.getMaxItemUseDuration() - l) / 20.0F;
                if (l == 0 || g > 1.0F) {

@@ -12,17 +12,17 @@ public class ClippingHelperShadow extends ClippingHelper {
    public float[] vecIntersection = new float[4];
 
    @Override
-   public boolean isBoxInFrustum(double d, double d2, double d3, double d4, double d5, double d6) {
+   public boolean isBoxInFrustum(double d, double e, double d2, double d3, double d4, double d5) {
       for (int i = 0; i < this.shadowClipPlaneCount; i++) {
          float[] floats = this.shadowClipPlanes[i];
-         if (this.dot4(floats, d, d2, d3) <= 0.0
-            && this.dot4(floats, d4, d2, d3) <= 0.0
-            && this.dot4(floats, d, d5, d3) <= 0.0
-            && this.dot4(floats, d4, d5, d3) <= 0.0
-            && this.dot4(floats, d, d2, d6) <= 0.0
-            && this.dot4(floats, d4, d2, d6) <= 0.0
-            && this.dot4(floats, d, d5, d6) <= 0.0
-            && this.dot4(floats, d4, d5, d6) <= 0.0) {
+         if (this.dot4(floats, d, e, d2) <= 0.0
+            && this.dot4(floats, d3, e, d2) <= 0.0
+            && this.dot4(floats, d, d4, d2) <= 0.0
+            && this.dot4(floats, d3, d4, d2) <= 0.0
+            && this.dot4(floats, d, e, d5) <= 0.0
+            && this.dot4(floats, d3, e, d5) <= 0.0
+            && this.dot4(floats, d, d4, d5) <= 0.0
+            && this.dot4(floats, d3, d4, d5) <= 0.0) {
             return false;
          }
       }

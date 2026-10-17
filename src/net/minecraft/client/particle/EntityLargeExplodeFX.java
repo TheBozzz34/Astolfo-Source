@@ -26,7 +26,7 @@ public class EntityLargeExplodeFX extends EntityFX {
    private TextureManager theRenderEngine;
    private float field_70582_as;
 
-   public EntityLargeExplodeFX(TextureManager renderEngine, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+   public EntityLargeExplodeFX(TextureManager renderEngine, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.theRenderEngine = renderEngine;
       this.field_70584_aq = 6 + this.rand.nextInt(4);

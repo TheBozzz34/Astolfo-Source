@@ -7,10 +7,10 @@ public class ColorizerGrass {
       grassBuffer = ints;
    }
 
-   public static int getGrassColor(double d, double d2) {
-      d2 *= d;
+   public static int getGrassColor(double d, double e) {
+      e *= d;
       int i = (int)((1.0 - d) * 255.0);
-      int j = (int)((1.0 - d2) * 255.0);
+      int j = (int)((1.0 - e) * 255.0);
       int k = j << 8 | i;
       return k > grassBuffer.length ? -65281 : grassBuffer[k];
    }

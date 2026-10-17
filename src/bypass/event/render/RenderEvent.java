@@ -20,12 +20,12 @@ public class RenderEvent implements Event {
       this.guiIngame = guiIngame;
    }
 
-   public RenderEvent(RenderType renderType, float f, double d, double d2, double d3) {
+   public RenderEvent(RenderType renderType, float f, double d, double e, double d2) {
       this.type = renderType;
       this.partialTicks = f;
       this.viewX = d;
-      this.viewY = d2;
-      this.viewZ = d3;
+      this.viewY = e;
+      this.viewZ = d2;
    }
 
    public double getViewX() {

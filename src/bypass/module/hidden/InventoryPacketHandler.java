@@ -80,8 +80,8 @@ public final class InventoryPacketHandler extends HiddenModule {
                      packetEvent.cancel();
                   }
                } else if (bl) {
-                  mc.thePlayer.sendQueue.u(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                  mc.thePlayer.sendQueue.u(packetEvent.getPacket());
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(packetEvent.getPacket());
                   mc.thePlayer.sendQueue.addToSendQueue(this.closeInventoryPacket);
                   packetEvent.cancel();
                }
@@ -92,7 +92,7 @@ public final class InventoryPacketHandler extends HiddenModule {
 
          if (packetEvent.getPacket() instanceof C0DPacketCloseWindow) {
             C0DPacketCloseWindow c0DPacketCloseWindow = (C0DPacketCloseWindow)packetEvent.getPacket();
-            if (c0DPacketCloseWindow.e() == 0) {
+            if (c0DPacketCloseWindow.getWindowId() == 0) {
                if (!inventoryOpen) {
                   packetEvent.cancel();
                }

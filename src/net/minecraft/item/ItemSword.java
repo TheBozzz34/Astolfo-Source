@@ -24,7 +24,7 @@ public class ItemSword extends Item {
       this.attackDamage = 4.0F + material.getDamageVsEntity();
    }
 
-   public float Q() {
+   public float getDamageVsEntity() {
       return this.material.getDamageVsEntity();
    }
 
@@ -102,7 +102,7 @@ public class ItemSword extends Item {
       return multimap;
    }
 
-   public float E() {
+   public float getAttackDamage() {
       return this.attackDamage;
    }
 }

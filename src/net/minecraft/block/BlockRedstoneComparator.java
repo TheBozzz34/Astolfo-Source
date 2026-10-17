@@ -201,7 +201,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
             worldIn.setBlockState(pos, state.withProperty(POWERED, true), 2);
          }
 
-         this.n(worldIn, pos, state);
+         this.notifyNeighbors(worldIn, pos, state);
       }
    }
 
@@ -224,7 +224,7 @@ public class BlockRedstoneComparator extends BlockRedstoneDiode implements ITile
    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
       super.breakBlock(worldIn, pos, state);
       worldIn.removeTileEntity(pos);
-      this.n(worldIn, pos, state);
+      this.notifyNeighbors(worldIn, pos, state);
    }
 
    @Override

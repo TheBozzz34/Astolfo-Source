@@ -210,11 +210,11 @@ public class EffectRenderer {
 
    public void renderParticles(Entity entityIn, float partialTicks) {
       if (!ModuleManager.noRender.isEnabled() || Integer.parseInt(Minecraft.getMinecraft().effectRenderer.getStatistics()) <= 500 && NoRender.smart.getValue()) {
-         float f = ActiveRenderInfo.S();
-         float g = ActiveRenderInfo.N();
-         float h = ActiveRenderInfo.T();
-         float f2 = ActiveRenderInfo.U();
-         float f3 = ActiveRenderInfo.w();
+         float f = ActiveRenderInfo.getRotationX();
+         float g = ActiveRenderInfo.getRotationZ();
+         float h = ActiveRenderInfo.getRotationYZ();
+         float f2 = ActiveRenderInfo.getRotationXY();
+         float f3 = ActiveRenderInfo.getRotationXZ();
          EntityFX.interpPosX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * partialTicks;
          EntityFX.interpPosY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * partialTicks;
          EntityFX.interpPosZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * partialTicks;
@@ -247,7 +247,7 @@ public class EffectRenderer {
                   GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                   Tessellator tessellator = Tessellator.getInstance();
                   WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-                  worldRenderer.begin(7, DefaultVertexFormats.T);
+                  worldRenderer.begin(7, DefaultVertexFormats.PARTICLE_POSITION_TEX_COLOR_LMAP);
 
                   for (int l = 0; l < this.fxLayers[j][k].size(); l++) {
                      final EntityFX entityFX = this.fxLayers[j][k].get(l);

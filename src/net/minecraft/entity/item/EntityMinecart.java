@@ -520,10 +520,10 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
       this.setEntityBoundingBox(new AxisAlignedBB(x - f, y, z - f, x + f, y + g, z + f));
    }
 
-   public Vec3 func_70495_a(double d, double d2, double d3, double d4) {
+   public Vec3 func_70495_a(double d, double e, double d2, double d3) {
       int i = MathHelper.floor_double(d);
-      int j = MathHelper.floor_double(d2);
-      int k = MathHelper.floor_double(d3);
+      int j = MathHelper.floor_double(e);
+      int k = MathHelper.floor_double(d2);
       if (BlockRailBase.isRailBlock(this.worldObj, new BlockPos(i, j - 1, k))) {
          j--;
       }
@@ -531,35 +531,35 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
       IBlockState iBlockState = this.worldObj.getBlockState(new BlockPos(i, j, k));
       if (BlockRailBase.isRailBlock(iBlockState)) {
          BlockRailBase.EnumRailDirection enumRailDirection = iBlockState.getValue(((BlockRailBase)iBlockState.getBlock()).getShapeProperty());
-         d2 = j;
+         e = j;
          if (enumRailDirection.isAscending()) {
-            d2 = j + 1;
+            e = j + 1;
          }
 
          int[][] intss = matrix[enumRailDirection.getMetadata()];
-         double e = intss[1][0] - intss[0][0];
+         double d4 = intss[1][0] - intss[0][0];
          double d5 = intss[1][2] - intss[0][2];
-         double d6 = Math.sqrt(e * e + d5 * d5);
-         e /= d6;
+         double d6 = Math.sqrt(d4 * d4 + d5 * d5);
+         d4 /= d6;
          d5 /= d6;
-         d += e * d4;
-         d3 += d5 * d4;
-         if (intss[0][1] != 0 && MathHelper.floor_double(d) - i == intss[0][0] && MathHelper.floor_double(d3) - k == intss[0][2]) {
-            d2 += intss[0][1];
-         } else if (intss[1][1] != 0 && MathHelper.floor_double(d) - i == intss[1][0] && MathHelper.floor_double(d3) - k == intss[1][2]) {
-            d2 += intss[1][1];
+         d += d4 * d3;
+         d2 += d5 * d3;
+         if (intss[0][1] != 0 && MathHelper.floor_double(d) - i == intss[0][0] && MathHelper.floor_double(d2) - k == intss[0][2]) {
+            e += intss[0][1];
+         } else if (intss[1][1] != 0 && MathHelper.floor_double(d) - i == intss[1][0] && MathHelper.floor_double(d2) - k == intss[1][2]) {
+            e += intss[1][1];
          }
 
-         return this.func_70489_a(d, d2, d3);
+         return this.func_70489_a(d, e, d2);
       } else {
          return null;
       }
    }
 
-   public Vec3 func_70489_a(double d, double d2, double d3) {
+   public Vec3 func_70489_a(double d, double e, double d2) {
       int i = MathHelper.floor_double(d);
-      int j = MathHelper.floor_double(d2);
-      int k = MathHelper.floor_double(d3);
+      int j = MathHelper.floor_double(e);
+      int k = MathHelper.floor_double(d2);
       if (BlockRailBase.isRailBlock(this.worldObj, new BlockPos(i, j - 1, k))) {
          j--;
       }
@@ -568,7 +568,7 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
       if (BlockRailBase.isRailBlock(iBlockState)) {
          BlockRailBase.EnumRailDirection enumRailDirection = iBlockState.getValue(((BlockRailBase)iBlockState.getBlock()).getShapeProperty());
          int[][] intss = matrix[enumRailDirection.getMetadata()];
-         double e = 0.0;
+         double d3 = 0.0;
          double d4 = i + 0.5 + intss[0][0] * 0.5;
          double d5 = j + 0.0625 + intss[0][1] * 0.5;
          double d6 = k + 0.5 + intss[0][2] * 0.5;
@@ -580,28 +580,28 @@ public abstract class EntityMinecart extends Entity implements IWorldNameable {
          double d12 = d9 - d6;
          if (d10 == 0.0) {
             d = i + 0.5;
-            e = d3 - k;
+            d3 = d2 - k;
          } else if (d12 == 0.0) {
-            d3 = k + 0.5;
-            e = d - i;
+            d2 = k + 0.5;
+            d3 = d - i;
          } else {
             double d13 = d - d4;
-            double d14 = d3 - d6;
-            e = (d13 * d10 + d14 * d12) * 2.0;
+            double d14 = d2 - d6;
+            d3 = (d13 * d10 + d14 * d12) * 2.0;
          }
 
-         d = d4 + d10 * e;
-         d2 = d5 + d11 * e;
-         d3 = d6 + d12 * e;
+         d = d4 + d10 * d3;
+         e = d5 + d11 * d3;
+         d2 = d6 + d12 * d3;
          if (d11 < 0.0) {
-            d2++;
+            e++;
          }
 
          if (d11 > 0.0) {
-            d2 += 0.5;
+            e += 0.5;
          }
 
-         return new Vec3(d, d2, d3);
+         return new Vec3(d, e, d2);
       } else {
          return null;
       }

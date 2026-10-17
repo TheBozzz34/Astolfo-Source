@@ -156,7 +156,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
    public void sendPacket(Packet packetIn) {
       PacketEvent packetEvent = new PacketEvent(PacketDirection.OUTGOING, packetIn);
       Astolfo.INSTANCE.getEventBus().post(packetEvent);
-      this.w(packetIn);
+      this.onPacketSending(packetIn);
       if (!packetEvent.isCancelled()) {
          if (this.isChannelOpen()) {
             this.flushOutboundQueue();
@@ -174,8 +174,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
       }
    }
 
-   public void B(Packet packet) {
-      this.w(packet);
+   public void sendPacketNoEvent(Packet packet) {
+      this.onPacketSending(packet);
       if (this.isChannelOpen()) {
          this.flushOutboundQueue();
          this.dispatchPacket(packet, null);
@@ -191,7 +191,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
       }
    }
 
-   private void w(Packet<?> packet) {
+   private void onPacketSending(Packet<?> packet) {
    }
 
    public void sendPacket(
@@ -368,13 +368,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
          if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
             ((NettyCompressionDecoder)this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
          } else {
-            this.r(this.channel.pipeline(), "decoder", "decompress", new NettyCompressionDecoder(treshold));
+            this.addHandlerBeforeVia(this.channel.pipeline(), "decoder", "decompress", new NettyCompressionDecoder(treshold));
          }
 
          if (this.channel.pipeline().get("compress") instanceof NettyCompressionEncoder) {
             ((NettyCompressionEncoder)this.channel.pipeline().get("decompress")).setCompressionTreshold(treshold);
          } else {
-            this.r(this.channel.pipeline(), "encoder", "compress", new NettyCompressionEncoder(treshold));
+            this.addHandlerBeforeVia(this.channel.pipeline(), "encoder", "compress", new NettyCompressionEncoder(treshold));
          }
       } else {
          if (this.channel.pipeline().get("decompress") instanceof NettyCompressionDecoder) {
@@ -387,7 +387,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
       }
    }
 
-   private ChannelPipeline r(ChannelPipeline channelPipeline, String string, String string2, ChannelHandler channelHandler) {
+   private ChannelPipeline addHandlerBeforeVia(ChannelPipeline channelPipeline, String string, String string2, ChannelHandler channelHandler) {
       switch (string) {
          case "decoder":
             if (channelPipeline.get("via-decoder") != null) {

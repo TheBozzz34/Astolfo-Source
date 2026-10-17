@@ -33,7 +33,7 @@ public class LayerSpiderEyes implements LayerRenderer<EntitySpider> {
       OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, i / 1.0F, j / 1.0F);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
-         Shaders.s();
+         Shaders.beginSpiderEyes();
       }
 
       this.spiderRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);

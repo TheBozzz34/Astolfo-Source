@@ -30,7 +30,7 @@ public final class ProcessInformation {
       HANDLECOUNT("Handle Count");
 
       private final String counter;
-      private static final ProcessInformation.HandleCountProperty[] H = new ProcessInformation.HandleCountProperty[]{NAME, HANDLECOUNT};
+      private static final ProcessInformation.HandleCountProperty[] VALUES = new ProcessInformation.HandleCountProperty[]{NAME, HANDLECOUNT};
 
       HandleCountProperty(String counter) {
          this.counter = counter;
@@ -53,7 +53,7 @@ public final class ProcessInformation {
       PRIVATEPAGECOUNT("Working Set - Private");
 
       private final String counter;
-      private static final ProcessInformation.ProcessPerformanceProperty[] r = new ProcessInformation.ProcessPerformanceProperty[]{
+      private static final ProcessInformation.ProcessPerformanceProperty[] VALUES = new ProcessInformation.ProcessPerformanceProperty[]{
          NAME, PRIORITY, CREATIONDATE, PROCESSID, PARENTPROCESSID, READTRANSFERCOUNT, WRITETRANSFERCOUNT, PRIVATEPAGECOUNT
       };
 

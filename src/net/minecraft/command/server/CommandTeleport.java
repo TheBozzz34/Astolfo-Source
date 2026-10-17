@@ -78,12 +78,12 @@ public class CommandTeleport extends CommandBase {
                   enumSet.add(S08PacketPlayerPosLook.EnumFlags.Y_ROT);
                }
 
-               float f = (float)coordinateArg4.v();
+               float f = (float)coordinateArg4.getAmount();
                if (!coordinateArg4.func_179630_c()) {
                   f = MathHelper.wrapAngleTo180_float(f);
                }
 
-               float g = (float)coordinateArg5.v();
+               float g = (float)coordinateArg5.getAmount();
                if (!coordinateArg5.func_179630_c()) {
                   g = MathHelper.wrapAngleTo180_float(g);
                }
@@ -94,21 +94,21 @@ public class CommandTeleport extends CommandBase {
                }
 
                entity.mountEntity((Entity)null);
-               ((EntityPlayerMP)entity).playerNetServerHandler.setPlayerLocation(coordinateArg.v(), coordinateArg2.v(), coordinateArg3.v(), f, g, enumSet);
+               ((EntityPlayerMP)entity).playerNetServerHandler.setPlayerLocation(coordinateArg.getAmount(), coordinateArg2.getAmount(), coordinateArg3.getAmount(), f, g, enumSet);
                entity.setRotationYawHead(f);
             } else {
-               float h = (float)MathHelper.wrapAngleTo180_double(coordinateArg4.J());
-               float f2 = (float)MathHelper.wrapAngleTo180_double(coordinateArg5.J());
+               float h = (float)MathHelper.wrapAngleTo180_double(coordinateArg4.getResult());
+               float f2 = (float)MathHelper.wrapAngleTo180_double(coordinateArg5.getResult());
                if (f2 > 90.0F || f2 < -90.0F) {
                   f2 = MathHelper.wrapAngleTo180_float(180.0F - f2);
                   h = MathHelper.wrapAngleTo180_float(h + 180.0F);
                }
 
-               entity.setLocationAndAngles(coordinateArg.J(), coordinateArg2.J(), coordinateArg3.J(), h, f2);
+               entity.setLocationAndAngles(coordinateArg.getResult(), coordinateArg2.getResult(), coordinateArg3.getResult(), h, f2);
                entity.setRotationYawHead(h);
             }
 
-            notifyOperators(sender, this, "commands.tp.success.coordinates", entity.getName(), coordinateArg.J(), coordinateArg2.J(), coordinateArg3.J());
+            notifyOperators(sender, this, "commands.tp.success.coordinates", entity.getName(), coordinateArg.getResult(), coordinateArg2.getResult(), coordinateArg3.getResult());
          }
       } else {
          Entity entity2 = getEntity(sender, args[args.length - 1]);

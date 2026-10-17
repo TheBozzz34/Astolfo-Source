@@ -131,7 +131,7 @@ public class StructureBoundingBox {
       return new Vec3i(this.maxX - this.minX, this.maxY - this.minY, this.maxZ - this.minZ);
    }
 
-   public int G() {
+   public int getXSize() {
       return this.maxX - this.minX + 1;
    }
 
@@ -139,7 +139,7 @@ public class StructureBoundingBox {
       return this.maxY - this.minY + 1;
    }
 
-   public int S() {
+   public int getZSize() {
       return this.maxZ - this.minZ + 1;
    }
 

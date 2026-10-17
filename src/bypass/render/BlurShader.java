@@ -30,12 +30,12 @@ public class BlurShader {
    }
 
    private static void setUniforms(float f, float g, float h, float f2) {
-      shaderGroup.O().get(0).getShaderManager().getShaderUniform("Radius").set(f);
-      shaderGroup.O().get(1).getShaderManager().getShaderUniform("Radius").set(f);
-      shaderGroup.O().get(0).getShaderManager().getShaderUniform("Opacity").set(f2);
-      shaderGroup.O().get(1).getShaderManager().getShaderUniform("Opacity").set(f2);
-      shaderGroup.O().get(0).getShaderManager().getShaderUniform("BlurDir").set(g, h);
-      shaderGroup.O().get(1).getShaderManager().getShaderUniform("BlurDir").set(h, g);
+      shaderGroup.getShaders().get(0).getShaderManager().getShaderUniform("Radius").set(f);
+      shaderGroup.getShaders().get(1).getShaderManager().getShaderUniform("Radius").set(f);
+      shaderGroup.getShaders().get(0).getShaderManager().getShaderUniform("Opacity").set(f2);
+      shaderGroup.getShaders().get(1).getShaderManager().getShaderUniform("Opacity").set(f2);
+      shaderGroup.getShaders().get(0).getShaderManager().getShaderUniform("BlurDir").set(g, h);
+      shaderGroup.getShaders().get(1).getShaderManager().getShaderUniform("BlurDir").set(h, g);
    }
 
    public static void blurAreaDirectional(int i, int j, int k, int l, float f, float g, float h) {
@@ -56,7 +56,7 @@ public class BlurShader {
          GL11.glEnable(3089);
          setUniforms(f, g, h, 1.0F);
          framebuffer.bindFramebuffer(true);
-         shaderGroup.t(mc.timer.renderPartialTicks);
+         shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
          mc.getFramebuffer().bindFramebuffer(true);
          GL11.glDisable(3089);
          GlStateManager.enableBlend();
@@ -83,7 +83,7 @@ public class BlurShader {
       GL11.glEnable(3089);
       setUniforms(f, 1.0F, 0.0F, 1.0F);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.t(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
       GlStateManager.enableBlend();
@@ -109,7 +109,7 @@ public class BlurShader {
       GL11.glEnable(3089);
       setUniforms(f3, f4, f5, 1.0F);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.t(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
@@ -130,7 +130,7 @@ public class BlurShader {
       GL11.glEnable(3089);
       setUniforms(f3, f5, f6, f4);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.o(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroupBlended(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
@@ -151,7 +151,7 @@ public class BlurShader {
       GL11.glEnable(3089);
       setUniforms(f3, f4, f5, 1.0F);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.t(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
@@ -172,7 +172,7 @@ public class BlurShader {
       GL11.glEnable(3089);
       setUniforms(f, 1.0F, 0.0F, 1.0F);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.t(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
       GL11.glDisable(3089);
    }
@@ -191,7 +191,7 @@ public class BlurShader {
       lastScaledHeight = k;
       setUniforms(f, 0.0F, 1.0F, 1.0F);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.t(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroup(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
    }
 
@@ -209,7 +209,7 @@ public class BlurShader {
       lastScaledHeight = k;
       setUniforms(f, 0.0F, 1.0F, g);
       framebuffer.bindFramebuffer(true);
-      shaderGroup.o(mc.timer.renderPartialTicks);
+      shaderGroup.loadShaderGroupBlended(mc.timer.renderPartialTicks);
       mc.getFramebuffer().bindFramebuffer(true);
    }
 }

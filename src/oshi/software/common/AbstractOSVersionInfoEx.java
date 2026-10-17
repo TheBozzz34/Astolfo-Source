@@ -15,8 +15,8 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void n(String string) {
-      this.version = string;
+   public void setVersion(String version) {
+      this.version = version;
    }
 
    @Override
@@ -25,8 +25,8 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void I(String string) {
-      this.codeName = string;
+   public void setCodeName(String codeName) {
+      this.codeName = codeName;
    }
 
    @Override
@@ -35,8 +35,8 @@ public class AbstractOSVersionInfoEx implements OperatingSystemVersion {
    }
 
    @Override
-   public void C(String string) {
-      this.buildNumber = string;
+   public void setBuildNumber(String buildNumber) {
+      this.buildNumber = buildNumber;
    }
 
    @Override

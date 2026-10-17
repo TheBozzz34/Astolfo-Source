@@ -59,7 +59,7 @@ public final class MacNetworkParams extends AbstractNetworkParams {
       for (Object object : list) {
          String string = (String)object;
          if (bl && string.startsWith("default")) {
-            String[] strings = ParseUtil.Q.split(string);
+            String[] strings = ParseUtil.whitespaces.split(string);
             if (strings.length > 2 && strings[2].contains("G")) {
                return strings[1].split("%")[0];
             }

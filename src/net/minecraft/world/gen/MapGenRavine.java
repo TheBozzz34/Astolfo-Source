@@ -11,9 +11,9 @@ import net.minecraft.world.chunk.ChunkPrimer;
 public class MapGenRavine extends MapGenBase {
    private float[] field_75046_d = new float[1024];
 
-   public void func_180707_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3, float f, float g, float h, int k, int m, double d4) {
+   public void func_180707_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double e, double d2, float f, float g, float h, int k, int m, double d3) {
       Random random = new Random(l);
-      double e = i * 16 + 8;
+      double d4 = i * 16 + 8;
       double d5 = j * 16 + 8;
       float f2 = 0.0F;
       float f3 = 0.0F;
@@ -40,14 +40,14 @@ public class MapGenRavine extends MapGenBase {
 
       for (; k < m; k++) {
          double d6 = 1.5 + MathHelper.sin(k * (float) Math.PI / m) * f * 1.0F;
-         double d7 = d6 * d4;
+         double d7 = d6 * d3;
          d6 *= random.nextFloat() * 0.25 + 0.75;
          d7 *= random.nextFloat() * 0.25 + 0.75;
          float f5 = MathHelper.cos(h);
          float f6 = MathHelper.sin(h);
          d += MathHelper.cos(g) * f5;
-         d2 += f6;
-         d3 += MathHelper.sin(g) * f5;
+         e += f6;
+         d2 += MathHelper.sin(g) * f5;
          h *= 0.7F;
          h += f3 * 0.05F;
          g += f2 * 0.05F;
@@ -56,21 +56,21 @@ public class MapGenRavine extends MapGenBase {
          f3 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
          f2 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
          if (bl || random.nextInt(4) != 0) {
-            double d8 = d - e;
-            double d9 = d3 - d5;
+            double d8 = d - d4;
+            double d9 = d2 - d5;
             double d10 = m - k;
             double d11 = f + 2.0F + 16.0F;
             if (d8 * d8 + d9 * d9 - d10 * d10 > d11 * d11) {
                return;
             }
 
-            if (d >= e - 16.0 - d6 * 2.0 && d3 >= d5 - 16.0 - d6 * 2.0 && d <= e + 16.0 + d6 * 2.0 && d3 <= d5 + 16.0 + d6 * 2.0) {
+            if (d >= d4 - 16.0 - d6 * 2.0 && d2 >= d5 - 16.0 - d6 * 2.0 && d <= d4 + 16.0 + d6 * 2.0 && d2 <= d5 + 16.0 + d6 * 2.0) {
                int i3 = MathHelper.floor_double(d - d6) - i * 16 - 1;
                int i4 = MathHelper.floor_double(d + d6) - i * 16 + 1;
-               int i5 = MathHelper.floor_double(d2 - d7) - 1;
-               int i6 = MathHelper.floor_double(d2 + d7) + 1;
-               int i7 = MathHelper.floor_double(d3 - d6) - j * 16 - 1;
-               int i8 = MathHelper.floor_double(d3 + d6) - j * 16 + 1;
+               int i5 = MathHelper.floor_double(e - d7) - 1;
+               int i6 = MathHelper.floor_double(e + d7) + 1;
+               int i7 = MathHelper.floor_double(d2 - d6) - j * 16 - 1;
+               int i8 = MathHelper.floor_double(d2 + d6) - j * 16 + 1;
                if (i3 < 0) {
                   i3 = 0;
                }
@@ -121,11 +121,11 @@ public class MapGenRavine extends MapGenBase {
                      double d12 = (i12 + i * 16 + 0.5 - d) / d6;
 
                      for (int i13 = i7; i13 < i8; i13++) {
-                        double d13 = (i13 + j * 16 + 0.5 - d3) / d6;
+                        double d13 = (i13 + j * 16 + 0.5 - d2) / d6;
                         boolean bl3 = false;
                         if (d12 * d12 + d13 * d13 < 1.0) {
                            for (int i14 = i6; i14 > i5; i14--) {
-                              double d14 = (i14 - 1 + 0.5 - d2) / d7;
+                              double d14 = (i14 - 1 + 0.5 - e) / d7;
                               if ((d12 * d12 + d13 * d13) * this.field_75046_d[i14 - 1] + d14 * d14 / 6.0 < 1.0) {
                                  IBlockState iBlockState2 = chunkPrimer.getBlockState(i12, i14, i13);
                                  if (iBlockState2.getBlock() == Blocks.grass) {

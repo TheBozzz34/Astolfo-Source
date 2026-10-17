@@ -11,15 +11,15 @@ public class SkyBlockAuctionsReply extends AbstractReply {
    private long lastUpdated;
    private JsonElement auctions;
 
-   public int C() {
+   public int getPage() {
       return this.page;
    }
 
-   public int S() {
+   public int getTotalPages() {
       return this.totalPages;
    }
 
-   public int e() {
+   public int getTotalAuctions() {
       return this.totalAuctions;
    }
 
@@ -31,11 +31,11 @@ public class SkyBlockAuctionsReply extends AbstractReply {
       return this.auctions != null && !this.auctions.isJsonNull() ? this.auctions.getAsJsonArray() : null;
    }
 
-   public boolean F() {
+   public boolean hasNextPage() {
       return this.page < this.totalPages - 1;
    }
 
-   public boolean M() {
+   public boolean hasPrevPage() {
       return this.page > 0;
    }
 

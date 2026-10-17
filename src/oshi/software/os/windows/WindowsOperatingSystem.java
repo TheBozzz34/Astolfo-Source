@@ -63,9 +63,9 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
    private static final boolean IS_VISTA_OR_GREATER = VersionHelpers.IsWindowsVistaOrGreater();
    private static final boolean IS_WINDOWS7_OR_GREATER = VersionHelpers.IsWindows7OrGreater();
    private static Supplier<String> systemLog = Memoizer.memoize(WindowsOperatingSystem::querySystemLog, TimeUnit.HOURS.toNanos(1L));
-   private static final long x = querySystemBootTime();
-   private Supplier<Map<Integer, OSProcess>> processMapFromRegistry = Memoizer.memoize(this::E, Memoizer.defaultExpiration());
-   private Supplier<Map<Integer, OSProcess>> processMapFromPerfCounters = Memoizer.memoize(this::N, Memoizer.defaultExpiration());
+   private static final long BOOTTIME = querySystemBootTime();
+   private Supplier<Map<Integer, OSProcess>> processMapFromRegistry = Memoizer.memoize(this::queryProcessMapFromRegistry, Memoizer.defaultExpiration());
+   private Supplier<Map<Integer, OSProcess>> processMapFromPerfCounters = Memoizer.memoize(this::queryProcessMapFromPerfCounters, Memoizer.defaultExpiration());
 
    public WindowsOperatingSystem() {
       this.version = new WindowsOSVersionInfoEx();
@@ -398,11 +398,11 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
    public void handleWin32ExceptionOnGetProcessInfo(OSProcess proc, Win32Exception ex) {
    }
 
-   private Map<Integer, OSProcess> E() {
+   private Map<Integer, OSProcess> queryProcessMapFromRegistry() {
       return ProcessPerformanceData.buildProcessMapFromRegistry(this, null);
    }
 
-   private Map<Integer, OSProcess> N() {
+   private Map<Integer, OSProcess> queryProcessMapFromPerfCounters() {
       return this.buildProcessMapFromPerfCounters(null);
    }
 
@@ -487,7 +487,7 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public long getSystemBootTime() {
-      return x;
+      return BOOTTIME;
    }
 
    private static long querySystemBootTime() {

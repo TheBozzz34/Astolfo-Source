@@ -14,21 +14,21 @@ import oshi.util.platform.linux.ProcPath;
 @Immutable
 public final class LinuxComputerSystem extends AbstractComputerSystem {
    private final Supplier<String> manufacturer = Memoizer.memoize(LinuxComputerSystem::y);
-   private final Supplier<String> model = Memoizer.memoize(LinuxComputerSystem::h);
-   private final Supplier<String> serialNumber = Memoizer.memoize(LinuxComputerSystem::N);
+   private final Supplier<String> model = Memoizer.memoize(LinuxComputerSystem::queryModel);
+   private final Supplier<String> serialNumber = Memoizer.memoize(LinuxComputerSystem::querySerialNumber);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return this.manufacturer.get();
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return this.model.get();
    }
 
    @Override
-   public String k() {
+   public String getSerialNumber() {
       return this.serialNumber.get();
    }
 
@@ -47,12 +47,12 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
       return (string = queryManufacturerFromSysfs()) == null && (string = queryManufacturerFromProcCpu()) == null ? "unknown" : string;
    }
 
-   private static String h() {
+   private static String queryModel() {
       String string = null;
       return (string = queryModelFromSysfs()) == null && (string = queryModelFromDeviceTree()) == null && (string = queryModelFromLshw()) == null ? "unknown" : string;
    }
 
-   private static String N() {
+   private static String querySerialNumber() {
       String string = null;
       return (string = querySerialFromSysfs()) == null
             && (string = querySerialFromDmiDecode()) == null

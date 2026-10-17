@@ -21,9 +21,9 @@ public final class ProcessPerformanceData {
          return null;
       }
 
-      List list = (List)triplet.v();
-      long l = (Long)triplet.q();
-      long m = (Long)triplet.U();
+      List list = (List)triplet.getA();
+      long l = (Long)triplet.getB();
+      long m = (Long)triplet.getC();
       HashMap hashMap = new HashMap();
 
       for (Object object : list) {

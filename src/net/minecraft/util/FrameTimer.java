@@ -26,11 +26,11 @@ public class FrameTimer {
       return (int)(d * multiplier);
    }
 
-   public int R() {
+   public int getLastIndex() {
       return this.lastIndex;
    }
 
-   public int C() {
+   public int getIndex() {
       return this.index;
    }
 

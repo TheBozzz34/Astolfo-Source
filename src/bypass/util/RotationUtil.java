@@ -137,7 +137,7 @@ public final class RotationUtil implements ClientAccess {
          && !(aimRotation.getPitch() > 90.0F)
          && !(aimRotation.getPitch() < -90.0F)) {
          if (bl) {
-            aimRotation.applyGcdFix(mc.gameSettings.Zm);
+            aimRotation.applyGcdFix(mc.gameSettings.mouseSensitivity);
          }
 
          targetRotation = aimRotation;

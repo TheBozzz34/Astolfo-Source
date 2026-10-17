@@ -7,15 +7,15 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 public class HFNoiseTexture {
-   public int h = GL11.glGenTextures();
-   public int X = 15;
+   public int texID = GL11.glGenTextures();
+   public int textureUnit = 15;
 
    public HFNoiseTexture(int width, int height) {
-      byte[] bytes = this.W(width, height);
+      byte[] bytes = this.genHFNoiseImage(width, height);
       ByteBuffer byteBuffer = BufferUtils.createByteBuffer(bytes.length);
       byteBuffer.put(bytes);
       ((Buffer)byteBuffer).flip();
-      GlStateManager.bindTexture(this.h);
+      GlStateManager.bindTexture(this.texID);
       GL11.glTexImage2D(3553, 0, 6407, width, height, 0, 6407, 5121, byteBuffer);
       GL11.glTexParameteri(3553, 10242, 10497);
       GL11.glTexParameteri(3553, 10243, 10497);
@@ -24,13 +24,13 @@ public class HFNoiseTexture {
       GlStateManager.bindTexture(0);
    }
 
-   public int y() {
-      return this.h;
+   public int getTexID() {
+      return this.texID;
    }
 
-   public void C() {
-      GlStateManager.deleteTexture(this.h);
-      this.h = 0;
+   public void deleteTexture() {
+      GlStateManager.deleteTexture(this.texID);
+      this.texID = 0;
    }
 
    private int y(int i) {
@@ -39,19 +39,19 @@ public class HFNoiseTexture {
       return i ^ i << 5;
    }
 
-   private byte C(int i, int j, int k) {
-      int l = (this.y(i) + this.y(j * 19)) * this.y(k * 23) - k;
-      return (byte)(this.y(l) % 128);
+   private byte random(int x, int y, int z) {
+      int i = (this.y(x) + this.y(y * 19)) * this.y(z * 23) - z;
+      return (byte)(this.y(i) % 128);
    }
 
-   private byte[] W(int i, int j) {
-      byte[] bytes = new byte[i * j * 3];
-      int k = 0;
+   private byte[] genHFNoiseImage(int width, int height) {
+      byte[] bytes = new byte[width * height * 3];
+      int i = 0;
 
-      for (int l = 0; l < j; l++) {
-         for (int m = 0; m < i; m++) {
-            for (int n = 1; n < 4; n++) {
-               bytes[k++] = this.C(m, l, n);
+      for (int j = 0; j < height; j++) {
+         for (int k = 0; k < width; k++) {
+            for (int l = 1; l < 4; l++) {
+               bytes[i++] = this.random(k, j, l);
             }
          }
       }

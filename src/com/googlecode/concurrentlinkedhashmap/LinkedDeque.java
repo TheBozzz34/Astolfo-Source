@@ -10,29 +10,29 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    public E first;
    public E last;
 
-   public void D(E linked) {
-      Linked linked2 = this.first;
-      this.first = (E)linked;
-      if (linked2 == null) {
-         this.last = (E)linked;
+   public void linkFirst(E e) {
+      Linked linked = this.first;
+      this.first = (E)e;
+      if (linked == null) {
+         this.last = (E)e;
       } else {
-         linked2.setPrevious(linked);
-         linked.setNext((E)(linked2));
+         linked.setPrevious(e);
+         e.setNext((E)(linked));
       }
    }
 
-   public void B(E linked) {
-      Linked linked2 = this.last;
-      this.last = (E)linked;
-      if (linked2 == null) {
-         this.first = (E)linked;
+   public void linkLast(E e) {
+      Linked linked = this.last;
+      this.last = (E)e;
+      if (linked == null) {
+         this.first = (E)e;
       } else {
-         linked2.setNext(linked);
-         linked.setPrevious((E)(linked2));
+         linked.setNext(e);
+         e.setPrevious((E)(linked));
       }
    }
 
-   public E o() {
+   public E unlinkFirst() {
       Linked linked = this.first;
       Linked linked2 = linked.getNext();
       linked.setNext(null);
@@ -46,9 +46,9 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return (E)linked;
    }
 
-   public E u() {
+   public E unlinkLast() {
       Linked linked = this.last;
-      Linked linked2 = linked.U();
+      Linked linked2 = linked.getPrevious();
       linked.setPrevious(null);
       this.last = (E)linked2;
       if (linked2 == null) {
@@ -60,21 +60,21 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return (E)linked;
    }
 
-   public void t(E linked) {
-      Linked linked2 = linked.U();
-      Linked linked3 = linked.getNext();
-      if (linked2 == null) {
-         this.first = (E)linked3;
+   public void unlink(E e) {
+      Linked linked = e.getPrevious();
+      Linked linked2 = e.getNext();
+      if (linked == null) {
+         this.first = (E)linked2;
       } else {
-         linked2.setNext(linked3);
-         linked.setPrevious(null);
+         linked.setNext(linked2);
+         e.setPrevious(null);
       }
 
-      if (linked3 == null) {
-         this.last = (E)linked2;
+      if (linked2 == null) {
+         this.last = (E)linked;
       } else {
-         linked3.setPrevious(linked2);
-         linked.setNext(null);
+         linked2.setPrevious(linked);
+         e.setNext(null);
       }
    }
 
@@ -116,24 +116,24 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
 
    @Override
    public boolean contains(Object o) {
-      return o instanceof Linked && this.Z((Linked<?>)o);
+      return o instanceof Linked && this.contains((Linked<?>)o);
    }
 
-   public boolean Z(Linked<?> linked) {
-      return linked.U() != null || linked.getNext() != null || linked == this.first;
+   public boolean contains(Linked<?> e) {
+      return e.getPrevious() != null || e.getNext() != null || e == this.first;
    }
 
-   public void g(E linked) {
-      if (linked != this.first) {
-         this.t((E)linked);
-         this.D((E)linked);
+   public void moveToFront(E e) {
+      if (e != this.first) {
+         this.unlink(e);
+         this.linkFirst(e);
       }
    }
 
-   public void R(E linked) {
-      if (linked != this.last) {
-         this.t((E)linked);
-         this.B((E)linked);
+   public void moveToBack(E e) {
+      if (e != this.last) {
+         this.unlink(e);
+         this.linkLast(e);
       }
    }
 
@@ -163,40 +163,40 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return this.getFirst();
    }
 
-   public boolean offer(E eIn) {
-      return this.offerLast(eIn);
+   public boolean offer(E e) {
+      return this.offerLast(e);
    }
 
-   public boolean offerFirst(E eIn) {
-      if (this.Z(eIn)) {
+   public boolean offerFirst(E e) {
+      if (this.contains(e)) {
          return false;
       }
 
-      this.D(eIn);
+      this.linkFirst(e);
       return true;
    }
 
-   public boolean offerLast(E eIn) {
-      if (this.Z(eIn)) {
+   public boolean offerLast(E e) {
+      if (this.contains(e)) {
          return false;
       }
 
-      this.B(eIn);
+      this.linkLast(e);
       return true;
    }
 
-   public boolean add(E eIn) {
-      return this.offerLast(eIn);
+   public boolean add(E e) {
+      return this.offerLast(e);
    }
 
-   public void addFirst(E eIn) {
-      if (!this.offerFirst(eIn)) {
+   public void addFirst(E e) {
+      if (!this.offerFirst(e)) {
          throw new IllegalArgumentException();
       }
    }
 
-   public void addLast(E eIn) {
-      if (!this.offerLast(eIn)) {
+   public void addLast(E e) {
+      if (!this.offerLast(e)) {
          throw new IllegalArgumentException();
       }
    }
@@ -206,11 +206,11 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    public E pollFirst() {
-      return this.isEmpty() ? null : this.o();
+      return this.isEmpty() ? null : this.unlinkFirst();
    }
 
    public E pollLast() {
-      return this.isEmpty() ? null : this.u();
+      return this.isEmpty() ? null : this.unlinkLast();
    }
 
    public E remove() {
@@ -222,9 +222,9 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return o instanceof Linked && this.remove((E)o);
    }
 
-   public boolean remove(E eIn) {
-      if (this.Z(eIn)) {
-         this.t(eIn);
+   public boolean remove(E e) {
+      if (this.contains(e)) {
+         this.unlink(e);
          return true;
       } else {
          return false;
@@ -262,8 +262,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       return bl;
    }
 
-   public void push(E eIn) {
-      this.addFirst(eIn);
+   public void push(E e) {
+      this.addFirst(e);
    }
 
    public E pop() {
@@ -281,17 +281,17 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
    }
 
    public abstract static class AbstractLinkedIterator implements Iterator<Linked> {
-      public Linked N;
-      public final LinkedDeque X;
+      public Linked cursor;
+      public final LinkedDeque deque;
 
       public AbstractLinkedIterator(LinkedDeque linkedDeque, Linked startIn) {
-         this.X = linkedDeque;
-         this.N = startIn;
+         this.deque = linkedDeque;
+         this.cursor = startIn;
       }
 
       @Override
       public boolean hasNext() {
-         return this.N != null;
+         return this.cursor != null;
       }
 
       public Linked next() {
@@ -299,8 +299,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
             throw new NoSuchElementException();
          }
 
-         Linked linked = this.N;
-         this.N = this.g();
+         Linked linked = this.cursor;
+         this.cursor = this.computeNext();
          return linked;
       }
 
@@ -309,7 +309,7 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
          throw new UnsupportedOperationException();
       }
 
-      public abstract Linked g();
+      public abstract Linked computeNext();
    }
 
    public class AscendingIterator extends LinkedDeque.AbstractLinkedIterator {
@@ -318,8 +318,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       }
 
       @Override
-      public E g() {
-         return (E)this.N.getNext();
+      public E computeNext() {
+         return (E)this.cursor.getNext();
       }
    }
 
@@ -329,8 +329,8 @@ public final class LinkedDeque<E extends Linked<E>> extends AbstractCollection<E
       }
 
       @Override
-      public E g() {
-         return (E)this.N.U();
+      public E computeNext() {
+         return (E)this.cursor.getPrevious();
       }
    }
 }

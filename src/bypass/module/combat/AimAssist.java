@@ -64,7 +64,7 @@ public final class AimAssist extends Module {
                j = -j;
             }
 
-            float f = mc.gameSettings.Zm * 0.6F + 0.2F;
+            float f = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
             float g = f * f * f * 8.0F;
             float h = i * g;
             float f2 = j * g;

@@ -7,12 +7,12 @@ public final class DecoyStage1 extends AbstractLoadStage {
 
    @Override
    public StageValue getValue() {
-      return new DecoyStage1.r9i(this);
+      return new DecoyStage1.VirtualMachineCheckValue(this);
    }
 
    @Override
    public StageAction getAction() {
-      return new DecoyStage1.azi(this);
+      return new DecoyStage1.DecoyOneAction(this);
    }
 
    public VirtualMachineCheckSetup getVirtualMachineCheckSetup() {
@@ -33,8 +33,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
       return decoyStage1.virtualMachineCheckSetup;
    }
 
-   public class azi extends StageAction {
-      public azi(LoadStage loadStage) {
+   public class DecoyOneAction extends StageAction {
+      public DecoyOneAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -46,8 +46,8 @@ public final class DecoyStage1 extends AbstractLoadStage {
       }
    }
 
-   public class r9i extends StageValue {
-      public r9i(LoadStage loadStage) {
+   public class VirtualMachineCheckValue extends StageValue {
+      public VirtualMachineCheckValue(LoadStage loadStage) {
          super(loadStage);
       }
 

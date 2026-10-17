@@ -143,29 +143,29 @@ public class Reflector {
    public static ReflectorMethod FMLCommonHandler_handleServerAboutToStart = new ReflectorMethod(FMLCommonHandler, "handleServerAboutToStart");
    public static ReflectorMethod FMLCommonHandler_handleServerStarting = new ReflectorMethod(FMLCommonHandler, "handleServerStarting");
    public static ReflectorMethod FMLCommonHandler_instance = new ReflectorMethod(FMLCommonHandler, "instance");
-   public static ReflectorClass Nn = new ReflectorClass(BiomeGenBase.class);
-   public static ReflectorMethod ForgeBiome_getWaterColorMultiplier = new ReflectorMethod(Nn, "getWaterColorMultiplier");
-   public static ReflectorClass NY = new ReflectorClass(Block.class);
-   public static ReflectorMethod ForgeBlock_addDestroyEffects = new ReflectorMethod(NY, "addDestroyEffects");
-   public static ReflectorMethod ForgeBlock_addHitEffects = new ReflectorMethod(NY, "addHitEffects");
-   public static ReflectorMethod ForgeBlock_canCreatureSpawn = new ReflectorMethod(NY, "canCreatureSpawn");
-   public static ReflectorMethod ForgeBlock_canRenderInLayer = new ReflectorMethod(NY, "canRenderInLayer", new Class[]{EnumWorldBlockLayer.class});
-   public static ReflectorMethod ForgeBlock_doesSideBlockRendering = new ReflectorMethod(NY, "doesSideBlockRendering");
-   public static ReflectorMethod ForgeBlock_getBedDirection = new ReflectorMethod(NY, "getBedDirection");
-   public static ReflectorMethod ForgeBlock_getExtendedState = new ReflectorMethod(NY, "getExtendedState");
-   public static ReflectorMethod ForgeBlock_getLightOpacity = new ReflectorMethod(NY, "getLightOpacity");
-   public static ReflectorMethod ForgeBlock_getLightValue = new ReflectorMethod(NY, "getLightValue");
-   public static ReflectorMethod ForgeBlock_hasTileEntity = new ReflectorMethod(NY, "hasTileEntity", new Class[]{IBlockState.class});
-   public static ReflectorMethod ForgeBlock_isAir = new ReflectorMethod(NY, "isAir");
-   public static ReflectorMethod ForgeBlock_isBed = new ReflectorMethod(NY, "isBed");
-   public static ReflectorMethod ForgeBlock_isBedFoot = new ReflectorMethod(NY, "isBedFoot");
-   public static ReflectorMethod ForgeBlock_isSideSolid = new ReflectorMethod(NY, "isSideSolid");
-   public static ReflectorClass BA = new ReflectorClass(Entity.class);
-   public static ReflectorMethod ForgeEntity_canRiderInteract = new ReflectorMethod(BA, "canRiderInteract");
-   public static ReflectorField ForgeEntity_captureDrops = new ReflectorField(BA, "captureDrops");
-   public static ReflectorField ForgeEntity_capturedDrops = new ReflectorField(BA, "capturedDrops");
-   public static ReflectorMethod B9 = new ReflectorMethod(BA, "shouldRenderInPass");
-   public static ReflectorMethod ForgeEntity_shouldRiderSit = new ReflectorMethod(BA, "shouldRiderSit");
+   public static ReflectorClass ForgeBiome = new ReflectorClass(BiomeGenBase.class);
+   public static ReflectorMethod ForgeBiome_getWaterColorMultiplier = new ReflectorMethod(ForgeBiome, "getWaterColorMultiplier");
+   public static ReflectorClass ForgeBlock = new ReflectorClass(Block.class);
+   public static ReflectorMethod ForgeBlock_addDestroyEffects = new ReflectorMethod(ForgeBlock, "addDestroyEffects");
+   public static ReflectorMethod ForgeBlock_addHitEffects = new ReflectorMethod(ForgeBlock, "addHitEffects");
+   public static ReflectorMethod ForgeBlock_canCreatureSpawn = new ReflectorMethod(ForgeBlock, "canCreatureSpawn");
+   public static ReflectorMethod ForgeBlock_canRenderInLayer = new ReflectorMethod(ForgeBlock, "canRenderInLayer", new Class[]{EnumWorldBlockLayer.class});
+   public static ReflectorMethod ForgeBlock_doesSideBlockRendering = new ReflectorMethod(ForgeBlock, "doesSideBlockRendering");
+   public static ReflectorMethod ForgeBlock_getBedDirection = new ReflectorMethod(ForgeBlock, "getBedDirection");
+   public static ReflectorMethod ForgeBlock_getExtendedState = new ReflectorMethod(ForgeBlock, "getExtendedState");
+   public static ReflectorMethod ForgeBlock_getLightOpacity = new ReflectorMethod(ForgeBlock, "getLightOpacity");
+   public static ReflectorMethod ForgeBlock_getLightValue = new ReflectorMethod(ForgeBlock, "getLightValue");
+   public static ReflectorMethod ForgeBlock_hasTileEntity = new ReflectorMethod(ForgeBlock, "hasTileEntity", new Class[]{IBlockState.class});
+   public static ReflectorMethod ForgeBlock_isAir = new ReflectorMethod(ForgeBlock, "isAir");
+   public static ReflectorMethod ForgeBlock_isBed = new ReflectorMethod(ForgeBlock, "isBed");
+   public static ReflectorMethod ForgeBlock_isBedFoot = new ReflectorMethod(ForgeBlock, "isBedFoot");
+   public static ReflectorMethod ForgeBlock_isSideSolid = new ReflectorMethod(ForgeBlock, "isSideSolid");
+   public static ReflectorClass ForgeEntity = new ReflectorClass(Entity.class);
+   public static ReflectorMethod ForgeEntity_canRiderInteract = new ReflectorMethod(ForgeEntity, "canRiderInteract");
+   public static ReflectorField ForgeEntity_captureDrops = new ReflectorField(ForgeEntity, "captureDrops");
+   public static ReflectorField ForgeEntity_capturedDrops = new ReflectorField(ForgeEntity, "capturedDrops");
+   public static ReflectorMethod ForgeEntity_shouldRenderInPass = new ReflectorMethod(ForgeEntity, "shouldRenderInPass");
+   public static ReflectorMethod ForgeEntity_shouldRiderSit = new ReflectorMethod(ForgeEntity, "shouldRiderSit");
    public static ReflectorClass ForgeEventFactory = new ReflectorClass("net.minecraftforge.event.ForgeEventFactory");
    public static ReflectorMethod ForgeEventFactory_canEntityDespawn = new ReflectorMethod(ForgeEventFactory, "canEntityDespawn");
    public static ReflectorMethod ForgeEventFactory_canEntitySpawn = new ReflectorMethod(ForgeEventFactory, "canEntitySpawn");
@@ -207,36 +207,36 @@ public class Reflector {
    public static ReflectorMethod ForgeHooksClient_setRenderLayer = new ReflectorMethod(ForgeHooksClient, "setRenderLayer");
    public static ReflectorMethod ForgeHooksClient_setRenderPass = new ReflectorMethod(ForgeHooksClient, "setRenderPass");
    public static ReflectorMethod ForgeHooksClient_transform = new ReflectorMethod(ForgeHooksClient, "transform");
-   public static ReflectorClass D = new ReflectorClass(Item.class);
-   public static ReflectorMethod ForgeItem_getDurabilityForDisplay = new ReflectorMethod(D, "getDurabilityForDisplay");
-   public static ReflectorMethod ForgeItem_getModel = new ReflectorMethod(D, "getModel");
-   public static ReflectorMethod ForgeItem_onEntitySwing = new ReflectorMethod(D, "onEntitySwing");
-   public static ReflectorMethod ForgeItem_shouldCauseReequipAnimation = new ReflectorMethod(D, "shouldCauseReequipAnimation");
-   public static ReflectorMethod ForgeItem_showDurabilityBar = new ReflectorMethod(D, "showDurabilityBar");
-   public static ReflectorClass uz = new ReflectorClass(ItemRecord.class);
-   public static ReflectorMethod ForgeItemRecord_getRecordResource = new ReflectorMethod(uz, "getRecordResource", new Class[]{String.class});
+   public static ReflectorClass ForgeItem = new ReflectorClass(Item.class);
+   public static ReflectorMethod ForgeItem_getDurabilityForDisplay = new ReflectorMethod(ForgeItem, "getDurabilityForDisplay");
+   public static ReflectorMethod ForgeItem_getModel = new ReflectorMethod(ForgeItem, "getModel");
+   public static ReflectorMethod ForgeItem_onEntitySwing = new ReflectorMethod(ForgeItem, "onEntitySwing");
+   public static ReflectorMethod ForgeItem_shouldCauseReequipAnimation = new ReflectorMethod(ForgeItem, "shouldCauseReequipAnimation");
+   public static ReflectorMethod ForgeItem_showDurabilityBar = new ReflectorMethod(ForgeItem, "showDurabilityBar");
+   public static ReflectorClass ForgeItemRecord = new ReflectorClass(ItemRecord.class);
+   public static ReflectorMethod ForgeItemRecord_getRecordResource = new ReflectorMethod(ForgeItemRecord, "getRecordResource", new Class[]{String.class});
    public static ReflectorClass ForgeModContainer = new ReflectorClass("net.minecraftforge.common.ForgeModContainer");
    public static ReflectorField ForgeModContainer_forgeLightPipelineEnabled = new ReflectorField(ForgeModContainer, "forgeLightPipelineEnabled");
-   public static ReflectorClass w = new ReflectorClass(PotionEffect.class);
-   public static ReflectorMethod ForgePotionEffect_isCurativeItem = new ReflectorMethod(w, "isCurativeItem");
-   public static ReflectorClass kc = new ReflectorClass(TileEntity.class);
-   public static ReflectorMethod ForgeTileEntity_canRenderBreaking = new ReflectorMethod(kc, "canRenderBreaking");
-   public static ReflectorMethod ForgeTileEntity_getRenderBoundingBox = new ReflectorMethod(kc, "getRenderBoundingBox");
-   public static ReflectorMethod ForgeTileEntity_hasFastRenderer = new ReflectorMethod(kc, "hasFastRenderer");
-   public static ReflectorMethod kC = new ReflectorMethod(kc, "shouldRenderInPass");
-   public static ReflectorClass Bl = new ReflectorClass(TileEntityRendererDispatcher.class);
-   public static ReflectorMethod ForgeTileEntityRendererDispatcher_preDrawBatch = new ReflectorMethod(Bl, "preDrawBatch");
-   public static ReflectorMethod ForgeTileEntityRendererDispatcher_drawBatch = new ReflectorMethod(Bl, "drawBatch");
-   public static ReflectorClass O = new ReflectorClass(VertexFormatElement.EnumUsage.class);
-   public static ReflectorMethod ForgeVertexFormatElementEnumUseage_preDraw = new ReflectorMethod(O, "preDraw");
-   public static ReflectorMethod ForgeVertexFormatElementEnumUseage_postDraw = new ReflectorMethod(O, "postDraw");
-   public static ReflectorClass NX = new ReflectorClass(World.class);
-   public static ReflectorMethod ForgeWorld_countEntities = new ReflectorMethod(NX, "countEntities", new Class[]{EnumCreatureType.class, boolean.class});
-   public static ReflectorMethod ForgeWorld_getPerWorldStorage = new ReflectorMethod(NX, "getPerWorldStorage");
-   public static ReflectorClass NE = new ReflectorClass(WorldProvider.class);
-   public static ReflectorMethod ForgeWorldProvider_getCloudRenderer = new ReflectorMethod(NE, "getCloudRenderer");
-   public static ReflectorMethod ForgeWorldProvider_getSkyRenderer = new ReflectorMethod(NE, "getSkyRenderer");
-   public static ReflectorMethod ForgeWorldProvider_getWeatherRenderer = new ReflectorMethod(NE, "getWeatherRenderer");
+   public static ReflectorClass ForgePotionEffect = new ReflectorClass(PotionEffect.class);
+   public static ReflectorMethod ForgePotionEffect_isCurativeItem = new ReflectorMethod(ForgePotionEffect, "isCurativeItem");
+   public static ReflectorClass ForgeTileEntity = new ReflectorClass(TileEntity.class);
+   public static ReflectorMethod ForgeTileEntity_canRenderBreaking = new ReflectorMethod(ForgeTileEntity, "canRenderBreaking");
+   public static ReflectorMethod ForgeTileEntity_getRenderBoundingBox = new ReflectorMethod(ForgeTileEntity, "getRenderBoundingBox");
+   public static ReflectorMethod ForgeTileEntity_hasFastRenderer = new ReflectorMethod(ForgeTileEntity, "hasFastRenderer");
+   public static ReflectorMethod ForgeTileEntity_shouldRenderInPass = new ReflectorMethod(ForgeTileEntity, "shouldRenderInPass");
+   public static ReflectorClass ForgeTileEntityRendererDispatcher = new ReflectorClass(TileEntityRendererDispatcher.class);
+   public static ReflectorMethod ForgeTileEntityRendererDispatcher_preDrawBatch = new ReflectorMethod(ForgeTileEntityRendererDispatcher, "preDrawBatch");
+   public static ReflectorMethod ForgeTileEntityRendererDispatcher_drawBatch = new ReflectorMethod(ForgeTileEntityRendererDispatcher, "drawBatch");
+   public static ReflectorClass ForgeVertexFormatElementEnumUseage = new ReflectorClass(VertexFormatElement.EnumUsage.class);
+   public static ReflectorMethod ForgeVertexFormatElementEnumUseage_preDraw = new ReflectorMethod(ForgeVertexFormatElementEnumUseage, "preDraw");
+   public static ReflectorMethod ForgeVertexFormatElementEnumUseage_postDraw = new ReflectorMethod(ForgeVertexFormatElementEnumUseage, "postDraw");
+   public static ReflectorClass ForgeWorld = new ReflectorClass(World.class);
+   public static ReflectorMethod ForgeWorld_countEntities = new ReflectorMethod(ForgeWorld, "countEntities", new Class[]{EnumCreatureType.class, boolean.class});
+   public static ReflectorMethod ForgeWorld_getPerWorldStorage = new ReflectorMethod(ForgeWorld, "getPerWorldStorage");
+   public static ReflectorClass ForgeWorldProvider = new ReflectorClass(WorldProvider.class);
+   public static ReflectorMethod ForgeWorldProvider_getCloudRenderer = new ReflectorMethod(ForgeWorldProvider, "getCloudRenderer");
+   public static ReflectorMethod ForgeWorldProvider_getSkyRenderer = new ReflectorMethod(ForgeWorldProvider, "getSkyRenderer");
+   public static ReflectorMethod ForgeWorldProvider_getWeatherRenderer = new ReflectorMethod(ForgeWorldProvider, "getWeatherRenderer");
    public static ReflectorClass GuiModList = new ReflectorClass("net.minecraftforge.fml.client.GuiModList");
    public static ReflectorConstructor GuiModList_Constructor = new ReflectorConstructor(GuiModList, new Class[]{GuiScreen.class});
    public static ReflectorClass IColoredBakedQuad = new ReflectorClass("net.minecraftforge.client.model.IColoredBakedQuad");
@@ -292,93 +292,93 @@ public class Reflector {
    public static ReflectorClass WorldEvent_Load = new ReflectorClass("net.minecraftforge.event.world.WorldEvent$Load");
    public static ReflectorConstructor WorldEvent_Load_Constructor = new ReflectorConstructor(WorldEvent_Load, new Class[]{World.class});
    private static boolean logVanilla = logEntry("*** Reflector Vanilla ***");
-   public static ReflectorClass uC = new ReflectorClass(ChunkProviderClient.class);
-   public static ReflectorField kI = new ReflectorField(uC, LongHashMap.class);
-   public static ReflectorClass Nt = new ReflectorClass(GuiMainMenu.class);
-   public static ReflectorField k7 = new ReflectorField(Nt, String.class);
-   public static ReflectorClass BB = new ReflectorClass(Minecraft.class);
-   public static ReflectorField Minecraft_defaultResourcePack = new ReflectorField(BB, DefaultResourcePack.class);
-   public static ReflectorClass Bn = new ReflectorClass(ModelHumanoidHead.class);
-   public static ReflectorField kS = new ReflectorField(Bn, ModelRenderer.class);
-   public static ReflectorClass kR = new ReflectorClass(ModelBat.class);
-   public static ReflectorFields ModelBat_ModelRenderers = new ReflectorFields(kR, ModelRenderer.class, 6);
-   public static ReflectorClass H = new ReflectorClass(ModelBlaze.class);
-   public static ReflectorField B2 = new ReflectorField(H, ModelRenderer.class);
-   public static ReflectorField k = new ReflectorField(H, ModelRenderer[].class);
-   public static ReflectorClass ND = new ReflectorClass(ModelDragon.class);
-   public static ReflectorFields ModelDragon_ModelRenderers = new ReflectorFields(ND, ModelRenderer.class, 12);
-   public static ReflectorClass BF = new ReflectorClass(ModelEnderCrystal.class);
-   public static ReflectorFields ModelEnderCrystal_ModelRenderers = new ReflectorFields(BF, ModelRenderer.class, 3);
-   public static ReflectorClass B_ = new ReflectorClass(RenderEnderCrystal.class);
-   public static ReflectorField BT = new ReflectorField(B_, ModelBase.class, 0);
-   public static ReflectorClass uI = new ReflectorClass(ModelEnderMite.class);
-   public static ReflectorField F = new ReflectorField(uI, ModelRenderer[].class);
-   public static ReflectorClass kp = new ReflectorClass(ModelGhast.class);
-   public static ReflectorField NC = new ReflectorField(kp, ModelRenderer.class);
-   public static ReflectorField kN = new ReflectorField(kp, ModelRenderer[].class);
-   public static ReflectorClass Bs = new ReflectorClass(ModelGuardian.class);
-   public static ReflectorField f = new ReflectorField(Bs, ModelRenderer.class, 0);
-   public static ReflectorField N4 = new ReflectorField(Bs, ModelRenderer.class, 1);
-   public static ReflectorField k6 = new ReflectorField(Bs, ModelRenderer[].class, 0);
-   public static ReflectorField BD = new ReflectorField(Bs, ModelRenderer[].class, 1);
-   public static ReflectorClass NK = new ReflectorClass(ModelHorse.class);
-   public static ReflectorFields ModelHorse_ModelRenderers = new ReflectorFields(NK, ModelRenderer.class, 39);
-   public static ReflectorClass NF = new ReflectorClass(RenderLeashKnot.class);
-   public static ReflectorField B5 = new ReflectorField(NF, ModelLeashKnot.class);
-   public static ReflectorClass ky = new ReflectorClass(ModelMagmaCube.class);
-   public static ReflectorField ui = new ReflectorField(ky, ModelRenderer.class);
-   public static ReflectorField kZ = new ReflectorField(ky, ModelRenderer[].class);
-   public static ReflectorClass U = new ReflectorClass(ModelOcelot.class);
-   public static ReflectorFields ModelOcelot_ModelRenderers = new ReflectorFields(U, ModelRenderer.class, 8);
-   public static ReflectorClass u6 = new ReflectorClass(ModelRabbit.class);
-   public static ReflectorFields ModelRabbit_renderers = new ReflectorFields(u6, ModelRenderer.class, 12);
-   public static ReflectorClass BI = new ReflectorClass(ModelSilverfish.class);
-   public static ReflectorField kY = new ReflectorField(BI, ModelRenderer[].class, 0);
-   public static ReflectorField Bv = new ReflectorField(BI, ModelRenderer[].class, 1);
-   public static ReflectorClass uq = new ReflectorClass(ModelSlime.class);
-   public static ReflectorFields ModelSlime_ModelRenderers = new ReflectorFields(uq, ModelRenderer.class, 4);
-   public static ReflectorClass Na = new ReflectorClass(ModelSquid.class);
-   public static ReflectorField kd = new ReflectorField(Na, ModelRenderer.class);
-   public static ReflectorField Nl = new ReflectorField(Na, ModelRenderer[].class);
-   public static ReflectorClass Nb = new ReflectorClass(ModelWitch.class);
-   public static ReflectorField BZ = new ReflectorField(Nb, ModelRenderer.class, 0);
-   public static ReflectorField Bm = new ReflectorField(Nb, ModelRenderer.class, 1);
-   public static ReflectorClass kT = new ReflectorClass(ModelWither.class);
-   public static ReflectorField I = new ReflectorField(kT, ModelRenderer[].class, 0);
-   public static ReflectorField Nw = new ReflectorField(kT, ModelRenderer[].class, 1);
-   public static ReflectorClass BY = new ReflectorClass(ModelWolf.class);
-   public static ReflectorField kk = new ReflectorField(BY, ModelRenderer.class, 6);
-   public static ReflectorField N_ = new ReflectorField(BY, ModelRenderer.class, 7);
+   public static ReflectorClass ChunkProviderClient = new ReflectorClass(ChunkProviderClient.class);
+   public static ReflectorField ChunkProviderClient_chunkMapping = new ReflectorField(ChunkProviderClient, LongHashMap.class);
+   public static ReflectorClass GuiMainMenu = new ReflectorClass(GuiMainMenu.class);
+   public static ReflectorField GuiMainMenu_splashText = new ReflectorField(GuiMainMenu, String.class);
+   public static ReflectorClass Minecraft = new ReflectorClass(Minecraft.class);
+   public static ReflectorField Minecraft_defaultResourcePack = new ReflectorField(Minecraft, DefaultResourcePack.class);
+   public static ReflectorClass ModelHumanoidHead = new ReflectorClass(ModelHumanoidHead.class);
+   public static ReflectorField ModelHumanoidHead_head = new ReflectorField(ModelHumanoidHead, ModelRenderer.class);
+   public static ReflectorClass ModelBat = new ReflectorClass(ModelBat.class);
+   public static ReflectorFields ModelBat_ModelRenderers = new ReflectorFields(ModelBat, ModelRenderer.class, 6);
+   public static ReflectorClass ModelBlaze = new ReflectorClass(ModelBlaze.class);
+   public static ReflectorField ModelBlaze_blazeHead = new ReflectorField(ModelBlaze, ModelRenderer.class);
+   public static ReflectorField ModelBlaze_blazeSticks = new ReflectorField(ModelBlaze, ModelRenderer[].class);
+   public static ReflectorClass ModelDragon = new ReflectorClass(ModelDragon.class);
+   public static ReflectorFields ModelDragon_ModelRenderers = new ReflectorFields(ModelDragon, ModelRenderer.class, 12);
+   public static ReflectorClass ModelEnderCrystal = new ReflectorClass(ModelEnderCrystal.class);
+   public static ReflectorFields ModelEnderCrystal_ModelRenderers = new ReflectorFields(ModelEnderCrystal, ModelRenderer.class, 3);
+   public static ReflectorClass RenderEnderCrystal = new ReflectorClass(RenderEnderCrystal.class);
+   public static ReflectorField RenderEnderCrystal_modelEnderCrystal = new ReflectorField(RenderEnderCrystal, ModelBase.class, 0);
+   public static ReflectorClass ModelEnderMite = new ReflectorClass(ModelEnderMite.class);
+   public static ReflectorField ModelEnderMite_bodyParts = new ReflectorField(ModelEnderMite, ModelRenderer[].class);
+   public static ReflectorClass ModelGhast = new ReflectorClass(ModelGhast.class);
+   public static ReflectorField ModelGhast_body = new ReflectorField(ModelGhast, ModelRenderer.class);
+   public static ReflectorField ModelGhast_tentacles = new ReflectorField(ModelGhast, ModelRenderer[].class);
+   public static ReflectorClass ModelGuardian = new ReflectorClass(ModelGuardian.class);
+   public static ReflectorField ModelGuardian_body = new ReflectorField(ModelGuardian, ModelRenderer.class, 0);
+   public static ReflectorField ModelGuardian_eye = new ReflectorField(ModelGuardian, ModelRenderer.class, 1);
+   public static ReflectorField ModelGuardian_spines = new ReflectorField(ModelGuardian, ModelRenderer[].class, 0);
+   public static ReflectorField ModelGuardian_tail = new ReflectorField(ModelGuardian, ModelRenderer[].class, 1);
+   public static ReflectorClass ModelHorse = new ReflectorClass(ModelHorse.class);
+   public static ReflectorFields ModelHorse_ModelRenderers = new ReflectorFields(ModelHorse, ModelRenderer.class, 39);
+   public static ReflectorClass RenderLeashKnot = new ReflectorClass(RenderLeashKnot.class);
+   public static ReflectorField RenderLeashKnot_leashKnotModel = new ReflectorField(RenderLeashKnot, ModelLeashKnot.class);
+   public static ReflectorClass ModelMagmaCube = new ReflectorClass(ModelMagmaCube.class);
+   public static ReflectorField ModelMagmaCube_core = new ReflectorField(ModelMagmaCube, ModelRenderer.class);
+   public static ReflectorField ModelMagmaCube_segments = new ReflectorField(ModelMagmaCube, ModelRenderer[].class);
+   public static ReflectorClass ModelOcelot = new ReflectorClass(ModelOcelot.class);
+   public static ReflectorFields ModelOcelot_ModelRenderers = new ReflectorFields(ModelOcelot, ModelRenderer.class, 8);
+   public static ReflectorClass ModelRabbit = new ReflectorClass(ModelRabbit.class);
+   public static ReflectorFields ModelRabbit_renderers = new ReflectorFields(ModelRabbit, ModelRenderer.class, 12);
+   public static ReflectorClass ModelSilverfish = new ReflectorClass(ModelSilverfish.class);
+   public static ReflectorField ModelSilverfish_bodyParts = new ReflectorField(ModelSilverfish, ModelRenderer[].class, 0);
+   public static ReflectorField ModelSilverfish_wingParts = new ReflectorField(ModelSilverfish, ModelRenderer[].class, 1);
+   public static ReflectorClass ModelSlime = new ReflectorClass(ModelSlime.class);
+   public static ReflectorFields ModelSlime_ModelRenderers = new ReflectorFields(ModelSlime, ModelRenderer.class, 4);
+   public static ReflectorClass ModelSquid = new ReflectorClass(ModelSquid.class);
+   public static ReflectorField ModelSquid_body = new ReflectorField(ModelSquid, ModelRenderer.class);
+   public static ReflectorField ModelSquid_tentacles = new ReflectorField(ModelSquid, ModelRenderer[].class);
+   public static ReflectorClass ModelWitch = new ReflectorClass(ModelWitch.class);
+   public static ReflectorField ModelWitch_mole = new ReflectorField(ModelWitch, ModelRenderer.class, 0);
+   public static ReflectorField ModelWitch_hat = new ReflectorField(ModelWitch, ModelRenderer.class, 1);
+   public static ReflectorClass ModelWither = new ReflectorClass(ModelWither.class);
+   public static ReflectorField ModelWither_bodyParts = new ReflectorField(ModelWither, ModelRenderer[].class, 0);
+   public static ReflectorField ModelWither_heads = new ReflectorField(ModelWither, ModelRenderer[].class, 1);
+   public static ReflectorClass ModelWolf = new ReflectorClass(ModelWolf.class);
+   public static ReflectorField ModelWolf_tail = new ReflectorField(ModelWolf, ModelRenderer.class, 6);
+   public static ReflectorField ModelWolf_mane = new ReflectorField(ModelWolf, ModelRenderer.class, 7);
    public static ReflectorClass OptiFineClassTransformer = new ReflectorClass("optifine.OptiFineClassTransformer");
    public static ReflectorField OptiFineClassTransformer_instance = new ReflectorField(OptiFineClassTransformer, "instance");
    public static ReflectorMethod OptiFineClassTransformer_getOptiFineResource = new ReflectorMethod(OptiFineClassTransformer, "getOptiFineResource");
-   public static ReflectorClass BM = new ReflectorClass(RenderBoat.class);
-   public static ReflectorField uv = new ReflectorField(BM, ModelBase.class);
-   public static ReflectorClass ke = new ReflectorClass(RenderMinecart.class);
-   public static ReflectorField kb = new ReflectorField(ke, ModelBase.class);
-   public static ReflectorClass kQ = new ReflectorClass(RenderWitherSkull.class);
-   public static ReflectorField uB = new ReflectorField(kQ, ModelSkeletonHead.class);
-   public static ReflectorClass kV = new ReflectorClass(ResourcePackRepository.class);
-   public static ReflectorField ResourcePackRepository_repositoryEntries = new ReflectorField(kV, List.class, 1);
-   public static ReflectorClass ut = new ReflectorClass(TileEntityBannerRenderer.class);
-   public static ReflectorField km = new ReflectorField(ut, ModelBanner.class);
-   public static ReflectorClass kf = new ReflectorClass(TileEntityChestRenderer.class);
-   public static ReflectorField Nz = new ReflectorField(kf, ModelChest.class, 0);
-   public static ReflectorField Nx = new ReflectorField(kf, ModelChest.class, 1);
-   public static ReflectorClass p = new ReflectorClass(TileEntityEnchantmentTableRenderer.class);
-   public static ReflectorField BJ = new ReflectorField(p, ModelBook.class);
-   public static ReflectorClass C = new ReflectorClass(TileEntityEnderChestRenderer.class);
-   public static ReflectorField z = new ReflectorField(C, ModelChest.class);
-   public static ReflectorClass u = new ReflectorClass(TileEntitySignRenderer.class);
-   public static ReflectorField NN = new ReflectorField(u, ModelSign.class);
-   public static ReflectorClass T = new ReflectorClass(TileEntitySkullRenderer.class);
-   public static ReflectorField k9 = new ReflectorField(T, ModelSkeletonHead.class, 0);
-   public static ReflectorField Nf = new ReflectorField(T, ModelSkeletonHead.class, 1);
-   public static ReflectorField NW = new ReflectorField(D, "delegate");
-   public static ReflectorClass Bh = new ReflectorClass(ModelBlock.class);
-   public static ReflectorField ko = new ReflectorField(Bh, Map.class);
-   public static ReflectorField um = new ReflectorField(Bh, ResourceLocation.class);
-   public static ReflectorMethod BW = new ReflectorMethod(ModelLoader, "getInventoryVariant");
+   public static ReflectorClass RenderBoat = new ReflectorClass(RenderBoat.class);
+   public static ReflectorField RenderBoat_modelBoat = new ReflectorField(RenderBoat, ModelBase.class);
+   public static ReflectorClass RenderMinecart = new ReflectorClass(RenderMinecart.class);
+   public static ReflectorField RenderMinecart_modelMinecart = new ReflectorField(RenderMinecart, ModelBase.class);
+   public static ReflectorClass RenderWitherSkull = new ReflectorClass(RenderWitherSkull.class);
+   public static ReflectorField RenderWitherSkull_model = new ReflectorField(RenderWitherSkull, ModelSkeletonHead.class);
+   public static ReflectorClass ResourcePackRepository = new ReflectorClass(ResourcePackRepository.class);
+   public static ReflectorField ResourcePackRepository_repositoryEntries = new ReflectorField(ResourcePackRepository, List.class, 1);
+   public static ReflectorClass TileEntityBannerRenderer = new ReflectorClass(TileEntityBannerRenderer.class);
+   public static ReflectorField TileEntityBannerRenderer_bannerModel = new ReflectorField(TileEntityBannerRenderer, ModelBanner.class);
+   public static ReflectorClass TileEntityChestRenderer = new ReflectorClass(TileEntityChestRenderer.class);
+   public static ReflectorField TileEntityChestRenderer_simpleChest = new ReflectorField(TileEntityChestRenderer, ModelChest.class, 0);
+   public static ReflectorField TileEntityChestRenderer_largeChest = new ReflectorField(TileEntityChestRenderer, ModelChest.class, 1);
+   public static ReflectorClass TileEntityEnchantmentTableRenderer = new ReflectorClass(TileEntityEnchantmentTableRenderer.class);
+   public static ReflectorField TileEntityEnchantmentTableRenderer_modelBook = new ReflectorField(TileEntityEnchantmentTableRenderer, ModelBook.class);
+   public static ReflectorClass TileEntityEnderChestRenderer = new ReflectorClass(TileEntityEnderChestRenderer.class);
+   public static ReflectorField TileEntityEnderChestRenderer_modelChest = new ReflectorField(TileEntityEnderChestRenderer, ModelChest.class);
+   public static ReflectorClass TileEntitySignRenderer = new ReflectorClass(TileEntitySignRenderer.class);
+   public static ReflectorField TileEntitySignRenderer_model = new ReflectorField(TileEntitySignRenderer, ModelSign.class);
+   public static ReflectorClass TileEntitySkullRenderer = new ReflectorClass(TileEntitySkullRenderer.class);
+   public static ReflectorField TileEntitySkullRenderer_skeletonHead = new ReflectorField(TileEntitySkullRenderer, ModelSkeletonHead.class, 0);
+   public static ReflectorField TileEntitySkullRenderer_humanoidHead = new ReflectorField(TileEntitySkullRenderer, ModelSkeletonHead.class, 1);
+   public static ReflectorField ForgeItem_delegate = new ReflectorField(ForgeItem, "delegate");
+   public static ReflectorClass ModelBlock = new ReflectorClass(ModelBlock.class);
+   public static ReflectorField ModelBlock_textures = new ReflectorField(ModelBlock, Map.class);
+   public static ReflectorField ModelBlock_parentLocation = new ReflectorField(ModelBlock, ResourceLocation.class);
+   public static ReflectorMethod ModelLoader_getInventoryVariant = new ReflectorMethod(ModelLoader, "getInventoryVariant");
 
    public static void callVoid(ReflectorMethod refMethod, Object... params) {
       try {
@@ -677,17 +677,17 @@ public class Reflector {
       return true;
    }
 
-   private static void handleException(Throwable eIn, Object obj, ReflectorMethod refMethod, Object[] params) {
-      if (eIn instanceof InvocationTargetException) {
-         Throwable throwable = eIn.getCause();
+   private static void handleException(Throwable e, Object obj, ReflectorMethod refMethod, Object[] params) {
+      if (e instanceof InvocationTargetException) {
+         Throwable throwable = e.getCause();
          if (throwable instanceof RuntimeException) {
             RuntimeException runtimeException = (RuntimeException)throwable;
             throw runtimeException;
          }
 
-         eIn.printStackTrace();
+         e.printStackTrace();
       } else {
-         if (eIn instanceof IllegalArgumentException) {
+         if (e instanceof IllegalArgumentException) {
             Config.warn("*** IllegalArgumentException ***");
             Config.warn("Method: " + refMethod.getTargetMethod());
             Config.warn("Object: " + obj);
@@ -698,15 +698,15 @@ public class Reflector {
          Config.warn("*** Exception outside of method ***");
          Config.warn("Method deactivated: " + refMethod.getTargetMethod());
          refMethod.deactivate();
-         eIn.printStackTrace();
+         e.printStackTrace();
       }
    }
 
-   private static void handleException(Throwable eIn, ReflectorConstructor refConstr, Object[] params) {
-      if (eIn instanceof InvocationTargetException) {
-         eIn.printStackTrace();
+   private static void handleException(Throwable e, ReflectorConstructor refConstr, Object[] params) {
+      if (e instanceof InvocationTargetException) {
+         e.printStackTrace();
       } else {
-         if (eIn instanceof IllegalArgumentException) {
+         if (e instanceof IllegalArgumentException) {
             Config.warn("*** IllegalArgumentException ***");
             Config.warn("Constructor: " + refConstr.getTargetConstructor());
             Config.warn("Parameter classes: " + Config.arrayToString(getClasses(params)));
@@ -716,7 +716,7 @@ public class Reflector {
          Config.warn("*** Exception outside of constructor ***");
          Config.warn("Constructor deactivated: " + refConstr.getTargetConstructor());
          refConstr.deactivate();
-         eIn.printStackTrace();
+         e.printStackTrace();
       }
    }
 

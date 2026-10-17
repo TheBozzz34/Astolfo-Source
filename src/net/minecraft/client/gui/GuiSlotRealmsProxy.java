@@ -13,7 +13,7 @@ public class GuiSlotRealmsProxy extends GuiSlot {
 
    @Override
    public int getSize() {
-      return this.selectionList.h();
+      return this.selectionList.getItemCount();
    }
 
    @Override
@@ -28,7 +28,7 @@ public class GuiSlotRealmsProxy extends GuiSlot {
 
    @Override
    public void drawBackground() {
-      this.selectionList.i();
+      this.selectionList.renderBackground();
    }
 
    @Override
@@ -36,26 +36,26 @@ public class GuiSlotRealmsProxy extends GuiSlot {
       this.selectionList.renderItem(entryID, i, j, k, mouseXIn, mouseYIn);
    }
 
-   public int J() {
+   public int getWidth() {
       return super.width;
    }
 
-   public int a() {
+   public int getMouseY() {
       return super.mouseY;
    }
 
-   public int N() {
+   public int getMouseX() {
       return super.mouseX;
    }
 
    @Override
    public int getContentHeight() {
-      return this.selectionList.n();
+      return this.selectionList.getMaxPosition();
    }
 
    @Override
    public int getScrollBarX() {
-      return this.selectionList.r();
+      return this.selectionList.getScrollbarPosition();
    }
 
    @Override

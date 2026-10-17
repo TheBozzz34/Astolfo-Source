@@ -334,7 +334,7 @@ public class Block {
                return true;
             }
 
-            if (this.D(worldIn, pos.offset(enumFacing), enumFacing)) {
+            if (this.isSideExposed(worldIn, pos.offset(enumFacing), enumFacing)) {
                return true;
             }
          }
@@ -375,7 +375,7 @@ public class Block {
       return !worldIn.getBlockState(pos).getBlock().isOpaqueCube();
    }
 
-   public boolean D(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing enumFacing) {
+   public boolean isSideExposed(IBlockAccess iBlockAccess, BlockPos blockPos, EnumFacing enumFacing) {
       return enumFacing == EnumFacing.DOWN && this.minY > 0.0
          ? true
          : (
@@ -1560,12 +1560,12 @@ public class Block {
       private final double y;
       private final double z;
 
-      public CollisionBoxEvent(AxisAlignedBB axisAlignedBB, Block block, double d, double d2, double d3) {
+      public CollisionBoxEvent(AxisAlignedBB axisAlignedBB, Block block, double d, double e, double d2) {
          this.block = block;
          this.boundingBox = axisAlignedBB;
          this.x = d;
-         this.y = d2;
-         this.z = d3;
+         this.y = e;
+         this.z = d2;
       }
 
       public AxisAlignedBB getBoundingBox() {

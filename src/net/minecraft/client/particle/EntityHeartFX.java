@@ -8,11 +8,11 @@ import net.minecraft.world.World;
 public class EntityHeartFX extends EntityFX {
    public float particleScaleOverTime;
 
-   public EntityHeartFX(World worldIn, double d, double d2, double d3, double d4, double d5, double d6) {
-      this(worldIn, d, d2, d3, d4, d5, d6, 2.0F);
+   public EntityHeartFX(World worldIn, double d, double e, double d2, double d3, double d4, double d5) {
+      this(worldIn, d, e, d2, d3, d4, d5, 2.0F);
    }
 
-   public EntityHeartFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float scale) {
+   public EntityHeartFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2, float scale) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.01F;
       this.motionY *= 0.01F;

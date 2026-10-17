@@ -78,7 +78,7 @@ public class EntityAITempt extends EntityAIBase {
       this.targetY = this.temptingPlayer.posY;
       this.targetZ = this.temptingPlayer.posZ;
       this.isRunning = true;
-      this.avoidWater = ((PathNavigateGround)this.temptedEntity.getNavigator()).S();
+      this.avoidWater = ((PathNavigateGround)this.temptedEntity.getNavigator()).getAvoidsWater();
       ((PathNavigateGround)this.temptedEntity.getNavigator()).setAvoidsWater(false);
    }
 

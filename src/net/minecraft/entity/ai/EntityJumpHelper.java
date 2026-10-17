@@ -15,7 +15,7 @@ public class EntityJumpHelper {
    }
 
    public void doJump() {
-      this.entity.j(this.isJumping);
+      this.entity.setJumping(this.isJumping);
       this.isJumping = false;
    }
 }

@@ -18,7 +18,7 @@ public final class DiskStats {
       DiskStats.IoStat[] ioStats = DiskStats.IoStat.class.getEnumConstants();
 
       for (String string : FileUtil.readFile(ProcPath.DISKSTATS)) {
-         String[] strings = ParseUtil.Q.split(string.trim());
+         String[] strings = ParseUtil.whitespaces.split(string.trim());
          EnumMap enumMap = new EnumMap<>(DiskStats.IoStat.class);
          String string2 = null;
 
@@ -60,7 +60,7 @@ public final class DiskStats {
       FLUSHES,
       FLUSHES_MS;
 
-      private static final DiskStats.IoStat[] h = new DiskStats.IoStat[]{
+      private static final DiskStats.IoStat[] VALUES = new DiskStats.IoStat[]{
          MAJOR,
          MINOR,
          NAME,

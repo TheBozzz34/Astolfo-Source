@@ -31,7 +31,7 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
       String[] strings = new String[0];
 
       for (String string6 : FileUtil.readFile(ProcPath.CPUINFO)) {
-         String[] strings2 = ParseUtil.H.split(string6);
+         String[] strings2 = ParseUtil.whitespacesColonWhitespace.split(string6);
          if (strings2.length >= 2) {
             switch (strings2[0]) {
                case "vendor_id":
@@ -136,7 +136,7 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
    @Override
    public long[] querySystemCpuLoadTicks() {
       long[] longs = CpuStat.getSystemCpuLoadTicks();
-      long l = LinuxOperatingSystem.H();
+      long l = LinuxOperatingSystem.getHz();
 
       for (int i = 0; i < longs.length; i++) {
          longs[i] = longs[i] * 1000L / l;
@@ -226,7 +226,7 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
    @Override
    public long[][] queryProcessorCpuLoadTicks() {
       long[][] longss = CpuStat.getProcessorCpuLoadTicks(this.getLogicalProcessorCount());
-      long l = LinuxOperatingSystem.H();
+      long l = LinuxOperatingSystem.getHz();
 
       for (int i = 0; i < longss.length; i++) {
          for (int j = 0; j < longss[i].length; j++) {
@@ -257,7 +257,7 @@ public final class LinuxCentralProcessor extends AbstractCentralProcessor {
             String string4 = "";
             String string5 = "";
 
-            for (String string6 : ParseUtil.Q.split(string3)) {
+            for (String string6 : ParseUtil.whitespaces.split(string3)) {
                if (string6.startsWith("eax=")) {
                   string4 = ParseUtil.removeMatchingString(string6, "eax=0x");
                } else if (string6.startsWith("edx=")) {

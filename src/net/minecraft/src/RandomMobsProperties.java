@@ -23,7 +23,7 @@ public class RandomMobsProperties {
       ConnectedParser connectedParser = new ConnectedParser("RandomMobs");
       this.name = connectedParser.parseName(path);
       this.basePath = connectedParser.parseBasePath(path);
-      this.rules = this.b(props, baseResLoc, connectedParser);
+      this.rules = this.parseRules(props, baseResLoc, connectedParser);
    }
 
    public ResourceLocation getTextureLocation(ResourceLocation loc, EntityLiving el) {
@@ -45,7 +45,7 @@ public class RandomMobsProperties {
       }
    }
 
-   private RandomMobsRule[] b(Properties properties, ResourceLocation resourceLocation, ConnectedParser connectedParser) {
+   private RandomMobsRule[] parseRules(Properties properties, ResourceLocation resourceLocation, ConnectedParser connectedParser) {
       ArrayList arrayList = new ArrayList();
       int i = properties.size();
 
@@ -56,7 +56,7 @@ public class RandomMobsProperties {
             int[] ints = connectedParser.parseIntList(string);
             int[] ints2 = connectedParser.parseIntList(properties.getProperty("weights." + k));
             BiomeGenBase[] biomeGenBases = connectedParser.y(properties.getProperty("biomes." + k));
-            RangeListInt rangeListInt = connectedParser.F(properties.getProperty("heights." + k));
+            RangeListInt rangeListInt = connectedParser.parseRangeListInt(properties.getProperty("heights." + k));
             if (rangeListInt == null) {
                rangeListInt = this.parseMinMaxHeight(properties, k);
             }

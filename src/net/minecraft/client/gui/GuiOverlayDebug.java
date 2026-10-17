@@ -50,7 +50,7 @@ public class GuiOverlayDebug extends Gui {
    }
 
    private boolean isReducedDebug() {
-      return this.mc.thePlayer.w() || this.mc.gameSettings.reducedDebugInfo;
+      return this.mc.thePlayer.hasReducedDebug() || this.mc.gameSettings.reducedDebugInfo;
    }
 
    public void renderDebugInfoLeft() {
@@ -63,7 +63,7 @@ public class GuiOverlayDebug extends Gui {
             int k = this.fontRenderer.getStringWidth(string);
             int l = 2 + j * i;
             drawRect(1, l - 1, 2 + k + 1, l + j - 1, -1873784752);
-            this.fontRenderer.D(string, 2.0F, l, 14737632);
+            this.fontRenderer.drawStringNoShadow(string, 2.0F, l, 14737632);
          }
       }
    }
@@ -79,7 +79,7 @@ public class GuiOverlayDebug extends Gui {
             int l = scaledRes.getScaledWidth() - 2 - k;
             int m = 2 + j * i;
             drawRect(l - 1, m - 1, l + k + 1, m + j - 1, -1873784752);
-            this.fontRenderer.D(string, l, m, 14737632);
+            this.fontRenderer.drawStringNoShadow(string, l, m, 14737632);
          }
       }
    }
@@ -93,7 +93,7 @@ public class GuiOverlayDebug extends Gui {
       if (this.isReducedDebug()) {
          return Lists.newArrayList(
             "Minecraft 1.8.8 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-            this.mc.xQ,
+            this.mc.debug,
             this.mc.renderGlobal.getDebugInfoRenders(),
             this.mc.renderGlobal.getDebugInfoEntities(),
             "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
@@ -122,7 +122,7 @@ public class GuiOverlayDebug extends Gui {
 
       ArrayList arrayList = Lists.newArrayList(
          "Minecraft 1.8.8 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-         this.mc.xQ,
+         this.mc.debug,
          this.mc.renderGlobal.getDebugInfoRenders(),
          this.mc.renderGlobal.getDebugInfoEntities(),
          "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),

@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 public class CloudRenderer {
    private Minecraft mc;
    private boolean updated = false;
-   private boolean K = false;
+   private boolean renderFancy = false;
    public int cloudTickCounter;
    public float partialTicks;
    private int updateCloudTickCounter = -1;
@@ -23,12 +23,12 @@ public class CloudRenderer {
       this.updateCloudTickCounter = GLAllocation.generateDisplayLists(1);
    }
 
-   public void u(boolean bl, int i, float f) {
-      if (this.K != bl) {
+   public void prepareToRender(boolean bl, int i, float f) {
+      if (this.renderFancy != bl) {
          this.updated = false;
       }
 
-      this.K = bl;
+      this.renderFancy = bl;
       this.cloudTickCounter = i;
       this.partialTicks = f;
    }
@@ -72,7 +72,7 @@ public class CloudRenderer {
       float g = (float)(e - this.updatePlayerY);
       float h = (float)(d2 - this.updatePlayerZ);
       GlStateManager.pushMatrix();
-      if (this.K) {
+      if (this.renderFancy) {
          GlStateManager.translate(-f / 12.0F, -g, -h / 12.0F);
       } else {
          GlStateManager.translate(-f, -g, -h);

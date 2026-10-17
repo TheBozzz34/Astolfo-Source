@@ -24,8 +24,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 
 public class DynamicLights {
-   private static Map<Integer, DynamicLight> f = new HashMap<>();
-   private static long r = 0L;
+   private static Map<Integer, DynamicLight> mapDynamicLights = new HashMap<>();
+   private static long timeUpdateMs = 0L;
    private static final double MAX_DIST = 7.5;
    private static final double MAX_DIST_SQ = 56.25;
    private static final int LIGHT_LEVEL_MAX = 15;
@@ -36,12 +36,12 @@ public class DynamicLights {
    private static final int LIGHT_LEVEL_GLOWSTONE_DUST = 8;
    private static final int LIGHT_LEVEL_PRISMARINE_CRYSTALS = 8;
 
-   public static void P(Entity entity, RenderGlobal renderGlobal) {
+   public static void entityAdded(Entity entityIn, RenderGlobal renderGlobal) {
    }
 
-   public static void z(Entity entity, RenderGlobal renderGlobal) {
-      synchronized (f) {
-         DynamicLight dynamicLight = f.remove(net.minecraft.util.IntegerCache.getInteger(entity.getEntityId()));
+   public static void entityRemoved(Entity entityIn, RenderGlobal renderGlobal) {
+      synchronized (mapDynamicLights) {
+         DynamicLight dynamicLight = mapDynamicLights.remove(net.minecraft.util.IntegerCache.getInteger(entityIn.getEntityId()));
          if (dynamicLight != null) {
             dynamicLight.updateLitChunks(renderGlobal);
          }
@@ -50,12 +50,12 @@ public class DynamicLights {
 
    public static void update(RenderGlobal renderGlobal) {
       long l = System.currentTimeMillis();
-      if (l >= r + 50L) {
-         r = l;
-         synchronized (f) {
+      if (l >= timeUpdateMs + 50L) {
+         timeUpdateMs = l;
+         synchronized (mapDynamicLights) {
             updateMapDynamicLights(renderGlobal);
-            if (f.size() > 0) {
-               for (DynamicLight dynamicLight : f.values()) {
+            if (mapDynamicLights.size() > 0) {
+               for (DynamicLight dynamicLight : mapDynamicLights.values()) {
                   dynamicLight.update(renderGlobal);
                }
             }
@@ -70,14 +70,14 @@ public class DynamicLights {
             int i = getLightLevel(entity);
             if (i > 0) {
                Integer integer = net.minecraft.util.IntegerCache.getInteger(entity.getEntityId());
-               DynamicLight dynamicLight = f.get(integer);
+               DynamicLight dynamicLight = mapDynamicLights.get(integer);
                if (dynamicLight == null) {
                   dynamicLight = new DynamicLight(entity);
-                  f.put(integer, dynamicLight);
+                  mapDynamicLights.put(integer, dynamicLight);
                }
             } else {
                Integer integer2 = net.minecraft.util.IntegerCache.getInteger(entity.getEntityId());
-               DynamicLight dynamicLight2 = f.remove(integer2);
+               DynamicLight dynamicLight2 = mapDynamicLights.remove(integer2);
                if (dynamicLight2 != null) {
                   dynamicLight2.updateLitChunks(renderGlobal);
                }
@@ -111,18 +111,18 @@ public class DynamicLights {
 
    public static double getLightLevel(BlockPos pos) {
       double d = 0.0;
-      synchronized (f) {
-         for (DynamicLight dynamicLight : f.values()) {
+      synchronized (mapDynamicLights) {
+         for (DynamicLight dynamicLight : mapDynamicLights.values()) {
             int i = dynamicLight.getLastLightLevel();
             if (i > 0) {
-               double e = dynamicLight.B();
-               double d2 = dynamicLight.r();
-               double d3 = dynamicLight.f();
+               double e = dynamicLight.getLastPosX();
+               double d2 = dynamicLight.getLastPosY();
+               double d3 = dynamicLight.getLastPosZ();
                double d4 = pos.getX() - e;
                double d5 = pos.getY() - d2;
                double d6 = pos.getZ() - d3;
                double d7 = d4 * d4 + d5 * d5 + d6 * d6;
-               if (dynamicLight.isUnderwater() && !Config.V()) {
+               if (dynamicLight.isUnderwater() && !Config.isClearWater()) {
                   i = Config.limit(i - 2, 0, 15);
                   d7 *= 2.0;
                }
@@ -231,8 +231,8 @@ public class DynamicLights {
    }
 
    public static void removeLights(RenderGlobal renderGlobal) {
-      synchronized (f) {
-         Collection collection = f.values();
+      synchronized (mapDynamicLights) {
+         Collection collection = mapDynamicLights.values();
          Iterator iterator2 = collection.iterator();
 
          while (iterator2.hasNext()) {
@@ -244,14 +244,14 @@ public class DynamicLights {
    }
 
    public static void clear() {
-      synchronized (f) {
-         f.clear();
+      synchronized (mapDynamicLights) {
+         mapDynamicLights.clear();
       }
    }
 
    public static int getCount() {
-      synchronized (f) {
-         return f.size();
+      synchronized (mapDynamicLights) {
+         return mapDynamicLights.size();
       }
    }
 

@@ -23,7 +23,7 @@ import org.luaj.vm2.lib.VarArgFunction;
 
 public class ModuleManagerLibrary3 extends TwoArgFunction implements ClientAccess {
    private Command ownerCommand;
-   public final TwoArgFunction registerFunction = new ModuleManagerLibrary3.r5i();
+   public final TwoArgFunction registerFunction = new ModuleManagerLibrary3.CommandRegisterFunction();
    public static final OneArgFunction getSettingFunction = new GetSettingFunction3();
    public static final VarArgFunction optionFunction = new Option2();
    public static final VarArgFunction setOptionFunction = new SetOption4();
@@ -86,7 +86,7 @@ public class ModuleManagerLibrary3 extends TwoArgFunction implements ClientAcces
       applyLuaValue(luaValue, setting);
    }
 
-   public class r5i extends TwoArgFunction {
+   public class CommandRegisterFunction extends TwoArgFunction {
       @Override
       public LuaValue call(LuaValue luaValue, LuaValue luaValue2) {
          String string = null;

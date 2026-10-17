@@ -11,7 +11,7 @@ public final class Riding extends OneArgFunction {
       if (!luaValue.isnil() && luaValue.isnumber() && luaValue.isint()) {
          Entity entity = WorldLibrary.entitiesById.get(luaValue.checkint());
          if (entity != null) {
-            return valueOf(entity.E());
+            return valueOf(entity.isRiding());
          }
       }
 

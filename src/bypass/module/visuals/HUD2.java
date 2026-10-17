@@ -20,7 +20,7 @@ public class HUD2 extends Module {
    private final ArrayList<HudElement> hudElements = new ArrayList<>();
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
+      if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.showDebugInfo) {
          for (HudElement hudElement : this.hudElements) {
             if (hudElement.isVisible()) {
                float f = hudElement.getScale().asFloat();

@@ -98,13 +98,13 @@ public abstract class Container {
       InventoryPlayer inventoryPlayer = playerIn.inventory;
       if (mode == 5) {
          int i = this.dragEvent;
-         this.dragEvent = p(clickedButton);
+         this.dragEvent = getDragEvent(clickedButton);
          if ((i != 1 || this.dragEvent != 2) && i != this.dragEvent) {
             this.resetDrag();
          } else if (inventoryPlayer.getItemStack() == null) {
             this.resetDrag();
          } else if (this.dragEvent == 0) {
-            this.dragMode = U(clickedButton);
+            this.dragMode = extractDragMode(clickedButton);
             if (isValidDragMode(this.dragMode, playerIn)) {
                this.dragEvent = 1;
                this.dragSlots.clear();
@@ -472,11 +472,11 @@ public abstract class Container {
       return bl;
    }
 
-   public static int U(int i) {
+   public static int extractDragMode(int i) {
       return i >> 2 & 3;
    }
 
-   public static int p(int i) {
+   public static int getDragEvent(int i) {
       return i & 3;
    }
 

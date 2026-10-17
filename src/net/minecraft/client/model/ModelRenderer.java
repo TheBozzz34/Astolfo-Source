@@ -21,11 +21,11 @@ public class ModelRenderer {
    public float rotateAngleX;
    public float rotateAngleY;
    public float rotateAngleZ;
-   private boolean U;
+   private boolean compiled;
    private int displayList;
    public boolean mirror;
    public boolean showModel;
-   public boolean K;
+   public boolean isHidden;
    public List<ModelBox> cubeList;
    public List<ModelRenderer> childModels;
    public final String boxName;
@@ -100,8 +100,8 @@ public class ModelRenderer {
    }
 
    public void render(float f) {
-      if (!this.K && this.showModel) {
-         if (!this.U) {
+      if (!this.isHidden && this.showModel) {
+         if (!this.compiled) {
             this.compileDisplayList(f);
          }
 
@@ -155,8 +155,8 @@ public class ModelRenderer {
    }
 
    public void renderWithRotation(float f) {
-      if (!this.K && this.showModel) {
-         if (!this.U) {
+      if (!this.isHidden && this.showModel) {
+         if (!this.compiled) {
             this.compileDisplayList(f);
          }
 
@@ -180,8 +180,8 @@ public class ModelRenderer {
    }
 
    public void postRender(float scale) {
-      if (!this.K && this.showModel) {
-         if (!this.U) {
+      if (!this.isHidden && this.showModel) {
+         if (!this.compiled) {
             this.compileDisplayList(scale);
          }
 
@@ -223,7 +223,7 @@ public class ModelRenderer {
       }
 
       GL11.glEndList();
-      this.U = true;
+      this.compiled = true;
    }
 
    public ModelRenderer setTextureSize(int textureWidthIn, int textureHeightIn) {
@@ -237,7 +237,7 @@ public class ModelRenderer {
    }
 
    public boolean getCompiled() {
-      return this.U;
+      return this.compiled;
    }
 
    public int getDisplayList() {
@@ -245,8 +245,8 @@ public class ModelRenderer {
    }
 
    public void resetDisplayList() {
-      if (this.U) {
-         this.U = false;
+      if (this.compiled) {
+         this.compiled = false;
          this.compileDisplayList(this.savedScale);
       }
    }

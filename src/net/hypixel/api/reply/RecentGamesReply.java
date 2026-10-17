@@ -23,7 +23,7 @@ public class RecentGamesReply extends AbstractReply {
       private String map;
       private ZonedDateTime ended;
 
-      public ZonedDateTime l() {
+      public ZonedDateTime getStartDate() {
          return this.date;
       }
 
@@ -31,15 +31,15 @@ public class RecentGamesReply extends AbstractReply {
          return this.gameType;
       }
 
-      public String S() {
+      public String getMode() {
          return this.mode;
       }
 
-      public String G() {
+      public String getMap() {
          return this.map;
       }
 
-      public ZonedDateTime R() {
+      public ZonedDateTime getEndDate() {
          return this.ended;
       }
 

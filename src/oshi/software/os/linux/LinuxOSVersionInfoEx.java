@@ -15,30 +15,30 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
    }
 
    public LinuxOSVersionInfoEx(String versionId, String codeName) {
-      this.n(versionId);
-      this.I(codeName);
+      this.setVersion(versionId);
+      this.setCodeName(codeName);
       if (this.getVersion() == null) {
          this.setVersionFromReleaseFiles();
       }
 
       if (this.getCodeName() == null) {
-         this.I("");
+         this.setCodeName("");
       }
 
       List list = null;
       list = FileUtil.readFile(ProcPath.VERSION);
       if (!list.isEmpty()) {
-         String[] strings = ParseUtil.Q.split((CharSequence)list.get(0));
+         String[] strings = ParseUtil.whitespaces.split((CharSequence)list.get(0));
 
          for (String string : strings) {
             if (!"Linux".equals(string) && !"version".equals(string)) {
-               this.C(string);
+               this.setBuildNumber(string);
                return;
             }
          }
       }
 
-      this.C("");
+      this.setBuildNumber("");
    }
 
    private void setVersionFromReleaseFiles() {
@@ -49,7 +49,7 @@ public class LinuxOSVersionInfoEx extends AbstractOSVersionInfoEx {
                   String string = LinuxOperatingSystem.getReleaseFilename();
                   if (!this.readDistribRelease(string)) {
                      if (this.getVersion() == null) {
-                        this.n(System.getProperty("os.version"));
+                        this.setVersion(System.getProperty("os.version"));
                      }
                   }
                }

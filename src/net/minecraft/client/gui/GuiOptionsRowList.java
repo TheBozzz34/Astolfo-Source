@@ -8,13 +8,13 @@ import net.minecraft.client.settings.GameSettings;
 public class GuiOptionsRowList extends GuiListExtended {
    private final List<GuiOptionsRowList.Row> field_148184_k = Lists.newArrayList();
 
-   public GuiOptionsRowList(Minecraft mcIn, int i, int j, int k, int m, int n, GameSettings.Options... optionss) {
-      super(mcIn, i, j, k, m, n);
+   public GuiOptionsRowList(Minecraft mcIn, int i, int j, int k, int l, int m, GameSettings.Options... optionss) {
+      super(mcIn, i, j, k, l, m);
       this.field_148163_i = false;
 
-      for (int l = 0; l < optionss.length; l += 2) {
-         GameSettings.Options options = optionss[l];
-         GameSettings.Options options2 = l < optionss.length - 1 ? optionss[l + 1] : null;
+      for (int n = 0; n < optionss.length; n += 2) {
+         GameSettings.Options options = optionss[n];
+         GameSettings.Options options2 = n < optionss.length - 1 ? optionss[n + 1] : null;
          GuiButton guiButton = this.func_148182_a(mcIn, i / 2 - 155, 0, options);
          GuiButton guiButton2 = this.func_148182_a(mcIn, i / 2 - 155 + 160, 0, options2);
          this.field_148184_k.add(new GuiOptionsRowList.Row(guiButton, guiButton2));
@@ -75,7 +75,7 @@ public class GuiOptionsRowList extends GuiListExtended {
       }
 
       @Override
-      public boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n) {
+      public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
          if (this.field_148323_b.mousePressed(this.field_148325_a, i, j)) {
             if (this.field_148323_b instanceof GuiOptionButton) {
                this.field_148325_a.gameSettings.setOptionValue(((GuiOptionButton)this.field_148323_b).returnEnumOptions(), 1);

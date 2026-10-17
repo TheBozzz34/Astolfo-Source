@@ -20,25 +20,33 @@ public class NumberSettingItem extends TabGuiItem {
       if (i == 78) {
          DecimalFormat decimalFormat = new DecimalFormat("0.0");
          if (this.setting.valueClass == Integer.class) {
-            int j = Integer.parseInt(String.valueOf(this.getIntValue() + (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
+            int j = Integer.parseInt(String.valueOf(this.getIntValue() + (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10 : 1)));
             this.setting.setValue(j);
          } else if (this.setting.valueClass == Double.class) {
-            double d = Double.parseDouble(decimalFormat.format(this.getDoubleValue() + 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
+            double d = Double.parseDouble(
+               decimalFormat.format(this.getDoubleValue() + 0.1 * (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10.0 : 1.0))
+            );
             this.setting.setValue(d);
          } else {
-            float f = Float.parseFloat(decimalFormat.format(this.getFloatValue() + 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
+            float f = Float.parseFloat(
+               decimalFormat.format(this.getFloatValue() + 0.1F * (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10.0F : 1.0F))
+            );
             this.setting.setValue(f);
          }
       } else if (i == 74) {
          DecimalFormat decimalFormat2 = new DecimalFormat("0.0");
          if (this.setting.valueClass == Integer.class) {
-            int k = Integer.parseInt(String.valueOf(this.getIntValue() - (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10 : 1)));
+            int k = Integer.parseInt(String.valueOf(this.getIntValue() - (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10 : 1)));
             this.setting.setValue(k);
          } else if (this.setting.valueClass == Double.class) {
-            double e = Double.parseDouble(decimalFormat2.format(this.getDoubleValue() - 0.1 * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0 : 1.0)));
+            double e = Double.parseDouble(
+               decimalFormat2.format(this.getDoubleValue() - 0.1 * (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10.0 : 1.0))
+            );
             this.setting.setValue(e);
          } else {
-            float g = Float.parseFloat(decimalFormat2.format(this.getFloatValue() - 0.1F * (Minecraft.getMinecraft().gameSettings.Ze.isKeyDown() ? 10.0F : 1.0F)));
+            float g = Float.parseFloat(
+               decimalFormat2.format(this.getFloatValue() - 0.1F * (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown() ? 10.0F : 1.0F))
+            );
             this.setting.setValue(g);
          }
       }

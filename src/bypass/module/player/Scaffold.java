@@ -230,18 +230,18 @@ public final class Scaffold extends Module {
                         if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                            PotionEffect potionEffect = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed);
                            if (potionEffect.getAmplifier() == 0) {
-                              mc.thePlayer.G(mc.thePlayer.B() * 0.43F);
+                              mc.thePlayer.setSpeedIfMoving(mc.thePlayer.getHorizontalSpeed() * 0.43F);
                            } else {
-                              mc.thePlayer.G(mc.thePlayer.B() * 0.1F);
+                              mc.thePlayer.setSpeedIfMoving(mc.thePlayer.getHorizontalSpeed() * 0.1F);
                            }
                         } else {
-                           mc.thePlayer.G(mc.thePlayer.B() * 0.74F);
+                           mc.thePlayer.setSpeedIfMoving(mc.thePlayer.getHorizontalSpeed() * 0.74F);
                         }
                      } else if (mc.timer.timerSpeed == 1.28F) {
                         mc.timer.timerSpeed = 1.0F;
                      }
                   } else if (mc.thePlayer.isPotionActive(Potion.moveSpeed) && GameUtil.isMoving(mc.thePlayer) && mc.thePlayer.isCollidedVertically) {
-                     mc.thePlayer.r(0.0773);
+                     mc.thePlayer.setSpeed(0.0773);
                   }
                } else if (this.slow.getValue()) {
                   mc.thePlayer.motionX *= 0.75;
@@ -253,7 +253,7 @@ public final class Scaffold extends Module {
                }
 
                if (this.stopSprintPending && GameUtil.isInHypixelGame() && mc.thePlayer.isSprinting()) {
-                  mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
                   this.sprintStopped = true;
                   this.stopSprintPending = false;
                }
@@ -283,11 +283,11 @@ public final class Scaffold extends Module {
                   && GameUtil.isMoving(mc.thePlayer)
                   && !GameUtil.isOnHypixel()
                   && !this.keepY.getValue()) {
-                  if (mc.thePlayer.m(0.76) && !mc.thePlayer.m(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
+                  if (mc.thePlayer.isBlockBelow(0.76) && !mc.thePlayer.isBlockBelow(0.75) && mc.thePlayer.motionY > 0.23 && mc.thePlayer.motionY < 0.25) {
                      mc.thePlayer.motionY = Math.round(mc.thePlayer.posY) - mc.thePlayer.posY;
                   }
 
-                  if (mc.thePlayer.m(1.0E-4)) {
+                  if (mc.thePlayer.isBlockBelow(1.0E-4)) {
                      mc.thePlayer.motionY = 0.41965F;
                   } else if (mc.thePlayer.posY >= Math.round(mc.thePlayer.posY) - 1.0E-4
                      && mc.thePlayer.posY <= Math.round(mc.thePlayer.posY) + 1.0E-4
@@ -481,15 +481,17 @@ public final class Scaffold extends Module {
                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
             } else {
                mc.thePlayer.inventory.currentItem = i;
-               mc.playerController.u();
+               mc.playerController.updateController();
             }
          } else if (this.serverSlot != i) {
-            mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(i));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(i));
             if (GameUtil.isOnHypixel()) {
                for (int j = 0; j < 2; j++) {
                   mc.thePlayer
                      .sendQueue
-                     .u(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                     .sendPacketNoEvent(
+                        new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.onGround)
+                     );
                }
             }
 
@@ -498,7 +500,7 @@ public final class Scaffold extends Module {
 
          ScaffoldTowerMode scaffoldTowerMode = this.tower.getValue();
          if (mc.playerController
-            .K(
+            .onPlayerRightClickHideItem(
                mc.thePlayer,
                mc.theWorld,
                !this.spoof.getValue() && !ncpHypixel.getValue() ? mc.thePlayer.inventory.getCurrentItem() : mc.thePlayer.inventory.getStackInSlot(i),
@@ -562,7 +564,7 @@ public final class Scaffold extends Module {
       }
 
       if (!GameUtil.isMoving(mc.thePlayer)) {
-         mc.thePlayer.r(0.0);
+         mc.thePlayer.setSpeed(0.0);
          mc.thePlayer.motionX = mc.thePlayer.motionZ = 0.0;
          motionEvent.setX(
             motionEvent.getX()
@@ -668,7 +670,7 @@ public final class Scaffold extends Module {
    public void onDisable() {
       if (this.previousSlot >= 0 && mc.thePlayer != null) {
          mc.thePlayer.inventory.currentItem = this.previousSlot;
-         mc.playerController.u();
+         mc.playerController.updateController();
       }
 
       if (this.resetMotionYOnDisable && mc.thePlayer != null) {
@@ -678,12 +680,12 @@ public final class Scaffold extends Module {
 
       target = null;
       if (mc.thePlayer != null && this.sprintStopped) {
-         mc.thePlayer.sendQueue.u(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
          this.sprintStopped = false;
       }
 
       if (this.serverSlot != -1 && mc.thePlayer != null) {
-         mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
       }
 
       this.serverSlot = this.placeSlot = -1;
@@ -722,7 +724,7 @@ public final class Scaffold extends Module {
             mc.thePlayer.swingItem();
             break;
          case SILENT:
-            mc.thePlayer.sendQueue.u(new C0APacketAnimation());
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C0APacketAnimation());
       }
    }
 
@@ -741,7 +743,7 @@ public final class Scaffold extends Module {
          motionEvent.getZ() - this.lastZ
       );
       Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
-      vec33 = vec33.l(vec3);
+      vec33 = vec33.add(vec3);
       MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
       if (this.isValidHit(movingObjectPosition)) {
          target.pos = movingObjectPosition.getBlockPos();
@@ -844,7 +846,7 @@ public final class Scaffold extends Module {
             motionEvent.getZ() - this.lastZ
          );
          Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
-         vec33 = vec33.l(vec3);
+         vec33 = vec33.add(vec3);
          MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
          if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
             return movingObjectPosition.hitVec;
@@ -918,8 +920,8 @@ public final class Scaffold extends Module {
       };
    }
 
-   public static double randomBetween(double d, double d2) {
-      return Math.random() * (d - d2) + d2;
+   public static double randomBetween(double d, double e) {
+      return Math.random() * (d - e) + e;
    }
 
    private ScaffoldTarget findTarget(BlockPos blockPos) {

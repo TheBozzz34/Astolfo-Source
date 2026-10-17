@@ -26,7 +26,7 @@ public class ItemCarrotOnAStick extends Item {
 
    @Override
    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-      if (playerIn.E() && playerIn.ridingEntity instanceof EntityPig) {
+      if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig) {
          EntityPig entityPig = (EntityPig)playerIn.ridingEntity;
          if (entityPig.getAIControlledByPlayer().isControlledByPlayer() && itemStackIn.getMaxDamage() - itemStackIn.getMetadata() >= 7) {
             entityPig.getAIControlledByPlayer().boostSpeed();

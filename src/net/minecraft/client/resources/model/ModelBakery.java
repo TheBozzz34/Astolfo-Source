@@ -101,7 +101,7 @@ public class ModelBakery {
    private Map<String, ResourceLocation> itemLocations = Maps.newLinkedHashMap();
    private final Map<ResourceLocation, ModelBlockDefinition> blockDefinitions = Maps.newHashMap();
    private Map<Item, List<String>> variantNames = Maps.newIdentityHashMap();
-   private static Map<RegistryDelegate<Item>, Set<String>> p = Maps.newHashMap();
+   private static Map<RegistryDelegate<Item>, Set<String>> customVariantNames = Maps.newHashMap();
 
    public ModelBakery(IResourceManager iResourceManager, TextureMap textureMap, BlockModelShapes blockModelShapes) {
       this.resourceManager = iResourceManager;
@@ -255,7 +255,7 @@ public class ModelBakery {
          modelBlock2.name = resourceLocation.toString();
          modelBlock = modelBlock2;
          String string4 = TextureUtils.getBasePath(resourceLocation.getResourcePath());
-         M(modelBlock2, string4);
+         fixModelLocations(modelBlock2, string4);
       } finally {
          reader.close();
       }
@@ -296,7 +296,7 @@ public class ModelBakery {
       }
    }
 
-   public void A(String string, ResourceLocation resourceLocation, ResourceLocation resourceLocation2) {
+   public void loadItemModel(String string, ResourceLocation resourceLocation, ResourceLocation resourceLocation2) {
       this.itemLocations.put(string, resourceLocation);
       if (this.models.get(resourceLocation) == null) {
          try {
@@ -518,12 +518,12 @@ public class ModelBakery {
       this.variantNames.put(Item.getItemFromBlock(Blocks.oak_fence), Lists.newArrayList("oak_fence"));
       this.variantNames.put(Items.oak_door, Lists.newArrayList("oak_door"));
 
-      for (Entry entry : p.entrySet()) {
-         this.variantNames.put((Item)((RegistryDelegate)entry.getKey()).f(), Lists.newArrayList(((Set)entry.getValue()).iterator()));
+      for (Entry entry : customVariantNames.entrySet()) {
+         this.variantNames.put((Item)((RegistryDelegate)entry.getKey()).get(), Lists.newArrayList(((Set)entry.getValue()).iterator()));
       }
 
-      CustomItems.N();
-      CustomItems.F(this);
+      CustomItems.update();
+      CustomItems.loadModels(this);
    }
 
    private List<String> getVariantNames(Item item) {
@@ -571,8 +571,8 @@ public class ModelBakery {
       for (Entry entry : this.itemLocations.entrySet()) {
          ResourceLocation resourceLocation = (ResourceLocation)entry.getValue();
          ModelResourceLocation modelResourceLocation2 = new ModelResourceLocation((String)entry.getKey(), "inventory");
-         if (Reflector.BW.exists()) {
-            modelResourceLocation2 = (ModelResourceLocation)Reflector.call(Reflector.BW, entry.getKey());
+         if (Reflector.ModelLoader_getInventoryVariant.exists()) {
+            modelResourceLocation2 = (ModelResourceLocation)Reflector.call(Reflector.ModelLoader_getInventoryVariant, entry.getKey());
          }
 
          ModelBlock modelBlock2 = this.models.get(resourceLocation);
@@ -627,9 +627,9 @@ public class ModelBakery {
             TextureAtlasSprite textureAtlasSprite2 = this.sprites.get(new ResourceLocation(modelBlock.resolveTextureName(blockPartFace.texture)));
             boolean bl2 = true;
             if (blockPartFace.cullFace != null && bl2) {
-               builder.addFaceQuad(iTransformation.E(blockPartFace.cullFace), this.A(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
+               builder.addFaceQuad(iTransformation.rotate(blockPartFace.cullFace), this.makeBakedQuad(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
             } else {
-               builder.addGeneralQuad(this.A(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
+               builder.addGeneralQuad(this.makeBakedQuad(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
             }
          }
       }
@@ -637,7 +637,7 @@ public class ModelBakery {
       return builder.makeBakedModel();
    }
 
-   public BakedQuad A(
+   public BakedQuad makeBakedQuad(
       BlockPart blockPart,
       BlockPartFace blockPartFace,
       TextureAtlasSprite textureAtlasSprite,
@@ -833,22 +833,22 @@ public class ModelBakery {
       return this.itemModelGenerator.makeItemModel(this.textureMap, modelBlock);
    }
 
-   public ModelBlock v(ResourceLocation resourceLocation) {
+   public ModelBlock getModelBlock(ResourceLocation resourceLocation) {
       return this.models.get(resourceLocation);
    }
 
-   public static void M(ModelBlock modelBlock, String string) {
-      ResourceLocation resourceLocation = l(modelBlock.getParentLocation(), string);
+   public static void fixModelLocations(ModelBlock modelBlock, String string) {
+      ResourceLocation resourceLocation = fixModelLocation(modelBlock.getParentLocation(), string);
       if (resourceLocation != modelBlock.getParentLocation()) {
-         Reflector.setFieldValue(modelBlock, Reflector.um, resourceLocation);
+         Reflector.setFieldValue(modelBlock, Reflector.ModelBlock_parentLocation, resourceLocation);
       }
 
-      Map map = (Map)Reflector.getFieldValue(modelBlock, Reflector.ko);
+      Map map = (Map)Reflector.getFieldValue(modelBlock, Reflector.ModelBlock_textures);
       if (map != null) {
          for (Object object : map.entrySet()) {
             Entry entry = (Entry)object;
             String string2 = (String)entry.getValue();
-            String string3 = m(string2, string);
+            String string3 = fixResourcePath(string2, string);
             if (string3 != string2) {
                entry.setValue(string3);
             }
@@ -856,14 +856,14 @@ public class ModelBakery {
       }
    }
 
-   public static ResourceLocation l(ResourceLocation resourceLocation, String string) {
+   public static ResourceLocation fixModelLocation(ResourceLocation resourceLocation, String string) {
       if (resourceLocation != null && string != null) {
          if (!resourceLocation.getResourceDomain().equals("minecraft")) {
             return resourceLocation;
          }
 
          String string2 = resourceLocation.getResourcePath();
-         String string3 = m(string2, string);
+         String string3 = fixResourcePath(string2, string);
          if (string3 != string2) {
             resourceLocation = new ResourceLocation(resourceLocation.getResourceDomain(), string3);
          }
@@ -874,30 +874,30 @@ public class ModelBakery {
       }
    }
 
-   private static String m(String string, String string2) {
+   private static String fixResourcePath(String string, String string2) {
       string = TextureUtils.fixResourcePath(string, string2);
       string = StrUtils.removeSuffix(string, ".json");
       return StrUtils.removeSuffix(string, ".png");
    }
 
    @Deprecated
-   public static void I(Item item, String... strings) {
-      RegistryDelegate registryDelegate = (RegistryDelegate)Reflector.getFieldValue(item, Reflector.NW);
-      if (p.containsKey(registryDelegate)) {
-         p.get(registryDelegate).addAll(Lists.newArrayList(strings));
+   public static void addVariantName(Item item, String... strings) {
+      RegistryDelegate registryDelegate = (RegistryDelegate)Reflector.getFieldValue(item, Reflector.ForgeItem_delegate);
+      if (customVariantNames.containsKey(registryDelegate)) {
+         customVariantNames.get(registryDelegate).addAll(Lists.newArrayList(strings));
       } else {
-         p.put(registryDelegate, Sets.newHashSet(strings));
+         customVariantNames.put(registryDelegate, Sets.newHashSet(strings));
       }
    }
 
-   public static <T extends ResourceLocation> void b(Item item, T... resourceLocations) {
-      RegistryDelegate registryDelegate = (RegistryDelegate)Reflector.getFieldValue(item, Reflector.NW);
-      if (!p.containsKey(registryDelegate)) {
-         p.put(registryDelegate, Sets.newHashSet());
+   public static <T extends ResourceLocation> void registerItemVariants(Item item, T... resourceLocations) {
+      RegistryDelegate registryDelegate = (RegistryDelegate)Reflector.getFieldValue(item, Reflector.ForgeItem_delegate);
+      if (!customVariantNames.containsKey(registryDelegate)) {
+         customVariantNames.put(registryDelegate, Sets.newHashSet());
       }
 
       for (ResourceLocation resourceLocation : resourceLocations) {
-         p.get(registryDelegate).add(resourceLocation.toString());
+         customVariantNames.get(registryDelegate).add(resourceLocation.toString());
       }
    }
 

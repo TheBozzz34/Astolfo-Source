@@ -19,19 +19,19 @@ import oshi.util.tuples.Pair;
 
 @ThreadSafe
 public final class ParseUtil {
-   private static final Pattern f = Pattern.compile("(\\d+(.\\d+)?) ?([kMGT]?Hz).*");
-   private static final Pattern q = Pattern.compile("[0-9a-fA-F]+");
-   private static final Pattern n = Pattern.compile("(?:(\\d+)-)?(?:(\\d+):)??(?:(\\d+):)?(\\d+)(?:\\.(\\d+))?");
-   private static final Pattern O = Pattern.compile(".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*");
-   private static final Pattern d = Pattern.compile(".*(?:VID|VEN)_(\\p{XDigit}{4})&(?:PID|DEV)_(\\p{XDigit}{4}).*");
-   private static final Pattern h = Pattern.compile("(.+)\\s\\[(.*?)\\]");
-   private static final Pattern s = Pattern.compile(".+\\s\\[size=(\\d+)([kKMGT])\\]");
+   private static final Pattern HERTZ_PATTERN = Pattern.compile("(\\d+(.\\d+)?) ?([kMGT]?Hz).*");
+   private static final Pattern VALID_HEX = Pattern.compile("[0-9a-fA-F]+");
+   private static final Pattern DHMS = Pattern.compile("(?:(\\d+)-)?(?:(\\d+):)??(?:(\\d+):)?(\\d+)(?:\\.(\\d+))?");
+   private static final Pattern UUID_PATTERN = Pattern.compile(".*([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}).*");
+   private static final Pattern VENDOR_PRODUCT_ID = Pattern.compile(".*(?:VID|VEN)_(\\p{XDigit}{4})&(?:PID|DEV)_(\\p{XDigit}{4}).*");
+   private static final Pattern LSPCI_MACHINE_READABLE = Pattern.compile("(.+)\\s\\[(.*?)\\]");
+   private static final Pattern LSPCI_MEMORY_SIZE = Pattern.compile(".+\\s\\[size=(\\d+)([kKMGT])\\]");
    private static final Map<String, Long> multipliers = new HashMap<>();
    private static final int TZ_OFFSET = TimeZone.getDefault().getOffset(System.currentTimeMillis());
-   public static final Pattern H = Pattern.compile("\\s+:\\s");
-   public static final Pattern Q = Pattern.compile("\\s+");
-   public static final Pattern T = Pattern.compile("[^0-9]+");
-   public static final Pattern L = Pattern.compile("^[^0-9]*");
+   public static final Pattern whitespacesColonWhitespace = Pattern.compile("\\s+:\\s");
+   public static final Pattern whitespaces = Pattern.compile("\\s+");
+   public static final Pattern notDigits = Pattern.compile("[^0-9]+");
+   public static final Pattern startWithNotDigits = Pattern.compile("^[^0-9]*");
    private static final long[] POWERS_OF_TEN = new long[]{
       1L,
       10L,
@@ -60,7 +60,7 @@ public final class ParseUtil {
    }
 
    public static long parseHertz(String hertz) {
-      Matcher matcher2 = f.matcher(hertz.trim());
+      Matcher matcher2 = HERTZ_PATTERN.matcher(hertz.trim());
       if (matcher2.find() && matcher2.groupCount() == 3) {
          double d = Double.valueOf(matcher2.group(1)) * multipliers.getOrDefault(matcher2.group(3), -1L).longValue();
          if (d >= 0.0) {
@@ -71,35 +71,35 @@ public final class ParseUtil {
       return -1L;
    }
 
-   public static int parseLastInt(String sIn, int i) {
+   public static int parseLastInt(String s, int i) {
       try {
-         String string = parseLastString(sIn);
+         String string = parseLastString(s);
          return string.toLowerCase().startsWith("0x") ? Integer.decode(string) : Integer.parseInt(string);
       } catch (NumberFormatException numberFormatException) {
          return i;
       }
    }
 
-   public static long parseLastLong(String sIn, long li) {
+   public static long parseLastLong(String s, long li) {
       try {
-         String string = parseLastString(sIn);
+         String string = parseLastString(s);
          return string.toLowerCase().startsWith("0x") ? Long.decode(string) : Long.parseLong(string);
       } catch (NumberFormatException numberFormatException) {
          return li;
       }
    }
 
-   public static double parseLastDouble(String sIn, double dIn) {
+   public static double parseLastDouble(String s, double d) {
       try {
-         return Double.parseDouble(parseLastString(sIn));
+         return Double.parseDouble(parseLastString(s));
       } catch (NumberFormatException numberFormatException) {
-         return dIn;
+         return d;
       }
    }
 
-   public static String parseLastString(String sIn) {
-      String[] strings = Q.split(sIn);
-      return strings.length < 1 ? sIn : strings[strings.length - 1];
+   public static String parseLastString(String s) {
+      String[] strings = whitespaces.split(s);
+      return strings.length < 1 ? s : strings[strings.length - 1];
    }
 
    public static String byteArrayToHexString(byte[] bytes) {
@@ -116,7 +116,7 @@ public final class ParseUtil {
 
    public static byte[] hexStringToByteArray(String digits) {
       int i = digits.length();
-      if (q.matcher(digits).matches() && (i & 1) == 0) {
+      if (VALID_HEX.matcher(digits).matches() && (i & 1) == 0) {
          byte[] bytes = new byte[i / 2];
 
          for (int j = 0; j < i; j += 2) {
@@ -203,40 +203,40 @@ public final class ParseUtil {
       return stringBuilder.toString();
    }
 
-   public static int parseIntOrDefault(String sIn, int defaultInt) {
+   public static int parseIntOrDefault(String s, int defaultInt) {
       try {
-         return Integer.parseInt(sIn);
+         return Integer.parseInt(s);
       } catch (NumberFormatException numberFormatException) {
          return defaultInt;
       }
    }
 
-   public static long parseLongOrDefault(String sIn, long defaultLong) {
+   public static long parseLongOrDefault(String s, long defaultLong) {
       try {
-         return Long.parseLong(sIn);
+         return Long.parseLong(s);
       } catch (NumberFormatException numberFormatException) {
          return defaultLong;
       }
    }
 
-   public static long parseUnsignedLongOrDefault(String sIn, long defaultLong) {
+   public static long parseUnsignedLongOrDefault(String s, long defaultLong) {
       try {
-         return new BigInteger(sIn).longValue();
+         return new BigInteger(s).longValue();
       } catch (NumberFormatException numberFormatException) {
          return defaultLong;
       }
    }
 
-   public static double parseDoubleOrDefault(String sIn, double defaultDouble) {
+   public static double parseDoubleOrDefault(String s, double defaultDouble) {
       try {
-         return Double.parseDouble(sIn);
+         return Double.parseDouble(s);
       } catch (NumberFormatException numberFormatException) {
          return defaultDouble;
       }
    }
 
-   public static long parseDHMSOrDefault(String sIn, long defaultLong) {
-      Matcher matcher2 = n.matcher(sIn);
+   public static long parseDHMSOrDefault(String s, long defaultLong) {
+      Matcher matcher2 = DHMS.matcher(s);
       if (matcher2.matches()) {
          long l = 0L;
          if (matcher2.group(1) != null) {
@@ -258,8 +258,8 @@ public final class ParseUtil {
       }
    }
 
-   public static String parseUuidOrDefault(String sIn, String defaultStr) {
-      Matcher matcher2 = O.matcher(sIn.toLowerCase());
+   public static String parseUuidOrDefault(String s, String defaultStr) {
+      Matcher matcher2 = UUID_PATTERN.matcher(s.toLowerCase());
       return matcher2.matches() ? matcher2.group(1) : defaultStr;
    }
 
@@ -280,9 +280,9 @@ public final class ParseUtil {
       return getNthIntValue(line, 1);
    }
 
-   public static int getNthIntValue(String line, int nIn) {
-      String[] strings = T.split(L.matcher(line).replaceFirst(""));
-      return strings.length >= nIn ? parseIntOrDefault(strings[nIn - 1], 0) : 0;
+   public static int getNthIntValue(String line, int n) {
+      String[] strings = notDigits.split(startWithNotDigits.matcher(line).replaceFirst(""));
+      return strings.length >= n ? parseIntOrDefault(strings[n - 1], 0) : 0;
    }
 
    public static String removeMatchingString(String original, String toRemove) {
@@ -308,9 +308,9 @@ public final class ParseUtil {
       }
    }
 
-   public static long[] parseStringToLongArray(String sIn, int[] indices, int length, char delimiter) {
+   public static long[] parseStringToLongArray(String s, int[] indices, int length, char delimiter) {
       long[] longs = new long[indices.length];
-      int i = sIn.length();
+      int i = s.length();
       int j = indices.length - 1;
       int k = length - 1;
       int l = 0;
@@ -320,7 +320,7 @@ public final class ParseUtil {
       boolean bl4 = false;
 
       while (--i > 0 && j >= 0) {
-         char c = sIn.charAt(i);
+         char c = s.charAt(i);
          if (c == delimiter) {
             if (!bl3 && bl2) {
                bl3 = true;
@@ -363,15 +363,15 @@ public final class ParseUtil {
       return j > 0 ? new long[indices.length] : longs;
    }
 
-   public static int countStringToLongArray(String sIn, char delimiter) {
-      int i = sIn.length();
+   public static int countStringToLongArray(String s, char delimiter) {
+      int i = s.length();
       int j = 0;
       boolean bl = false;
       boolean bl2 = true;
       boolean bl3 = false;
 
       while (--i > 0) {
-         char c = sIn.charAt(i);
+         char c = s.charAt(i);
          if (c == delimiter) {
             if (!bl) {
                if (bl2) {
@@ -444,7 +444,7 @@ public final class ParseUtil {
    }
 
    public static long parseDecimalMemorySizeToBinary(String size) {
-      String[] strings = Q.split(size);
+      String[] strings = whitespaces.split(size);
       long l = parseLongOrDefault(strings[0], 0L);
       if (strings.length == 2 && strings[1].length() > 1) {
          switch (strings[1].charAt(0)) {
@@ -467,7 +467,7 @@ public final class ParseUtil {
    }
 
    public static Pair<String, String> parsePnPDeviceIdToVendorProductId(String pnpDeviceId) {
-      Matcher matcher2 = d.matcher(pnpDeviceId);
+      Matcher matcher2 = VENDOR_PRODUCT_ID.matcher(pnpDeviceId);
       if (matcher2.matches()) {
          String string = "0x" + matcher2.group(1).toLowerCase();
          String string2 = "0x" + matcher2.group(2).toLowerCase();
@@ -479,7 +479,7 @@ public final class ParseUtil {
 
    public static long parseLshwResourceString(String resources) {
       long l = 0L;
-      String[] strings = Q.split(resources);
+      String[] strings = whitespaces.split(resources);
 
       for (String string : strings) {
          if (string.startsWith("memory:")) {
@@ -497,12 +497,12 @@ public final class ParseUtil {
    }
 
    public static Pair<String, String> parseLspciMachineReadable(String line) {
-      Matcher matcher2 = h.matcher(line);
+      Matcher matcher2 = LSPCI_MACHINE_READABLE.matcher(line);
       return matcher2.matches() ? new Pair<>(matcher2.group(1), matcher2.group(2)) : null;
    }
 
    public static long parseLspciMemorySize(String line) {
-      Matcher matcher2 = s.matcher(line);
+      Matcher matcher2 = LSPCI_MEMORY_SIZE.matcher(line);
       return matcher2.matches() ? parseDecimalMemorySizeToBinary(matcher2.group(1) + " " + matcher2.group(2) + "B") : 0L;
    }
 

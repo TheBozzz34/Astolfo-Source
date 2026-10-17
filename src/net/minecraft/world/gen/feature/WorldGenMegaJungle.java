@@ -39,7 +39,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
 
          for (int i3 = j - n; i3 <= i2; i3++) {
             int i4 = i3 - i2;
-            this.e(worldIn, new BlockPos(k, i3, l), 1 - i4);
+            this.func_175928_b(worldIn, new BlockPos(k, i3, l), 1 - i4);
          }
       }
 
@@ -95,8 +95,8 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
    private void func_175930_c(World worldIn, BlockPos blockPos, int i) {
       byte b = 2;
 
-      for (int k = -b; k <= 0; k++) {
-         this.j(worldIn, blockPos.up(k), i + 1 - k);
+      for (int j = -b; j <= 0; j++) {
+         this.func_175925_a(worldIn, blockPos.up(j), i + 1 - j);
       }
    }
 }

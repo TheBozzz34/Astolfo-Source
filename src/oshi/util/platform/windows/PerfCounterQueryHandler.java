@@ -23,8 +23,8 @@ public final class PerfCounterQueryHandler {
       });
    }
 
-   public boolean a(PerfDataUtil.PerfCounter perfCounter) {
-      return this.addCounterToQuery(perfCounter, perfCounter.c());
+   public boolean addCounterToObjectQuery(PerfDataUtil.PerfCounter perfCounter) {
+      return this.addCounterToQuery(perfCounter, perfCounter.getObject());
    }
 
    public boolean addCounterToQuery(PerfDataUtil.PerfCounter counter, String key) {
@@ -47,8 +47,8 @@ public final class PerfCounterQueryHandler {
       }
    }
 
-   public boolean O(PerfDataUtil.PerfCounter perfCounter) {
-      return this.removeCounterFromQuery(perfCounter, perfCounter.c());
+   public boolean removeCounterFromObjectQuery(PerfDataUtil.PerfCounter perfCounter) {
+      return this.removeCounterFromQuery(perfCounter, perfCounter.getObject());
    }
 
    public boolean removeCounterFromQuery(PerfDataUtil.PerfCounter counter, String key) {

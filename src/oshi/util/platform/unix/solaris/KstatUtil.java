@@ -85,28 +85,28 @@ public final class KstatUtil {
       }
    }
 
-   public static ReentrantLock j() {
+   public static ReentrantLock getChainLock() {
       return CHAIN;
    }
 
-   public static KstatCtl U() {
+   public static KstatCtl getKstatCtl() {
       return KC;
    }
 
-   public static LibKstat I() {
+   public static LibKstat getLibKstat() {
       return KS;
    }
 
    public static class KstatChain implements AutoCloseable {
       public KstatChain() {
-         KstatUtil.j().lock();
+         KstatUtil.getChainLock().lock();
          this.update();
       }
 
       public boolean read(Kstat ksp) {
          int i = 0;
 
-         while (0 > KstatUtil.I().kstat_read(KstatUtil.U(), ksp, null)) {
+         while (0 > KstatUtil.getLibKstat().kstat_read(KstatUtil.getKstatCtl(), ksp, null)) {
             if (11 != Native.getLastError() || 5 <= ++i) {
                return false;
             }
@@ -118,13 +118,13 @@ public final class KstatUtil {
       }
 
       public Kstat lookup(String module, int instance, String name) {
-         return KstatUtil.I().kstat_lookup(KstatUtil.U(), module, instance, name);
+         return KstatUtil.getLibKstat().kstat_lookup(KstatUtil.getKstatCtl(), module, instance, name);
       }
 
       public List<Kstat> lookupAll(String module, int instance, String name) {
          ArrayList arrayList = new ArrayList();
 
-         for (Kstat kstat = KstatUtil.I().kstat_lookup(KstatUtil.U(), module, instance, name); kstat != null; kstat = kstat.next()) {
+         for (Kstat kstat = KstatUtil.getLibKstat().kstat_lookup(KstatUtil.getKstatCtl(), module, instance, name); kstat != null; kstat = kstat.next()) {
             if ((module == null || module.equals(new String(kstat.ks_module, StandardCharsets.US_ASCII).trim()))
                && (instance < 0 || instance == kstat.ks_instance)
                && (name == null || name.equals(new String(kstat.ks_name, StandardCharsets.US_ASCII).trim()))) {
@@ -136,12 +136,12 @@ public final class KstatUtil {
       }
 
       public int update() {
-         return KstatUtil.I().kstat_chain_update(KstatUtil.U());
+         return KstatUtil.getLibKstat().kstat_chain_update(KstatUtil.getKstatCtl());
       }
 
       @Override
       public void close() {
-         KstatUtil.j().unlock();
+         KstatUtil.getChainLock().unlock();
       }
    }
 }

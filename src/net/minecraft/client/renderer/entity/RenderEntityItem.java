@@ -21,8 +21,8 @@ import org.lwjgl.opengl.GL11;
 public class RenderEntityItem extends Render<EntityItem> {
    private final RenderItem itemRenderer;
    private final Random field_177079_e = new Random();
-   public static long w;
-   public static double e;
+   public static long lastFrameNanoTime;
+   public static double physicsRotationDelta;
 
    public RenderEntityItem(RenderManager renderManagerIn, RenderItem renderItem) {
       super(renderManagerIn);
@@ -31,7 +31,7 @@ public class RenderEntityItem extends Render<EntityItem> {
       this.shadowOpaque = 0.75F;
    }
 
-   private int func_177077_a(EntityItem itemIn, double d, double d2, double d3, float f, IBakedModel iBakedModel) {
+   private int func_177077_a(EntityItem itemIn, double d, double e, double d2, float f, IBakedModel iBakedModel) {
       ItemStack itemStack = itemIn.getEntityItem();
       Item item = itemStack.getItem();
       if (item == null) {
@@ -42,7 +42,7 @@ public class RenderEntityItem extends Render<EntityItem> {
       int i = this.func_177078_a(itemStack);
       float g = MathHelper.sin((itemIn.getAge() + f) / 10.0F + itemIn.hoverStart) * 0.1F + 0.1F;
       float h = iBakedModel.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-      GlStateManager.translate((float)d, (float)d2 + g + 0.25F * h, (float)d3);
+      GlStateManager.translate((float)d, (float)e + g + 0.25F * h, (float)d2);
       if (bl || this.renderManager.options != null) {
          float f2 = ((itemIn.getAge() + f) / 20.0F + itemIn.hoverStart) * (180.0F / (float)Math.PI);
          GlStateManager.rotate(f2, 0.0F, 1.0F, 0.0F);
@@ -76,7 +76,7 @@ public class RenderEntityItem extends Render<EntityItem> {
 
    public void doRender(EntityItem entity, double x, double y, double z, float entityYaw, float partialTicks) {
       if (ModuleManager.itemPhysics.isEnabled()) {
-         this.b(entity, x, y, z, entityYaw, partialTicks);
+         this.renderItemPhysics(entity, x, y, z, entityYaw, partialTicks);
       } else {
          ItemStack itemStack = entity.getEntityItem();
          this.field_177079_e.setSeed(187L);
@@ -132,10 +132,10 @@ public class RenderEntityItem extends Render<EntityItem> {
       }
    }
 
-   private void b(EntityItem entityItem, double d, double d2, double d3, float f, float g) {
-      e = (System.nanoTime() - w) / 2500000.0;
+   private void renderItemPhysics(EntityItem entityItem, double d, double e, double d2, float f, float g) {
+      physicsRotationDelta = (System.nanoTime() - lastFrameNanoTime) / 2500000.0;
       if (!Minecraft.getMinecraft().inGameHasFocus) {
-         e = 0.0;
+         physicsRotationDelta = 0.0;
       }
 
       ResourceLocation resourceLocation = this.getEntityTexture(entityItem);
@@ -162,7 +162,7 @@ public class RenderEntityItem extends Render<EntityItem> {
       boolean bl3 = iBakedModel.isGui3d();
       int j = this.func_177078_a(itemStack);
       float h = iBakedModel.getItemCameraTransforms().getTransform(ItemCameraTransforms.TransformType.GROUND).scale.y;
-      GlStateManager.translate((float)d, (float)d2, (float)d3);
+      GlStateManager.translate((float)d, (float)e, (float)d2);
       if (iBakedModel.isGui3d()) {
          GlStateManager.scale(0.5F, 0.5F, 0.5F);
       }
@@ -178,25 +178,25 @@ public class RenderEntityItem extends Render<EntityItem> {
       if (bl3 || this.getRenderManager().options != null) {
          if (bl3) {
             if (!entityItem.onGround) {
-               double d4 = e * 2.0;
-               float f2 = m(entityItem);
+               double d3 = physicsRotationDelta * 2.0;
+               float f2 = getSubmergedFlowDecay(entityItem);
                if (f2 != -1.0F) {
-                  d4 /= f2 / 1000.0F * 10.0F;
+                  d3 /= f2 / 1000.0F * 10.0F;
                }
 
-               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d4);
+               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d3);
             }
          } else if (!Double.isNaN(entityItem.posX) && !Double.isNaN(entityItem.posY) && !Double.isNaN(entityItem.posZ) && entityItem.worldObj != null) {
             if (entityItem.onGround) {
                entityItem.rotationPitch = 0.0F;
             } else {
-               double d5 = e * 2.0;
-               float f3 = m(entityItem);
+               double d4 = physicsRotationDelta * 2.0;
+               float f3 = getSubmergedFlowDecay(entityItem);
                if (f3 != -1.0F) {
-                  d5 /= f3 / 1000.0F * 10.0F;
+                  d4 /= f3 / 1000.0F * 10.0F;
                }
 
-               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d5);
+               entityItem.rotationPitch = (float)(entityItem.rotationPitch + d4);
             }
          }
 
@@ -233,11 +233,11 @@ public class RenderEntityItem extends Render<EntityItem> {
       }
    }
 
-   public static float m(EntityItem entityItem) {
-      return G(entityItem, false);
+   public static float getSubmergedFlowDecay(EntityItem entityItem) {
+      return getLiquidFlowDecayAt(entityItem, false);
    }
 
-   public static float G(EntityItem entityItem, boolean bl) {
+   public static float getLiquidFlowDecayAt(EntityItem entityItem, boolean bl) {
       double d = entityItem.posY + entityItem.getEyeHeight();
       int i = MathHelper.floor_double(entityItem.posX);
       int j = MathHelper.floor_float(MathHelper.floor_double(d));

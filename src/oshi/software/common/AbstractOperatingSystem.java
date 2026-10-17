@@ -19,7 +19,7 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
    private final Supplier<Boolean> elevated = Memoizer.memoize(this::queryElevated);
    public OperatingSystemVersion version;
    private static final Comparator<OSProcess> CPU_DESC_SORT = Comparator.comparingDouble(OSProcess::getProcessCpuLoadCumulative).reversed();
-   private static final Comparator<OSProcess> RSS_DESC_SORT = Comparator.comparingLong(OSProcess::h).reversed();
+   private static final Comparator<OSProcess> RSS_DESC_SORT = Comparator.comparingLong(OSProcess::getResidentSetSize).reversed();
    private static final Comparator<OSProcess> UPTIME_ASC_SORT = Comparator.comparingLong(OSProcess::getUpTime);
    private static final Comparator<OSProcess> UPTIME_DESC_SORT = UPTIME_ASC_SORT.reversed();
    private static final Comparator<OSProcess> PID_ASC_SORT = Comparator.comparingInt(OSProcess::getProcessID);
@@ -35,12 +35,12 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
 
    @Override
    public String getFamily() {
-      return AbstractOperatingSystem.FamilyVersionInfo.X(this.familyVersionInfo.get());
+      return AbstractOperatingSystem.FamilyVersionInfo.familyOf(this.familyVersionInfo.get());
    }
 
    @Override
    public OperatingSystem.OSVersionInfo getVersionInfo() {
-      return AbstractOperatingSystem.FamilyVersionInfo.T(this.familyVersionInfo.get());
+      return AbstractOperatingSystem.FamilyVersionInfo.versionInfoOf(this.familyVersionInfo.get());
    }
 
    public abstract AbstractOperatingSystem.FamilyVersionInfo queryFamilyVersionInfo();
@@ -172,11 +172,11 @@ public abstract class AbstractOperatingSystem implements OperatingSystem {
          this.versionInfo = versionInfo;
       }
 
-      public static String X(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
+      public static String familyOf(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
          return familyVersionInfo2.family;
       }
 
-      public static OperatingSystem.OSVersionInfo T(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
+      public static OperatingSystem.OSVersionInfo versionInfoOf(AbstractOperatingSystem.FamilyVersionInfo familyVersionInfo2) {
          return familyVersionInfo2.versionInfo;
       }
    }

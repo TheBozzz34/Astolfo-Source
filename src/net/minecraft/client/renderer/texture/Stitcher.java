@@ -28,11 +28,11 @@ public class Stitcher {
       this.maxTileDimension = i;
    }
 
-   public int f() {
+   public int getCurrentWidth() {
       return this.currentWidth;
    }
 
-   public int Y() {
+   public int getCurrentHeight() {
       return this.currentHeight;
    }
 

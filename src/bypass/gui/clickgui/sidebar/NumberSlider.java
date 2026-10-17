@@ -36,7 +36,7 @@ public class NumberSlider extends SidebarSettingComponent {
          this.sliderDragging ? Astolfo.INSTANCE.getSidebarGui().getPulseColor() : new Color(255, 255, 255, this.fadeAlpha).getRGB()
       );
       if (this.fadeAlpha > 40) {
-         GuiMainMenu.c.drawString(string, g + k, this.getYPos() + 4.0F, new Color(255, 255, 255, this.fadeAlpha).getRGB());
+         GuiMainMenu.robotoRegularFont10.drawString(string, g + k, this.getYPos() + 4.0F, new Color(255, 255, 255, this.fadeAlpha).getRGB());
       }
 
       if (this.fadeAlpha > 40) {

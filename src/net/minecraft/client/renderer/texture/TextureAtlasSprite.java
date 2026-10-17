@@ -116,11 +116,11 @@ public class TextureAtlasSprite {
       }
    }
 
-   public int d() {
+   public int getOriginX() {
       return this.originX;
    }
 
-   public int D() {
+   public int getOriginY() {
       return this.originY;
    }
 
@@ -223,17 +223,17 @@ public class TextureAtlasSprite {
       return this.framesTextureData.size();
    }
 
-   public void N(int i) {
-      this.width = i;
+   public void setIconWidth(int newWidth) {
+      this.width = newWidth;
       if (this.spriteSingle != null) {
-         this.spriteSingle.N(this.width);
+         this.spriteSingle.setIconWidth(this.width);
       }
    }
 
-   public void W(int i) {
-      this.height = i;
+   public void setIconHeight(int newHeight) {
+      this.height = newHeight;
       if (this.spriteSingle != null) {
-         this.spriteSingle.W(this.height);
+         this.spriteSingle.setIconHeight(this.height);
       }
    }
 
@@ -440,7 +440,7 @@ public class TextureAtlasSprite {
       return false;
    }
 
-   public boolean L(IResourceManager iResourceManager, ResourceLocation resourceLocation) {
+   public boolean load(IResourceManager iResourceManager, ResourceLocation resourceLocation) {
       return true;
    }
 
@@ -448,7 +448,7 @@ public class TextureAtlasSprite {
       return this.indexInMap;
    }
 
-   public void P(int i) {
+   public void setIndexInMap(int i) {
       this.indexInMap = i;
    }
 
@@ -510,7 +510,7 @@ public class TextureAtlasSprite {
       TextureUtils.bindTexture(this.glSpriteTextureId);
    }
 
-   public void e() {
+   public void deleteSpriteTexture() {
       if (this.glSpriteTextureId >= 0) {
          TextureUtil.deleteTexture(this.glSpriteTextureId);
          this.glSpriteTextureId = -1;

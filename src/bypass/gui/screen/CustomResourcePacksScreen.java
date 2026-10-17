@@ -85,10 +85,10 @@ public class CustomResourcePacksScreen extends GuiScreenResourcePacks {
 
       this.availablePackList = new GuiResourcePackAvailable(this.mc, 200, this.height, this.filteredAvailableEntries);
       this.availablePackList.setSlotXBoundsFromLeft(this.width / 2 - 4 - 200);
-      this.availablePackList.U(7, 8);
+      this.availablePackList.registerScrollButtons(7, 8);
       this.selectedPackList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedEntries);
       this.selectedPackList.setSlotXBoundsFromLeft(this.width / 2 + 4);
-      this.selectedPackList.U(7, 8);
+      this.selectedPackList.registerScrollButtons(7, 8);
       this.packSearch = new PackSearch(this.allAvailableEntries, this.filteredAvailableEntries);
       this.packSearch.setComparator(this.sortComparator == null ? (this.sortComparator = PackSearch.NAME_ASCENDING) : this.sortComparator);
       this.packSearch.setSearchQuery(this.searchField.getText().trim());

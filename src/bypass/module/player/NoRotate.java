@@ -45,9 +45,9 @@ public final class NoRotate extends Module {
             f += mc.thePlayer.rotationYaw;
          }
 
-         mc.thePlayer.sendQueue.u(new C03PacketPlayer.C06PacketPlayerPosLook(d, e, d2, f, g, false));
-         s08PacketPlayerPosLook.P(mc.thePlayer.rotationYaw);
-         s08PacketPlayerPosLook.B(mc.thePlayer.rotationPitch);
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C06PacketPlayerPosLook(d, e, d2, f, g, false));
+         s08PacketPlayerPosLook.setYaw(mc.thePlayer.rotationYaw);
+         s08PacketPlayerPosLook.setPitch(mc.thePlayer.rotationPitch);
       }
    };
 

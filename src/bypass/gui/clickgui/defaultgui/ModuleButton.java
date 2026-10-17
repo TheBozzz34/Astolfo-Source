@@ -87,10 +87,10 @@ public class ModuleButton extends Container {
       if (DefaultClickGuiScreen.showKeybinds && (this.module.getKey() != 0 || this.listeningForBind)) {
          try {
             String string = String.format("[%s]", this.listeningForBind ? "..." : Keyboard.getKeyName(this.module.getKey()));
-            GuiMainMenu.m
+            GuiMainMenu.latoBoldFont15
                .drawString(
                   string,
-                  bl ? this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string) - 2.0F : this.getX() + 3.0F,
+                  bl ? this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(string) - 2.0F : this.getX() + 3.0F,
                   this.getYPos() + 2.0F,
                   Color.GRAY.getRGB()
                );
@@ -98,24 +98,26 @@ public class ModuleButton extends Container {
          }
       }
 
-      GuiMainMenu.m
+      GuiMainMenu.latoBoldFont15
          .drawString(
             this.module.getName().toLowerCase(),
-            bl ? this.getX() + 3.0F : this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(this.module.getName().toLowerCase(), true) - 3.0F,
+            bl
+               ? this.getX() + 3.0F
+               : this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(this.module.getName().toLowerCase(), true) - 3.0F,
             this.getYPos() + 3.0F,
             this.isExpanded() && this.module.isEnabled() ? l : 13421772
          );
       if (this.isExpanded()) {
-         int n = 0;
+         int m = 0;
 
          for (Element element : this.getChildren()) {
             if (element instanceof Component) {
-               ((Component)element).setPosition(this.getX() + 2.0F, this.getYPos() + n + 15.0F);
+               ((Component)element).setPosition(this.getX() + 2.0F, this.getYPos() + m + 15.0F);
                if (this.isExpanded()) {
                   element.render(i, j);
                }
 
-               n += ((Component)element).getHeight()
+               m += ((Component)element).getHeight()
                   + (element instanceof MapComponent && ((MapComponent)element).isExpanded() ? ((MapComponent)element).getChildrenHeight() : 0);
             }
          }

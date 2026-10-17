@@ -20,17 +20,17 @@ public final class WindowsComputerSystem extends AbstractComputerSystem {
    private final Supplier<String> serialNumber = Memoizer.memoize(WindowsComputerSystem::querySystemSerialNumber);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return this.manufacturerModel.get().getA();
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return this.manufacturerModel.get().getB();
    }
 
    @Override
-   public String k() {
+   public String getSerialNumber() {
       return this.serialNumber.get();
    }
 
@@ -62,7 +62,7 @@ public final class WindowsComputerSystem extends AbstractComputerSystem {
    }
 
    private static String querySerialFromBios() {
-      WmiResult wmiResult = Win32Bios.k();
+      WmiResult wmiResult = Win32Bios.querySerialNumber();
       return wmiResult.getResultCount() > 0 ? WmiUtil.getString(wmiResult, Win32Bios.BiosSerialProperty.SERIALNUMBER, 0) : null;
    }
 

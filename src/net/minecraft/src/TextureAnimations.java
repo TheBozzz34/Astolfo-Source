@@ -18,29 +18,29 @@ import net.minecraft.util.ResourceLocation;
 public class TextureAnimations {
    private static TextureAnimation[] textureAnimations = null;
 
-   public static void n() {
+   public static void reset() {
       textureAnimations = null;
    }
 
-   public static void f() {
+   public static void update() {
       textureAnimations = null;
       IResourcePack[] iResourcePacks = Config.getResourcePacks();
       textureAnimations = getTextureAnimations(iResourcePacks);
-      if (Config.pN()) {
-         i();
+      if (Config.isAnimatedTextures()) {
+         updateAnimations();
       }
    }
 
-   public static void s() {
-      if (textureAnimations != null && Config.pN()) {
-         i();
+   public static void updateCustomAnimations() {
+      if (textureAnimations != null && Config.isAnimatedTextures()) {
+         updateAnimations();
       }
    }
 
-   public static void i() {
+   public static void updateAnimations() {
       if (textureAnimations != null) {
-         for (int j = 0; j < textureAnimations.length; j++) {
-            TextureAnimation textureAnimation = textureAnimations[j];
+         for (int i = 0; i < textureAnimations.length; i++) {
+            TextureAnimation textureAnimation = textureAnimations[i];
             textureAnimation.updateTexture();
          }
       }

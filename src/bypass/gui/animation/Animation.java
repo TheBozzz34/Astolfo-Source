@@ -60,8 +60,8 @@ public class Animation {
       return this.ease(this.progress);
    }
 
-   public double getValue(double d, double d2) {
-      return (d2 - d) * this.getValue() + d;
+   public double getValue(double d, double e) {
+      return (e - d) * this.getValue() + d;
    }
 
    public void step(int i) {

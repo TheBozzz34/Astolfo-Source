@@ -155,14 +155,14 @@ public abstract class BlockRedstoneDiode extends BlockDirectional {
 
    @Override
    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-      this.n(worldIn, pos, state);
+      this.notifyNeighbors(worldIn, pos, state);
    }
 
-   public void n(World world, BlockPos blockPos, IBlockState iBlockState) {
-      EnumFacing enumFacing = iBlockState.getValue(FACING);
-      BlockPos blockPos2 = blockPos.offset(enumFacing.getOpposite());
-      world.notifyBlockOfStateChange(blockPos2, this);
-      world.notifyNeighborsOfStateExcept(blockPos2, this, enumFacing);
+   public void notifyNeighbors(World worldIn, BlockPos pos, IBlockState state) {
+      EnumFacing enumFacing = state.getValue(FACING);
+      BlockPos blockPos = pos.offset(enumFacing.getOpposite());
+      worldIn.notifyBlockOfStateChange(blockPos, this);
+      worldIn.notifyNeighborsOfStateExcept(blockPos, this, enumFacing);
    }
 
    @Override
@@ -190,11 +190,11 @@ public abstract class BlockRedstoneDiode extends BlockDirectional {
    }
 
    public static boolean isRedstoneRepeaterBlockID(Block blockIn) {
-      return Blocks.unpowered_repeater.N(blockIn) || Blocks.unpowered_comparator.N(blockIn);
+      return Blocks.unpowered_repeater.isAssociated(blockIn) || Blocks.unpowered_comparator.isAssociated(blockIn);
    }
 
-   public boolean N(Block block) {
-      return block == this.getPoweredState(this.getDefaultState()).getBlock() || block == this.getUnpoweredState(this.getDefaultState()).getBlock();
+   public boolean isAssociated(Block other) {
+      return other == this.getPoweredState(this.getDefaultState()).getBlock() || other == this.getUnpoweredState(this.getDefaultState()).getBlock();
    }
 
    public boolean isFacingTowardsRepeater(World worldIn, BlockPos pos, IBlockState state) {
@@ -215,7 +215,7 @@ public abstract class BlockRedstoneDiode extends BlockDirectional {
 
    @Override
    public boolean isAssociatedBlock(Block other) {
-      return this.N(other);
+      return this.isAssociated(other);
    }
 
    @Override

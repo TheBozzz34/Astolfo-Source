@@ -190,7 +190,7 @@ public final class AutoHeal extends Module {
                   && (this.healTimer.hasElapsed(this.delay.getValue().intValue()) || HealItem.typeOf(healItem) == HealItemType.FAKE)
                   && (HealItem.typeOf(healItem) != HealItemType.POTION || this.serverPitch <= 86.0F && this.serverPitch >= 85.0F)) {
                   if (HealItem.typeOf(healItem) == HealItemType.FAKE) {
-                     mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                     mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                      this.unusedFlag = false;
                   } else {
                      mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(HealItem.slotOf(healItem)));
@@ -257,8 +257,8 @@ public final class AutoHeal extends Module {
 
    private void useInstantly(int i, ItemStack itemStack) {
       FastUse.sendUseItemPackets(i, itemStack, false);
-      mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
-      mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+      mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(true));
+      mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
       healItem = null;
    }
 

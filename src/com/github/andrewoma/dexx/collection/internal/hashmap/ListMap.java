@@ -88,22 +88,22 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
 
    public static class Node<K, V> extends ListMap<K, V> {
       private final K x;
-      private final V D;
-      public final ListMap C;
+      private final V value;
+      public final ListMap tail;
 
       public Node(K this$0, V key, Object value) {
-         this.C = (com.github.andrewoma.dexx.collection.internal.hashmap.ListMap)(this$0);
+         this.tail = (com.github.andrewoma.dexx.collection.internal.hashmap.ListMap)(this$0);
          this.x = (K)(key);
-         this.D = (V)(value);
+         this.value = (V)(value);
       }
 
       @Override
       public int size() {
-         return this.X(this, 0);
+         return this.size0(this, 0);
       }
 
-      private int X(ListMap<K, V> listMap, int i) {
-         return listMap.isEmpty() ? i : this.X(listMap.tail(), i + 1);
+      private int size0(ListMap<K, V> cur, int acc) {
+         return cur.isEmpty() ? acc : this.size0(cur.tail(), acc + 1);
       }
 
       @Override
@@ -113,17 +113,17 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
 
       @Override
       public V get(K key) {
-         ListMap listMap = this.E(this, (K)key);
+         ListMap listMap = this.apply0(this, (K)key);
          return (V)(listMap == null ? null : listMap.getValue());
       }
 
-      private ListMap<K, V> E(ListMap<K, V> listMap, K object) {
-         return listMap.isEmpty() ? null : (object.equals(listMap.getKey()) ? listMap : this.E(listMap.tail(), (K)object));
+      private ListMap<K, V> apply0(ListMap<K, V> cur, K key) {
+         return cur.isEmpty() ? null : (key.equals(cur.getKey()) ? cur : this.apply0(cur.tail(), key));
       }
 
       @Override
       public ListMap<K, V> tail() {
-         return this.C;
+         return this.tail;
       }
 
       @Override
@@ -152,12 +152,12 @@ public class ListMap<K, V> extends AbstractMap<K, V> {
 
       @Override
       public V getValue() {
-         return this.D;
+         return this.value;
       }
 
       @Override
       public boolean containsKey(K key) {
-         return this.E(this, key) != null;
+         return this.apply0(this, key) != null;
       }
    }
 }

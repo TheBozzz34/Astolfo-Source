@@ -52,7 +52,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
       int j = 0;
       if (this.field_175349_r != null) {
          i = this.field_175349_r.func_178059_e();
-         j = this.field_175349_r.Y();
+         j = this.field_175349_r.getAmountScrolled();
       }
 
       this.field_175341_a = I18n.format("options.customizeTitle");
@@ -813,7 +813,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
             case 301:
                for (int i = 0; i < this.field_175349_r.getSize(); i++) {
                   GuiPageButtonList.GuiEntry guiEntry = this.field_175349_r.getListEntry(i);
-                  Gui gui = guiEntry.X();
+                  Gui gui = guiEntry.func_178022_a();
                   if (gui instanceof GuiButton) {
                      GuiButton guiButton = (GuiButton)gui;
                      if (guiButton instanceof GuiSlider) {
@@ -824,7 +824,7 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
                      }
                   }
 
-                  Gui gui2 = guiEntry.Q();
+                  Gui gui2 = guiEntry.func_178021_b();
                   if (gui2 instanceof GuiButton) {
                      GuiButton guiButton2 = (GuiButton)gui2;
                      if (guiButton2 instanceof GuiSlider) {
@@ -838,11 +838,11 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
 
                return;
             case 302:
-               this.field_175349_r.I();
+               this.field_175349_r.func_178071_h();
                this.func_175328_i();
                break;
             case 303:
-               this.field_175349_r.H();
+               this.field_175349_r.func_178064_i();
                this.func_175328_i();
                break;
             case 304:
@@ -975,16 +975,16 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.field_175349_r.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.field_175341_a, this.width / 2, 2, 16777215);
-      this.d(this.fontRendererObj, this.field_175333_f, this.width / 2, 12, 16777215);
-      this.d(this.fontRendererObj, this.field_175335_g, this.width / 2, 22, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_175341_a, this.width / 2, 2, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_175333_f, this.width / 2, 12, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_175335_g, this.width / 2, 22, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.field_175339_B != 0) {
          drawRect(0, 0, this.width, this.height, Integer.MIN_VALUE);
-         S(this.width / 2 - 91, this.width / 2 + 90, 99, -2039584);
-         S(this.width / 2 - 91, this.width / 2 + 90, 185, -6250336);
-         J(this.width / 2 - 91, 99, 185, -2039584);
-         J(this.width / 2 + 90, 99, 185, -6250336);
+         drawHorizontalLine(this.width / 2 - 91, this.width / 2 + 90, 99, -2039584);
+         drawHorizontalLine(this.width / 2 - 91, this.width / 2 + 90, 185, -6250336);
+         drawVerticalLine(this.width / 2 - 91, 99, 185, -2039584);
+         drawVerticalLine(this.width / 2 + 90, 99, 185, -6250336);
          GlStateManager.disableLighting();
          GlStateManager.disableFog();
          Tessellator tessellator = Tessellator.getInstance();
@@ -997,9 +997,9 @@ public class GuiCustomizeWorldScreen extends GuiScreen implements GuiSlider.Form
          worldRenderer.pos(this.width / 2 + 90, 100.0, 0.0).tex(5.625, 0.0).color(64, 64, 64, 64).endVertex();
          worldRenderer.pos(this.width / 2 - 90, 100.0, 0.0).tex(0.0, 0.0).color(64, 64, 64, 64).endVertex();
          tessellator.draw();
-         this.d(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirmTitle"), this.width / 2, 105, 16777215);
-         this.d(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirm1"), this.width / 2, 125, 16777215);
-         this.d(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirm2"), this.width / 2, 135, 16777215);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirmTitle"), this.width / 2, 105, 16777215);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirm1"), this.width / 2, 125, 16777215);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("createWorld.customize.custom.confirm2"), this.width / 2, 135, 16777215);
          this.field_175352_x.drawButton(this.mc, mouseX, mouseY);
          this.field_175351_y.drawButton(this.mc, mouseX, mouseY);
       }

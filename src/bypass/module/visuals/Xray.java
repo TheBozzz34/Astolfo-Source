@@ -147,7 +147,7 @@ public final class Xray extends Module {
                         IBlockState iBlockState = mc.theWorld.getBlockState(blockPos);
                         if (iBlockState != null && Scaffold.canPlaceAgainst(blockPos) && iBlockState.getBlock() != Blocks.cobblestone && iBlockState.getBlock() != Blocks.air) {
                            C07PacketPlayerDigging c07PacketPlayerDigging = new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, blockPos, EnumFacing.UP);
-                           mc.thePlayer.sendQueue.u(c07PacketPlayerDigging);
+                           mc.thePlayer.sendQueue.sendPacketNoEvent(c07PacketPlayerDigging);
 
                            try {
                               Thread.sleep(further.getSetting("Delay").asInt());
@@ -266,7 +266,7 @@ public final class Xray extends Module {
       this.addSettings(ores, esp, further, opacity, hypixel);
    }
 
-   public static void drawOre(RenderEvent renderEvent, double d, double d2, double d3, int i, int j, int k, int l) {
+   public static void drawOre(RenderEvent renderEvent, double d, double e, double d2, int i, int j, int k, int l) {
       GL11.glPushMatrix();
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
@@ -280,12 +280,12 @@ public final class Xray extends Module {
       if (esp.getSetting("Tracers").asBoolean()) {
          GL11.glBegin(1);
          GL11.glVertex3d(0.0, mc.thePlayer.getEyeHeight(), 0.0);
-         GL11.glVertex3d(d, d2, d3);
+         GL11.glVertex3d(d, e, d2);
          GL11.glEnd();
       }
 
       if (esp.getSetting("Boxes").asBoolean()) {
-         drawOutlinedBox(new AxisAlignedBB(d, d2, d3, d + 1.0, d2 + 1.0, d3 + 1.0));
+         drawOutlinedBox(new AxisAlignedBB(d, e, d2, d + 1.0, e + 1.0, d2 + 1.0));
       }
 
       GlStateManager.enableLighting();
@@ -330,9 +330,9 @@ public final class Xray extends Module {
    public void onEnable() {
       this.lastOpacity = opacity.getValue();
       this.savedAmbientOcclusion = mc.gameSettings.ambientOcclusion;
-      this.savedGamma = mc.gameSettings.Zu;
+      this.savedGamma = mc.gameSettings.gammaSetting;
       if (mc.theWorld != null) {
-         mc.gameSettings.Zu = 10.0F;
+         mc.gameSettings.gammaSetting = 10.0F;
          mc.gameSettings.ambientOcclusion = 2;
       }
 
@@ -343,7 +343,7 @@ public final class Xray extends Module {
    @Override
    public void onDisable() {
       if (this.savedGamma != -1.0F) {
-         mc.gameSettings.Zu = this.savedGamma;
+         mc.gameSettings.gammaSetting = this.savedGamma;
       }
 
       if (this.savedAmbientOcclusion != -1) {

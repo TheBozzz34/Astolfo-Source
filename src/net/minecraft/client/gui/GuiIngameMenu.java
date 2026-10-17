@@ -14,8 +14,8 @@ import net.minecraft.util.ResourceLocation;
 public class GuiIngameMenu extends GuiScreen {
    private int field_146445_a;
    private int field_146444_f;
-   private static final Stopwatch i = new Stopwatch();
-   private static final int w = 2500;
+   private static final Stopwatch senseToggleTimer = new Stopwatch();
+   private static final int SENSE_TOGGLE_COOLDOWN = 2500;
 
    @Override
    public void initGui() {
@@ -92,8 +92,8 @@ public class GuiIngameMenu extends GuiScreen {
       for (int i = 0; i < 2; i++) {
          if (i == 0) {
             String string = "Sense";
-            ResourceLocation resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? GuiMainMenu.V : GuiMainMenu.K;
-            float f2 = GuiMainMenu.R.getStringWidth(string);
+            ResourceLocation resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? GuiMainMenu.senseIcon : GuiMainMenu.noSenseIcon;
+            float f2 = GuiMainMenu.robotoLightFont20.getStringWidth(string);
             float f3 = f2 + g * 2.0F + h * 2.0F;
             if (mouseX > f - f3 && mouseX < f && mouseY > 7.5F && mouseY < 35.0F) {
                boolean bl = true;
@@ -105,44 +105,44 @@ public class GuiIngameMenu extends GuiScreen {
          }
       }
 
-      this.d(this.fontRendererObj, I18n.format("menu.game"), this.width / 2, 40, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("menu.game"), this.width / 2, 40, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
       super.mouseClicked(mouseX, mouseY, mouseButton);
-      if (mouseButton == 0 && i.hasElapsed(2500.0F)) {
+      if (mouseButton == 0 && senseToggleTimer.hasElapsed(2500.0F)) {
          ScaledResolution scaledResolution = new ScaledResolution(this.mc);
          float f = 5.0F;
          float g = 9.0F;
          float h = scaledResolution.getScaledWidth() - 10.0F;
-         CustomFontRenderer customFontRenderer = GuiMainMenu.R;
+         CustomFontRenderer customFontRenderer = GuiMainMenu.robotoLightFont20;
 
-         for (int j = 0; j < 2; j++) {
-            if (j == 0) {
+         for (int i = 0; i < 2; i++) {
+            if (i == 0) {
                String string = "Sense";
                float f2 = customFontRenderer.getStringWidth(string);
                float f3 = f2 + f * 2.0F + g * 2.0F;
                boolean bl = mouseX > h - f3 && mouseX < h && mouseY > 7.5F && mouseY < 35.0F;
                if (bl) {
                   Astolfo.INSTANCE.getSenseSetting().set(!Astolfo.INSTANCE.getSenseSetting().getValue());
-                  i.reset();
+                  senseToggleTimer.reset();
                }
             }
          }
       }
    }
 
-   public void H(CustomFontRenderer customFontRenderer, String string, float f, float g, int j, boolean bl) {
-      int i = customFontRenderer.getStringWidth(string);
+   public void drawCenteredCustomString(CustomFontRenderer customFontRenderer, String string, float f, float g, int i, boolean bl) {
+      int j = customFontRenderer.getStringWidth(string);
       int k = customFontRenderer.getStringHeight(string);
-      float h = f - i / 2.0F;
+      float h = f - j / 2.0F;
       float f2 = g - k / 2.0F;
       if (bl) {
-         customFontRenderer.drawStringWithShadow(string, (int)h, (int)f2, j);
+         customFontRenderer.drawStringWithShadow(string, (int)h, (int)f2, i);
       } else {
-         customFontRenderer.drawString(string, (int)h, (int)f2, j);
+         customFontRenderer.drawString(string, (int)h, (int)f2, i);
       }
    }
 }

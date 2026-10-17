@@ -73,9 +73,9 @@ public abstract class AbstractGlobalMemory implements GlobalMemory {
    public String toString() {
       StringBuilder stringBuilder = new StringBuilder();
       stringBuilder.append("Available: ");
-      stringBuilder.append(FormatUtil.formatBytes(this.d()));
+      stringBuilder.append(FormatUtil.formatBytes(this.getAvailable()));
       stringBuilder.append("/");
-      stringBuilder.append(FormatUtil.formatBytes(this.f()));
+      stringBuilder.append(FormatUtil.formatBytes(this.getTotal()));
       return stringBuilder.toString();
    }
 }

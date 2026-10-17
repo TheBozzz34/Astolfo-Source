@@ -43,7 +43,7 @@ public class StringComponent extends SettingComponent {
       RenderUtil.drawRect(
          this.getX() + 3.0F, this.getYPos() + this.getHeight() + 1.0F, this.getX() + this.getWidth() - 3.0F, this.getYPos() + this.getHeight() + 2.0F, k
       );
-      GuiMainMenu.m.drawString(this.getStringSetting().getValue() + "...", this.getX() + 4.0F, this.getYPos(), -1);
+      GuiMainMenu.latoBoldFont15.drawString(this.getStringSetting().getValue() + "...", this.getX() + 4.0F, this.getYPos(), -1);
    }
 
    @Override

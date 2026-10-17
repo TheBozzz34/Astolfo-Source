@@ -21,11 +21,11 @@ public class BreakingFour extends BakedQuad {
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void remapVert(int vertex) {
-      int i = this.u.length / 4;
+      int i = this.vertexData.length / 4;
       int j = i * vertex;
-      float f = Float.intBitsToFloat(this.u[j]);
-      float g = Float.intBitsToFloat(this.u[j + 1]);
-      float h = Float.intBitsToFloat(this.u[j + 2]);
+      float f = Float.intBitsToFloat(this.vertexData[j]);
+      float g = Float.intBitsToFloat(this.vertexData[j + 1]);
+      float h = Float.intBitsToFloat(this.vertexData[j + 2]);
       float f2 = 0.0F;
       float f3 = 0.0F;
       switch (this.face) {
@@ -54,7 +54,7 @@ public class BreakingFour extends BakedQuad {
             f3 = (1.0F - g) * 16.0F;
       }
 
-      this.u[j + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU(f2));
-      this.u[j + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV(f3));
+      this.vertexData[j + 4] = Float.floatToRawIntBits(this.texture.getInterpolatedU(f2));
+      this.vertexData[j + 4 + 1] = Float.floatToRawIntBits(this.texture.getInterpolatedV(f3));
    }
 }

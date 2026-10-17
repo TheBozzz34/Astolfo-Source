@@ -20,22 +20,22 @@ public abstract class AbstractGraphicsCard implements GraphicsCard {
    }
 
    @Override
-   public String E() {
+   public String getName() {
       return this.name;
    }
 
    @Override
-   public String S() {
+   public String getDeviceId() {
       return this.deviceId;
    }
 
    @Override
-   public String L() {
+   public String getVendor() {
       return this.vendor;
    }
 
    @Override
-   public String e() {
+   public String getVersionInfo() {
       return this.versionInfo;
    }
 

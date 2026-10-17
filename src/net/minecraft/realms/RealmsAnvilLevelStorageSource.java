@@ -19,7 +19,7 @@ public class RealmsAnvilLevelStorageSource {
       return this.levelStorageSource.getName();
    }
 
-   public boolean a(String string) {
+   public boolean levelExists(String string) {
       return this.levelStorageSource.canLoadWorld(string);
    }
 
@@ -27,19 +27,19 @@ public class RealmsAnvilLevelStorageSource {
       return this.levelStorageSource.convertMapFormat(string, iProgressUpdate);
    }
 
-   public boolean e(String string) {
+   public boolean requiresConversion(String string) {
       return this.levelStorageSource.isOldMapFormat(string);
    }
 
-   public boolean G(String string) {
+   public boolean isNewLevelIdAcceptable(String string) {
       return this.levelStorageSource.isNewLevelIdAcceptable(string);
    }
 
-   public boolean H(String string) {
+   public boolean deleteLevel(String string) {
       return this.levelStorageSource.deleteWorldDirectory(string);
    }
 
-   public boolean n(String string) {
+   public boolean isConvertible(String string) {
       return this.levelStorageSource.isConvertible(string);
    }
 

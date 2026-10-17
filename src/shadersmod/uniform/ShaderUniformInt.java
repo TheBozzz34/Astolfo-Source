@@ -16,8 +16,8 @@ public class ShaderUniformInt extends ShaderUniformBase {
    }
 
    public void setValue(int value) {
-      if (this.e() >= 0 && this.value != value) {
-         ARBShaderObjects.glUniform1iARB(this.e(), value);
+      if (this.getLocation() >= 0 && this.value != value) {
+         ARBShaderObjects.glUniform1iARB(this.getLocation(), value);
          Shaders.checkGLError(this.getName());
          this.value = value;
       }

@@ -10,10 +10,10 @@ public class EntitySpellParticleFX extends EntityFX {
    private static final Random RANDOM = new Random();
    private int baseSpellTextureIndex = 128;
 
-   public EntitySpellParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
-      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.5 - RANDOM.nextDouble(), d2, 0.5 - RANDOM.nextDouble());
+   public EntitySpellParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
+      super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.5 - RANDOM.nextDouble(), e, 0.5 - RANDOM.nextDouble());
       this.motionY *= 0.2F;
-      if (d == 0.0 && d3 == 0.0) {
+      if (d == 0.0 && d2 == 0.0) {
          this.motionX *= 0.1F;
          this.motionZ *= 0.1F;
       }

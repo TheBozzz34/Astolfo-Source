@@ -18,22 +18,22 @@ public final class SolarisBaseboard extends AbstractBaseboard {
    }
 
    @Override
-   public String p() {
+   public String getManufacturer() {
       return this.manufacturer;
    }
 
    @Override
-   public String g() {
+   public String getModel() {
       return this.model;
    }
 
    @Override
-   public String A() {
+   public String getSerialNumber() {
       return this.serialNumber;
    }
 
    @Override
-   public String W() {
+   public String getVersion() {
       return this.version;
    }
 }

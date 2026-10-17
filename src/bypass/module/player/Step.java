@@ -152,13 +152,13 @@ public final class Step extends Module {
 
                            if (GameUtil.isOnHypixel() && d2 > 0.7 && d2 <= 1.1) {
                               for (int j = 0; j < 4; j++) {
-                                 mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
+                                 mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(true));
                               }
                            }
 
                            mc.thePlayer
                               .sendQueue
-                              .u(
+                              .sendPacketNoEvent(
                                  new C03PacketPlayer.C04PacketPlayerPosition(
                                     mc.thePlayer.posX, mc.thePlayer.posY + d4 + Math.random() / 100000.0, mc.thePlayer.posZ, false
                                  )

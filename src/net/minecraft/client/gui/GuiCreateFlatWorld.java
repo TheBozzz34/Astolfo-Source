@@ -113,10 +113,10 @@ public class GuiCreateFlatWorld extends GuiScreen {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.createFlatWorldListSlotGui.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.flatWorldTitle, this.width / 2, 8, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.flatWorldTitle, this.width / 2, 8, 16777215);
       int i = this.width / 2 - 92 - 16;
-      this.I(this.fontRendererObj, this.field_146394_i, i, 32, 16777215);
-      this.I(this.fontRendererObj, this.field_146391_r, i + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
+      this.drawString(this.fontRendererObj, this.field_146394_i, i, 32, 16777215);
+      this.drawString(this.fontRendererObj, this.field_146391_r, i + 2 + 213 - this.fontRendererObj.getStringWidth(this.field_146391_r), 32, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
@@ -143,16 +143,16 @@ public class GuiCreateFlatWorld extends GuiScreen {
          this.func_148224_c(i, j, 0, 0);
       }
 
-      private void func_148224_c(int i, int j, int k, int m) {
+      private void func_148224_c(int i, int j, int k, int l) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(Gui.statIcons);
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
          worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-         worldRenderer.pos(i + 0, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 18, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (m + 18) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 18, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
-         worldRenderer.pos(i + 0, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (m + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (l + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 18, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (l + 18) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 18, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 18) * 0.0078125F, (l + 0) * 0.0078125F).endVertex();
+         worldRenderer.pos(i + 0, j + 0, GuiCreateFlatWorld.this.zLevel).tex((k + 0) * 0.0078125F, (l + 0) * 0.0078125F).endVertex();
          tessellator.draw();
       }
 
@@ -200,7 +200,7 @@ public class GuiCreateFlatWorld extends GuiScreen {
          }
 
          this.func_148225_a(i, j, itemStack);
-         GuiCreateFlatWorld.this.fontRendererObj.D(string, i + 18 + 5, j + 3, 16777215);
+         GuiCreateFlatWorld.this.fontRendererObj.drawStringNoShadow(string, i + 18 + 5, j + 3, 16777215);
          String string2;
          if (entryID == 0) {
             string2 = I18n.format("createWorld.customize.flat.layer.top", flatLayerInfo.getLayerCount());
@@ -210,7 +210,8 @@ public class GuiCreateFlatWorld extends GuiScreen {
             string2 = I18n.format("createWorld.customize.flat.layer", flatLayerInfo.getLayerCount());
          }
 
-         GuiCreateFlatWorld.this.fontRendererObj.D(string2, i + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(string2), j + 3, 16777215);
+         GuiCreateFlatWorld.this.fontRendererObj
+            .drawStringNoShadow(string2, i + 2 + 213 - GuiCreateFlatWorld.this.fontRendererObj.getStringWidth(string2), j + 3, 16777215);
       }
 
       @Override

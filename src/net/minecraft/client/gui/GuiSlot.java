@@ -33,8 +33,8 @@ public abstract class GuiSlot {
    public boolean hasListHeader;
    public int headerPadding;
    private boolean enabled = true;
-   private static final int v = new Color(7, 7, 7).getRGB();
-   private static final int l = new Color(17, 17, 17).getRGB();
+   private static final int OVERLAY_GRADIENT_TOP = new Color(7, 7, 7).getRGB();
+   private static final int OVERLAY_GRADIENT_BOTTOM = new Color(17, 17, 17).getRGB();
 
    public GuiSlot(Minecraft mcIn, int width, int height, int topIn, int bottomIn, int slotHeightIn) {
       this.mc = mcIn;
@@ -47,17 +47,17 @@ public abstract class GuiSlot {
       this.right = width;
    }
 
-   public void m(int i, int j, int k, int m) {
-      this.width = i;
-      this.height = j;
-      this.top = k;
-      this.bottom = m;
+   public void setDimensions(int widthIn, int heightIn, int topIn, int bottomIn) {
+      this.width = widthIn;
+      this.height = heightIn;
+      this.top = topIn;
+      this.bottom = bottomIn;
       this.left = 0;
-      this.right = i;
+      this.right = widthIn;
    }
 
-   public void C(boolean bl) {
-      this.showSelectionBox = bl;
+   public void setShowSelectionBox(boolean showSelectionBoxIn) {
+      this.showSelectionBox = showSelectionBoxIn;
    }
 
    public void setHasListHeader(boolean hasListHeaderIn, int headerPaddingIn) {
@@ -102,9 +102,9 @@ public abstract class GuiSlot {
       return i < this.getScrollBarX() && i >= k && i <= l && n >= 0 && m >= 0 && n < this.getSize() ? n : -1;
    }
 
-   public void U(int i, int j) {
-      this.scrollUpButtonID = i;
-      this.scrollDownButtonID = j;
+   public void registerScrollButtons(int scrollUpButtonIDIn, int scrollDownButtonIDIn) {
+      this.scrollUpButtonID = scrollUpButtonIDIn;
+      this.scrollDownButtonID = scrollDownButtonIDIn;
    }
 
    public void bindAmountScrolled() {
@@ -115,7 +115,7 @@ public abstract class GuiSlot {
       return Math.max(0, this.getContentHeight() - (this.bottom - this.top - 4));
    }
 
-   public int Y() {
+   public int getAmountScrolled() {
       return (int)this.amountScrolled;
    }
 
@@ -164,8 +164,8 @@ public abstract class GuiSlot {
          this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
          GlStateManager.disableDepth();
          byte b = 4;
-         this.W(0, this.top, 255, 255);
-         this.W(this.bottom, this.height, 255, 255);
+         this.overlayBackground(0, this.top, 255, 255);
+         this.overlayBackground(this.bottom, this.height, 255, 255);
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableAlpha();
@@ -296,8 +296,8 @@ public abstract class GuiSlot {
       }
    }
 
-   public void a(boolean bl) {
-      this.enabled = bl;
+   public void setEnabled(boolean enabledIn) {
+      this.enabled = enabledIn;
    }
 
    public boolean getEnabled() {
@@ -346,19 +346,19 @@ public abstract class GuiSlot {
       return this.width / 2 + 124;
    }
 
-   public void W(int i, int j, int k, int m) {
-      this.W(0, i, this.width, j, v, l);
+   public void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
+      this.drawVerticalGradient(0, startY, this.width, endY, OVERLAY_GRADIENT_TOP, OVERLAY_GRADIENT_BOTTOM);
    }
 
-   public void W(int i, int j, int k, int m, int n, int i2) {
-      float f = (n >> 24 & 0xFF) / 255.0F;
-      float g = (n >> 16 & 0xFF) / 255.0F;
-      float h = (n >> 8 & 0xFF) / 255.0F;
-      float f2 = (n & 0xFF) / 255.0F;
-      float f3 = (i2 >> 24 & 0xFF) / 255.0F;
-      float f4 = (i2 >> 16 & 0xFF) / 255.0F;
-      float f5 = (i2 >> 8 & 0xFF) / 255.0F;
-      float f6 = (i2 & 0xFF) / 255.0F;
+   public void drawVerticalGradient(int i, int j, int k, int l, int m, int n) {
+      float f = (m >> 24 & 0xFF) / 255.0F;
+      float g = (m >> 16 & 0xFF) / 255.0F;
+      float h = (m >> 8 & 0xFF) / 255.0F;
+      float f2 = (m & 0xFF) / 255.0F;
+      float f3 = (n >> 24 & 0xFF) / 255.0F;
+      float f4 = (n >> 16 & 0xFF) / 255.0F;
+      float f5 = (n >> 8 & 0xFF) / 255.0F;
+      float f6 = (n & 0xFF) / 255.0F;
       GlStateManager.disableTexture2D();
       GlStateManager.enableBlend();
       GlStateManager.disableAlpha();
@@ -369,8 +369,8 @@ public abstract class GuiSlot {
       worldRenderer.begin(7, DefaultVertexFormats.POSITION_COLOR);
       worldRenderer.pos(k, j, 0.0).color(g, h, f2, f).endVertex();
       worldRenderer.pos(i, j, 0.0).color(g, h, f2, f).endVertex();
-      worldRenderer.pos(i, m, 0.0).color(f4, f5, f6, f3).endVertex();
-      worldRenderer.pos(k, m, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(i, l, 0.0).color(f4, f5, f6, f3).endVertex();
+      worldRenderer.pos(k, l, 0.0).color(f4, f5, f6, f3).endVertex();
       tessellator.draw();
       GlStateManager.shadeModel(7424);
       GlStateManager.disableBlend();
@@ -383,7 +383,7 @@ public abstract class GuiSlot {
       this.right = leftIn + this.width;
    }
 
-   public int l() {
+   public int getSlotHeight() {
       return this.slotHeight;
    }
 }

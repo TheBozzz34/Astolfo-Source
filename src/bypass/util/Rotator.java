@@ -34,12 +34,12 @@ public class Rotator {
       return rotation3.wrap();
    }
 
-   public Vector3d predict(Vector3d vector3d, Vector3d vector3d2, boolean bl, double d, double d2) {
-      d2 -= d2 % 2.0;
-      d2 /= 2.0;
-      double e = d2 * vector3d2.x * (bl ? d + 1.0 : d);
-      double d3 = d2 * vector3d2.z * (bl ? d + 1.0 : d);
-      return new Vector3d(vector3d.x + e, vector3d.y, vector3d.z + d3);
+   public Vector3d predict(Vector3d vector3d, Vector3d vector3d2, boolean bl, double d, double e) {
+      e -= e % 2.0;
+      e /= 2.0;
+      double d2 = e * vector3d2.x * (bl ? d + 1.0 : d);
+      double d3 = e * vector3d2.z * (bl ? d + 1.0 : d);
+      return new Vector3d(vector3d.x + d2, vector3d.y, vector3d.z + d3);
    }
 
    public Rotation bezier(Rotation rotation, Rotation rotation2, float f) {

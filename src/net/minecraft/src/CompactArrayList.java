@@ -3,10 +3,10 @@ package net.minecraft.src;
 import java.util.ArrayList;
 
 public class CompactArrayList {
-   private ArrayList l = null;
-   private int F = 0;
-   private float U = 1.0F;
-   private int W = 0;
+   private ArrayList list = null;
+   private int initialCapacity = 0;
+   private float loadFactor = 1.0F;
+   private int countValid = 0;
 
    public CompactArrayList() {
       this(10, 0.75F);
@@ -17,99 +17,99 @@ public class CompactArrayList {
    }
 
    public CompactArrayList(int initialCapacity, float loadFactor) {
-      this.l = new ArrayList(initialCapacity);
-      this.F = initialCapacity;
-      this.U = loadFactor;
+      this.list = new ArrayList(initialCapacity);
+      this.initialCapacity = initialCapacity;
+      this.loadFactor = loadFactor;
    }
 
-   public void F(int i, Object object) {
+   public void insert(int i, Object object) {
       if (object != null) {
-         this.W++;
+         this.countValid++;
       }
 
-      this.l.add(i, object);
+      this.list.add(i, object);
    }
 
-   public boolean h(Object object) {
-      if (object != null) {
-         this.W++;
+   public boolean add(Object element) {
+      if (element != null) {
+         this.countValid++;
       }
 
-      return this.l.add(object);
+      return this.list.add(element);
    }
 
-   public Object h(int i, Object object) {
-      Object object2 = this.l.set(i, object);
-      if (object != object2) {
-         if (object2 == null) {
-            this.W++;
-         }
-
+   public Object set(int index, Object element) {
+      Object object = this.list.set(index, element);
+      if (element != object) {
          if (object == null) {
-            this.W--;
+            this.countValid++;
          }
-      }
 
-      return object2;
-   }
-
-   public Object o(int i) {
-      Object object = this.l.remove(i);
-      if (object != null) {
-         this.W--;
+         if (element == null) {
+            this.countValid--;
+         }
       }
 
       return object;
    }
 
-   public void l() {
-      this.l.clear();
-      this.W = 0;
+   public Object remove(int index) {
+      Object object = this.list.remove(index);
+      if (object != null) {
+         this.countValid--;
+      }
+
+      return object;
+   }
+
+   public void clear() {
+      this.list.clear();
+      this.countValid = 0;
    }
 
    public void v_void() {
-      if (this.W <= 0 && this.l.size() <= 0) {
-         this.l();
-      } else if (this.l.size() > this.F) {
-         float f = this.W * 1.0F / this.l.size();
-         if (f <= this.U) {
+      if (this.countValid <= 0 && this.list.size() <= 0) {
+         this.clear();
+      } else if (this.list.size() > this.initialCapacity) {
+         float f = this.countValid * 1.0F / this.list.size();
+         if (f <= this.loadFactor) {
             int i = 0;
 
-            for (int j = 0; j < this.l.size(); j++) {
-               Object object = this.l.get(j);
+            for (int j = 0; j < this.list.size(); j++) {
+               Object object = this.list.get(j);
                if (object != null) {
                   if (j != i) {
-                     this.l.set(i, object);
+                     this.list.set(i, object);
                   }
 
                   i++;
                }
             }
 
-            for (int k = this.l.size() - 1; k >= i; k--) {
-               this.l.remove(k);
+            for (int k = this.list.size() - 1; k >= i; k--) {
+               this.list.remove(k);
             }
          }
       }
    }
 
-   public boolean a(Object object) {
-      return this.l.contains(object);
+   public boolean contains(Object elem) {
+      return this.list.contains(elem);
    }
 
-   public Object W(int i) {
-      return this.l.get(i);
+   public Object get(int index) {
+      return this.list.get(index);
    }
 
-   public boolean c() {
-      return this.l.isEmpty();
+   public boolean isEmpty() {
+      return this.list.isEmpty();
    }
 
-   public int v() {
-      return this.l.size();
+   public int size() {
+      return this.list.size();
    }
 
-   public int m() {
-      return this.W;
+   public int getCountValid() {
+      return this.countValid;
    }
 }

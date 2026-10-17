@@ -14,7 +14,7 @@ public class Timer {
    private long lastSyncHRClock;
    private long counter;
    private double timeSyncAdjustment = 1.0;
-   public static Stopwatch q = new Stopwatch();
+   public static Stopwatch authPingTimer = new Stopwatch();
 
    public Timer(float tps) {
       this.ticksPerSecond = tps;

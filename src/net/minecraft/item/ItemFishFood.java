@@ -61,7 +61,7 @@ public class ItemFishFood extends ItemFood {
       return this.getUnlocalizedName() + "." + fishType.getUnlocalizedName() + "." + (this.cooked && fishType.canCook() ? "cooked" : "raw");
    }
 
-   public boolean w() {
+   public boolean isCooked() {
       return this.cooked;
    }
 

@@ -300,12 +300,12 @@ public class GuiScreenBook extends GuiScreen {
 
          String string2 = I18n.format("book.editTitle");
          int j = this.fontRendererObj.getStringWidth(string2);
-         this.fontRendererObj.D(string2, i + 36 + (116 - j) / 2, b + 16 + 16, 0);
+         this.fontRendererObj.drawStringNoShadow(string2, i + 36 + (116 - j) / 2, b + 16 + 16, 0);
          int k = this.fontRendererObj.getStringWidth(string);
-         this.fontRendererObj.D(string, i + 36 + (116 - k) / 2, b + 48, 0);
+         this.fontRendererObj.drawStringNoShadow(string, i + 36 + (116 - k) / 2, b + 48, 0);
          String string3 = I18n.format("book.byAuthor", this.editingPlayer.getName());
          int l = this.fontRendererObj.getStringWidth((java.lang.String)(string3));
-         this.fontRendererObj.D(EnumChatFormatting.DARK_GRAY + string3, i + 36 + (116 - l) / 2, b + 48 + 10, 0);
+         this.fontRendererObj.drawStringNoShadow(EnumChatFormatting.DARK_GRAY + string3, i + 36 + (116 - l) / 2, b + 48 + 10, 0);
          String string4 = I18n.format("book.finalizeWarning");
          this.fontRendererObj.drawSplitString(string4, i + 36, b + 80, 116, 0);
       } else {
@@ -316,7 +316,7 @@ public class GuiScreenBook extends GuiScreen {
          }
 
          if (this.bookIsUnsigned) {
-            if (this.fontRendererObj.U()) {
+            if (this.fontRendererObj.getBidiFlag()) {
                string6 = string6 + "_";
             } else if (this.updateCount / 6 % 2 == 0) {
                string6 = string6 + "" + EnumChatFormatting.BLACK + "_";
@@ -340,7 +340,7 @@ public class GuiScreenBook extends GuiScreen {
          }
 
          int m = this.fontRendererObj.getStringWidth(string5);
-         this.fontRendererObj.D(string5, i - m + this.bookImageWidth - 44, b + 16, 0);
+         this.fontRendererObj.drawStringNoShadow(string5, i - m + this.bookImageWidth - 44, b + 16, 0);
          if (this.field_175386_A == null) {
             this.fontRendererObj.drawSplitString(string6, i + 36, b + 16 + 16, 116, 0);
          } else {
@@ -348,7 +348,7 @@ public class GuiScreenBook extends GuiScreen {
 
             for (int i2 = 0; i2 < n; i2++) {
                IChatComponent iChatComponent2 = this.field_175386_A.get(i2);
-               this.fontRendererObj.D(iChatComponent2.getUnformattedText(), i + 36, b + 16 + 16 + i2 * this.fontRendererObj.FONT_HEIGHT, 0);
+               this.fontRendererObj.drawStringNoShadow(iChatComponent2.getUnformattedText(), i + 36, b + 16 + 16 + i2 * this.fontRendererObj.FONT_HEIGHT, 0);
             }
 
             IChatComponent iChatComponent3 = this.func_175385_b(mouseX, mouseY);

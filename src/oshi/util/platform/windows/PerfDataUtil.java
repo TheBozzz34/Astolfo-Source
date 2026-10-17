@@ -79,7 +79,7 @@ public final class PerfDataUtil {
          this.counter = counterName;
       }
 
-      public String c() {
+      public String getObject() {
          return this.object;
       }
 
@@ -87,7 +87,7 @@ public final class PerfDataUtil {
          return this.instance;
       }
 
-      public String b() {
+      public String getCounter() {
          return this.counter;
       }
 

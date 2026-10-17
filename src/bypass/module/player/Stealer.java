@@ -252,7 +252,7 @@ public final class Stealer extends Module {
                         )) {
                         this.closeTimer.reset();
                         if (this.silent.getValue()) {
-                           mc.thePlayer.sendQueue.u(new C0APacketAnimation());
+                           mc.thePlayer.sendQueue.sendPacketNoEvent(new C0APacketAnimation());
                         } else {
                            mc.thePlayer.swingItem();
                         }

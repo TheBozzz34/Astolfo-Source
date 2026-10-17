@@ -44,7 +44,7 @@ public class WorldRenderer {
    private TextureAtlasSprite[] quadSpritesPrev = null;
    private TextureAtlasSprite quadSprite = null;
    public SVertexBuilder sVertexBuilder;
-   public static boolean S;
+   public static boolean unusedFlag;
 
    public WorldRenderer(int bufferSizeIn) {
       if (Config.isShaders()) {
@@ -493,11 +493,11 @@ public class WorldRenderer {
       }
    }
 
-   public void l(int i) {
+   public void putPositionFromPacked(int i) {
       int j = i >> 16 & 0xFF;
       int k = i >> 8 & 0xFF;
-      int m = i & 0xFF;
-      this.putPosition(j, k, m);
+      int l = i & 0xFF;
+      this.putPosition(j, k, l);
    }
 
    // $VF: Unable to simplify switch on enum
@@ -756,7 +756,7 @@ public class WorldRenderer {
       return this.rawIntBuffer.capacity() * 4 / (this.vertexFormat.getIntegerSize() * 4);
    }
 
-   public void H() {
+   public void checkAndGrow() {
       this.growBuffer(this.vertexFormat.getIntegerSize());
    }
 

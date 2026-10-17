@@ -162,7 +162,7 @@ public abstract class BlockLiquid extends Block {
    public Vec3 modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3 motion) {
       return Astolfo.INSTANCE.getModuleManager().get(Velocity.class).isEnabled() && Velocity.water.getValue()
          ? motion
-         : motion.l(this.getFlowVector(worldIn, pos));
+         : motion.add(this.getFlowVector(worldIn, pos));
    }
 
    @Override

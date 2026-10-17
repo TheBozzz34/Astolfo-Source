@@ -114,9 +114,9 @@ public class HttpPipeline {
          }
 
          @Override
-         public void failed(HttpRequest req, Exception eIn) {
+         public void failed(HttpRequest req, Exception e) {
             synchronized (hashMap) {
-               hashMap.put("Exception", eIn);
+               hashMap.put("Exception", e);
                hashMap.notifyAll();
             }
          }

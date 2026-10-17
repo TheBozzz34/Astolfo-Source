@@ -91,7 +91,7 @@ public class PathSegment {
 
       label55:
       for (int k = 0; k < i; k++) {
-         this.openNodes.sort(new PathSegment.f0());
+         this.openNodes.sort(new PathSegment.NodeCostComparator());
          int l = 0;
          if (this.openNodes.size() == 0) {
             break;
@@ -124,7 +124,7 @@ public class PathSegment {
       }
 
       if (this.useBestOnFailure) {
-         this.closedNodes.sort(new PathSegment.f0());
+         this.closedNodes.sort(new PathSegment.NodeCostComparator());
          this.path = this.closedNodes.get(0).getPath();
       }
    }
@@ -182,7 +182,7 @@ public class PathSegment {
       return false;
    }
 
-   public class f0 implements Comparator<PathSegmentNode> {
+   public class NodeCostComparator implements Comparator<PathSegmentNode> {
       public int compare(PathSegmentNode pathSegmentNode, PathSegmentNode pathSegmentNode2) {
          return (int)(
             PathSegmentNode.getHeuristicOf(pathSegmentNode)

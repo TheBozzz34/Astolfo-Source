@@ -109,7 +109,7 @@ public class ColorPicker extends SettingContainer {
             this.getYPos() + this.getHeight(),
             this.getColorSetting().getValue().getRGB()
          );
-         GuiMainMenu.m.drawString(this.getSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
+         GuiMainMenu.latoBoldFont15.drawString(this.getSetting().getName(), this.getX() + 3.0F, this.getYPos(), -1);
       } else {
          GL11.glShadeModel(7425);
          boolean bl = this.getColorSetting().mode == ColorMode.RAINBOW;
@@ -129,17 +129,17 @@ public class ColorPicker extends SettingContainer {
             l = 255;
          }
 
-         int n = color2.getGreen();
+         int m = color2.getGreen();
+         if (m >= 210) {
+            m = 255;
+         }
+
+         int n = color2.getBlue();
          if (n >= 210) {
             n = 255;
          }
 
-         int i2 = color2.getBlue();
-         if (i2 >= 210) {
-            i2 = 255;
-         }
-
-         Color color3 = this.brightnessOffset > 48 ? new Color(0, 0, 0, k) : new Color(l, n, i2, k);
+         Color color3 = this.brightnessOffset > 48 ? new Color(0, 0, 0, k) : new Color(l, m, n, k);
          this.getColorSetting().setValue(color3);
          RenderUtil.drawRect(
             this.getX(),
@@ -149,21 +149,21 @@ public class ColorPicker extends SettingContainer {
             bl ? color.getRGB() : color3.getRGB()
          );
          if (Mouse.isButtonDown(0)) {
-            int i3 = (int)this.getX();
-            int i4 = (int)this.getPickerY();
-            int i5 = j - i4;
-            if (this.isMouseInRect(i3, i4, 7, this.getPickerHeight(), i, j)) {
-               this.hueOffset = i5;
+            int i2 = (int)this.getX();
+            int i3 = (int)this.getPickerY();
+            int i4 = j - i3;
+            if (this.isMouseInRect(i2, i3, 7, this.getPickerHeight(), i, j)) {
+               this.hueOffset = i4;
             }
 
-            if (this.isMouseInRect(i3 + 11, i4, this.getWidth() - 26, this.getPickerHeight(), i, j)) {
-               int i6 = i - i3 - 11;
-               this.brightnessOffset = i5;
-               this.saturationOffset = i6;
+            if (this.isMouseInRect(i2 + 11, i3, this.getWidth() - 26, this.getPickerHeight(), i, j)) {
+               int i5 = i - i2 - 11;
+               this.brightnessOffset = i4;
+               this.saturationOffset = i5;
             }
 
-            if (this.isMouseInRect(i3 + this.getWidth() - 7, i4, 7, this.getPickerHeight(), i, j)) {
-               this.alphaOffset = i5;
+            if (this.isMouseInRect(i2 + this.getWidth() - 7, i3, 7, this.getPickerHeight(), i, j)) {
+               this.alphaOffset = i4;
             }
          }
       }
@@ -279,9 +279,12 @@ public class ColorPicker extends SettingContainer {
       RenderUtil.drawRect(
          this.getX() + 12.0F, this.getYPos(), this.getX() + this.getWidth() - 12.0F, this.getYPos() + 9.0F, new Color(50, 50, 50, 200).getRGB()
       );
-      GuiMainMenu.m
+      GuiMainMenu.latoBoldFont15
          .drawString(
-            "Done", this.getX() + this.getWidth() / 2 - GuiMainMenu.m.getStringWidth("Done", true) / 2, this.getYPos(), new Color(200, 200, 200, 255).getRGB()
+            "Done",
+            this.getX() + this.getWidth() / 2 - GuiMainMenu.latoBoldFont15.getStringWidth("Done", true) / 2,
+            this.getYPos(),
+            new Color(200, 200, 200, 255).getRGB()
          );
       return new Color(color3.getRed(), color3.getGreen(), color3.getBlue());
    }

@@ -156,8 +156,8 @@ public class Potion {
          if (!entityLivingBaseIn.worldObj.isRemote) {
             ((EntityPlayer)entityLivingBaseIn).getFoodStats().addStats(i + 1, 1.0F);
          }
-      } else if ((this.id != heal.id || entityLivingBaseIn.V()) && (this.id != harm.id || !entityLivingBaseIn.V())) {
-         if (this.id == harm.id && !entityLivingBaseIn.V() || this.id == heal.id && entityLivingBaseIn.V()) {
+      } else if ((this.id != heal.id || entityLivingBaseIn.isEntityUndead()) && (this.id != harm.id || !entityLivingBaseIn.isEntityUndead())) {
+         if (this.id == harm.id && !entityLivingBaseIn.isEntityUndead() || this.id == heal.id && entityLivingBaseIn.isEntityUndead()) {
             entityLivingBaseIn.attackEntityFrom(DamageSource.magic, 6 << i);
          }
       } else {
@@ -166,8 +166,8 @@ public class Potion {
    }
 
    public void affectEntity(Entity entity, Entity entity2, EntityLivingBase entityLivingBaseIn, int i, double d) {
-      if ((this.id != heal.id || entityLivingBaseIn.V()) && (this.id != harm.id || !entityLivingBaseIn.V())) {
-         if (this.id == harm.id && !entityLivingBaseIn.V() || this.id == heal.id && entityLivingBaseIn.V()) {
+      if ((this.id != heal.id || entityLivingBaseIn.isEntityUndead()) && (this.id != harm.id || !entityLivingBaseIn.isEntityUndead())) {
+         if (this.id == harm.id && !entityLivingBaseIn.isEntityUndead() || this.id == heal.id && entityLivingBaseIn.isEntityUndead()) {
             int j = (int)(d * (6 << i) + 0.5);
             if (entity == null) {
                entityLivingBaseIn.attackEntityFrom(DamageSource.magic, j);

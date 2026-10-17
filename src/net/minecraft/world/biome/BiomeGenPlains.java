@@ -82,7 +82,7 @@ public class BiomeGenPlains extends BiomeGenBase {
       BiomeGenPlains biomeGenPlains = new BiomeGenPlains(i);
       biomeGenPlains.setBiomeName("Sunflower Plains");
       biomeGenPlains.field_150628_aC = true;
-      biomeGenPlains.e(9286496);
+      biomeGenPlains.setColor(9286496);
       biomeGenPlains.field_150609_ah = 14273354;
       return biomeGenPlains;
    }

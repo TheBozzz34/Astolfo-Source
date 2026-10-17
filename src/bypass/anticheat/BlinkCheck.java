@@ -18,17 +18,17 @@ public class BlinkCheck extends MovementCheck {
    }
 
    @Override
-   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
-      double e = Math.hypot(d - this.lastX, d3 - this.lastZ);
-      double d4 = Math.abs(this.lastY - d2);
-      if (e <= 0.4) {
+   public int handleMovement(double d, double e, double d2, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+      double d3 = Math.hypot(d - this.lastX, d2 - this.lastZ);
+      double d4 = Math.abs(this.lastY - e);
+      if (d3 <= 0.4) {
          this.moveTimer.reset();
          this.moveIntervals.clear();
       } else {
          double d5 = this.getAverage(this.moveIntervals);
          if (this.moveTimer.hasElapsed((float)(d5 + 500.0)) && entityPlayer.isSprinting() && ServerRotationTracker.getTimeSinceTimeUpdate() < 1000L) {
-            if (e > 5.0 && e < 50.0 && d4 < 5.0) {
-               this.addViolations(entityPlayer.getName(), (int)(e / 5.0));
+            if (d3 > 5.0 && d3 < 50.0 && d4 < 5.0) {
+               this.addViolations(entityPlayer.getName(), (int)(d3 / 5.0));
                this.moveTimer.reset();
             }
 
@@ -40,8 +40,8 @@ public class BlinkCheck extends MovementCheck {
 
       this.moveTimer.reset();
       this.lastX = d;
-      this.lastZ = d3;
-      this.lastY = d2;
+      this.lastZ = d2;
+      this.lastY = e;
       return this.violations;
    }
 

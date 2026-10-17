@@ -85,7 +85,7 @@ public class GuiEditSign extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("sign.edit"), this.width / 2, 40, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("sign.edit"), this.width / 2, 40, 16777215);
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       GlStateManager.pushMatrix();
       GlStateManager.translate(this.width / 2, 0.0F, 50.0F);

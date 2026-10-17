@@ -28,23 +28,23 @@ public final class Weighers {
       return Weighers.ByteArrayWeigher.INSTANCE;
    }
 
-   public static <E> Weigher<? super Iterable<E>> O() {
+   public static <E> Weigher<? super Iterable<E>> iterable() {
       return Weighers.IterableWeigher.INSTANCE;
    }
 
-   public static <E> Weigher<? super Collection<E>> D() {
+   public static <E> Weigher<? super Collection<E>> collection() {
       return Weighers.CollectionWeigher.INSTANCE;
    }
 
-   public static <E> Weigher<? super List<E>> g() {
+   public static <E> Weigher<? super List<E>> list() {
       return Weighers.ListWeigher.INSTANCE;
    }
 
-   public static <E> Weigher<? super Set<E>> k() {
+   public static <E> Weigher<? super Set<E>> set() {
       return Weighers.SetWeigher.INSTANCE;
    }
 
-   public static <A, B> Weigher<? super Map<A, B>> I() {
+   public static <A, B> Weigher<? super Map<A, B>> map() {
       return Weighers.MapWeigher.INSTANCE;
    }
 

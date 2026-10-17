@@ -27,7 +27,7 @@ public final class ProcessStat {
       int j = string.indexOf(41);
       String string2 = string.substring(i, j);
       Character character = string.charAt(j + 2);
-      String[] strings = ParseUtil.Q.split(string.substring(j + 4).trim());
+      String[] strings = ParseUtil.whitespaces.split(string.substring(j + 4).trim());
       EnumMap enumMap = new EnumMap<>(ProcessStat.PidStat.class);
       ProcessStat.PidStat[] pidStats = ProcessStat.PidStat.class.getEnumConstants();
 
@@ -98,7 +98,7 @@ public final class ProcessStat {
       ENV_END,
       EXIT_CODE;
 
-      private static final ProcessStat.PidStat[] s = new ProcessStat.PidStat[]{
+      private static final ProcessStat.PidStat[] VALUES = new ProcessStat.PidStat[]{
          PID,
          COMM,
          STATE,

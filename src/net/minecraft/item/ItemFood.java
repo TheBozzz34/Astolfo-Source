@@ -88,7 +88,7 @@ public class ItemFood extends Item {
       return this;
    }
 
-   public int J() {
+   public int getPotionId() {
       return this.potionId;
    }
 }

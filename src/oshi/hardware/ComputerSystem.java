@@ -4,11 +4,11 @@ import oshi.annotation.concurrent.Immutable;
 
 @Immutable
 public interface ComputerSystem {
-   String V();
+   String getManufacturer();
 
-   String z();
+   String getModel();
 
-   String k();
+   String getSerialNumber();
 
    Firmware getFirmware();
 

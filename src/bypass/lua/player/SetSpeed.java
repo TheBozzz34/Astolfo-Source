@@ -9,7 +9,7 @@ public final class SetSpeed extends OneArgFunction {
    public LuaValue call(LuaValue luaValue) {
       if (ClientAccess.mc.thePlayer != null) {
          if (luaValue.isnumber()) {
-            ClientAccess.mc.thePlayer.G(luaValue.todouble());
+            ClientAccess.mc.thePlayer.setSpeedIfMoving(luaValue.todouble());
             return valueOf(true);
          } else {
             return valueOf(false);

@@ -77,7 +77,7 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
    }
 
    private String parseIdentifier(String identifier, String key) {
-      String[] strings = ParseUtil.Q.split(identifier);
+      String[] strings = ParseUtil.whitespaces.split(identifier);
       boolean bl = false;
 
       for (String string : strings) {
@@ -258,7 +258,7 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
          Map map = (Map)pair.getB();
          List list2 = (List)map.get(ProcessorInformation.ProcessorFrequencyProperty.PERCENTOFMAXIMUMFREQUENCY);
          if (!list.isEmpty()) {
-            long l = this.K();
+            long l = this.getMaxFreq();
             long[] longs = new long[this.getLogicalProcessorCount()];
 
             for (int i = 0; i < list.size(); i++) {

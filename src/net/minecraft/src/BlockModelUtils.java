@@ -15,12 +15,12 @@ import net.minecraft.util.EnumFacing;
 import org.lwjgl.util.vector.Vector3f;
 
 public class BlockModelUtils {
-   public static IBakedModel G(String string, int i) {
-      TextureAtlasSprite textureAtlasSprite = Config.getMinecraft().getTextureMapBlocks().getAtlasSprite(string);
-      return Z(textureAtlasSprite, i);
+   public static IBakedModel makeModelCube(String spriteName, int tintIndex) {
+      TextureAtlasSprite sprite = Config.getMinecraft().getTextureMapBlocks().getAtlasSprite(spriteName);
+      return makeModelCubeFromSprite(sprite, tintIndex);
    }
 
-   public static IBakedModel Z(TextureAtlasSprite textureAtlasSprite, int i) {
+   public static IBakedModel makeModelCubeFromSprite(TextureAtlasSprite textureAtlasSprite, int i) {
       ArrayList arrayList = new ArrayList();
       EnumFacing[] enumFacings = EnumFacing.VALUES;
       ArrayList arrayList2 = new ArrayList(enumFacings.length);
@@ -28,23 +28,23 @@ public class BlockModelUtils {
       for (int j = 0; j < enumFacings.length; j++) {
          EnumFacing enumFacing = enumFacings[j];
          ArrayList arrayList3 = new ArrayList();
-         arrayList3.add(F(enumFacing, textureAtlasSprite, i));
+         arrayList3.add(makeBakedQuad(enumFacing, textureAtlasSprite, i));
          arrayList2.add(arrayList3);
       }
 
       return new SimpleBakedModel(arrayList, arrayList2, true, true, textureAtlasSprite, ItemCameraTransforms.DEFAULT);
    }
 
-   private static BakedQuad F(EnumFacing enumFacing, TextureAtlasSprite textureAtlasSprite, int i) {
-      Vector3f vector3f = new Vector3f(0.0F, 0.0F, 0.0F);
-      Vector3f vector3f2 = new Vector3f(16.0F, 16.0F, 16.0F);
-      BlockFaceUV blockFaceUV = new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0);
-      BlockPartFace blockPartFace = new BlockPartFace(enumFacing, i, "#" + enumFacing.getName(), blockFaceUV);
+   private static BakedQuad makeBakedQuad(EnumFacing facing, TextureAtlasSprite sprite, int tintIndex) {
+      Vector3f posFrom = new Vector3f(0.0F, 0.0F, 0.0F);
+      Vector3f posTo = new Vector3f(16.0F, 16.0F, 16.0F);
+      BlockFaceUV uv = new BlockFaceUV(new float[]{0.0F, 0.0F, 16.0F, 16.0F}, 0);
+      BlockPartFace face = new BlockPartFace(facing, tintIndex, "#" + facing.getName(), uv);
       ModelRotation modelRotation = ModelRotation.X0_Y0;
-      Object object = null;
-      boolean bl = false;
-      boolean bl2 = true;
+      BlockPartRotation partRotation = null;
+      boolean uvLocked = false;
+      boolean shade = true;
       FaceBakery faceBakery = new FaceBakery();
-      return faceBakery.makeBakedQuad(vector3f, vector3f2, blockPartFace, textureAtlasSprite, enumFacing, modelRotation, (BlockPartRotation)object, bl, bl2);
+      return faceBakery.makeBakedQuad(posFrom, posTo, face, sprite, facing, modelRotation, partRotation, uvLocked, shade);
    }
 }

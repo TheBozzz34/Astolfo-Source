@@ -65,12 +65,12 @@ public class VirtualMachineCheck {
    public static String detectVirtualMachine() {
       SystemInfo systemInfo = new SystemInfo();
       HardwareAbstractionLayer hardwareAbstractionLayer = systemInfo.getHardware();
-      String string = hardwareAbstractionLayer.getProcessor().getProcessorIdentifier().H().trim();
+      String string = hardwareAbstractionLayer.getProcessor().getProcessorIdentifier().getVendor().trim();
       if (vmSignatures.containsKey(string)) {
          return vmSignatures.get(string);
       }
 
-      String string2 = hardwareAbstractionLayer.getComputerSystem().z();
+      String string2 = hardwareAbstractionLayer.getComputerSystem().getModel();
 
       for (String string3 : vmNames) {
          if (string2.contains(string3)) {
@@ -78,7 +78,7 @@ public class VirtualMachineCheck {
          }
       }
 
-      String string4 = hardwareAbstractionLayer.getComputerSystem().V();
+      String string4 = hardwareAbstractionLayer.getComputerSystem().getManufacturer();
       return "Microsoft Corporation".equals(string4) && "Virtual Machine".equals(string2) ? "Microsoft Hyper-V" : "";
    }
 

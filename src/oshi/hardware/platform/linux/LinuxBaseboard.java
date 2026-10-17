@@ -11,49 +11,49 @@ import oshi.util.platform.linux.ProcPath;
 
 @Immutable
 public final class LinuxBaseboard extends AbstractBaseboard {
-   private final Supplier<String> manufacturer = Memoizer.memoize(LinuxBaseboard::E);
-   private final Supplier<String> model = Memoizer.memoize(LinuxBaseboard::H);
-   private final Supplier<String> version = Memoizer.memoize(LinuxBaseboard::L);
-   private final Supplier<String> serialNumber = Memoizer.memoize(LinuxBaseboard::T);
+   private final Supplier<String> manufacturer = Memoizer.memoize(LinuxBaseboard::queryManufacturer);
+   private final Supplier<String> model = Memoizer.memoize(LinuxBaseboard::queryModel);
+   private final Supplier<String> version = Memoizer.memoize(LinuxBaseboard::queryVersion);
+   private final Supplier<String> serialNumber = Memoizer.memoize(LinuxBaseboard::querySerialNumber);
 
    @Override
-   public String p() {
+   public String getManufacturer() {
       return this.manufacturer.get();
    }
 
    @Override
-   public String g() {
+   public String getModel() {
       return this.model.get();
    }
 
    @Override
-   public String W() {
+   public String getVersion() {
       return this.version.get();
    }
 
    @Override
-   public String A() {
+   public String getSerialNumber() {
       return this.serialNumber.get();
    }
 
-   private static String E() {
+   private static String queryManufacturer() {
       String string = null;
-      return (string = queryManufacturerFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.J(queryProcCpu())) == null ? "unknown" : string;
+      return (string = queryManufacturerFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.manufacturerOf(queryProcCpu())) == null ? "unknown" : string;
    }
 
-   private static String H() {
+   private static String queryModel() {
       String string = null;
-      return (string = queryModelFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.F(queryProcCpu())) == null ? "unknown" : string;
+      return (string = queryModelFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.modelOf(queryProcCpu())) == null ? "unknown" : string;
    }
 
-   private static String L() {
+   private static String queryVersion() {
       String string = null;
-      return (string = queryVersionFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.q(queryProcCpu())) == null ? "unknown" : string;
+      return (string = queryVersionFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.versionOf(queryProcCpu())) == null ? "unknown" : string;
    }
 
-   private static String T() {
+   private static String querySerialNumber() {
       String string = null;
-      return (string = querySerialFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.j(queryProcCpu())) == null ? "unknown" : string;
+      return (string = querySerialFromSysfs()) == null && (string = LinuxBaseboard.ProcCpuStrings.serialNumberOf(queryProcCpu())) == null ? "unknown" : string;
    }
 
    private static String queryManufacturerFromSysfs() {
@@ -83,7 +83,7 @@ public final class LinuxBaseboard extends AbstractBaseboard {
       String string4 = null;
 
       for (String string5 : FileUtil.readFile(ProcPath.CPUINFO)) {
-         String[] strings = ParseUtil.H.split(string5);
+         String[] strings = ParseUtil.whitespacesColonWhitespace.split(string5);
          if (strings.length >= 2) {
             switch (strings[0]) {
                case "Hardware":
@@ -136,19 +136,19 @@ public final class LinuxBaseboard extends AbstractBaseboard {
          this.serialNumber = Util.isBlank(serialNumberIn) ? "unknown" : serialNumberIn;
       }
 
-      public static String J(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+      public static String manufacturerOf(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
          return procCpuStrings.manufacturer;
       }
 
-      public static String F(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+      public static String modelOf(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
          return procCpuStrings.model;
       }
 
-      public static String q(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+      public static String versionOf(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
          return procCpuStrings.version;
       }
 
-      public static String j(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
+      public static String serialNumberOf(LinuxBaseboard.ProcCpuStrings procCpuStrings) {
          return procCpuStrings.serialNumber;
       }
    }

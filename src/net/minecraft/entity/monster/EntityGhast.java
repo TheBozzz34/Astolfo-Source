@@ -178,7 +178,7 @@ public class EntityGhast extends EntityFlying implements IMob {
       public void updateTask() {
          EntityLivingBase entityLivingBase = this.parentEntity.getAttackTarget();
          double d = 64.0;
-         if (entityLivingBase.getDistanceSqToEntity(this.parentEntity) < d * d && this.parentEntity.C(entityLivingBase)) {
+         if (entityLivingBase.getDistanceSqToEntity(this.parentEntity) < d * d && this.parentEntity.canEntityBeSeen(entityLivingBase)) {
             World world = this.parentEntity.worldObj;
             this.attackTimer++;
             if (this.attackTimer == 10) {

@@ -48,17 +48,17 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         ClientAccess.mc
                            .thePlayer
                            .sendQueue
-                           .u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                           .sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                         return valueOf(true);
                      case 8:
                         ItemStack itemStack = ClientAccess.mc.thePlayer.getHeldItem();
                         if (itemStack != null) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C08PacketPlayerBlockPlacement(itemStack));
+                           ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(itemStack));
                         }
 
                         return valueOf(true);
                      case 10:
-                        ClientAccess.mc.thePlayer.sendQueue.u(new C0APacketAnimation());
+                        ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C0APacketAnimation());
                         return valueOf(true);
                      case 13:
                         ClientAccess.mc.thePlayer.sendQueue.addToSendQueue(new C0DPacketCloseWindow(0));
@@ -76,7 +76,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                   switch (i) {
                      case 0:
                         if (luaValue2.isint()) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C00PacketKeepAlive(luaValue2.checkint()));
+                           ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C00PacketKeepAlive(luaValue2.checkint()));
                         }
 
                         return valueOf(true);
@@ -91,7 +91,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         return valueOf(true);
                      case 3:
                         if (luaValue2.isboolean()) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C03PacketPlayer(luaValue2.checkboolean()));
+                           ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(luaValue2.checkboolean()));
                         }
 
                         return valueOf(true);
@@ -100,7 +100,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                            try {
                               ItemStack itemStack2 = ClientAccess.mc.thePlayer.inventory.getStackInSlot(luaValue2.checkint() - 1);
                               if (itemStack2 != null) {
-                                 ClientAccess.mc.thePlayer.sendQueue.u(new C08PacketPlayerBlockPlacement(itemStack2));
+                                 ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C08PacketPlayerBlockPlacement(itemStack2));
                                  return valueOf(true);
                               }
                            } catch (Exception exception) {
@@ -112,7 +112,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         return valueOf(true);
                      case 9:
                         if (luaValue2.isint()) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(luaValue2.checkint() - 1));
+                           ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(luaValue2.checkint() - 1));
                         }
 
                         return valueOf(true);
@@ -121,7 +121,9 @@ public final class SendPacketNoEvent extends VarArgFunction {
                            ClientAccess.mc
                               .thePlayer
                               .sendQueue
-                              .u(new C0BPacketEntityAction(ClientAccess.mc.thePlayer, C0BPacketEntityAction.Action.values()[luaValue2.checkint() + 1]));
+                              .sendPacketNoEvent(
+                                 new C0BPacketEntityAction(ClientAccess.mc.thePlayer, C0BPacketEntityAction.Action.values()[luaValue2.checkint() + 1])
+                              );
                         }
 
                         return valueOf(true);
@@ -132,7 +134,10 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         if (luaValue2.isint() && luaValue3.isint()) {
                            Entity entity = WorldLibrary.entitiesById.get(luaValue2.checkint());
                            if (entity instanceof EntityLivingBase) {
-                              ClientAccess.mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.values()[luaValue3.checkint() - 1]));
+                              ClientAccess.mc
+                                 .thePlayer
+                                 .sendQueue
+                                 .sendPacketNoEvent(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.values()[luaValue3.checkint() - 1]));
                               return valueOf(true);
                            }
                         }
@@ -145,7 +150,10 @@ public final class SendPacketNoEvent extends VarArgFunction {
                   switch (i) {
                      case 5:
                         if (luaValue2.isnumber() && luaValue3.isnumber() && luaValue4.checkboolean()) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C03PacketPlayer.C05PacketPlayerLook(luaValue2.tofloat(), luaValue3.tofloat(), luaValue4.checkboolean()));
+                           ClientAccess.mc
+                              .thePlayer
+                              .sendQueue
+                              .sendPacketNoEvent(new C03PacketPlayer.C05PacketPlayerLook(luaValue2.tofloat(), luaValue3.tofloat(), luaValue4.checkboolean()));
                         }
 
                         return valueOf(true);
@@ -153,7 +161,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         if (luaValue2.isnumber() && luaValue3.isnumber() && luaValue4.isnumber()) {
                            ClientAccess.mc
                               .playerController
-                              .Z(
+                              .windowClickNoEvent(
                                  ClientAccess.mc.thePlayer.inventoryContainer.windowId,
                                  luaValue2.checkint(),
                                  luaValue3.checkint(),
@@ -165,7 +173,10 @@ public final class SendPacketNoEvent extends VarArgFunction {
                         return valueOf(true);
                      case 15:
                         if (luaValue2.isnumber() && luaValue3.isnumber() && luaValue4.checkboolean()) {
-                           ClientAccess.mc.thePlayer.sendQueue.u(new C0FPacketConfirmTransaction(luaValue2.checkint(), (short)luaValue3.checkint(), luaValue4.checkboolean()));
+                           ClientAccess.mc
+                              .thePlayer
+                              .sendQueue
+                              .sendPacketNoEvent(new C0FPacketConfirmTransaction(luaValue2.checkint(), (short)luaValue3.checkint(), luaValue4.checkboolean()));
                         }
 
                         return valueOf(true);
@@ -179,7 +190,9 @@ public final class SendPacketNoEvent extends VarArgFunction {
                            ClientAccess.mc
                               .thePlayer
                               .sendQueue
-                              .u(new C03PacketPlayer.C04PacketPlayerPosition(luaValue2.checkdouble(), luaValue3.checkdouble(), luaValue4.checkdouble(), luaValue5.checkboolean()));
+                              .sendPacketNoEvent(
+                                 new C03PacketPlayer.C04PacketPlayerPosition(luaValue2.checkdouble(), luaValue3.checkdouble(), luaValue4.checkdouble(), luaValue5.checkboolean())
+                              );
                         }
 
                         return valueOf(true);
@@ -193,7 +206,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                            ClientAccess.mc
                               .thePlayer
                               .sendQueue
-                              .u(
+                              .sendPacketNoEvent(
                                  new C07PacketPlayerDigging(
                                     C07PacketPlayerDigging.Action.values()[luaValue2.checkint() - 1],
                                     new BlockPos(luaValue3.checkdouble(), luaValue4.checkdouble(), luaValue5.checkdouble()),
@@ -213,7 +226,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                            ClientAccess.mc
                               .thePlayer
                               .sendQueue
-                              .u(
+                              .sendPacketNoEvent(
                                  new C03PacketPlayer.C06PacketPlayerPosLook(
                                     luaValue2.checkdouble(), luaValue3.checkdouble(), luaValue4.checkdouble(), luaValue5.tofloat(), luaValue6.tofloat(), luaValue7.isboolean()
                                  )
@@ -245,7 +258,7 @@ public final class SendPacketNoEvent extends VarArgFunction {
                                     luaValue8.tofloat(),
                                     luaValue9.tofloat()
                                  );
-                                 ClientAccess.mc.thePlayer.sendQueue.u(c08PacketPlayerBlockPlacement);
+                                 ClientAccess.mc.thePlayer.sendQueue.sendPacketNoEvent(c08PacketPlayerBlockPlacement);
                               }
                            } catch (Exception exception2) {
                            }

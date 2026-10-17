@@ -9,15 +9,15 @@ import net.minecraft.world.World;
 public class EntityCloudFX extends EntityFX {
    public float field_70569_a;
 
-   public EntityCloudFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+   public EntityCloudFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       float f = 2.5F;
       this.motionX *= 0.1F;
       this.motionY *= 0.1F;
       this.motionZ *= 0.1F;
       this.motionX += d;
-      this.motionY += d2;
-      this.motionZ += d3;
+      this.motionY += e;
+      this.motionZ += d2;
       this.particleRed = this.particleGreen = this.particleBlue = 1.0F - (float)(Math.random() * 0.3F);
       this.particleScale *= 0.75F;
       this.particleScale *= f;

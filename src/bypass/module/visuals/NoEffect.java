@@ -25,7 +25,7 @@ public final class NoEffect extends Module {
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
       if (mc.theWorld != null && this.weather.getValue()) {
-         mc.theWorld.V(0.0F);
+         mc.theWorld.setRainStrength(0.0F);
       }
 
       if (this.potions.getValue() && mc.thePlayer.isPotionActive(Potion.blindness)) {

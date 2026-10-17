@@ -362,7 +362,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
                }
 
                AxisAlignedBB axisAlignedBB = this.playerEntity.getEntityBoundingBox().expand(f3, f3, f3).addCoord(0.0, -0.55, 0.0);
-               if (this.serverController.isFlightAllowed() || this.playerEntity.capabilities.allowFlying || worldServer.X(axisAlignedBB)) {
+               if (this.serverController.isFlightAllowed() || this.playerEntity.capabilities.allowFlying || worldServer.checkBlockCollision(axisAlignedBB)) {
                   this.floatingTickCount = 0;
                } else if (d15 >= -0.03125) {
                   this.floatingTickCount++;
@@ -703,10 +703,10 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
       this.playerEntity.markPlayerActive();
       switch (packetIn.getAction()) {
          case START_SNEAKING:
-            this.playerEntity.v(true);
+            this.playerEntity.setSneaking(true);
             break;
          case STOP_SNEAKING:
-            this.playerEntity.v(false);
+            this.playerEntity.setSneaking(false);
             break;
          case START_SPRINTING:
             this.playerEntity.setSprinting(true);
@@ -740,7 +740,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable {
       Entity entity2 = packetIn.getEntityFromWorld(worldServer);
       this.playerEntity.markPlayerActive();
       if (entity2 != null) {
-         boolean bl = this.playerEntity.C(entity2);
+         boolean bl = this.playerEntity.canEntityBeSeen(entity2);
          double d = 36.0;
          if (!bl) {
             d = 9.0;

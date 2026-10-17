@@ -14,28 +14,28 @@ import net.minecraft.client.model.ModelRenderer;
 
 public class PlayerItemParser {
    private static JsonParser jsonParser = new JsonParser();
-   public static final String d = "type";
-   public static final String g = "textureSize";
-   public static final String i = "usePlayerTexture";
-   public static final String E = "models";
-   public static final String F = "id";
-   public static final String R = "baseId";
-   public static final String r = "type";
-   public static final String W = "attachTo";
-   public static final String A = "invertAxis";
+   public static final String ITEM_TYPE = "type";
+   public static final String ITEM_TEXTURE_SIZE = "textureSize";
+   public static final String ITEM_USE_PLAYER_TEXTURE = "usePlayerTexture";
+   public static final String ITEM_MODELS = "models";
+   public static final String MODEL_ID = "id";
+   public static final String MODEL_BASE_ID = "baseId";
+   public static final String MODEL_TYPE = "type";
+   public static final String MODEL_ATTACH_TO = "attachTo";
+   public static final String MODEL_INVERT_AXIS = "invertAxis";
    public static final String x = "mirrorTexture";
    public static final String z = "translate";
    public static final String y = "rotate";
-   public static final String t = "scale";
-   public static final String b = "boxes";
-   public static final String k = "sprites";
-   public static final String o = "submodel";
-   public static final String V = "submodels";
-   public static final String m = "textureOffset";
-   public static final String K = "coordinates";
-   public static final String w = "sizeAdd";
-   public static final String u = "PlayerItem";
-   public static final String S = "ModelBox";
+   public static final String MODEL_SCALE = "scale";
+   public static final String MODEL_BOXES = "boxes";
+   public static final String MODEL_SPRITES = "sprites";
+   public static final String MODEL_SUBMODEL = "submodel";
+   public static final String MODEL_SUBMODELS = "submodels";
+   public static final String BOX_TEXTURE_OFFSET = "textureOffset";
+   public static final String BOX_COORDINATES = "coordinates";
+   public static final String BOX_SIZE_ADD = "sizeAdd";
+   public static final String ITEM_TYPE_MODEL = "PlayerItem";
+   public static final String MODEL_TYPE_BOX = "ModelBox";
 
    public static PlayerItemModel parseItemModel(JsonObject obj) {
       String string = Json.getString(obj, "type");
@@ -144,12 +144,12 @@ public class PlayerItemParser {
          ModelPlayerItem modelPlayerItem = new ModelPlayerItem();
          modelPlayerItem.textureWidth = textureDim.width;
          modelPlayerItem.textureHeight = textureDim.height;
-         ModelRenderer modelRenderer = F(elem, modelPlayerItem);
+         ModelRenderer modelRenderer = parseModelRenderer(elem, modelPlayerItem);
          return new PlayerItemRenderer(i, f, modelRenderer);
       }
    }
 
-   private static ModelRenderer F(JsonObject jsonObject, ModelBase modelBase) {
+   private static ModelRenderer parseModelRenderer(JsonObject jsonObject, ModelBase modelBase) {
       ModelRenderer modelRenderer = new ModelRenderer(modelBase);
       String string = Json.getString(jsonObject, "invertAxis", "").toLowerCase();
       boolean bl = string.contains("x");
@@ -267,7 +267,7 @@ public class PlayerItemParser {
 
       JsonObject jsonObject4 = (JsonObject)jsonObject.get("submodel");
       if (jsonObject4 != null) {
-         ModelRenderer modelRenderer2 = F(jsonObject4, modelBase);
+         ModelRenderer modelRenderer2 = parseModelRenderer(jsonObject4, modelBase);
          modelRenderer.addChild(modelRenderer2);
       }
 
@@ -275,7 +275,7 @@ public class PlayerItemParser {
       if (jsonArray3 != null) {
          for (int l = 0; l < jsonArray3.size(); l++) {
             JsonObject jsonObject5 = (JsonObject)jsonArray3.get(l);
-            ModelRenderer modelRenderer3 = F(jsonObject5, modelBase);
+            ModelRenderer modelRenderer3 = parseModelRenderer(jsonObject5, modelBase);
             modelRenderer.addChild(modelRenderer3);
          }
       }

@@ -34,16 +34,16 @@ public class GuiDisconnected extends GuiScreen {
    private List<String> multilineMessage;
    private final GuiScreen parentScreen;
    private int field_175353_i;
-   private float B;
-   private Stopwatch P;
-   private GuiButton p;
-   private GuiButton l;
-   private GuiButton R;
-   private boolean V;
-   private String c;
-   private String Y;
-   private boolean N;
-   public static int b;
+   private float reconnectSeconds;
+   private Stopwatch reconnectTimer;
+   private GuiButton reconnectButton;
+   private GuiButton altSourceButton;
+   private GuiButton reconnectWithAltButton;
+   private boolean reconnectPending;
+   private String previousUsername;
+   private String alteningToken;
+   private boolean alteningLoginFailed;
+   public static int altSourceMode;
 
    public GuiDisconnected(GuiScreen screen, String reasonLocalizationKey, IChatComponent chatComp) {
       this.parentScreen = screen;
@@ -62,43 +62,50 @@ public class GuiDisconnected extends GuiScreen {
       this.field_175353_i = this.multilineMessage.size() * this.fontRendererObj.FONT_HEIGHT;
       this.buttonList
          .add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, I18n.format("gui.toMenu")));
-      this.p = new GuiButton(1, this.width / 2 - 100, this.height / 2 + 21 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, String.valueOf(this.B));
-      this.p.enabled = false;
-      this.buttonList.add(this.p);
+      this.reconnectButton = new GuiButton(
+         1, this.width / 2 - 100, this.height / 2 + 21 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, String.valueOf(this.reconnectSeconds)
+      );
+      this.reconnectButton.enabled = false;
+      this.buttonList.add(this.reconnectButton);
       GuiButton guiButton = new GuiButton(
          2, this.width / 2 - 100, this.height / 2 + 42 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, 100, 20, "Reconnect with alt"
       );
       AlteningScreen.getAlteningApi().setApiKey(AlteningScreen.apiKey);
-      if ((AlteningScreen.getAlteningApi().getApiKey().equals("nono") || AlteningScreen.getAlteningApi().getApiKey().isEmpty()) && b == 0) {
+      if ((AlteningScreen.getAlteningApi().getApiKey().equals("nono") || AlteningScreen.getAlteningApi().getApiKey().isEmpty()) && altSourceMode == 0) {
          guiButton.enabled = false;
       }
 
-      this.buttonList.add(this.R = guiButton);
+      this.buttonList.add(this.reconnectWithAltButton = guiButton);
       this.buttonList
          .add(
-            this.l = new GuiButton(
+            this.altSourceButton = new GuiButton(
                3,
                this.width / 2 + 1,
                this.height / 2 + 42 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT,
                99,
                20,
-               "Alt type: " + (b == 0 ? "Altening" : (b == 1 ? "random" : (b == 2 ? "unbanned" : (b == 3 ? "username" : "clipboard"))))
+               "Alt type: "
+                  + (
+                     altSourceMode == 0
+                        ? "Altening"
+                        : (altSourceMode == 1 ? "random" : (altSourceMode == 2 ? "unbanned" : (altSourceMode == 3 ? "username" : "clipboard")))
+                  )
             )
          );
-      if (GuiIngestServers.f) {
+      if (GuiIngestServers.showBuyAccounts) {
          this.buttonList
             .add(new GuiButton(5, this.width / 2 - 100, this.height / 2 + 63 + this.field_175353_i / 2 + this.fontRendererObj.FONT_HEIGHT, "Buy accounts"));
       }
 
-      this.P = new Stopwatch();
-      Alt alt2 = this.F(AltLogin.AUTH.lastLoggedAlt);
+      this.reconnectTimer = new Stopwatch();
+      Alt alt2 = this.findStoredAlt(AltLogin.AUTH.lastLoggedAlt);
       if (alt2 != null) {
          for (String string : this.multilineMessage) {
             if (string.contains("You are temporarily banned")) {
                Date date = new Date();
                Calendar calendar = Calendar.getInstance();
                calendar.setTime(date);
-               String string2 = StringUtils.stripControlCodes(H(string, "for ", "from"));
+               String string2 = StringUtils.stripControlCodes(substringBetween(string, "for ", "from"));
 
                for (String string3 : string2.split(" ")) {
                   String string4 = string3.replaceAll("[^\\d.]", "");
@@ -135,7 +142,7 @@ public class GuiDisconnected extends GuiScreen {
       }
    }
 
-   public static String H(String string, String string2, String string3) {
+   public static String substringBetween(String string, String string2, String string3) {
       int i = string.indexOf(string2);
       if (i == -1) {
          return "";
@@ -152,28 +159,28 @@ public class GuiDisconnected extends GuiScreen {
 
    @Override
    public void updateScreen() {
-      if (this.Y != null && !this.Y.isEmpty() && this.V) {
-         Alt alt = new Alt(this.Y, "");
+      if (this.alteningToken != null && !this.alteningToken.isEmpty() && this.reconnectPending) {
+         Alt alt = new Alt(this.alteningToken, "");
          AltLogin.AUTH.loginAlt(alt);
          List list = Astolfo.INSTANCE.getAltManager().getList();
          if (AlteningScreen.addToAltList) {
             list.add(alt);
          }
 
-         this.Y = "";
+         this.alteningToken = "";
       }
 
-      if (this.V && !this.c.equals(this.mc.session.getUsername())) {
-         this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, new ServerData("i said nigga please", ServerData.I, false)));
+      if (this.reconnectPending && !this.previousUsername.equals(this.mc.session.getUsername())) {
+         this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, new ServerData("i said nigga please", ServerData.currentServerIp, false)));
       }
 
-      if (this.P != null) {
-         this.B = (float)(this.P.getElapsed() / 1000.0);
-         this.p.displayString = String.format("Reconnect (%s)", MathUtil.ONE_DECIMAL.format(this.B));
-         if (this.P.hasElapsed(5000.0F)) {
-            this.p.displayString = String.format("Reconnect to §7%s", ServerData.I);
-            this.p.enabled = true;
-            this.B = 0.0F;
+      if (this.reconnectTimer != null) {
+         this.reconnectSeconds = (float)(this.reconnectTimer.getElapsed() / 1000.0);
+         this.reconnectButton.displayString = String.format("Reconnect (%s)", MathUtil.ONE_DECIMAL.format(this.reconnectSeconds));
+         if (this.reconnectTimer.hasElapsed(5000.0F)) {
+            this.reconnectButton.displayString = String.format("Reconnect to §7%s", ServerData.currentServerIp);
+            this.reconnectButton.enabled = true;
+            this.reconnectSeconds = 0.0F;
          }
       }
 
@@ -185,46 +192,46 @@ public class GuiDisconnected extends GuiScreen {
       if (button.id == 0) {
          this.mc.displayGuiScreen(new GuiMultiplayer(new GuiMainMenu()));
       } else if (button.id == 1) {
-         this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, new ServerData("i said nigga please", ServerData.I, false)));
+         this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, new ServerData("i said nigga please", ServerData.currentServerIp, false)));
       } else if (button.id == 2) {
-         this.c = this.mc.session.getUsername();
-         switch (b) {
+         this.previousUsername = this.mc.session.getUsername();
+         switch (altSourceMode) {
             case 0:
                if (AlteningScreen.getAlteningApi().getApiKey().equals("nono") || AlteningScreen.getAlteningApi().getApiKey().isEmpty()) {
-                  this.R.enabled = false;
+                  this.reconnectWithAltButton.enabled = false;
                }
 
                try {
-                  this.N = false;
+                  this.alteningLoginFailed = false;
                   if (AlteningScreen.getAuthServiceSwitcher().getAccountType().equals(AccountType.MOJANG)) {
                      AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.THEALTENING);
                   }
 
                   FileUtil.executor.execute(() -> {
                      try {
-                        this.Y = AlteningScreen.getAlteningApi().generateAccount(AlteningScreen.getAlteningApi().getLicense()).getToken();
+                        this.alteningToken = AlteningScreen.getAlteningApi().generateAccount(AlteningScreen.getAlteningApi().getLicense()).getToken();
                      } catch (IOException ioException) {
-                        this.Y = "";
-                        this.N = true;
+                        this.alteningToken = "";
+                        this.alteningLoginFailed = true;
                      }
                   });
-                  this.V = true;
+                  this.reconnectPending = true;
                } catch (NoSuchFieldException | IllegalAccessException value) {
-                  this.V = false;
-                  this.Y = "";
+                  this.reconnectPending = false;
+                  this.alteningToken = "";
                   value.printStackTrace();
                }
                break;
             case 1:
-               this.R.enabled = true;
+               this.reconnectWithAltButton.enabled = true;
                Alt alt = Astolfo.INSTANCE.getAltManager().getList().get(RandomUtils.RANDOM.nextInt(Astolfo.INSTANCE.getAltManager().getList().size()));
                if (alt != null) {
                   AltLogin.AUTH.loginAlt(alt);
-                  this.V = true;
+                  this.reconnectPending = true;
                }
                break;
             case 2:
-               this.R.enabled = true;
+               this.reconnectWithAltButton.enabled = true;
                if (AlteningScreen.getAuthServiceSwitcher().getAccountType().equals(AccountType.THEALTENING)) {
                   try {
                      AlteningScreen.getAuthServiceSwitcher().setAccountType(AccountType.MOJANG);
@@ -238,16 +245,16 @@ public class GuiDisconnected extends GuiScreen {
                   Alt alt2 = (Alt)arrayList.get(0);
                   if (alt2 != null) {
                      AltLogin.AUTH.loginAlt(alt2);
-                     this.V = true;
+                     this.reconnectPending = true;
                   }
                }
                break;
             case 3:
-               this.R.enabled = true;
+               this.reconnectWithAltButton.enabled = true;
                AltLogin.AUTH.loginAlt(new Alt(RandomStringUtils.random(8, true, false), ""));
                break;
             case 4:
-               this.R.enabled = true;
+               this.reconnectWithAltButton.enabled = true;
 
                try {
                   String string = GuiScreen.getClipboardString();
@@ -257,12 +264,17 @@ public class GuiDisconnected extends GuiScreen {
                }
          }
       } else if (button.id == 3) {
-         b++;
-         if (b > 4) {
-            b = 0;
+         altSourceMode++;
+         if (altSourceMode > 4) {
+            altSourceMode = 0;
          }
 
-         this.l.displayString = "Alt type: " + (b == 0 ? "Altening" : (b == 1 ? "random" : (b == 2 ? "unbanned" : (b == 3 ? "username" : "clipboard"))));
+         this.altSourceButton.displayString = "Alt type: "
+            + (
+               altSourceMode == 0
+                  ? "Altening"
+                  : (altSourceMode == 1 ? "random" : (altSourceMode == 2 ? "unbanned" : (altSourceMode == 3 ? "username" : "clipboard")))
+            );
       } else if (button.id == 5 && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
          try {
             Desktop.getDesktop().browse(new URI("https://shop.thealtening.com/?r=astolfo"));
@@ -275,23 +287,25 @@ public class GuiDisconnected extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810);
+      this.drawCenteredString(
+         this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810
+      );
       int i = this.height / 2 - this.field_175353_i / 2;
       if (this.multilineMessage != null) {
          for (String string : this.multilineMessage) {
-            this.d(this.fontRendererObj, string, this.width / 2, i, 16777215);
+            this.drawCenteredString(this.fontRendererObj, string, this.width / 2, i, 16777215);
             i += this.fontRendererObj.FONT_HEIGHT;
          }
       }
 
-      if (this.N) {
+      if (this.alteningLoginFailed) {
          this.mc.fontRendererObj.drawStringWithShadow("Altening login has failed, maintenance or plan?", 3.0F, 3.0F, Color.RED.getRGB());
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   private Alt F(Alt alt) {
+   private Alt findStoredAlt(Alt alt) {
       if (alt == null) {
          return null;
       }
@@ -307,9 +321,9 @@ public class GuiDisconnected extends GuiScreen {
 
    @Override
    public void onGuiClosed() {
-      this.Y = "";
-      this.c = "";
-      this.V = false;
+      this.alteningToken = "";
+      this.previousUsername = "";
+      this.reconnectPending = false;
       super.onGuiClosed();
    }
 }

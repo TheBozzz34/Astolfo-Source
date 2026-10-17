@@ -22,19 +22,19 @@ public class KeyReply extends AbstractReply {
       private int totalQueries;
       private int queriesInPastMin;
 
-      public UUID a() {
+      public UUID getKey() {
          return this.key;
       }
 
-      public UUID S() {
+      public UUID getOwnerUuid() {
          return this.ownerUuid;
       }
 
-      public int R() {
+      public int getTotalQueries() {
          return this.totalQueries;
       }
 
-      public int F() {
+      public int getQueriesInPastMin() {
          return this.queriesInPastMin;
       }
 

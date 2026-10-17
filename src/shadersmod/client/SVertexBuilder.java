@@ -64,8 +64,8 @@ public class SVertexBuilder {
       wrr.sVertexBuilder.pushEntity(((long)m << 32) + l);
    }
 
-   public static void s(WorldRenderer worldRenderer) {
-      worldRenderer.sVertexBuilder.popEntity();
+   public static void popEntity(WorldRenderer wrr) {
+      wrr.sVertexBuilder.popEntity();
    }
 
    public static boolean popEntity(boolean value, WorldRenderer wrr) {

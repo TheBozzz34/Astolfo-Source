@@ -10,7 +10,7 @@ public final class Win32Bios {
    private Win32Bios() {
    }
 
-   public static WmiResult<Win32Bios.BiosSerialProperty> k() {
+   public static WmiResult<Win32Bios.BiosSerialProperty> querySerialNumber() {
       WmiQuery wmiQuery = new WmiQuery<>("Win32_BIOS where PrimaryBIOS=true", Win32Bios.BiosSerialProperty.class);
       return WmiQueryHandler.createInstance().queryWMI(wmiQuery);
    }

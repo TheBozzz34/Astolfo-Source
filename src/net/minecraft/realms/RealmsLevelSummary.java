@@ -17,15 +17,15 @@ public class RealmsLevelSummary implements Comparable<RealmsLevelSummary> {
       return this.levelSummary.getFileName();
    }
 
-   public boolean W() {
+   public boolean hasCheats() {
       return this.levelSummary.getCheatsEnabled();
    }
 
-   public boolean R() {
+   public boolean isHardcore() {
       return this.levelSummary.isHardcoreModeEnabled();
    }
 
-   public boolean e() {
+   public boolean isRequiresConversion() {
       return this.levelSummary.requiresConversion();
    }
 

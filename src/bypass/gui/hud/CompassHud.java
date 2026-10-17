@@ -134,7 +134,7 @@ public class CompassHud extends Component {
          if (this.textShadow) {
             mc.fontRendererObj.drawStringWithShadow(string, g, h, l);
          } else {
-            mc.fontRendererObj.D(string, g, h, l);
+            mc.fontRendererObj.drawStringNoShadow(string, g, h, l);
          }
 
          GL11.glPopMatrix();

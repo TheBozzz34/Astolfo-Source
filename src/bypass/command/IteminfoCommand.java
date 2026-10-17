@@ -17,10 +17,10 @@ public final class IteminfoCommand extends Command {
             if (strings[1].equals(entityPlayer.getName())) {
                ItemStack itemStack = entityPlayer.getHeldItem();
                if (itemStack != null) {
-                  if (itemStack.V() != null) {
+                  if (itemStack.getRawTagCompound() != null) {
                      chat.print(itemStack.getDisplayName());
-                     if (itemStack.V().hasKey("display", 10)) {
-                        NBTTagCompound nbtTagCompound = itemStack.V().getCompoundTag("display");
+                     if (itemStack.getRawTagCompound().hasKey("display", 10)) {
+                        NBTTagCompound nbtTagCompound = itemStack.getRawTagCompound().getCompoundTag("display");
                         NBTTagList nbtTagList = nbtTagCompound.getTagList("Lore", 8);
                         if (nbtTagList.tagCount() > 0) {
                            for (int i = 0; i < nbtTagList.tagCount(); i++) {

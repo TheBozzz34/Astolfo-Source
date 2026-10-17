@@ -22,14 +22,14 @@ public final class WindowsPowerSource extends AbstractPowerSource {
    private static final GUID GUID_DEVCLASS_BATTERY = GUID.fromString("{72631E54-78A4-11D0-BCF7-00AA00B7B32A}");
    private static final int CHAR_WIDTH = W32APITypeMapper.DEFAULT == W32APITypeMapper.UNICODE ? 2 : 1;
    private static final boolean X64 = Platform.is64Bit();
-   private static final int I = Integer.MIN_VALUE;
+   private static final int BATTERY_SYSTEM_BATTERY = Integer.MIN_VALUE;
    private static final int y = 536870912;
-   private static final int q = 2;
-   private static final int i = 4;
-   private static final int e = 1073741824;
-   private static final int f = 2703424;
-   private static final int J = 2703436;
-   private static final int t = 2703428;
+   private static final int BATTERY_DISCHARGING = 2;
+   private static final int BATTERY_CHARGING = 4;
+   private static final int BATTERY_CAPACITY_RELATIVE = 1073741824;
+   private static final int IOCTL_BATTERY_QUERY_TAG = 2703424;
+   private static final int IOCTL_BATTERY_QUERY_STATUS = 2703436;
+   private static final int IOCTL_BATTERY_QUERY_INFORMATION = 2703428;
 
    public WindowsPowerSource(
       String psName,

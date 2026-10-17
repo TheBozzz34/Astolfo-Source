@@ -14,9 +14,9 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
    public byte posZ;
    public byte yaw;
    public byte pitch;
-   public boolean C;
-   public boolean D;
-   public boolean E;
+   public boolean onGround;
+   public boolean field_149069_g;
+   public boolean hasMovement;
 
    public S14PacketEntity() {
    }
@@ -69,15 +69,15 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
    }
 
    public boolean func_149060_h() {
-      return this.D;
+      return this.field_149069_g;
    }
 
-   public boolean t() {
-      return this.E;
+   public boolean hasMovement() {
+      return this.hasMovement;
    }
 
    public boolean getOnGround() {
-      return this.C;
+      return this.onGround;
    }
 
    public static class S15PacketEntityRelMove extends S14PacketEntity {
@@ -89,8 +89,8 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.posX = x;
          this.posY = y;
          this.posZ = z;
-         this.C = onGroundIn;
-         this.E = true;
+         this.onGround = onGroundIn;
+         this.hasMovement = true;
       }
 
       @Override
@@ -99,7 +99,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.posX = buf.readByte();
          this.posY = buf.readByte();
          this.posZ = buf.readByte();
-         this.C = buf.readBoolean();
+         this.onGround = buf.readBoolean();
       }
 
       @Override
@@ -108,21 +108,21 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          buf.writeByte(this.posX);
          buf.writeByte(this.posY);
          buf.writeByte(this.posZ);
-         buf.writeBoolean(this.C);
+         buf.writeBoolean(this.onGround);
       }
    }
 
    public static class S16PacketEntityLook extends S14PacketEntity {
       public S16PacketEntityLook() {
-         this.D = true;
+         this.field_149069_g = true;
       }
 
       public S16PacketEntityLook(int entityIdIn, byte yawIn, byte pitchIn, boolean onGroundIn) {
          super(entityIdIn);
          this.yaw = yawIn;
          this.pitch = pitchIn;
-         this.D = true;
-         this.C = onGroundIn;
+         this.field_149069_g = true;
+         this.onGround = onGroundIn;
       }
 
       @Override
@@ -130,7 +130,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          super.readPacketData(buf);
          this.yaw = buf.readByte();
          this.pitch = buf.readByte();
-         this.C = buf.readBoolean();
+         this.onGround = buf.readBoolean();
       }
 
       @Override
@@ -138,13 +138,13 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          super.writePacketData(buf);
          buf.writeByte(this.yaw);
          buf.writeByte(this.pitch);
-         buf.writeBoolean(this.C);
+         buf.writeBoolean(this.onGround);
       }
    }
 
    public static class S17PacketEntityLookMove extends S14PacketEntity {
       public S17PacketEntityLookMove() {
-         this.D = true;
+         this.field_149069_g = true;
       }
 
       public S17PacketEntityLookMove(int i, byte b, byte b2, byte b3, byte b4, byte b5, boolean bl) {
@@ -154,9 +154,9 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.posZ = b3;
          this.yaw = b4;
          this.pitch = b5;
-         this.C = bl;
-         this.D = true;
-         this.E = true;
+         this.onGround = bl;
+         this.field_149069_g = true;
+         this.hasMovement = true;
       }
 
       @Override
@@ -167,7 +167,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          this.posZ = buf.readByte();
          this.yaw = buf.readByte();
          this.pitch = buf.readByte();
-         this.C = buf.readBoolean();
+         this.onGround = buf.readBoolean();
       }
 
       @Override
@@ -178,7 +178,7 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient> {
          buf.writeByte(this.posZ);
          buf.writeByte(this.yaw);
          buf.writeByte(this.pitch);
-         buf.writeBoolean(this.C);
+         buf.writeBoolean(this.onGround);
       }
    }
 }

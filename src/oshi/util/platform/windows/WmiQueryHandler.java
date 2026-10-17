@@ -136,7 +136,7 @@ public class WmiQueryHandler {
       return this.securityInitialized;
    }
 
-   public int n() {
+   public int getWmiTimeout() {
       return this.wmiTimeout;
    }
 

@@ -18,7 +18,7 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
    private static final Logger logger = LogManager.getLogger();
    private static final Marker RECEIVED_PACKET_MARKER = MarkerManager.getMarker("PACKET_SENT", NetworkManager.logMarkerPackets);
    private final EnumPacketDirection direction;
-   public static boolean o;
+   public static boolean skipViaTransform;
 
    public MessageSerializer(EnumPacketDirection direction) {
       this.direction = direction;
@@ -28,7 +28,7 @@ public class MessageSerializer extends MessageToByteEncoder<Packet> {
       Integer integer;
       if (packet instanceof VehicleMovePacket) {
          integer = 16;
-         o = true;
+         skipViaTransform = true;
       } else {
          integer = channelHandlerContext.channel().attr(NetworkManager.attrKeyConnectionState).get().getPacketId(this.direction, packet);
       }

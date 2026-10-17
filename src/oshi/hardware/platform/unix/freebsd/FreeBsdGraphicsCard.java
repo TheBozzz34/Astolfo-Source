@@ -41,7 +41,7 @@ public final class FreeBsdGraphicsCard extends AbstractGraphicsCard {
                );
             }
 
-            String[] strings = ParseUtil.Q.split(string6);
+            String[] strings = ParseUtil.whitespaces.split(string6);
 
             for (String string7 : strings) {
                String[] strings2 = string7.split("=");

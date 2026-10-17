@@ -55,11 +55,11 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
 
       this.limbSwingAmount = this.limbSwingAmount + (f - this.limbSwingAmount) * 0.4F;
       this.limbSwing = this.limbSwing + this.limbSwingAmount;
-      if (!this.isItemInUse && this.m() && this.inventory.mainInventory[this.inventory.currentItem] != null) {
+      if (!this.isItemInUse && this.isEating() && this.inventory.mainInventory[this.inventory.currentItem] != null) {
          ItemStack itemStack = this.inventory.mainInventory[this.inventory.currentItem];
          this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], itemStack.getItem().getMaxItemUseDuration(itemStack));
          this.isItemInUse = true;
-      } else if (this.isItemInUse && !this.m()) {
+      } else if (this.isItemInUse && !this.isEating()) {
          this.clearItemInUse();
          this.isItemInUse = false;
       }
@@ -89,7 +89,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
       }
 
       this.prevCameraYaw = this.cameraYaw;
-      this.L();
+      this.updateArmSwingProgress();
       float f = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
       float g = (float)Math.atan(-this.motionY * 0.2F) * 15.0F;
       if (f > 0.1F) {

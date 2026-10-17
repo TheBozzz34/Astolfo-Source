@@ -44,7 +44,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
    }
 
    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks) {
-      if (!entity.v() || this.renderManager.livingPlayer == entity) {
+      if (!entity.isUser() || this.renderManager.livingPlayer == entity) {
          double d = y;
          if (entity.isSneaking() && !(entity instanceof EntityPlayerSP)) {
             d = y - 0.125;
@@ -85,7 +85,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
             modelPlayer.heldItemRight = 0;
          } else {
             modelPlayer.heldItemRight = 1;
-            if (clientPlayer.p() > 0) {
+            if (clientPlayer.getItemInUseCount() > 0) {
                EnumAction enumAction = itemStack.getItemUseAction();
                if (enumAction == EnumAction.BLOCK) {
                   modelPlayer.heldItemRight = 3;

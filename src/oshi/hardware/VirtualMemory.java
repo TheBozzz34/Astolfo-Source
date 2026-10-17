@@ -4,11 +4,11 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public interface VirtualMemory {
-   long n();
+   long getSwapTotal();
 
-   long y();
+   long getSwapUsed();
 
-   long L();
+   long getSwapPagesIn();
 
-   long I();
+   long getSwapPagesOut();
 }

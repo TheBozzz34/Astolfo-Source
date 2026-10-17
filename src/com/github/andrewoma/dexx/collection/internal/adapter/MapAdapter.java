@@ -33,9 +33,9 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public boolean containsKey(Object key) {
       try {
          return this.map.containsKey((K)key);
-      } catch (ClassCastException eIn) {
+      } catch (ClassCastException e) {
          return false;
-      } catch (NullPointerException eIn) {
+      } catch (NullPointerException e) {
          return false;
       }
    }
@@ -49,9 +49,9 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public V get(Object key) {
       try {
          return this.map.get((K)key);
-      } catch (ClassCastException eIn) {
+      } catch (ClassCastException e) {
          return null;
-      } catch (NullPointerException eIn) {
+      } catch (NullPointerException e) {
          return null;
       }
    }
@@ -86,12 +86,12 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       return new AbstractCollection<V>() {
          @Override
          public int size() {
-            return MapAdapter.m(MapAdapter.this).size();
+            return MapAdapter.accessMap(MapAdapter.this).size();
          }
 
          @Override
          public boolean isEmpty() {
-            return MapAdapter.m(MapAdapter.this).isEmpty();
+            return MapAdapter.accessMap(MapAdapter.this).isEmpty();
          }
 
          @Override
@@ -101,17 +101,17 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
 
          @Override
          public Iterator<V> iterator() {
-            return MapAdapter.m(MapAdapter.this).values().iterator();
+            return MapAdapter.accessMap(MapAdapter.this).values().iterator();
          }
 
          @Override
          public Object[] toArray() {
-            return MapAdapter.m(MapAdapter.this).values().toArray();
+            return MapAdapter.accessMap(MapAdapter.this).values().toArray();
          }
 
          @Override
          public <T> T[] toArray(T[] a) {
-            return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).values(), a);
+            return (T[])Adapters.toArray(MapAdapter.accessMap(MapAdapter.this).values(), a);
          }
 
          @Override
@@ -126,7 +126,7 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
 
          @Override
          public boolean containsAll(Collection<?> c) {
-            return Adapters.containsAll(MapAdapter.m(MapAdapter.this).values(), c);
+            return Adapters.containsAll(MapAdapter.accessMap(MapAdapter.this).values(), c);
          }
 
          @Override
@@ -156,19 +156,19 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
       return new MapAdapter.AdaptedEntrySet();
    }
 
-   public static Map m(MapAdapter mapAdapter) {
+   public static Map accessMap(MapAdapter mapAdapter) {
       return mapAdapter.map;
    }
 
    public class AdaptedEntrySet extends AbstractSet<Entry<K, V>> {
       @Override
       public int size() {
-         return MapAdapter.m(MapAdapter.this).size();
+         return MapAdapter.accessMap(MapAdapter.this).size();
       }
 
       @Override
       public boolean isEmpty() {
-         return MapAdapter.m(MapAdapter.this).isEmpty();
+         return MapAdapter.accessMap(MapAdapter.this).isEmpty();
       }
 
       @Override
@@ -176,7 +176,7 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
          try {
             Entry entry = (Entry)object;
             Pair pair = new Pair<>(entry.getKey(), entry.getValue());
-            return Adapters.contains(MapAdapter.m(MapAdapter.this), pair);
+            return Adapters.contains(MapAdapter.accessMap(MapAdapter.this), pair);
          } catch (ClassCastException classCastException) {
             return false;
          }
@@ -184,21 +184,21 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
 
       @Override
       public Iterator<Entry<K, V>> iterator() {
-         return this.b().iterator();
+         return this.mappedEntries().iterator();
       }
 
-      private MappedIterable<Entry<K, V>, Pair<K, V>> b() {
-         return new MappedIterable<>(MapAdapter.m(MapAdapter.this), new MapAdapter.AdaptedEntrySet.PairToEntry());
+      private MappedIterable<Entry<K, V>, Pair<K, V>> mappedEntries() {
+         return new MappedIterable<>(MapAdapter.accessMap(MapAdapter.this), new MapAdapter.AdaptedEntrySet.PairToEntry());
       }
 
       @Override
       public Object[] toArray() {
-         return this.b().toArray();
+         return this.mappedEntries().toArray();
       }
 
       @Override
       public <T> T[] toArray(T[] objects) {
-         return (T[])Adapters.toArray(this.b(), objects);
+         return (T[])Adapters.toArray(this.mappedEntries(), objects);
       }
 
       public boolean add(Entry<K, V> entry) {
@@ -240,12 +240,12 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public class AdaptedKeySet extends AbstractSet<K> {
       @Override
       public int size() {
-         return MapAdapter.m(MapAdapter.this).size();
+         return MapAdapter.accessMap(MapAdapter.this).size();
       }
 
       @Override
       public boolean isEmpty() {
-         return MapAdapter.m(MapAdapter.this).isEmpty();
+         return MapAdapter.accessMap(MapAdapter.this).isEmpty();
       }
 
       @Override
@@ -255,17 +255,17 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
 
       @Override
       public Iterator<K> iterator() {
-         return MapAdapter.m(MapAdapter.this).H().iterator();
+         return MapAdapter.accessMap(MapAdapter.this).keys().iterator();
       }
 
       @Override
       public Object[] toArray() {
-         return MapAdapter.m(MapAdapter.this).H().toArray();
+         return MapAdapter.accessMap(MapAdapter.this).keys().toArray();
       }
 
       @Override
       public <T> T[] toArray(T[] objects) {
-         return (T[])Adapters.toArray(MapAdapter.m(MapAdapter.this).H(), objects);
+         return (T[])Adapters.toArray(MapAdapter.accessMap(MapAdapter.this).keys(), objects);
       }
 
       @Override
@@ -280,7 +280,7 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
 
       @Override
       public boolean containsAll(Collection<?> collection) {
-         return Adapters.containsAll(MapAdapter.m(MapAdapter.this).H(), collection);
+         return Adapters.containsAll(MapAdapter.accessMap(MapAdapter.this).keys(), collection);
       }
 
       @Override
@@ -305,22 +305,22 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    }
 
    public static class PairEntry implements Entry {
-      public final Pair B;
-      public final MapAdapter.AdaptedEntrySet.PairToEntry W;
+      public final Pair pair;
+      public final MapAdapter.AdaptedEntrySet.PairToEntry pairToEntry;
 
       public PairEntry(MapAdapter.AdaptedEntrySet.PairToEntry pairToEntry, Pair pair) {
-         this.W = pairToEntry;
-         this.B = pair;
+         this.pairToEntry = pairToEntry;
+         this.pair = pair;
       }
 
       @Override
       public Object getKey() {
-         return this.B.component1();
+         return this.pair.component1();
       }
 
       @Override
       public Object getValue() {
-         return this.B.component2();
+         return this.pair.component2();
       }
 
       @Override

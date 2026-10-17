@@ -67,7 +67,7 @@ public final class AutoTool extends Module {
                   if (entity instanceof EntityLivingBase) {
                      if (entity instanceof EntityCow) {
                         int j = findItemSlot(Items.bucket);
-                        if (j != -1 && ((ItemBucket)mc.thePlayer.inventoryContainer.getSlot(j).getStack().getItem()).N() == Blocks.air) {
+                        if (j != -1 && ((ItemBucket)mc.thePlayer.inventoryContainer.getSlot(j).getStack().getItem()).getContainedBlock() == Blocks.air) {
                            this.switchToSlot(j);
                         }
                      }
@@ -113,11 +113,11 @@ public final class AutoTool extends Module {
    private void switchToSlot(int i) {
       if (i >= 36 && i <= 44) {
          mc.thePlayer.inventory.currentItem = i - 36;
-         mc.playerController.u();
+         mc.playerController.updateController();
       } else if (this.hotbarMove.getValue() && this.clickTimer.hasElapsed(this.delay.getValue().intValue())) {
          mc.playerController.windowClick(0, i, this.slot.getValue() - 1, 2, mc.thePlayer);
          mc.thePlayer.inventory.currentItem = this.slot.getValue() - 1;
-         mc.playerController.u();
+         mc.playerController.updateController();
       }
    }
 

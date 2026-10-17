@@ -73,7 +73,7 @@ public class GuiKeyBindingList extends GuiListExtended {
       public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeightIn, int mouseXIn, int mouseYIn, boolean isSelected) {
          GuiKeyBindingList.this.mc
             .fontRendererObj
-            .D(
+            .drawStringNoShadow(
                this.labelText,
                GuiKeyBindingList.this.mc.currentScreen.width / 2 - this.labelWidth / 2,
                y + slotHeightIn - GuiKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT - 1,
@@ -82,7 +82,7 @@ public class GuiKeyBindingList extends GuiListExtended {
       }
 
       @Override
-      public boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n) {
+      public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
          return false;
       }
 
@@ -113,7 +113,7 @@ public class GuiKeyBindingList extends GuiListExtended {
          boolean bl = GuiKeyBindingList.this.field_148191_k.buttonId == this.keybinding;
          GuiKeyBindingList.this.mc
             .fontRendererObj
-            .D(
+            .drawStringNoShadow(
                this.keyDesc,
                x + 90 - GuiKeyBindingList.this.maxListLabelWidth,
                y + slotHeightIn / 2 - GuiKeyBindingList.this.mc.fontRendererObj.FONT_HEIGHT / 2,
@@ -151,7 +151,7 @@ public class GuiKeyBindingList extends GuiListExtended {
       }
 
       @Override
-      public boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n) {
+      public boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m) {
          if (this.btnChangeKeyBinding.mousePressed(GuiKeyBindingList.this.mc, i, j)) {
             GuiKeyBindingList.this.field_148191_k.buttonId = this.keybinding;
             return true;

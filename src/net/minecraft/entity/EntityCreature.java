@@ -31,7 +31,7 @@ public abstract class EntityCreature extends EntityLiving {
       return super.getCanSpawnHere() && this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F;
    }
 
-   public boolean u() {
+   public boolean hasPath() {
       return !this.navigator.noPath();
    }
 

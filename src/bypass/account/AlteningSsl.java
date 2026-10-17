@@ -19,7 +19,7 @@ public class AlteningSsl {
    }
 
    private void installTrustAllManager() {
-      TrustManager[] trustManagers = new TrustManager[]{new AlteningSsl.alr()};
+      TrustManager[] trustManagers = new TrustManager[]{new AlteningSsl.AlteningTrustManager()};
 
       try {
          SSLContext sslContext = SSLContext.getInstance("SSL");
@@ -41,7 +41,7 @@ public class AlteningSsl {
       this.initialized = bl;
    }
 
-   public class alr implements X509TrustManager {
+   public class AlteningTrustManager implements X509TrustManager {
       @Override
       public X509Certificate[] getAcceptedIssuers() {
          return null;

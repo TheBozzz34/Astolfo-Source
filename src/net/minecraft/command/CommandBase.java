@@ -505,17 +505,17 @@ public abstract class CommandBase implements ICommand {
       private final double field_179631_b;
       private final boolean field_179632_c;
 
-      public CoordinateArg(double d, double d2, boolean bl) {
+      public CoordinateArg(double d, double e, boolean bl) {
          this.field_179633_a = d;
-         this.field_179631_b = d2;
+         this.field_179631_b = e;
          this.field_179632_c = bl;
       }
 
-      public double J() {
+      public double getResult() {
          return this.field_179633_a;
       }
 
-      public double v() {
+      public double getAmount() {
          return this.field_179631_b;
       }
 

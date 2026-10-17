@@ -1072,7 +1072,7 @@ public abstract class World implements IBlockAccess {
       return this.provider.calculateCelestialAngle(this.worldInfo.getWorldTime(), partialTicks);
    }
 
-   public int f() {
+   public int getMoonPhase() {
       return this.provider.getMoonPhase(this.worldInfo.getWorldTime());
    }
 
@@ -1417,13 +1417,13 @@ public abstract class World implements IBlockAccess {
       return true;
    }
 
-   public boolean X(AxisAlignedBB axisAlignedBB) {
-      int i = MathHelper.floor_double(axisAlignedBB.minX);
-      int j = MathHelper.floor_double(axisAlignedBB.maxX);
-      int k = MathHelper.floor_double(axisAlignedBB.minY);
-      int l = MathHelper.floor_double(axisAlignedBB.maxY);
-      int m = MathHelper.floor_double(axisAlignedBB.minZ);
-      int n = MathHelper.floor_double(axisAlignedBB.maxZ);
+   public boolean checkBlockCollision(AxisAlignedBB bb) {
+      int i = MathHelper.floor_double(bb.minX);
+      int j = MathHelper.floor_double(bb.maxX);
+      int k = MathHelper.floor_double(bb.minY);
+      int l = MathHelper.floor_double(bb.maxY);
+      int m = MathHelper.floor_double(bb.minZ);
+      int n = MathHelper.floor_double(bb.maxZ);
       BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
       for (int i2 = i; i2 <= j; i2++) {
@@ -1463,13 +1463,13 @@ public abstract class World implements IBlockAccess {
       return false;
    }
 
-   public boolean a(AxisAlignedBB axisAlignedBB) {
-      int i = MathHelper.floor_double(axisAlignedBB.minX);
-      int j = MathHelper.floor_double(axisAlignedBB.maxX + 1.0);
-      int k = MathHelper.floor_double(axisAlignedBB.minY);
-      int l = MathHelper.floor_double(axisAlignedBB.maxY + 1.0);
-      int m = MathHelper.floor_double(axisAlignedBB.minZ);
-      int n = MathHelper.floor_double(axisAlignedBB.maxZ + 1.0);
+   public boolean isFlammableWithin(AxisAlignedBB bb) {
+      int i = MathHelper.floor_double(bb.minX);
+      int j = MathHelper.floor_double(bb.maxX + 1.0);
+      int k = MathHelper.floor_double(bb.minY);
+      int l = MathHelper.floor_double(bb.maxY + 1.0);
+      int m = MathHelper.floor_double(bb.minZ);
+      int n = MathHelper.floor_double(bb.maxZ + 1.0);
       if (this.isAreaLoaded(i, k, m, j, l, n, true)) {
          BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
@@ -1758,7 +1758,7 @@ public abstract class World implements IBlockAccess {
       return block.getMaterial().isOpaque() && block.isFullCube();
    }
 
-   public void a() {
+   public void calculateInitialSkylight() {
       int i = this.calculateSkylightSubtracted(1.0F);
       if (i != this.skylightSubtracted) {
          this.skylightSubtracted = i;
@@ -1774,7 +1774,7 @@ public abstract class World implements IBlockAccess {
       this.updateWeather();
    }
 
-   public void H() {
+   public void calculateInitialWeather() {
       if (this.worldInfo.isRaining()) {
          this.rainingStrength = 1.0F;
          if (this.worldInfo.isThundering()) {
@@ -2431,8 +2431,8 @@ public abstract class World implements IBlockAccess {
       this.saveHandler.checkSessionLock();
    }
 
-   public void m(long l) {
-      this.worldInfo.setWorldTotalTime(l);
+   public void setTotalWorldTime(long worldTime) {
+      this.worldInfo.setWorldTotalTime(worldTime);
    }
 
    public long getSeed() {
@@ -2514,18 +2514,18 @@ public abstract class World implements IBlockAccess {
       return (this.prevThunderingStrength + (this.thunderingStrength - this.prevThunderingStrength) * delta) * this.getRainStrength(delta);
    }
 
-   public void t(float f) {
-      this.prevThunderingStrength = f;
-      this.thunderingStrength = f;
+   public void setThunderStrength(float strength) {
+      this.prevThunderingStrength = strength;
+      this.thunderingStrength = strength;
    }
 
    public float getRainStrength(float delta) {
       return this.prevRainingStrength + (this.rainingStrength - this.prevRainingStrength) * delta;
    }
 
-   public void V(float f) {
-      this.prevRainingStrength = f;
-      this.rainingStrength = f;
+   public void setRainStrength(float strength) {
+      this.prevRainingStrength = strength;
+      this.rainingStrength = strength;
    }
 
    public boolean isThundering() {
@@ -2677,12 +2677,12 @@ public abstract class World implements IBlockAccess {
          BlockPos blockPos = pos.offset((EnumFacing)object);
          if (this.isBlockLoaded(blockPos)) {
             IBlockState iBlockState = this.getBlockState(blockPos);
-            if (Blocks.unpowered_comparator.N(iBlockState.getBlock())) {
+            if (Blocks.unpowered_comparator.isAssociated(iBlockState.getBlock())) {
                iBlockState.getBlock().onNeighborBlockChange(this, blockPos, iBlockState, blockIn);
             } else if (iBlockState.getBlock().isNormalCube()) {
                blockPos = blockPos.offset((EnumFacing)object);
                iBlockState = this.getBlockState(blockPos);
-               if (Blocks.unpowered_comparator.N(iBlockState.getBlock())) {
+               if (Blocks.unpowered_comparator.isAssociated(iBlockState.getBlock())) {
                   iBlockState.getBlock().onNeighborBlockChange(this, blockPos, iBlockState, blockIn);
                }
             }
@@ -2713,7 +2713,7 @@ public abstract class World implements IBlockAccess {
       this.skylightSubtracted = newSkylightSubtracted;
    }
 
-   public int x() {
+   public int getLastLightningBolt() {
       return this.lastLightningBolt;
    }
 
@@ -2721,7 +2721,7 @@ public abstract class World implements IBlockAccess {
       this.lastLightningBolt = lastLightningBoltIn;
    }
 
-   public boolean v() {
+   public boolean isFindingSpawnPoint() {
       return this.findingSpawnPoint;
    }
 

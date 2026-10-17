@@ -138,8 +138,8 @@ public class GuiBeacon extends GuiContainer {
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       RenderHelper.disableStandardItemLighting();
-      this.d(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
-      this.d(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
 
       for (GuiButton guiButton : this.buttonList) {
          if (guiButton.isMouseOver()) {
@@ -172,11 +172,11 @@ public class GuiBeacon extends GuiContainer {
       private final int field_146143_q;
       private boolean field_146142_r;
 
-      public Button(int j, int k, int l, ResourceLocation resourceLocation, int m, int n) {
-         super(j, k, l, 22, 22, "");
+      public Button(int i, int j, int k, ResourceLocation resourceLocation, int l, int m) {
+         super(i, j, k, 22, 22, "");
          this.field_146145_o = resourceLocation;
-         this.field_146144_p = m;
-         this.field_146143_q = n;
+         this.field_146144_p = l;
+         this.field_146143_q = m;
       }
 
       @Override
@@ -217,8 +217,8 @@ public class GuiBeacon extends GuiContainer {
    }
 
    public class CancelButton extends GuiBeacon.Button {
-      public CancelButton(int j, int k, int l) {
-         super(j, k, l, GuiBeacon.beaconGuiTextures, 112, 220);
+      public CancelButton(int i, int j, int k) {
+         super(i, j, k, GuiBeacon.beaconGuiTextures, 112, 220);
       }
 
       @Override
@@ -228,8 +228,8 @@ public class GuiBeacon extends GuiContainer {
    }
 
    public class ConfirmButton extends GuiBeacon.Button {
-      public ConfirmButton(int j, int k, int l) {
-         super(j, k, l, GuiBeacon.beaconGuiTextures, 90, 220);
+      public ConfirmButton(int i, int j, int k) {
+         super(i, j, k, GuiBeacon.beaconGuiTextures, 90, 220);
       }
 
       @Override
@@ -242,17 +242,17 @@ public class GuiBeacon extends GuiContainer {
       private final int field_146149_p;
       private final int field_146148_q;
 
-      public PowerButton(int j, int k, int l, int m, int n) {
+      public PowerButton(int i, int j, int k, int l, int m) {
          super(
+            i,
             j,
             k,
-            l,
             GuiContainer.inventoryBackground,
-            0 + Potion.potionTypes[m].getStatusIconIndex() % 8 * 18,
-            198 + Potion.potionTypes[m].getStatusIconIndex() / 8 * 18
+            0 + Potion.potionTypes[l].getStatusIconIndex() % 8 * 18,
+            198 + Potion.potionTypes[l].getStatusIconIndex() / 8 * 18
          );
-         this.field_146149_p = m;
-         this.field_146148_q = n;
+         this.field_146149_p = l;
+         this.field_146148_q = m;
       }
 
       @Override

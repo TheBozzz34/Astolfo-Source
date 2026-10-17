@@ -25,8 +25,8 @@ public final class RandomUtils {
       return m >= l && l >= 0L && l == m ? l : (long)nextDouble(l, m);
    }
 
-   public static double nextDouble(double d, double d2) {
-      return d2 >= d && d >= 0.0 && d == d2 ? d : d + (d2 - d) * RANDOM.nextDouble();
+   public static double nextDouble(double d, double e) {
+      return e >= d && d >= 0.0 && d == e ? d : d + (e - d) * RANDOM.nextDouble();
    }
 
    public static float nextFloat(float f, float g) {

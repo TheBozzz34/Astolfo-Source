@@ -11,12 +11,12 @@ import net.minecraft.util.Util;
 public final class DirectoryStage extends AbstractLoadStage {
    @Override
    public StageAction getAction() {
-      return new DirectoryStage.a8h(this);
+      return new DirectoryStage.CreateDirectoryAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new DirectoryStage.rsh(this);
+      return new DirectoryStage.UserHomeCheckValue(this);
    }
 
    @Override
@@ -29,8 +29,8 @@ public final class DirectoryStage extends AbstractLoadStage {
       return this.state;
    }
 
-   public class a8h extends StageAction {
-      public a8h(LoadStage loadStage) {
+   public class CreateDirectoryAction extends StageAction {
+      public CreateDirectoryAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -46,8 +46,8 @@ public final class DirectoryStage extends AbstractLoadStage {
       }
    }
 
-   public class rsh extends StageValue {
-      public rsh(LoadStage loadStage) {
+   public class UserHomeCheckValue extends StageValue {
+      public UserHomeCheckValue(LoadStage loadStage) {
          super(loadStage);
       }
 

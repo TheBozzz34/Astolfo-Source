@@ -125,7 +125,9 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
                   IOUtils.closeQuietly(inputStream);
                }
 
-               iSoundEventAccessor = new SoundEventAccessor(new SoundPoolEntry(resourceLocation2, soundEntry.y(), soundEntry.q(), soundEntry.isStreaming()), soundEntry.getSoundEntryWeight());
+               iSoundEventAccessor = new SoundEventAccessor(
+                  new SoundPoolEntry(resourceLocation2, soundEntry.getSoundEntryPitch(), soundEntry.getSoundEntryVolume(), soundEntry.isStreaming()), soundEntry.getSoundEntryWeight()
+               );
                break;
             case SOUND_EVENT:
                iSoundEventAccessor = new ISoundEventAccessor<SoundPoolEntry>() {
@@ -167,7 +169,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
       this.sndManager.setListener(player, f);
    }
 
-   public void L() {
+   public void pauseSounds() {
       this.sndManager.pauseAllSounds();
    }
 
@@ -175,7 +177,7 @@ public class SoundHandler implements IResourceManagerReloadListener, ITickable {
       this.sndManager.stopAllSounds();
    }
 
-   public void y() {
+   public void unloadSounds() {
       this.sndManager.unloadSoundSystem();
    }
 

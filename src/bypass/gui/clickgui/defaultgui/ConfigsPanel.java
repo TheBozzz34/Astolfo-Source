@@ -45,13 +45,13 @@ public class ConfigsPanel extends Container {
          new Color(37, 37, 37).getRGB()
       );
       int l = (int)(this.getX() + this.getWidth() - 15.0F);
-      int n = (int)this.getYPos() + 2;
+      int m = (int)this.getYPos() + 2;
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/options.png"));
-      Gui.drawModalRectWithCustomSizedTexture(l, n, 0.0F, 0.0F, 12, 12, 12.0F, 12.0F);
-      int i2 = (int)(this.getX() + this.getWidth() - 11.0F);
-      int i3 = (int)this.getYPos() + 4;
+      Gui.drawModalRectWithCustomSizedTexture(l, m, 0.0F, 0.0F, 12, 12, 12.0F, 12.0F);
+      int n = (int)(this.getX() + this.getWidth() - 11.0F);
+      int i2 = (int)this.getYPos() + 4;
       GL11.glPushMatrix();
-      if (this.isMouseInRect(i2 - 16, i3, 12, i3 + 4, i, j)) {
+      if (this.isMouseInRect(n - 16, i2, 12, i2 + 4, i, j)) {
          RenderUtil.setColor(new Color(127, 127, 127).getRGB());
          if (Mouse.isButtonDown(0) && this.folderClickTimer.hasElapsed(1500.0F)) {
             SettingsCommand.openFolder(client.getDirectory());
@@ -60,17 +60,17 @@ public class ConfigsPanel extends Container {
       }
 
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/icon/folder.png"));
-      Gui.drawModalRectWithCustomSizedTexture(i2 - 14, i3, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
+      Gui.drawModalRectWithCustomSizedTexture(n - 14, i2, 0.0F, 0.0F, 8, 8, 8.0F, 8.0F);
       GL11.glPopMatrix();
-      GuiMainMenu.m.drawStringWithShadow(this.getName(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
+      GuiMainMenu.latoBoldFont15.drawStringWithShadow(this.getName(), this.getX() + 4.0F, this.getYPos() + 3.5F, -1);
       if (this.isExpanded()) {
          byte b = 30;
 
          for (Element element : this.getChildren()) {
-            if (element instanceof ConfigsPanel.ax4) {
-               ConfigsPanel.ax4 ax42 = (ConfigsPanel.ax4)element;
-               ax42.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
-               ax42.render(i, j);
+            if (element instanceof ConfigsPanel.ConfigEntry) {
+               ConfigsPanel.ConfigEntry configEntry = (ConfigsPanel.ConfigEntry)element;
+               configEntry.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
+               configEntry.render(i, j);
                b += 15;
             }
          }
@@ -81,7 +81,7 @@ public class ConfigsPanel extends Container {
       byte b = 0;
       if (this.isExpanded()) {
          for (Element element : this.getChildren()) {
-            if (element instanceof ConfigsPanel.ax4) {
+            if (element instanceof ConfigsPanel.ConfigEntry) {
                b += 15;
             }
          }
@@ -104,7 +104,7 @@ public class ConfigsPanel extends Container {
             && !file3.getName().equals("chat.json")
             && !file3.getName().equals("colors.json")
             && !file3.getName().equals("relations.json")) {
-            this.addChildren(new ConfigsPanel.ax4(file3.getName().split("\\.json")[0], file3, 103, 15));
+            this.addChildren(new ConfigsPanel.ConfigEntry(file3.getName().split("\\.json")[0], file3, 103, 15));
             System.out.println(file3.getName());
          }
       }
@@ -122,10 +122,10 @@ public class ConfigsPanel extends Container {
       return configsPanel.dateFormat;
    }
 
-   public class ax4 extends Component {
+   public class ConfigEntry extends Component {
       private File configFile;
 
-      public ax4(String string, File file, int i, int j) {
+      public ConfigEntry(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);
          this.configFile = file;
       }
@@ -136,18 +136,21 @@ public class ConfigsPanel extends Container {
             RenderUtil.drawRect(this.getX(), this.getYPos(), this.getX() + this.getWidth(), this.getYPos() + this.getHeight(), new Color(1710618).getRGB());
          }
 
-         GuiMainMenu.m.drawString(this.getName(), this.getX() + 2.0F, this.getYPos() + 3.0F, -1);
+         GuiMainMenu.latoBoldFont15.drawString(this.getName(), this.getX() + 2.0F, this.getYPos() + 3.0F, -1);
          String string = ConfigsPanel.getDateFormatOf(ConfigsPanel.this).format(this.configFile.lastModified());
          RenderUtil.drawRect(
-            this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string, true) - 3.0F,
+            this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(string, true) - 3.0F,
             this.getYPos() + 3.0F,
             this.getX() + this.getWidth(),
             this.getYPos() + 12.0F,
             Astolfo.INSTANCE.getConfigName().equals(this.getName()) ? new Color(1710618).getRGB() : new Color(37, 37, 37).getRGB()
          );
-         GuiMainMenu.m
+         GuiMainMenu.latoBoldFont15
             .drawString(
-               string, this.getX() + this.getWidth() - GuiMainMenu.m.getStringWidth(string, true) - 3.0F, this.getYPos() + 3.0F, new Color(127, 127, 127).getRGB()
+               string,
+               this.getX() + this.getWidth() - GuiMainMenu.latoBoldFont15.getStringWidth(string, true) - 3.0F,
+               this.getYPos() + 3.0F,
+               new Color(127, 127, 127).getRGB()
             );
       }
 

@@ -116,7 +116,7 @@ public class ChatMessageBuilder implements ClientAccess {
 
    private void resolveColumns() {
       if (!this.root.getSiblings().stream().noneMatch(iChatComponent -> iChatComponent instanceof AlignedChatComponent)) {
-         int i = MathHelper.floor_float(MathHelper.floor_float(mc.gameSettings.l6 * 280.0F + 40.0F) / mc.gameSettings.chatScale);
+         int i = MathHelper.floor_float(MathHelper.floor_float(mc.gameSettings.chatWidth * 280.0F + 40.0F) / mc.gameSettings.chatScale);
          List list = GuiUtilRenderComponents.splitText(this.root, i, mc.fontRendererObj, false, false);
          ChatComponentText chatComponentText = this.root;
          chatComponentText.getSiblings().add(0, new AlignedChatComponent(this.clientChat, TextAlignment.CENTER));

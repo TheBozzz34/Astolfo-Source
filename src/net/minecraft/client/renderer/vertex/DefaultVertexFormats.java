@@ -9,15 +9,15 @@ public class DefaultVertexFormats {
    public static VertexFormat ITEM = new VertexFormat();
    private static final VertexFormat BLOCK_VANILLA = BLOCK;
    private static final VertexFormat ITEM_VANILLA = ITEM;
-   public static final VertexFormat b = new VertexFormat();
-   public static final VertexFormat T = new VertexFormat();
+   public static final VertexFormat OLDMODEL_POSITION_TEX_NORMAL = new VertexFormat();
+   public static final VertexFormat PARTICLE_POSITION_TEX_COLOR_LMAP = new VertexFormat();
    public static final VertexFormat POSITION = new VertexFormat();
    public static final VertexFormat POSITION_COLOR = new VertexFormat();
    public static final VertexFormat POSITION_TEX = new VertexFormat();
    public static final VertexFormat POSITION_NORMAL = new VertexFormat();
    public static final VertexFormat POSITION_TEX_COLOR = new VertexFormat();
    public static final VertexFormat POSITION_TEX_NORMAL = new VertexFormat();
-   public static final VertexFormat v = new VertexFormat();
+   public static final VertexFormat POSITION_TEX_LMAP_COLOR = new VertexFormat();
    public static final VertexFormat POSITION_TEX_COLOR_NORMAL = new VertexFormat();
    public static final VertexFormatElement POSITION_3F = new VertexFormatElement(
       0, VertexFormatElement.EnumType.FLOAT, VertexFormatElement.EnumUsage.POSITION, 3
@@ -58,14 +58,14 @@ public class DefaultVertexFormats {
       ITEM.addElement(TEX_2F);
       ITEM.addElement(NORMAL_3B);
       ITEM.addElement(PADDING_1B);
-      b.addElement(POSITION_3F);
-      b.addElement(TEX_2F);
-      b.addElement(NORMAL_3B);
-      b.addElement(PADDING_1B);
-      T.addElement(POSITION_3F);
-      T.addElement(TEX_2F);
-      T.addElement(COLOR_4UB);
-      T.addElement(TEX_2S);
+      OLDMODEL_POSITION_TEX_NORMAL.addElement(POSITION_3F);
+      OLDMODEL_POSITION_TEX_NORMAL.addElement(TEX_2F);
+      OLDMODEL_POSITION_TEX_NORMAL.addElement(NORMAL_3B);
+      OLDMODEL_POSITION_TEX_NORMAL.addElement(PADDING_1B);
+      PARTICLE_POSITION_TEX_COLOR_LMAP.addElement(POSITION_3F);
+      PARTICLE_POSITION_TEX_COLOR_LMAP.addElement(TEX_2F);
+      PARTICLE_POSITION_TEX_COLOR_LMAP.addElement(COLOR_4UB);
+      PARTICLE_POSITION_TEX_COLOR_LMAP.addElement(TEX_2S);
       POSITION.addElement(POSITION_3F);
       POSITION_COLOR.addElement(POSITION_3F);
       POSITION_COLOR.addElement(COLOR_4UB);
@@ -81,10 +81,10 @@ public class DefaultVertexFormats {
       POSITION_TEX_NORMAL.addElement(TEX_2F);
       POSITION_TEX_NORMAL.addElement(NORMAL_3B);
       POSITION_TEX_NORMAL.addElement(PADDING_1B);
-      v.addElement(POSITION_3F);
-      v.addElement(TEX_2F);
-      v.addElement(TEX_2S);
-      v.addElement(COLOR_4UB);
+      POSITION_TEX_LMAP_COLOR.addElement(POSITION_3F);
+      POSITION_TEX_LMAP_COLOR.addElement(TEX_2F);
+      POSITION_TEX_LMAP_COLOR.addElement(TEX_2S);
+      POSITION_TEX_LMAP_COLOR.addElement(COLOR_4UB);
       POSITION_TEX_COLOR_NORMAL.addElement(POSITION_3F);
       POSITION_TEX_COLOR_NORMAL.addElement(TEX_2F);
       POSITION_TEX_COLOR_NORMAL.addElement(COLOR_4UB);

@@ -188,12 +188,12 @@ public final class ModulesStage extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new ModulesStage.azs(this);
+      return new ModulesStage.RegisterModulesAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new ModulesStage.r9s(this);
+      return new ModulesStage.ProcessCheckValue(this);
    }
 
    public static String decrypt(String string) {
@@ -232,8 +232,18 @@ public final class ModulesStage extends AbstractLoadStage {
       return modulesStage.processCheckSetup;
    }
 
-   public class azs extends StageAction {
-      public azs(LoadStage loadStage) {
+   public class ProcessCheckValue extends StageValue {
+      public ProcessCheckValue(LoadStage loadStage) {
+         super(loadStage);
+      }
+
+      public EntityPig get() {
+         return (EntityPig)ModulesStage.accessProcessCheckSetup(ModulesStage.this).getProcessCheck().checkProcesses().value;
+      }
+   }
+
+   public class RegisterModulesAction extends StageAction {
+      public RegisterModulesAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -447,10 +457,10 @@ public final class ModulesStage extends AbstractLoadStage {
             String[] strings2 = string3.split("/");
             ModuleManager.setPositionDivisor(Double.parseDouble(strings[1]));
             ModuleManager.setModelViewMatrixMode(Integer.parseInt(strings[2]));
-            ClientAccess.mc.mouseHelper.Y().setAccount(new AuthAccount(strings[3]));
-            EntityRenderer.Z0 = Integer.parseInt(strings[4]);
-            EntityRenderer.C = Integer.parseInt(strings[5]);
-            EntityRenderer.ZE = Integer.parseInt(strings[6]);
+            ClientAccess.mc.mouseHelper.getAuthSession().setAccount(new AuthAccount(strings[3]));
+            EntityRenderer.authFovMultiplier = Integer.parseInt(strings[4]);
+            EntityRenderer.authClearMask = Integer.parseInt(strings[5]);
+            EntityRenderer.authMatrixParam = Integer.parseInt(strings[6]);
 
             for (int i2 = 0; i2 < strings2.length; i2++) {
                String string7 = strings2[i2];
@@ -632,16 +642,6 @@ public final class ModulesStage extends AbstractLoadStage {
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getScriptManager());
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getSidebarGui());
          }
-      }
-   }
-
-   public class r9s extends StageValue {
-      public r9s(LoadStage loadStage) {
-         super(loadStage);
-      }
-
-      public EntityPig get() {
-         return (EntityPig)ModulesStage.accessProcessCheckSetup(ModulesStage.this).getProcessCheck().checkProcesses().value;
       }
    }
 }

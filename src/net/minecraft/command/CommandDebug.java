@@ -43,7 +43,7 @@ public class CommandDebug extends CommandBase {
          }
 
          notifyOperators(sender, this, "commands.debug.start");
-         MinecraftServer.getServer().x();
+         MinecraftServer.getServer().enableProfiling();
          this.profileStartTime = MinecraftServer.getCurrentTimeMillis();
          this.profileStartTick = MinecraftServer.getServer().getTickCounter();
       } else {

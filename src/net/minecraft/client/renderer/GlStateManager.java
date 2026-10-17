@@ -633,7 +633,7 @@ public class GlStateManager {
       R("R", 2),
       Q("Q", 3);
 
-      private static final GlStateManager.TexGen[] H = new GlStateManager.TexGen[]{S, T, R, Q};
+      private static final GlStateManager.TexGen[] VALUES = new GlStateManager.TexGen[]{S, T, R, Q};
 
       TexGen(String string2, int j) {
       }

@@ -7,6 +7,6 @@ import org.luaj.vm2.lib.ZeroArgFunction;
 public final class Riding extends ZeroArgFunction {
    @Override
    public LuaValue call() {
-      return ClientAccess.mc.thePlayer != null ? valueOf(ClientAccess.mc.thePlayer.E()) : valueOf(false);
+      return ClientAccess.mc.thePlayer != null ? valueOf(ClientAccess.mc.thePlayer.isRiding()) : valueOf(false);
    }
 }

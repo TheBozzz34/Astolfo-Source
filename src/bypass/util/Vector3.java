@@ -7,10 +7,10 @@ public class Vector3 {
    private double y;
    private double z;
 
-   public Vector3(double d, double d2, double d3) {
+   public Vector3(double d, double e, double d2) {
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
    }
 
    public double getX() {
@@ -25,8 +25,8 @@ public class Vector3 {
       return this.z;
    }
 
-   public Vector3 add(double d, double d2, double d3) {
-      return new Vector3(this.x + d, this.y + d2, this.z + d3);
+   public Vector3 add(double d, double e, double d2) {
+      return new Vector3(this.x + d, this.y + e, this.z + d2);
    }
 
    public Vector3 floor() {

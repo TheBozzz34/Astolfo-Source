@@ -66,7 +66,7 @@ public class PlayerControllerMP {
       this.currentGameType.configurePlayerCapabilities(player.capabilities);
    }
 
-   public boolean W() {
+   public boolean isSpectator() {
       return this.currentGameType == WorldSettings.GameType.SPECTATOR;
    }
 
@@ -193,7 +193,7 @@ public class PlayerControllerMP {
       return true;
    }
 
-   public void g() {
+   public void resetBlockRemoving() {
       AbortBreakingEvent abortBreakingEvent = new AbortBreakingEvent(!this.isHittingBlock);
       Astolfo.INSTANCE.getEventBus().post(abortBreakingEvent);
       if (!abortBreakingEvent.isCancelled()) {
@@ -276,7 +276,7 @@ public class PlayerControllerMP {
       }
    }
 
-   public void u() {
+   public void updateController() {
       this.syncCurrentPlayItem();
       if (this.netClientHandler.getNetworkManager().isChannelOpen()) {
          this.netClientHandler.getNetworkManager().processReceivedPackets();
@@ -349,7 +349,7 @@ public class PlayerControllerMP {
       }
    }
 
-   public boolean K(
+   public boolean onPlayerRightClickHideItem(
       EntityPlayerSP entityPlayerSP, WorldClient worldClient, ItemStack itemStack, BlockPos blockPos, EnumFacing enumFacing, Vec3 vec3, boolean bl
    ) {
       this.syncCurrentPlayItem();
@@ -449,10 +449,10 @@ public class PlayerControllerMP {
       return itemStack;
    }
 
-   public ItemStack Z(int i, int j, int k, int l, EntityPlayer entityPlayer) {
+   public ItemStack windowClickNoEvent(int i, int j, int k, int l, EntityPlayer entityPlayer) {
       short s = entityPlayer.openContainer.getNextTransactionID(entityPlayer.inventory);
       ItemStack itemStack = entityPlayer.openContainer.slotClick(j, k, l, entityPlayer);
-      this.netClientHandler.u(new C0EPacketClickWindow(i, j, k, l, itemStack, s));
+      this.netClientHandler.sendPacketNoEvent(new C0EPacketClickWindow(i, j, k, l, itemStack, s));
       return itemStack;
    }
 
@@ -478,11 +478,11 @@ public class PlayerControllerMP {
       playerIn.stopUsingItem();
    }
 
-   public boolean D() {
+   public boolean gameIsSurvivalOrAdventure() {
       return this.currentGameType.isSurvivalOrAdventure();
    }
 
-   public boolean y() {
+   public boolean isNotCreative() {
       return !this.currentGameType.isCreative();
    }
 
@@ -490,15 +490,15 @@ public class PlayerControllerMP {
       return this.currentGameType.isCreative();
    }
 
-   public boolean L() {
+   public boolean extendedReach() {
       return this.currentGameType.isCreative();
    }
 
-   public boolean d() {
-      return this.mc.thePlayer.E() && this.mc.thePlayer.ridingEntity instanceof EntityHorse;
+   public boolean isRidingHorse() {
+      return this.mc.thePlayer.isRiding() && this.mc.thePlayer.ridingEntity instanceof EntityHorse;
    }
 
-   public boolean C() {
+   public boolean isSpectatorMode() {
       return this.currentGameType == WorldSettings.GameType.SPECTATOR;
    }
 

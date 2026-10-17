@@ -66,13 +66,13 @@ public class DefaultClickGuiScreen extends GuiScreen {
          if (this.lastClickedElement instanceof BooleanComponent) {
             BooleanComponent booleanComponent = (BooleanComponent)this.lastClickedElement;
             String string = EnumChatFormatting.GRAY + booleanComponent.getSetting().getName() + ": " + EnumChatFormatting.RESET + booleanComponent.getSetting().getDescription();
-            GuiMainMenu.m.drawString(string, 3.0F, this.height - 12, -1);
+            GuiMainMenu.latoBoldFont15.drawString(string, 3.0F, this.height - 12, -1);
          }
 
          if (this.lastClickedElement instanceof NumberSlider) {
             NumberSlider numberSlider = (NumberSlider)this.lastClickedElement;
             String string2 = EnumChatFormatting.GRAY + numberSlider.getSetting().getName() + ": " + EnumChatFormatting.RESET + numberSlider.getSetting().getDescription();
-            GuiMainMenu.m.drawString(string2, 3.0F, this.height - 12, -1);
+            GuiMainMenu.latoBoldFont15.drawString(string2, 3.0F, this.height - 12, -1);
          }
       }
 

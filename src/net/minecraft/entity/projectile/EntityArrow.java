@@ -371,7 +371,7 @@ public class EntityArrow extends Entity implements IProjectile {
             f5 = 0.6F;
          }
 
-         if (this.G()) {
+         if (this.isWet()) {
             this.extinguish();
          }
 

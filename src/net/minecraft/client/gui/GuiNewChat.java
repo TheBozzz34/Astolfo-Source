@@ -246,11 +246,11 @@ public class GuiNewChat extends Gui {
    }
 
    public int getChatWidth() {
-      return calculateChatboxWidth(this.mc.gameSettings.l6);
+      return calculateChatboxWidth(this.mc.gameSettings.chatWidth);
    }
 
    public int getChatHeight() {
-      return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.o : this.mc.gameSettings.la);
+      return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
    }
 
    public float getChatScale() {
@@ -273,7 +273,7 @@ public class GuiNewChat extends Gui {
       return this.getChatHeight() / 9;
    }
 
-   public List<ChatLine> B() {
+   public List<ChatLine> getChatLines() {
       return this.chatLines;
    }
 }

@@ -16,14 +16,14 @@ import net.minecraft.world.WorldSettings;
 public class NetworkPlayerInfo {
    private final GameProfile gameProfile;
    private WorldSettings.GameType gameType;
-   private int D;
+   private int responseTime;
    private boolean playerTexturesLoaded = false;
    private ResourceLocation locationSkin;
    private ResourceLocation locationCape;
    private String skinType;
    private IChatComponent displayName;
-   private int A = 0;
-   private int K = 0;
+   private int field_178873_i = 0;
+   private int field_178870_j = 0;
    private long field_178871_k = 0L;
    private long field_178868_l = 0L;
    private long field_178869_m = 0L;
@@ -37,7 +37,7 @@ public class NetworkPlayerInfo {
    public NetworkPlayerInfo(S38PacketPlayerListItem.AddPlayerData addPlayerData) {
       this.gameProfile = addPlayerData.getProfile();
       this.gameType = addPlayerData.getGameMode();
-      this.D = addPlayerData.getPing();
+      this.responseTime = addPlayerData.getPing();
       this.displayName = addPlayerData.getDisplayName();
    }
 
@@ -50,7 +50,7 @@ public class NetworkPlayerInfo {
    }
 
    public int getResponseTime() {
-      return this.D;
+      return this.responseTime;
    }
 
    public void setGameType(WorldSettings.GameType gameType) {
@@ -58,7 +58,7 @@ public class NetworkPlayerInfo {
    }
 
    public void setResponseTime(int i) {
-      this.D = i;
+      this.responseTime = i;
    }
 
    public boolean hasLocationSkin() {
@@ -69,7 +69,7 @@ public class NetworkPlayerInfo {
       return this.skinType == null ? DefaultPlayerSkin.getSkinType(this.gameProfile.getId()) : this.skinType;
    }
 
-   public ResourceLocation c() {
+   public ResourceLocation getDisplayedSkin() {
       boolean bl = ModuleManager.streamerMode.isEnabled();
       boolean bl2 = bl && StreamerMode.hideSkins.getValue();
       if (this.locationSkin == null) {
@@ -87,7 +87,7 @@ public class NetworkPlayerInfo {
       return Objects.firstNonNull(this.locationSkin, DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId()));
    }
 
-   public ResourceLocation B() {
+   public ResourceLocation getLocationCape() {
       if (this.locationCape == null) {
          this.loadPlayerTextures();
       }
@@ -120,7 +120,7 @@ public class NetworkPlayerInfo {
       }
    }
 
-   public void R(ResourceLocation resourceLocation) {
+   public void setLocationSkin(ResourceLocation resourceLocation) {
       this.locationSkin = resourceLocation;
    }
 
@@ -133,19 +133,19 @@ public class NetworkPlayerInfo {
    }
 
    public int func_178835_l() {
-      return this.A;
+      return this.field_178873_i;
    }
 
    public void func_178836_b(int i) {
-      this.A = i;
+      this.field_178873_i = i;
    }
 
    public int func_178860_m() {
-      return this.K;
+      return this.field_178870_j;
    }
 
    public void func_178857_c(int i) {
-      this.K = i;
+      this.field_178870_j = i;
    }
 
    public long func_178847_n() {

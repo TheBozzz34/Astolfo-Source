@@ -174,7 +174,7 @@ public class VRViaConfig implements ViaVersionConfig {
 
    @Override
    public BlockedProtocolVersions blockedProtocolVersions() {
-      return new VRViaConfig.lah();
+      return new VRViaConfig.NoBlockedVersions();
    }
 
    @Override
@@ -302,7 +302,7 @@ public class VRViaConfig implements ViaVersionConfig {
       return true;
    }
 
-   public class lah implements BlockedProtocolVersions {
+   public class NoBlockedVersions implements BlockedProtocolVersions {
       @Override
       public boolean contains(int i) {
          return false;

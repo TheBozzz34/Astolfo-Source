@@ -53,10 +53,10 @@ public class VRPlatform extends AbstractFabricPlatform {
 
    @Override
    public ConfigurationProvider getConfigurationProvider() {
-      return new VRPlatform.y3();
+      return new VRPlatform.EmptyConfigurationProvider();
    }
 
-   public class y3 implements ConfigurationProvider {
+   public class EmptyConfigurationProvider implements ConfigurationProvider {
       @Override
       public void set(String string, Object object) {
       }

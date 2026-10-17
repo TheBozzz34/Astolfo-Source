@@ -73,7 +73,9 @@ public class BlockModelRenderer {
       }
    }
 
-   public boolean M(IBlockAccess iBlockAccess, IBakedModel iBakedModel, Block block, BlockPos blockPos, WorldRenderer worldRenderer, boolean bl) {
+   public boolean renderModelAmbientOcclusionNoState(
+      IBlockAccess iBlockAccess, IBakedModel iBakedModel, Block block, BlockPos blockPos, WorldRenderer worldRenderer, boolean bl
+   ) {
       return this.renderModelAmbientOcclusion(iBlockAccess, iBakedModel, block, iBlockAccess.getBlockState(blockPos), blockPos, worldRenderer, bl);
    }
 
@@ -92,8 +94,8 @@ public class BlockModelRenderer {
                   renderEnv = RenderEnv.getInstance(iBlockAccess, iBlockState, blockPos);
                }
 
-               if (!renderEnv.isBreakingAnimation(list) && Config.py()) {
-                  list = BetterGrass.Q(iBlockAccess, block, blockPos, enumFacing, list);
+               if (!renderEnv.isBreakingAnimation(list) && Config.isBetterGrass()) {
+                  list = BetterGrass.getFaceQuads(iBlockAccess, block, blockPos, enumFacing, list);
                }
 
                if (ModuleManager.xray.isEnabled()) {
@@ -117,16 +119,18 @@ public class BlockModelRenderer {
          bl2 = true;
       }
 
-      if (renderEnv != null && Config.d() && !renderEnv.isBreakingAnimation() && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)) {
-         IBakedModel iBakedModel2 = BetterSnow.r();
-         IBlockState iBlockState2 = BetterSnow.V();
+      if (renderEnv != null && Config.isBetterSnow() && !renderEnv.isBreakingAnimation() && BetterSnow.shouldRender(iBlockAccess, block, iBlockState, blockPos)) {
+         IBakedModel iBakedModel2 = BetterSnow.getModelSnowLayer();
+         IBlockState iBlockState2 = BetterSnow.getStateSnowLayer();
          this.renderModelAmbientOcclusion(iBlockAccess, iBakedModel2, iBlockState2.getBlock(), iBlockState2, blockPos, worldRenderer, true);
       }
 
       return bl2;
    }
 
-   public boolean a(IBlockAccess iBlockAccess, IBakedModel iBakedModel, Block block, BlockPos blockPos, WorldRenderer worldRenderer, boolean bl) {
+   public boolean renderModelStandardNoState(
+      IBlockAccess iBlockAccess, IBakedModel iBakedModel, Block block, BlockPos blockPos, WorldRenderer worldRenderer, boolean bl
+   ) {
       return this.renderModelStandard(iBlockAccess, iBakedModel, block, iBlockAccess.getBlockState(blockPos), blockPos, worldRenderer, bl);
    }
 
@@ -145,8 +149,8 @@ public class BlockModelRenderer {
                   renderEnv = RenderEnv.getInstance(iBlockAccess, iBlockState, blockPos);
                }
 
-               if (!renderEnv.isBreakingAnimation(list) && Config.py()) {
-                  list = BetterGrass.Q(iBlockAccess, block, blockPos, enumFacing, list);
+               if (!renderEnv.isBreakingAnimation(list) && Config.isBetterGrass()) {
+                  list = BetterGrass.getFaceQuads(iBlockAccess, block, blockPos, enumFacing, list);
                }
 
                int i = block.getMixedBrightnessForBlock(iBlockAccess, blockPos2);
@@ -167,12 +171,12 @@ public class BlockModelRenderer {
       }
 
       if (renderEnv != null
-         && Config.d()
+         && Config.isBetterSnow()
          && !renderEnv.isBreakingAnimation()
-         && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)
-         && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)) {
-         IBakedModel iBakedModel2 = BetterSnow.r();
-         IBlockState iBlockState2 = BetterSnow.V();
+         && BetterSnow.shouldRender(iBlockAccess, block, iBlockState, blockPos)
+         && BetterSnow.shouldRender(iBlockAccess, block, iBlockState, blockPos)) {
+         IBakedModel iBakedModel2 = BetterSnow.getModelSnowLayer();
+         IBlockState iBlockState2 = BetterSnow.getStateSnowLayer();
          this.renderModelStandard(iBlockAccess, iBakedModel2, iBlockState2.getBlock(), iBlockState2, blockPos, worldRenderer, true);
       }
 
@@ -911,7 +915,7 @@ public class BlockModelRenderer {
       public final BlockModelRenderer.Orientation[] field_178284_l;
       public final BlockModelRenderer.Orientation[] field_178285_m;
       private static final BlockModelRenderer.EnumNeighborInfo[] VALUES = new BlockModelRenderer.EnumNeighborInfo[6];
-      private static final BlockModelRenderer.EnumNeighborInfo[] t = new BlockModelRenderer.EnumNeighborInfo[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
+      private static final BlockModelRenderer.EnumNeighborInfo[] ENUM_VALUES = new BlockModelRenderer.EnumNeighborInfo[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
 
       EnumNeighborInfo(
          String string2,
@@ -962,11 +966,11 @@ public class BlockModelRenderer {
       FLIP_EAST("FLIP_EAST", 11, EnumFacing.EAST, true);
 
       public final int field_178229_m;
-      private static final BlockModelRenderer.Orientation[] j = new BlockModelRenderer.Orientation[]{
+      private static final BlockModelRenderer.Orientation[] VALUES = new BlockModelRenderer.Orientation[]{
          DOWN, UP, NORTH, SOUTH, WEST, EAST, FLIP_DOWN, FLIP_UP, FLIP_NORTH, FLIP_SOUTH, FLIP_WEST, FLIP_EAST
       };
 
-      Orientation(String string2, int k, EnumFacing enumFacing, boolean bl) {
+      Orientation(String string2, int j, EnumFacing enumFacing, boolean bl) {
          this.field_178229_m = enumFacing.getIndex() + (bl ? EnumFacing.values().length : 0);
       }
    }
@@ -984,7 +988,9 @@ public class BlockModelRenderer {
       private final int field_178201_i;
       private final int field_178198_j;
       private static final BlockModelRenderer.VertexTranslations[] VALUES = new BlockModelRenderer.VertexTranslations[6];
-      private static final BlockModelRenderer.VertexTranslations[] M = new BlockModelRenderer.VertexTranslations[]{DOWN, UP, NORTH, SOUTH, WEST, EAST};
+      private static final BlockModelRenderer.VertexTranslations[] ENUM_VALUES = new BlockModelRenderer.VertexTranslations[]{
+         DOWN, UP, NORTH, SOUTH, WEST, EAST
+      };
 
       VertexTranslations(String string2, int j, int k, int l, int m, int n) {
          this.field_178191_g = k;

@@ -80,7 +80,7 @@ public final class AntiFireball extends Module {
    private void attackFireball() {
       if (this.swingCount < this.swingLimit.getValue()) {
          mc.thePlayer.swingItem();
-         mc.thePlayer.sendQueue.u(new C02PacketUseEntity(this.targetFireball, C02PacketUseEntity.Action.ATTACK));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C02PacketUseEntity(this.targetFireball, C02PacketUseEntity.Action.ATTACK));
          this.swingCount++;
       }
 

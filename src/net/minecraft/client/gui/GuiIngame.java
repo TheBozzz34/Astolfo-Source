@@ -84,12 +84,12 @@ public class GuiIngame extends Gui {
    private int lastPlayerHealth = 0;
    private long lastSystemTime = 0L;
    private long healthUpdateCounter = 0L;
-   public static boolean A;
-   private String w = "";
-   public static boolean E;
-   public static boolean b;
-   public static String Y = "by ";
-   public static String G = " ";
+   public static boolean serverIdChanged;
+   private String lastScoreboardServerId = "";
+   public static boolean isPitSpireEvent;
+   public static boolean isRankedMode;
+   public static String unusedByPrefix = "by ";
+   public static String unusedSeparator = " ";
 
    public GuiIngame(Minecraft mcIn) {
       this.mc = mcIn;
@@ -133,7 +133,7 @@ public class GuiIngame extends Gui {
          }
       }
 
-      if (this.mc.playerController.W()) {
+      if (this.mc.playerController.isSpectator()) {
          this.spectatorGui.renderTooltip(scaledResolution, partialTicks);
       } else {
          this.renderTooltip(scaledResolution, partialTicks);
@@ -150,39 +150,39 @@ public class GuiIngame extends Gui {
 
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       this.mc.mcProfiler.startSection("bossHealth");
-      this.l();
+      this.renderBossHealth();
       this.mc.mcProfiler.endSection();
       if (this.mc.playerController.shouldDrawHUD()) {
          this.renderPlayerStats(scaledResolution);
       }
 
       GlStateManager.disableBlend();
-      if (this.mc.thePlayer.c() > 0) {
+      if (this.mc.thePlayer.getSleepTimer() > 0) {
          this.mc.mcProfiler.startSection("sleep");
          GlStateManager.disableDepth();
          GlStateManager.disableAlpha();
-         int k = this.mc.thePlayer.c();
+         int k = this.mc.thePlayer.getSleepTimer();
          float g = k / 100.0F;
          if (g > 1.0F) {
             g = 1.0F - (k - 100) / 10.0F;
          }
 
-         int m = (int)(220.0F * g) << 24 | 1052704;
-         drawRect(0, 0, i, j, m);
+         int l = (int)(220.0F * g) << 24 | 1052704;
+         drawRect(0, 0, i, j, l);
          GlStateManager.enableAlpha();
          GlStateManager.enableDepth();
          this.mc.mcProfiler.endSection();
       }
 
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-      int i2 = i / 2 - 91;
-      if (this.mc.thePlayer.Y8()) {
-         this.renderHorseJumpBar(scaledResolution, i2);
-      } else if (this.mc.playerController.D()) {
-         this.renderExpBar(scaledResolution, i2);
+      int m = i / 2 - 91;
+      if (this.mc.thePlayer.isRidingHorse()) {
+         this.renderHorseJumpBar(scaledResolution, m);
+      } else if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
+         this.renderExpBar(scaledResolution, m);
       }
 
-      if (this.mc.gameSettings.Z9 && !this.mc.playerController.W()) {
+      if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator()) {
          this.renderSelectedItem(scaledResolution);
       } else if (this.mc.thePlayer.isSpectator()) {
          this.spectatorGui.renderSelectedItem(scaledResolution);
@@ -192,30 +192,32 @@ public class GuiIngame extends Gui {
          this.renderDemo(scaledResolution);
       }
 
-      if (this.mc.gameSettings.n) {
+      if (this.mc.gameSettings.showDebugInfo) {
          this.overlayDebug.renderDebugInfo(scaledResolution);
       }
 
       if (this.recordPlayingUpFor > 0) {
          this.mc.mcProfiler.startSection("overlayMessage");
          float h = this.recordPlayingUpFor - partialTicks;
-         int i3 = (int)(h * 255.0F / 20.0F);
-         if (i3 > 255) {
-            i3 = 255;
+         int n = (int)(h * 255.0F / 20.0F);
+         if (n > 255) {
+            n = 255;
          }
 
-         if (i3 > 8) {
+         if (n > 8) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(i / 2, j - 68, 0.0F);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            int i4 = 16777215;
+            int i2 = 16777215;
             if (this.recordIsPlaying) {
-               i4 = MathHelper.hsvToRGB(h / 50.0F, 0.7F, 0.6F) & 16777215;
+               i2 = MathHelper.hsvToRGB(h / 50.0F, 0.7F, 0.6F) & 16777215;
             }
 
             this.getFontRenderer()
-               .D(this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4.0F, i4 + (i3 << 24 & 0xFF000000));
+               .drawStringNoShadow(
+                  this.recordPlaying, -this.getFontRenderer().getStringWidth(this.recordPlaying) / 2, -4.0F, i2 + (n << 24 & 0xFF000000)
+               );
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
          }
@@ -224,7 +226,7 @@ public class GuiIngame extends Gui {
       }
 
       if (this.titlesTimer > 0 && (!ModuleManager.noTitle.isEnabled() || !TitleAnnouncer.titleTimer.hasElapsed(4500.0F))) {
-         String string = this.mc.mouseHelper.Y().getAccount().getUsername().toLowerCase();
+         String string = this.mc.mouseHelper.getAuthSession().getAccount().getUsername().toLowerCase();
          if (string.equals("belle")
             || string.equals("triangle")
             || string.equals("god")
@@ -239,32 +241,32 @@ public class GuiIngame extends Gui {
 
          this.mc.mcProfiler.startSection("titleAndSubtitle");
          float f2 = this.titlesTimer - partialTicks;
-         int i5 = 255;
+         int i3 = 255;
          if (this.titlesTimer > this.titleFadeOut + this.titleDisplayTime) {
             float f3 = this.titleFadeIn + this.titleDisplayTime + this.titleFadeOut - f2;
-            i5 = (int)(f3 * 255.0F / this.titleFadeIn);
+            i3 = (int)(f3 * 255.0F / this.titleFadeIn);
          }
 
          if (this.titlesTimer <= this.titleFadeOut) {
-            i5 = (int)(f2 * 255.0F / this.titleFadeOut);
+            i3 = (int)(f2 * 255.0F / this.titleFadeOut);
          }
 
-         i5 = MathHelper.clamp_int(i5, 0, 255);
-         if (i5 > 8) {
+         i3 = MathHelper.clamp_int(i3, 0, 255);
+         if (i3 > 8) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(i / 2, j / 2, 0.0F);
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             GlStateManager.pushMatrix();
             GlStateManager.scale(4.0F, 4.0F, 4.0F);
-            int i6 = i5 << 24 & 0xFF000000;
+            int i4 = i3 << 24 & 0xFF000000;
             this.getFontRenderer()
-               .drawString(this.displayedTitle, -this.getFontRenderer().getStringWidth(this.displayedTitle) / 2, -10.0F, 16777215 | i6, true);
+               .drawString(this.displayedTitle, -this.getFontRenderer().getStringWidth(this.displayedTitle) / 2, -10.0F, 16777215 | i4, true);
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
             GlStateManager.scale(2.0F, 2.0F, 2.0F);
             this.getFontRenderer()
-               .drawString(this.displayedSubTitle, -this.getFontRenderer().getStringWidth(this.displayedSubTitle) / 2, 5.0F, 16777215 | i6, true);
+               .drawString(this.displayedSubTitle, -this.getFontRenderer().getStringWidth(this.displayedSubTitle) / 2, 5.0F, 16777215 | i4, true);
             GlStateManager.popMatrix();
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
@@ -277,9 +279,9 @@ public class GuiIngame extends Gui {
       ScoreObjective scoreObjective = null;
       ScorePlayerTeam scorePlayerTeam = scoreboard.getPlayersTeam(this.mc.thePlayer.getName());
       if (scorePlayerTeam != null && scorePlayerTeam.getChatFormat() != null) {
-         int i7 = scorePlayerTeam.getChatFormat().getColorIndex();
-         if (i7 >= 0) {
-            scoreObjective = scoreboard.getObjectiveInDisplaySlot(3 + i7);
+         int i5 = scorePlayerTeam.getChatFormat().getColorIndex();
+         if (i5 >= 0) {
+            scoreObjective = scoreboard.getObjectiveInDisplaySlot(3 + i5);
          }
       }
 
@@ -299,7 +301,7 @@ public class GuiIngame extends Gui {
       this.mc.mcProfiler.endSection();
       GlStateManager.popMatrix();
       scoreObjective2 = scoreboard.getObjectiveInDisplaySlot(0);
-      if (this.mc.gameSettings.ZW.isKeyDown()
+      if (this.mc.gameSettings.keyBindPlayerList.isKeyDown()
          && (!this.mc.isIntegratedServerRunning() || this.mc.thePlayer.sendQueue.getPlayerInfoMap().size() > 1 || scoreObjective2 != null)) {
          this.overlayPlayerList.updatePlayerList(true);
          this.overlayPlayerList.renderPlayerlist(i, scoreboard, scoreObjective2);
@@ -364,29 +366,29 @@ public class GuiIngame extends Gui {
       if (i > 0) {
          short s = 182;
          int j = (int)(this.mc.thePlayer.experience * (s + 1));
-         int l = scaledRes.getScaledHeight() - 32 + 3;
-         this.drawTexturedModalRect(x, l, 0, 64, s, 5);
+         int k = scaledRes.getScaledHeight() - 32 + 3;
+         this.drawTexturedModalRect(x, k, 0, 64, s, 5);
          if (j > 0) {
-            this.drawTexturedModalRect(x, l, 0, 69, j, 5);
+            this.drawTexturedModalRect(x, k, 0, 69, j, 5);
          }
       }
 
       this.mc.mcProfiler.endSection();
       if (this.mc.thePlayer.experienceLevel > 0) {
          this.mc.mcProfiler.startSection("expLevel");
-         int m = 8453920;
+         int l = 8453920;
          if (Config.isCustomColors()) {
-            m = CustomColors.k(m);
+            l = CustomColors.getExpBarTextColor(l);
          }
 
          String string = "" + this.mc.thePlayer.experienceLevel;
-         int n = (scaledRes.getScaledWidth() - this.getFontRenderer().getStringWidth(string)) / 2;
-         int i2 = scaledRes.getScaledHeight() - 31 - 4;
-         this.getFontRenderer().D(string, n + 1, i2, 0);
-         this.getFontRenderer().D(string, n - 1, i2, 0);
-         this.getFontRenderer().D(string, n, i2 + 1, 0);
-         this.getFontRenderer().D(string, n, i2 - 1, 0);
-         this.getFontRenderer().D(string, n, i2, m);
+         int m = (scaledRes.getScaledWidth() - this.getFontRenderer().getStringWidth(string)) / 2;
+         int n = scaledRes.getScaledHeight() - 31 - 4;
+         this.getFontRenderer().drawStringNoShadow(string, m + 1, n, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m - 1, n, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n + 1, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n - 1, 0);
+         this.getFontRenderer().drawStringNoShadow(string, m, n, l);
          this.mc.mcProfiler.endSection();
       }
    }
@@ -438,9 +440,9 @@ public class GuiIngame extends Gui {
    }
 
    public boolean showCrosshair() {
-      if ((!this.mc.gameSettings.n || this.mc.thePlayer.w() || this.mc.gameSettings.reducedDebugInfo)
+      if ((!this.mc.gameSettings.showDebugInfo || this.mc.thePlayer.hasReducedDebug() || this.mc.gameSettings.reducedDebugInfo)
          && !Astolfo.INSTANCE.getModuleManager().get(Crosshair.class).isEnabled()) {
-         if (!this.mc.playerController.W()) {
+         if (!this.mc.playerController.isSpectator()) {
             return true;
          }
 
@@ -500,45 +502,45 @@ public class GuiIngame extends Gui {
       }
 
       boolean bl = !scoreboard2.isEnabled() || !bypass.module.visuals.Scoreboard.remove.getValue();
-      byte b2 = 3;
-      int m = scaledRes.getScaledWidth() - i - b2;
+      byte b = 3;
+      int m = scaledRes.getScaledWidth() - i - b;
       int n = 0;
-      b = false;
-      E = false;
+      isRankedMode = false;
+      isPitSpireEvent = false;
 
       for (Object object2 : arrayList2) {
          n++;
          ScorePlayerTeam scorePlayerTeam2 = scoreboard.getPlayersTeam(((Score)object2).getPlayerName());
          String string2 = ScorePlayerTeam.formatPlayerName(scorePlayerTeam2, ((Score)object2).getPlayerName());
          if (n == arrayList2.size() && string2.contains("  §8")) {
-            String string3 = V(string2);
-            if (!V(this.w).equals(string3)) {
-               A = true;
+            String string3 = stripToAlphanumeric(string2);
+            if (!stripToAlphanumeric(this.lastScoreboardServerId).equals(string3)) {
+               serverIdChanged = true;
             }
 
-            this.w = string3;
+            this.lastScoreboardServerId = string3;
             if (streamerMode2.isEnabled()) {
                string2 = string2.replaceAll("§8", "§8§k");
             }
          }
 
          int i2 = l - n * this.getFontRenderer().FONT_HEIGHT;
-         int i3 = scaledRes.getScaledWidth() - b2 + 2;
+         int i3 = scaledRes.getScaledWidth() - b + 2;
          if (bl) {
             drawRect(m - 2, i2, i3, i2 + this.getFontRenderer().FONT_HEIGHT, 1342177280);
          }
 
          String string4 = StringUtils.stripControlCodes(string2);
          if (string4.contains("SPIRE")) {
-            E = true;
+            isPitSpireEvent = true;
          }
 
          if (string4.contains("Mode: Ranked")) {
-            b = true;
+            isRankedMode = true;
          }
 
          if (bl) {
-            this.getFontRenderer().D(string2, m, i2, 553648127);
+            this.getFontRenderer().drawStringNoShadow(string2, m, i2, 553648127);
          }
 
          if (n == arrayList2.size()) {
@@ -547,7 +549,9 @@ public class GuiIngame extends Gui {
                drawRect(m - 2, i2 - this.getFontRenderer().FONT_HEIGHT - 1, i3, i2 - 1, 1610612736);
                drawRect(m - 2, i2 - 1, i3, i2, 1342177280);
                this.getFontRenderer()
-                  .D(string5, m + i / 2 - this.getFontRenderer().getStringWidth(string5) / 2, i2 - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                  .drawStringNoShadow(
+                     string5, m + i / 2 - this.getFontRenderer().getStringWidth(string5) / 2, i2 - this.getFontRenderer().FONT_HEIGHT, 553648127
+                  );
             }
          }
       }
@@ -773,11 +777,11 @@ public class GuiIngame extends Gui {
       }
    }
 
-   public static String V(String string) {
+   public static String stripToAlphanumeric(String string) {
       return StringUtils.stripControlCodes(string).replaceAll("[^a-zA-Z0-9]", "");
    }
 
-   private void l() {
+   private void renderBossHealth() {
       if (BossStatus.bossName != null && BossStatus.statusBarTime > 0) {
          BossStatus.statusBarTime--;
          FontRenderer fontRenderer = this.mc.fontRendererObj;
@@ -794,12 +798,12 @@ public class GuiIngame extends Gui {
          }
 
          String string = BossStatus.bossName;
-         int m = 16777215;
+         int l = 16777215;
          if (Config.isCustomColors()) {
-            m = CustomColors.P(m);
+            l = CustomColors.getBossTextColor(l);
          }
 
-         this.getFontRenderer().drawStringWithShadow(string, i / 2 - this.getFontRenderer().getStringWidth(string) / 2, b - 10, m);
+         this.getFontRenderer().drawStringWithShadow(string, i / 2 - this.getFontRenderer().getStringWidth(string) / 2, b - 10, l);
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          this.mc.getTextureManager().bindTexture(icons);
       }
@@ -1027,7 +1031,7 @@ public class GuiIngame extends Gui {
       return this.overlayPlayerList;
    }
 
-   public void o() {
+   public void resetPlayersOverlayFooterHeader() {
       this.overlayPlayerList.resetFooterHeader();
    }
 }

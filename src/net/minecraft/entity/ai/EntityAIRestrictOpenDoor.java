@@ -43,13 +43,13 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
    @Override
    public void startExecuting() {
       ((PathNavigateGround)this.entityObj.getNavigator()).setBreakDoors(false);
-      ((PathNavigateGround)this.entityObj.getNavigator()).D(false);
+      ((PathNavigateGround)this.entityObj.getNavigator()).setEnterDoors(false);
    }
 
    @Override
    public void resetTask() {
       ((PathNavigateGround)this.entityObj.getNavigator()).setBreakDoors(true);
-      ((PathNavigateGround)this.entityObj.getNavigator()).D(true);
+      ((PathNavigateGround)this.entityObj.getNavigator()).setEnterDoors(true);
       this.frontDoor = null;
    }
 

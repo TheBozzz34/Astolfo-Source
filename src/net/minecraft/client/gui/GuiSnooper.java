@@ -86,18 +86,18 @@ public class GuiSnooper extends GuiScreen {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.field_146606_s.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
       int i = 22;
 
       for (String string : this.field_146607_r) {
-         this.d(this.fontRendererObj, string, this.width / 2, i, 8421504);
+         this.drawCenteredString(this.fontRendererObj, string, this.width / 2, i, 8421504);
          i += this.fontRendererObj.FONT_HEIGHT;
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public static java.util.List i(GuiSnooper guiSnooper) {
+   public static java.util.List accessSnooperValues(GuiSnooper guiSnooper) {
       return guiSnooper.field_146609_h;
    }
 
@@ -128,8 +128,8 @@ public class GuiSnooper extends GuiScreen {
 
       @Override
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
-         GuiSnooper.this.fontRendererObj.D(GuiSnooper.this.field_146604_g.get(entryID), 10.0F, j, 16777215);
-         GuiSnooper.this.fontRendererObj.D((String)GuiSnooper.i(GuiSnooper.this).get(entryID), 230.0F, j, 16777215);
+         GuiSnooper.this.fontRendererObj.drawStringNoShadow(GuiSnooper.this.field_146604_g.get(entryID), 10.0F, j, 16777215);
+         GuiSnooper.this.fontRendererObj.drawStringNoShadow((String)GuiSnooper.accessSnooperValues(GuiSnooper.this).get(entryID), 230.0F, j, 16777215);
       }
 
       @Override

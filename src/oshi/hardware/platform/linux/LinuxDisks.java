@@ -102,7 +102,7 @@ public final class LinuxDisks {
       HashMap hashMap = new HashMap();
 
       for (String string : FileUtil.readFile(ProcPath.MOUNTS)) {
-         String[] strings = ParseUtil.Q.split(string);
+         String[] strings = ParseUtil.whitespaces.split(string);
          if (strings.length >= 2 && strings[0].startsWith("/dev/")) {
             hashMap.put(strings[0], strings[1]);
          }

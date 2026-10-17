@@ -56,10 +56,10 @@ public class GuiScreenResourcePacks extends GuiScreen {
 
       this.availableResourcePacksList = new GuiResourcePackAvailable(this.mc, 200, this.height, this.availableResourcePacks);
       this.availableResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 - 4 - 200);
-      this.availableResourcePacksList.U(7, 8);
+      this.availableResourcePacksList.registerScrollButtons(7, 8);
       this.selectedResourcePacksList = new GuiResourcePackSelected(this.mc, 200, this.height, this.selectedResourcePacks);
       this.selectedResourcePacksList.setSlotXBoundsFromLeft(this.width / 2 + 4);
-      this.selectedResourcePacksList.U(7, 8);
+      this.selectedResourcePacksList.registerScrollButtons(7, 8);
    }
 
    @Override
@@ -174,8 +174,8 @@ public class GuiScreenResourcePacks extends GuiScreen {
       this.drawBackground(0);
       this.availableResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
       this.selectedResourcePacksList.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2, 16, 16777215);
-      this.d(this.fontRendererObj, I18n.format("resourcePack.folderInfo"), this.width / 2 - 77, this.height - 26, 8421504);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.title"), this.width / 2, 16, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("resourcePack.folderInfo"), this.width / 2 - 77, this.height - 26, 8421504);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 

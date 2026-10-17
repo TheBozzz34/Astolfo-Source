@@ -92,7 +92,7 @@ public abstract class AbstractPowerSource implements PowerSource {
    }
 
    @Override
-   public double t() {
+   public double getRemainingCapacity() {
       return this.getRemainingCapacityPercent();
    }
 
@@ -102,7 +102,7 @@ public abstract class AbstractPowerSource implements PowerSource {
    }
 
    @Override
-   public double l() {
+   public double getTimeRemaining() {
       return this.getTimeRemainingEstimated();
    }
 

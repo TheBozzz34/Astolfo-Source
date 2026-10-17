@@ -3,7 +3,7 @@ package net.minecraft.client.particle;
 import net.minecraft.world.World;
 
 public class EntityFishWakeFX extends EntityFX {
-   public EntityFishWakeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+   public EntityFishWakeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.3F;
       this.motionY = Math.random() * 0.2F + 0.1F;
@@ -16,8 +16,8 @@ public class EntityFishWakeFX extends EntityFX {
       this.particleMaxAge = (int)(8.0 / (Math.random() * 0.8 + 0.2));
       this.particleGravity = 0.0F;
       this.motionX = d;
-      this.motionY = d2;
-      this.motionZ = d3;
+      this.motionY = e;
+      this.motionZ = d2;
    }
 
    @Override

@@ -31,7 +31,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
    private final IImageBuffer imageBuffer;
    private BufferedImage bufferedImage;
    private Thread imageThread;
-   private boolean d;
+   private boolean textureUploaded;
    public Boolean imageFound = null;
    public boolean pipeline = false;
 
@@ -43,8 +43,8 @@ public class ThreadDownloadImageData extends SimpleTexture {
    }
 
    private void checkTextureUploaded() {
-      if (!this.d && this.bufferedImage != null) {
-         this.d = true;
+      if (!this.textureUploaded && this.bufferedImage != null) {
+         this.textureUploaded = true;
          if (this.textureLocation != null) {
             this.deleteGlTexture();
          }
@@ -102,8 +102,8 @@ public class ThreadDownloadImageData extends SimpleTexture {
             HttpURLConnection httpURLConnection = null;
             ThreadDownloadImageData.logger
                .debug("Downloading http texture from {} to {}", ThreadDownloadImageData.this.imageUrl, ThreadDownloadImageData.this.cacheFile);
-            if (ThreadDownloadImageData.k(ThreadDownloadImageData.this)) {
-               ThreadDownloadImageData.O(ThreadDownloadImageData.this);
+            if (ThreadDownloadImageData.accessShouldPipeline(ThreadDownloadImageData.this)) {
+               ThreadDownloadImageData.accessLoadPipelined(ThreadDownloadImageData.this);
             } else {
                try {
                   httpURLConnection = (HttpURLConnection)new URL(ThreadDownloadImageData.this.imageUrl).openConnection(Minecraft.getMinecraft().getProxy());
@@ -142,7 +142,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
                      httpURLConnection.disconnect();
                   }
 
-                  ThreadDownloadImageData.this.imageFound = ThreadDownloadImageData.r(ThreadDownloadImageData.this) != null;
+                  ThreadDownloadImageData.this.imageFound = ThreadDownloadImageData.accessBufferedImage(ThreadDownloadImageData.this) != null;
                }
             }
          }
@@ -190,19 +190,19 @@ public class ThreadDownloadImageData extends SimpleTexture {
       }
    }
 
-   public BufferedImage l() {
+   public BufferedImage getBufferedImage() {
       return this.bufferedImage;
    }
 
-   public static boolean k(ThreadDownloadImageData threadDownloadImageData) {
+   public static boolean accessShouldPipeline(ThreadDownloadImageData threadDownloadImageData) {
       return threadDownloadImageData.shouldPipeline();
    }
 
-   public static void O(ThreadDownloadImageData threadDownloadImageData) {
+   public static void accessLoadPipelined(ThreadDownloadImageData threadDownloadImageData) {
       threadDownloadImageData.loadPipelined();
    }
 
-   public static BufferedImage r(ThreadDownloadImageData threadDownloadImageData) {
+   public static BufferedImage accessBufferedImage(ThreadDownloadImageData threadDownloadImageData) {
       return threadDownloadImageData.bufferedImage;
    }
 }

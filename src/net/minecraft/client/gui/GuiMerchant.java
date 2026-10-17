@@ -50,8 +50,8 @@ public class GuiMerchant extends GuiContainer {
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       String string = this.chatComponent.getUnformattedText();
-      this.fontRendererObj.D(string, this.xSize / 2 - this.fontRendererObj.getStringWidth(string) / 2, 6.0F, 4210752);
-      this.fontRendererObj.D(I18n.format("container.inventory"), 8.0F, this.ySize - 96 + 2, 4210752);
+      this.fontRendererObj.drawStringNoShadow(string, this.xSize / 2 - this.fontRendererObj.getStringWidth(string) / 2, 6.0F, 4210752);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("container.inventory"), 8.0F, this.ySize - 96 + 2, 4210752);
    }
 
    @Override

@@ -75,13 +75,13 @@ public class GuiGameOver extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.scale(2.0F, 2.0F, 2.0F);
       boolean bl = this.mc.theWorld.getWorldInfo().isHardcoreModeEnabled();
       String string = bl ? I18n.format("deathScreen.title.hardcore") : I18n.format("deathScreen.title");
-      this.d(this.fontRendererObj, string, this.width / 2 / 2, 30, 16777215);
+      this.drawCenteredString(this.fontRendererObj, string, this.width / 2 / 2, 30, 16777215);
       GlStateManager.popMatrix();
       if (bl) {
-         this.d(this.fontRendererObj, I18n.format("deathScreen.hardcoreInfo"), this.width / 2, 144, 16777215);
+         this.drawCenteredString(this.fontRendererObj, I18n.format("deathScreen.hardcoreInfo"), this.width / 2, 144, 16777215);
       }
 
-      this.d(
+      this.drawCenteredString(
          this.fontRendererObj,
          I18n.format("deathScreen.score") + ": " + EnumChatFormatting.YELLOW + this.mc.thePlayer.getScore(),
          this.width / 2,

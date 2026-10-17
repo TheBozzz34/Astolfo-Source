@@ -86,15 +86,15 @@ public class EntityLookHelper {
       return this.isLooking;
    }
 
-   public double s() {
+   public double getLookPosX() {
       return this.posX;
    }
 
-   public double t() {
+   public double getLookPosY() {
       return this.posY;
    }
 
-   public double i() {
+   public double getLookPosZ() {
       return this.posZ;
    }
 }

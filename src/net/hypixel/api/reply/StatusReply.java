@@ -28,11 +28,11 @@ public class StatusReply extends AbstractReply {
          return this.gameType;
       }
 
-      public String J() {
+      public String getMode() {
          return this.mode;
       }
 
-      public String b() {
+      public String getMap() {
          return this.map;
       }
 

@@ -434,7 +434,7 @@ public final class KillAura extends Module {
       int i = this.getSmoothing();
       float f = this.getLeadOff();
       if (AutoHeal.healItem != null && AutoHeal.healItem.getType() == HealItemType.POTION) {
-         ItemRenderer.J = false;
+         ItemRenderer.fakeBlocking = false;
          this.blocking = false;
       } else if (mc.currentScreen instanceof GuiInventory && this.inventoryDisable.getValue()) {
          target = null;
@@ -521,7 +521,7 @@ public final class KillAura extends Module {
                         lastPitch = motionEvent.getLastPitch();
                         if (this.movementRotated || !this.movementLimit.getValue()) {
                            if (this.rotations.getSetting("Fix-Delta").asBoolean()) {
-                              float f3 = mc.gameSettings.Zm * 0.6F + 0.2F;
+                              float f3 = mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
                               float f4 = f3 * f3 * f3 * 1.2F;
                               float f5 = g - serverYaw;
                               float f6 = h - serverPitch;
@@ -557,7 +557,7 @@ public final class KillAura extends Module {
                      if (client.getModuleManager().get(Criticals.class).isEnabled()
                         && GameUtil.canCriticalHit()
                         && this.stepCooldown < 3
-                        && !mc.thePlayer.Lr
+                        && !mc.thePlayer.isJumping
                         && Criticals.canCrit) {
                         switch ((CriticalsMode)Criticals.mode.getValue()) {
                            case EDIT:
@@ -592,10 +592,10 @@ public final class KillAura extends Module {
                   if (!GameUtil.isHoldingSword(mc.thePlayer)
                      || autoBlock.getValue().equals(KillAuraAutoBlockMode.NONE)
                      || (!(this.blockRange.asDouble() > 0.0) || entityPlayer == null) && target == null) {
-                     ItemRenderer.J = false;
+                     ItemRenderer.fakeBlocking = false;
                   } else {
                      this.startBlocking();
-                     ItemRenderer.J = true;
+                     ItemRenderer.fakeBlocking = true;
                   }
                }
          }
@@ -835,12 +835,12 @@ public final class KillAura extends Module {
    }
 
    public float getSensitivityStep() {
-      double d = mc.gameSettings.Zm * 0.6 + 0.2;
+      double d = mc.gameSettings.mouseSensitivity * 0.6 + 0.2;
       double e = d * d * d * 8.0;
       return (float)(e * 0.15F);
    }
 
-   public void drawPentagram(double d, double d2, double d3, double d4) {
+   public void drawPentagram(double d, double e, double d2, double d3) {
       GL11.glPushMatrix();
       GL11.glDisable(3553);
       GL11.glDisable(2896);
@@ -851,15 +851,15 @@ public final class KillAura extends Module {
       GL11.glDepthMask(false);
       GL11.glLineWidth(2.0F);
       RenderUtil.setColor(-1);
-      GL11.glTranslated(d, d2, d3);
-      GL11.glRotated(d4, 0.0, 1.0, 0.0);
+      GL11.glTranslated(d, e, d2);
+      GL11.glRotated(d3, 0.0, 1.0, 0.0);
       GL11.glRotated(90.0, 1.0, 0.0, 0.0);
       double[] doubles = new double[10];
 
       for (int i = 0; i < 5; i++) {
-         double e = (Math.PI * 2) * i / 5.0;
-         double d5 = Math.cos(e);
-         double d6 = Math.sin(e);
+         double d4 = (Math.PI * 2) * i / 5.0;
+         double d5 = Math.cos(d4);
+         double d6 = Math.sin(d4);
          doubles[i * 2] = d5;
          doubles[i * 2 + 1] = d6;
       }
@@ -893,17 +893,17 @@ public final class KillAura extends Module {
       GL11.glPopMatrix();
    }
 
-   private void traceStrafeForm(double d, double d2, double d3, KillAuraStrafeFormMode killAuraStrafeFormMode, double d4, int i, List<Vector3d> list) {
+   private void traceStrafeForm(double d, double e, double d2, KillAuraStrafeFormMode killAuraStrafeFormMode, double d3, int i, List<Vector3d> list) {
       switch (killAuraStrafeFormMode) {
          case CIRCLE:
-            this.circlePoints(list, i, d4, d, d2, d3);
+            this.circlePoints(list, i, d3, d, e, d2);
             break;
          case INFINITE:
-            this.lemniscatePoints(list, i, d, d2, d3);
+            this.lemniscatePoints(list, i, d, e, d2);
             break;
          case BACK:
             if (target instanceof EntityLivingBase) {
-               this.behindPoints(list, d4, d, d2, d3, (EntityLivingBase)target);
+               this.behindPoints(list, d3, d, e, d2, (EntityLivingBase)target);
             }
       }
    }
@@ -1004,7 +1004,9 @@ public final class KillAura extends Module {
                      .addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
                   this.blocking = false;
                } else if (mc.thePlayer.swingProgressInt == 2) {
-                  mc.thePlayer.sendQueue.u(new C08PacketPlayerBlockPlacement(C08PacketPlayerBlockPlacement.field_179726_a, 255, null, 0.0F, 0.0F, 0.0F));
+                  mc.thePlayer
+                     .sendQueue
+                     .sendPacketNoEvent(new C08PacketPlayerBlockPlacement(C08PacketPlayerBlockPlacement.field_179726_a, 255, null, 0.0F, 0.0F, 0.0F));
                   this.blocking = true;
                }
             }
@@ -1030,7 +1032,7 @@ public final class KillAura extends Module {
          }
       }
 
-      ItemRenderer.J = false;
+      ItemRenderer.fakeBlocking = false;
    }
 
    private boolean shouldOptimizeBlock() {
@@ -1062,51 +1064,51 @@ public final class KillAura extends Module {
       return arrayList;
    }
 
-   private void circlePoints(List<Vector3d> list, int i, double d, double d2, double d3, double d4) {
+   private void circlePoints(List<Vector3d> list, int i, double d, double e, double d2, double d3) {
       int j = 0;
 
       while (j < 360) {
-         double e = j * Math.PI / 180.0;
-         double d5 = d * Math.cos(e);
-         double d6 = d * Math.sin(e);
+         double d4 = j * Math.PI / 180.0;
+         double d5 = d * Math.cos(d4);
+         double d6 = d * Math.sin(d4);
          if (list == null) {
-            GL11.glVertex3d(d2 + d5, d3, d4 + d6);
+            GL11.glVertex3d(e + d5, d2, d3 + d6);
          } else {
-            list.add(new Vector3d(d2 + d5, d3, d4 + d6));
+            list.add(new Vector3d(e + d5, d2, d3 + d6));
          }
 
          j += 360 / i;
       }
    }
 
-   private void lemniscatePoints(List<Vector3d> list, int i, double d, double d2, double d3) {
-      double e = 1.0;
-      double d4 = e * i;
+   private void lemniscatePoints(List<Vector3d> list, int i, double d, double e, double d2) {
+      double d3 = 1.0;
+      double d4 = d3 * i;
       double d5 = (Math.PI * 2) / d4;
 
       for (int j = 0; j < d4; j++) {
          double d6 = j * d5;
          double d7 = Math.sin(d6);
-         double d8 = e * Math.sqrt(2.0) * Math.cos(d6) / (Math.pow(d7, 2.0) + 1.0);
-         double d9 = e * Math.sqrt(2.0) * Math.cos(d6) * Math.sin(d6) / (Math.pow(d7, 2.0) + 1.0);
+         double d8 = d3 * Math.sqrt(2.0) * Math.cos(d6) / (Math.pow(d7, 2.0) + 1.0);
+         double d9 = d3 * Math.sqrt(2.0) * Math.cos(d6) * Math.sin(d6) / (Math.pow(d7, 2.0) + 1.0);
          if (list == null) {
-            GL11.glVertex3d(d + d9, d2, d3 + d8);
+            GL11.glVertex3d(d + d9, e, d2 + d8);
          } else {
             this.strafePoints.add(new Vector3d(target.posX + d9, target.posY, target.posZ + d8));
          }
       }
    }
 
-   private void behindPoints(List<Vector3d> list, double d, double d2, double d3, double d4, EntityLivingBase entityLivingBase) {
+   private void behindPoints(List<Vector3d> list, double d, double e, double d2, double d3, EntityLivingBase entityLivingBase) {
       float f = entityLivingBase.rotationYaw + 90.0F + 180.0F;
-      double e = d * Math.cos(Math.toRadians(f));
+      double d4 = d * Math.cos(Math.toRadians(f));
       double d5 = d * Math.sin(Math.toRadians(f));
       if (list == null) {
-         GL11.glVertex3d(d2, d3, d4);
-         GL11.glVertex3d(d2 + e, d3, d4 + d5);
-         GL11.glVertex3d(d2, d3, d4);
+         GL11.glVertex3d(e, d2, d3);
+         GL11.glVertex3d(e + d4, d2, d3 + d5);
+         GL11.glVertex3d(e, d2, d3);
       } else {
-         this.strafePoints.add(new Vector3d(entityLivingBase.posX + e, entityLivingBase.posY, entityLivingBase.posZ + d5));
+         this.strafePoints.add(new Vector3d(entityLivingBase.posX + d4, entityLivingBase.posY, entityLivingBase.posZ + d5));
       }
    }
 
@@ -1159,7 +1161,7 @@ public final class KillAura extends Module {
 
             for (Object object : arrayList) {
                Vector3 vector3 = (Vector3)object;
-               mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector3.getX(), vector3.getY(), vector3.getZ(), true));
             }
          }
 
@@ -1177,7 +1179,7 @@ public final class KillAura extends Module {
 
             for (Object object2 : arrayList) {
                Vector3 vector32 = (Vector3)object2;
-               mc.thePlayer.sendQueue.u(new C03PacketPlayer.C04PacketPlayerPosition(vector32.getX(), vector32.getY(), vector32.getZ(), true));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(vector32.getX(), vector32.getY(), vector32.getZ(), true));
             }
          }
 
@@ -1188,7 +1190,7 @@ public final class KillAura extends Module {
                && !mc.thePlayer.isInWater()
                && !mc.thePlayer.isPotionActive(Potion.blindness)
                && mc.thePlayer.ridingEntity == null;
-            boolean bl5 = this.stepCooldown < 3 && !mc.thePlayer.Lr;
+            boolean bl5 = this.stepCooldown < 3 && !mc.thePlayer.isJumping;
             if (GameUtil.canCriticalHit()
                   && client.getModuleManager().get(Criticals.class).isEnabled()
                   && (
@@ -1197,13 +1199,13 @@ public final class KillAura extends Module {
                         || Criticals.mode.getValue() == CriticalsMode.INCREMENTAL && bl5
                   )
                || bl4) {
-               mc.thePlayer.L(entity);
+               mc.thePlayer.onCriticalHit(entity);
             }
 
             if (mc.thePlayer.getCurrentEquippedItem() != null
                && entity instanceof EntityLivingBase
                && EnchantmentHelper.getModifierForCreature(mc.thePlayer.getCurrentEquippedItem(), ((EntityLivingBase)entity).getCreatureAttribute()) > 0.0F) {
-               mc.thePlayer.x(entity);
+               mc.thePlayer.onEnchantmentCritical(entity);
             }
          }
       } else {
@@ -1439,8 +1441,8 @@ public final class KillAura extends Module {
       return Math.hypot(d, e);
    }
 
-   public static double angleDifference(double d, double d2) {
-      return ((d - d2) % 360.0 + 540.0) % 360.0 - 180.0;
+   public static double angleDifference(double d, double e) {
+      return ((d - e) % 360.0 + 540.0) % 360.0 - 180.0;
    }
 
    private int getMinAps() {

@@ -169,7 +169,7 @@ public class GuiPlayerTabOverlay extends Gui {
                      boolean bl2 = entityPlayer != null
                         && entityPlayer.isWearing(EnumPlayerModelParts.CAPE)
                         && (gameProfile.getName().equals("Dinnerbone") || gameProfile.getName().equals("Grumm"));
-                     this.mc.getTextureManager().bindTexture(networkPlayerInfo2.c());
+                     this.mc.getTextureManager().bindTexture(networkPlayerInfo2.getDisplayedSkin());
                      int i14 = 8 + (bl2 ? 8 : 0);
                      int i15 = 8 * (bl2 ? -1 : 1);
                      Gui.drawScaledCustomSizeModalRect(i12, i13, 8.0F, i14, 8, i15, 8, 8, 64.0F, 64.0F);

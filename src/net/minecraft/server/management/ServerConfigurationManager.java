@@ -376,7 +376,7 @@ public abstract class ServerConfigurationManager {
       this.playerEntityList.remove(playerIn);
       this.mcServer.worldServerForDimension(playerIn.dimension).removePlayerEntityDangerously(playerIn);
       BlockPos blockPos = playerIn.getBedLocation();
-      boolean bl = playerIn.S();
+      boolean bl = playerIn.isSpawnForced();
       playerIn.dimension = dimension;
       ItemInWorldManager itemInWorldManager;
       if (this.mcServer.isDemo()) {
@@ -605,12 +605,12 @@ public abstract class ServerConfigurationManager {
       return this.bannedIPs;
    }
 
-   public void J(GameProfile gameProfile) {
-      this.ops.addEntry(new UserListOpsEntry(gameProfile, this.mcServer.getOpPermissionLevel(), this.ops.bypassesPlayerLimit(gameProfile)));
+   public void addOp(GameProfile profile) {
+      this.ops.addEntry(new UserListOpsEntry(profile, this.mcServer.getOpPermissionLevel(), this.ops.bypassesPlayerLimit(profile)));
    }
 
-   public void C(GameProfile gameProfile) {
-      this.ops.removeEntry(gameProfile);
+   public void removeOp(GameProfile profile) {
+      this.ops.removeEntry(profile);
    }
 
    public boolean canJoin(GameProfile profile) {

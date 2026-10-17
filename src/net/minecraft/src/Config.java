@@ -181,11 +181,11 @@ public class Config {
       }
    }
 
-   public static boolean v() {
+   public static boolean isFancyFogAvailable() {
       return fancyFogAvailable;
    }
 
-   public static boolean l() {
+   public static boolean isOcclusionAvailable() {
       return occlusionAvailable;
    }
 
@@ -411,12 +411,12 @@ public class Config {
       return Thread.currentThread() == minecraftThread;
    }
 
-   public static boolean pm() {
-      return gameSettings.g > 0;
+   public static boolean isMipmaps() {
+      return gameSettings.mipmapLevels > 0;
    }
 
    public static int getMipmapLevels() {
-      return gameSettings.g;
+      return gameSettings.mipmapLevels;
    }
 
    public static int getMipmapType() {
@@ -452,7 +452,7 @@ public class Config {
    }
 
    public static boolean isFogFancy() {
-      return !v() ? false : gameSettings.ofFogType == 2;
+      return !isFancyFogAvailable() ? false : gameSettings.ofFogType == 2;
    }
 
    public static boolean isFogFast() {
@@ -463,7 +463,7 @@ public class Config {
       return gameSettings.ofFogType == 3;
    }
 
-   public static float S() {
+   public static float getFogStart() {
       return gameSettings.ofFogStart;
    }
 
@@ -483,12 +483,12 @@ public class Config {
       dbg(s);
    }
 
-   public static int B() {
+   public static int getUpdatesPerFrame() {
       return gameSettings.ofChunkUpdates;
    }
 
-   public static boolean a() {
-      return gameSettings.X;
+   public static boolean isDynamicUpdates() {
+      return gameSettings.ofChunkUpdatesDynamic;
    }
 
    public static boolean isRainFancy() {
@@ -499,12 +499,12 @@ public class Config {
       return gameSettings.ofRain == 3;
    }
 
-   public static boolean c() {
+   public static boolean isCloudsFancy() {
       return gameSettings.ofClouds != 0
          ? gameSettings.ofClouds == 2
          : (
-            isShaders() && !Shaders.shaderPackClouds.E()
-               ? Shaders.shaderPackClouds.K()
+            isShaders() && !Shaders.shaderPackClouds.isDefault()
+               ? Shaders.shaderPackClouds.isFancy()
                : (texturePackClouds != 0 ? texturePackClouds == 2 : gameSettings.fancyGraphics)
          );
    }
@@ -512,7 +512,7 @@ public class Config {
    public static boolean isCloudsOff() {
       return gameSettings.ofClouds != 0
          ? gameSettings.ofClouds == 3
-         : (isShaders() && !Shaders.shaderPackClouds.E() ? Shaders.shaderPackClouds.a() : (texturePackClouds != 0 ? texturePackClouds == 3 : false));
+         : (isShaders() && !Shaders.shaderPackClouds.isDefault() ? Shaders.shaderPackClouds.isOff() : (texturePackClouds != 0 ? texturePackClouds == 3 : false));
    }
 
    public static void updateTexturePackClouds() {
@@ -567,7 +567,7 @@ public class Config {
       return gameSettings.ofTrees == 0 ? !gameSettings.fancyGraphics : gameSettings.ofTrees == 4;
    }
 
-   public static boolean g() {
+   public static boolean isDroppedItemsFancy() {
       return gameSettings.ofDroppedItems == 0 ? gameSettings.fancyGraphics : gameSettings.ofDroppedItems == 2;
    }
 
@@ -591,7 +591,7 @@ public class Config {
       return gameSettings.ofAnimatedWater != 2;
    }
 
-   public static boolean T() {
+   public static boolean isGeneratedWater() {
       return gameSettings.ofAnimatedWater == 1;
    }
 
@@ -599,15 +599,15 @@ public class Config {
       return gameSettings.ofAnimatedPortal;
    }
 
-   public static boolean pl() {
+   public static boolean isAnimatedLava() {
       return gameSettings.ofAnimatedLava != 2;
    }
 
-   public static boolean pY() {
+   public static boolean isGeneratedLava() {
       return gameSettings.ofAnimatedLava == 1;
    }
 
-   public static boolean w() {
+   public static boolean isAnimatedFire() {
       return gameSettings.ofAnimatedFire;
    }
 
@@ -639,7 +639,7 @@ public class Config {
       return gameSettings.ofRainSplash;
    }
 
-   public static boolean pz() {
+   public static boolean isPortalParticles() {
       return gameSettings.ofPortalParticles;
    }
 
@@ -812,47 +812,47 @@ public class Config {
       return minecraft.renderGlobal;
    }
 
-   public static boolean py() {
+   public static boolean isBetterGrass() {
       return gameSettings.ofBetterGrass != 3;
    }
 
-   public static boolean e() {
+   public static boolean isBetterGrassFancy() {
       return gameSettings.ofBetterGrass == 2;
    }
 
-   public static boolean pd() {
-      return gameSettings.lP;
+   public static boolean isWeatherEnabled() {
+      return gameSettings.ofWeather;
    }
 
-   public static boolean K() {
-      return gameSettings.ZC;
+   public static boolean isSkyEnabled() {
+      return gameSettings.ofSky;
    }
 
-   public static boolean u() {
-      return gameSettings.d;
+   public static boolean isSunMoonEnabled() {
+      return gameSettings.ofSunMoon;
    }
 
-   public static boolean pR() {
-      return !u() ? false : !isShaders() || Shaders.i_boolean();
+   public static boolean isSunTexture() {
+      return !isSunMoonEnabled() ? false : !isShaders() || Shaders.i_boolean();
    }
 
-   public static boolean pM() {
-      return !u() ? false : !isShaders() || Shaders.r();
+   public static boolean isMoonTexture() {
+      return !isSunMoonEnabled() ? false : !isShaders() || Shaders.isMoon();
    }
 
    public static boolean isVignetteEnabled() {
-      return isShaders() && !Shaders.l() ? false : (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
+      return isShaders() && !Shaders.isVignette() ? false : (gameSettings.ofVignette == 0 ? gameSettings.fancyGraphics : gameSettings.ofVignette == 2);
    }
 
-   public static boolean s() {
-      return gameSettings.lW;
+   public static boolean isStarsEnabled() {
+      return gameSettings.ofStars;
    }
 
    public static void sleep(long ms) {
       try {
          Thread.sleep(ms);
-      } catch (InterruptedException eIn) {
-         eIn.printStackTrace();
+      } catch (InterruptedException e) {
+         e.printStackTrace();
       }
    }
 
@@ -860,7 +860,7 @@ public class Config {
       return gameSettings.ofTime == 1;
    }
 
-   public static boolean O() {
+   public static boolean isTimeDefault() {
       return gameSettings.ofTime == 0;
    }
 
@@ -868,7 +868,7 @@ public class Config {
       return gameSettings.ofTime == 2;
    }
 
-   public static boolean V() {
+   public static boolean isClearWater() {
       return gameSettings.ofClearWater;
    }
 
@@ -876,7 +876,7 @@ public class Config {
       return gameSettings.ofAfLevel;
    }
 
-   public static boolean pL() {
+   public static boolean isAnisotropicFiltering() {
       return getAnisotropicFilterLevel() > 1;
    }
 
@@ -904,8 +904,8 @@ public class Config {
       return gameSettings.ofDrippingWaterLava;
    }
 
-   public static boolean d() {
-      return gameSettings.Zi;
+   public static boolean isBetterSnow() {
+      return gameSettings.ofBetterSnow;
    }
 
    public static Dimension getFullscreenDimension() {
@@ -1092,20 +1092,20 @@ public class Config {
       return desktopDisplayMode;
    }
 
-   public static boolean F() {
+   public static boolean isAnimatedTerrain() {
       return gameSettings.ofAnimatedTerrain;
    }
 
-   public static boolean pN() {
+   public static boolean isAnimatedTextures() {
       return gameSettings.ofAnimatedTextures;
    }
 
    public static boolean isSwampColors() {
-      return gameSettings.lD;
+      return gameSettings.ofSwampColors;
    }
 
    public static boolean isRandomMobs() {
-      return gameSettings.Zb;
+      return gameSettings.ofRandomMobs;
    }
 
    public static void checkGlError(String loc) {
@@ -1117,23 +1117,23 @@ public class Config {
    }
 
    public static boolean isSmoothBiomes() {
-      return gameSettings.lx;
+      return gameSettings.ofSmoothBiomes;
    }
 
    public static boolean isCustomColors() {
-      return gameSettings.s;
+      return gameSettings.ofCustomColors;
    }
 
-   public static boolean L() {
-      return gameSettings.l0;
+   public static boolean isCustomSky() {
+      return gameSettings.ofCustomSky;
    }
 
-   public static boolean m() {
-      return gameSettings.lo;
+   public static boolean isCustomFonts() {
+      return gameSettings.ofCustomFonts;
    }
 
-   public static boolean b() {
-      return gameSettings.AJ;
+   public static boolean isShowCapes() {
+      return gameSettings.ofShowCapes;
    }
 
    public static boolean isConnectedTextures() {
@@ -1141,7 +1141,7 @@ public class Config {
    }
 
    public static boolean isNaturalTextures() {
-      return gameSettings.ZB;
+      return gameSettings.ofNaturalTextures;
    }
 
    public static boolean isConnectedTexturesFancy() {
@@ -1149,10 +1149,10 @@ public class Config {
    }
 
    public static boolean isFastRender() {
-      return gameSettings.ZE;
+      return gameSettings.ofFastRender;
    }
 
-   public static boolean pQ() {
+   public static boolean isTranslucentBlocksFancy() {
       return gameSettings.ofTranslucentBlocks == 0 ? gameSettings.fancyGraphics : gameSettings.ofTranslucentBlocks == 2;
    }
 
@@ -1224,12 +1224,12 @@ public class Config {
       return gameSettings;
    }
 
-   public static String W() {
+   public static String getNewRelease() {
       return newRelease;
    }
 
-   public static void G(String string) {
-      newRelease = string;
+   public static void setNewRelease(String newReleaseIn) {
+      newRelease = newReleaseIn;
    }
 
    public static int compareRelease(String rel1, String rel2) {
@@ -1336,18 +1336,18 @@ public class Config {
    }
 
    public static boolean isSmoothWorld() {
-      return gameSettings.i;
+      return gameSettings.ofSmoothWorld;
    }
 
    public static boolean y() {
-      return !isSingleProcessor() ? false : gameSettings.lH;
+      return !isSingleProcessor() ? false : gameSettings.ofLazyChunkLoading;
    }
 
    public static boolean isDynamicFov() {
-      return gameSettings.li;
+      return gameSettings.ofDynamicFov;
    }
 
-   public static boolean p8() {
+   public static boolean isAlternateBlocks() {
       return gameSettings.allowBlockAlternatives;
    }
 
@@ -1359,14 +1359,14 @@ public class Config {
       return o1 == o2 ? true : (o1 == null ? false : o1.equals(o2));
    }
 
-   public static boolean X(Object object, Object[] objects) {
-      if (objects == null) {
+   public static boolean equalsOne(Object a, Object[] bs) {
+      if (bs == null) {
          return false;
       }
 
-      for (int i = 0; i < objects.length; i++) {
-         Object object2 = objects[i];
-         if (equals(object, object2)) {
+      for (int i = 0; i < bs.length; i++) {
+         Object object = bs[i];
+         if (equals(a, object)) {
             return true;
          }
       }
@@ -1374,14 +1374,14 @@ public class Config {
       return false;
    }
 
-   public static boolean K(Object object, Object[] objects) {
-      if (objects == null) {
+   public static boolean isSameOne(Object a, Object[] bs) {
+      if (bs == null) {
          return false;
       }
 
-      for (int i = 0; i < objects.length; i++) {
-         Object object2 = objects[i];
-         if (object == object2) {
+      for (int i = 0; i < bs.length; i++) {
+         Object object = bs[i];
+         if (a == object) {
             return true;
          }
       }
@@ -1573,17 +1573,17 @@ public class Config {
    }
 
    public static boolean isCustomItems() {
-      return gameSettings.ZZ;
+      return gameSettings.ofCustomItems;
    }
 
    public static void drawFps() {
-      int i = Minecraft.B();
-      String string = getUpdates(minecraft.xQ);
+      int i = Minecraft.getDebugFPS();
+      String string = getUpdates(minecraft.debug);
       int j = minecraft.renderGlobal.getCountActiveRenderers();
-      int k = minecraft.renderGlobal.P();
-      int l = minecraft.renderGlobal.Z();
+      int k = minecraft.renderGlobal.getCountEntitiesRendered();
+      int l = minecraft.renderGlobal.getCountTileEntitiesRendered();
       String string2 = "" + i + " fps, C: " + j + ", E: " + k + "+" + l + ", U: " + string;
-      minecraft.fontRendererObj.D(string2, 2.0F, 2.0F, -2039584);
+      minecraft.fontRendererObj.drawStringNoShadow(string2, 2.0F, 2.0F, -2039584);
    }
 
    private static String getUpdates(String str) {
@@ -1615,7 +1615,7 @@ public class Config {
       return 32;
    }
 
-   public static boolean k() {
+   public static boolean isNotify64BitJava() {
       return notify64BitJava;
    }
 
@@ -1685,6 +1685,6 @@ public class Config {
    }
 
    public static boolean isDynamicHandLight() {
-      return !isDynamicLights() ? false : (isShaders() ? Shaders.x() : true);
+      return !isDynamicLights() ? false : (isShaders() ? Shaders.isDynamicHandLight() : true);
    }
 }

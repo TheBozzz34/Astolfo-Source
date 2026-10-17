@@ -48,7 +48,7 @@ public class GuiShaders extends GuiScreen {
       byte b4 = 20;
       int j = this.width - b - 20;
       this.shaderList = new GuiShaders.zo(this, j, this.height, b3, this.height - 50, 16);
-      this.shaderList.U(7, 8);
+      this.shaderList.registerScrollButtons(7, 8);
       this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, i, 0 * b4 + b3, b, b2));
       this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, i, 1 * b4 + b3, b, b2));
       this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, i, 2 * b4 + b3, b, b2));
@@ -87,7 +87,7 @@ public class GuiShaders extends GuiScreen {
             GuiButtonEnumShaderOption guiButtonEnumShaderOption = (GuiButtonEnumShaderOption)button;
             switch (guiButtonEnumShaderOption.getEnumShaderOption()) {
                case ANTIALIASING:
-                  Shaders.p();
+                  Shaders.nextAntialiasingLevel();
                   Shaders.uninit();
                   break;
                case NORMAL_MAP:
@@ -112,7 +112,7 @@ public class GuiShaders extends GuiScreen {
                   }
 
                   Shaders.configRenderResMul = floats[i];
-                  Shaders.L();
+                  Shaders.scheduleResize();
                   break;
                case SHADOW_RES_MUL:
                   float g = Shaders.configShadowResMul;
@@ -128,7 +128,7 @@ public class GuiShaders extends GuiScreen {
                   }
 
                   Shaders.configShadowResMul = floats2[j];
-                  Shaders.Ue();
+                  Shaders.scheduleResizeShadow();
                   break;
                case HAND_DEPTH_MUL:
                   float h = Shaders.configHandDepthMul;
@@ -149,10 +149,10 @@ public class GuiShaders extends GuiScreen {
                   Shaders.configCloudShadow = !Shaders.configCloudShadow;
                   break;
                case OLD_HAND_LIGHT:
-                  Shaders.configOldHandLight.N();
+                  Shaders.configOldHandLight.nextValue();
                   break;
                case OLD_LIGHTING:
-                  Shaders.configOldLighting.N();
+                  Shaders.configOldLighting.nextValue();
                   Shaders.updateBlockLightLevel();
                   this.mc.scheduleResourcesRefresh();
                   break;
@@ -166,13 +166,13 @@ public class GuiShaders extends GuiScreen {
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case TEX_MAG_FIL_N:
-                  Shaders.ub = (Shaders.ub + 1) % 2;
-                  button.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.ub];
+                  Shaders.configTexMagFilN = (Shaders.configTexMagFilN + 1) % 2;
+                  button.displayString = "Tex_n Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilN];
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case TEX_MAG_FIL_S:
-                  Shaders.L = (Shaders.L + 1) % 2;
-                  button.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.L];
+                  Shaders.configTexMagFilS = (Shaders.configTexMagFilS + 1) % 2;
+                  button.displayString = "Tex_s Mag: " + Shaders.texMagFilDesc[Shaders.configTexMagFilS];
                   ShadersTex.updateTextureMinMagFilter();
                   break;
                case SHADOW_CLIP_FRUSTRUM:
@@ -255,13 +255,13 @@ public class GuiShaders extends GuiScreen {
          this.updateTimer += 20;
       }
 
-      this.d(this.fontRendererObj, this.screenTitle + " ", this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.screenTitle + " ", this.width / 2, 15, 16777215);
       String string = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
       int i = this.fontRendererObj.getStringWidth(string);
       if (i < this.width - 5) {
-         this.d(this.fontRendererObj, string, this.width / 2, this.height - 40, 8421504);
+         this.drawCenteredString(this.fontRendererObj, string, this.width / 2, this.height - 40, 8421504);
       } else {
-         this.I(this.fontRendererObj, string, 5, this.height - 40, 8421504);
+         this.drawString(this.fontRendererObj, string, 5, this.height - 40, 8421504);
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);
@@ -278,7 +278,7 @@ public class GuiShaders extends GuiScreen {
    }
 
    public void drawCenteredString(String text, int x, int y, int color) {
-      this.d(this.fontRendererObj, text, x, y, color);
+      this.drawCenteredString(this.fontRendererObj, text, x, y, color);
    }
 
    public static String toStringOnOff(boolean value) {
@@ -332,15 +332,15 @@ public class GuiShaders extends GuiScreen {
       private long lastClickedCached = 0L;
       public final GuiShaders shadersGui;
 
-      public zo(GuiShaders guiShaders, int i, int j, int k, int m, int n) {
-         super(guiShaders.getMc(), i, j, k, m, n);
+      public zo(GuiShaders guiShaders, int i, int j, int k, int l, int m) {
+         super(guiShaders.getMc(), i, j, k, l, m);
          this.shadersGui = guiShaders;
          this.updateList();
          this.amountScrolled = 0.0F;
-         int l = this.selectedIndex * n;
-         int i2 = (m - k) / 2;
-         if (l > i2) {
-            this.scrollBy(l - i2);
+         int n = this.selectedIndex * m;
+         int i2 = (l - k) / 2;
+         if (n > i2) {
+            this.scrollBy(n - i2);
          }
       }
 

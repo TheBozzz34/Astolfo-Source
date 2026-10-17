@@ -235,15 +235,15 @@ public final class Flight extends Module {
 
                if (this.custom.getSetting("Tick-Speed").asBoolean()) {
                   if (mc.thePlayer.ticksExisted % i == 0 && bl) {
-                     mc.thePlayer.r(f);
+                     mc.thePlayer.setSpeed(f);
                   } else {
-                     mc.thePlayer.r(0.0);
+                     mc.thePlayer.setSpeed(0.0);
                   }
                } else if (f != 1.0F) {
                   if (bl) {
-                     mc.thePlayer.r(f);
+                     mc.thePlayer.setSpeed(f);
                   } else {
-                     mc.thePlayer.r(0.0);
+                     mc.thePlayer.setSpeed(0.0);
                   }
                }
 
@@ -269,7 +269,7 @@ public final class Flight extends Module {
                }
             case FAITHFUL:
                mc.thePlayer.motionY = 0.0;
-               mc.thePlayer.r(this.speed.getValue().floatValue());
+               mc.thePlayer.setSpeed(this.speed.getValue().floatValue());
                if (mc.inGameHasFocus) {
                   if (Keyboard.isKeyDown(mc.gameSettings.keyBindJump.getKeyCode())) {
                      mc.thePlayer.motionY = this.speed.getValue().floatValue();
@@ -305,7 +305,7 @@ public final class Flight extends Module {
          }
 
          if (!this.gwenBoosted) {
-            mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(findEmptyHotbarSlot()));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(findEmptyHotbarSlot()));
             clickBlockBelow();
             GameUtil.setMoveSpeed(moveEvent, this.gwenReversed ? -this.gwenSpeed : this.gwenSpeed, 90.0F);
             this.gwenReversed = !this.gwenReversed;
@@ -319,7 +319,7 @@ public final class Flight extends Module {
                this.gwenBoosted = true;
             }
          } else {
-            mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             if (mc.thePlayer.fallDistance == 0.0F) {
                moveEvent.setY(mc.thePlayer.motionY += 0.038);
             } else if (mc.thePlayer.fallDistance <= 1.4) {
@@ -398,7 +398,7 @@ public final class Flight extends Module {
    private void releasePackets() {
       Packet packet;
       while ((packet = this.heldPackets.poll()) != null) {
-         mc.thePlayer.sendQueue.u(packet);
+         mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
       }
    }
 
@@ -414,7 +414,7 @@ public final class Flight extends Module {
 
       for (this.groundDistance = 0.0; this.groundDistance < mc.thePlayer.posY; this.groundDistance += d) {
          AxisAlignedBB axisAlignedBB2 = axisAlignedBB.offset(0.0, -this.groundDistance, 0.0);
-         if (mc.theWorld.X(axisAlignedBB2)) {
+         if (mc.theWorld.checkBlockCollision(axisAlignedBB2)) {
             if (d < 0.0625) {
                break;
             }
@@ -438,7 +438,7 @@ public final class Flight extends Module {
    public static void clickBlockBelow() {
       BlockPos blockPos = new BlockPos(mc.thePlayer.posX, mc.thePlayer.getEntityBoundingBox().minY - 1.0, mc.thePlayer.posZ);
       Vec3 vec3 = new Vec3(blockPos).addVector(0.4, 0.4, 0.4);
-      mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, null, blockPos, EnumFacing.UP, vec3.e(0.4));
+      mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, null, blockPos, EnumFacing.UP, vec3.scale(0.4));
    }
 
    @Override
@@ -489,16 +489,16 @@ public final class Flight extends Module {
    public void onDisable() {
       FlightMode flightMode = mode.getValue();
       if (mode.getValue() == FlightMode.SENTINEL && mc.thePlayer != null) {
-         mc.thePlayer.r(0.25);
+         mc.thePlayer.setSpeed(0.25);
          mc.thePlayer.motionY = -0.2F;
       }
 
       if (mode.getValue() == FlightMode.CUSTOM && mc.thePlayer != null && this.custom.getSetting("Stop").asBoolean()) {
-         mc.thePlayer.r(0.0);
+         mc.thePlayer.setSpeed(0.0);
       }
 
       if (mode.getValue() == FlightMode.GWEN) {
-         mc.thePlayer.r(0.0);
+         mc.thePlayer.setSpeed(0.0);
       }
 
       if (mc.thePlayer != null && (this.slotSwitched || slotSpoofed)) {

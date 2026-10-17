@@ -33,8 +33,8 @@ public final class FastUse extends Module {
          && updateEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.VANILLA
          && this.o_boolean()
-         && mc.thePlayer.n() >= this.delay.getValue()) {
-         int i = 32 - mc.thePlayer.n();
+         && mc.thePlayer.getItemInUseDuration() >= this.delay.getValue()) {
+         int i = 32 - mc.thePlayer.getItemInUseDuration();
 
          for (int j = 0; j < i; j++) {
             mc.thePlayer
@@ -58,7 +58,7 @@ public final class FastUse extends Module {
          && motionEvent.getState() == EventState.PRE
          && this.mode.getValue() == FastUseMode.SENTINEL
          && this.o_boolean()
-         && mc.thePlayer.n() >= this.delay.getValue()
+         && mc.thePlayer.getItemInUseDuration() >= this.delay.getValue()
          && mc.thePlayer.ticksExisted % 2 == 0) {
          for (int i = 0; i < 2; i++) {
             mc.thePlayer.sendQueue.addToSendQueue(new C03PacketPlayer(true));
@@ -69,7 +69,7 @@ public final class FastUse extends Module {
 
       if (bl
          && motionEvent.getState() == EventState.PRE
-         && mc.thePlayer.n() > 0
+         && mc.thePlayer.getItemInUseDuration() > 0
          && mc.thePlayer.getHeldItem() != null
          && (
             mc.thePlayer.getHeldItem().getItem().getItemUseAction(mc.thePlayer.getHeldItem()) == EnumAction.EAT

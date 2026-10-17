@@ -109,7 +109,7 @@ public final class Blink extends Module {
          fakePlayer = new EntityOtherPlayerMP(mc.thePlayer.getEntityWorld(), new GameProfile(UUID.randomUUID(), mc.thePlayer.getName()));
          fakePlayer.worldObj = mc.thePlayer.getEntityWorld();
          fakePlayer.entityUniqueID = mc.thePlayer.getUniqueID();
-         fakePlayer.z(mc.thePlayer);
+         fakePlayer.copyLocationAndAnglesFrom(mc.thePlayer);
          fakePlayer.inventory = mc.thePlayer.inventory;
          fakePlayer.capabilities = mc.thePlayer.capabilities;
          mc.theWorld.addEntityToWorld(-420, fakePlayer);
@@ -129,7 +129,7 @@ public final class Blink extends Module {
                break;
             }
 
-            mc.thePlayer.sendQueue.u(packet);
+            mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
          }
       } else {
          this.setEnabled(false);
@@ -149,7 +149,7 @@ public final class Blink extends Module {
    private void flushPackets() {
       Packet packet;
       while ((packet = this.packetQueue.poll()) != null) {
-         mc.thePlayer.sendQueue.u(packet);
+         mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
       }
 
       if (this.entity.getValue() && fakePlayer != null) {

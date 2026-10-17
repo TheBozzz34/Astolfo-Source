@@ -9,7 +9,7 @@ public class EntityHugeExplodeFX extends EntityFX {
    private int timeSinceStart;
    private int maximumTime = 8;
 
-   public EntityHugeExplodeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
+   public EntityHugeExplodeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
    }
 

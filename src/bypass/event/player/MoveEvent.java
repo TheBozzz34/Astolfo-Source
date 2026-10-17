@@ -9,11 +9,11 @@ public class MoveEvent implements Event {
    private double z;
    private EventState state;
 
-   public MoveEvent(double d, double d2, double d3) {
+   public MoveEvent(double d, double e, double d2) {
       this.state = EventState.PRE;
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
    }
 
    public MoveEvent() {

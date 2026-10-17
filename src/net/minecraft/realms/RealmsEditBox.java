@@ -14,11 +14,11 @@ public class RealmsEditBox {
       return this.editBox.getText();
    }
 
-   public void E() {
+   public void tick() {
       this.editBox.updateCursorCounter();
    }
 
-   public void w(boolean bl) {
+   public void setFocus(boolean bl) {
       this.editBox.setFocused(bl);
    }
 
@@ -38,7 +38,7 @@ public class RealmsEditBox {
       this.editBox.mouseClicked(i, j, k);
    }
 
-   public void L() {
+   public void render() {
       this.editBox.drawTextBox();
    }
 
@@ -46,7 +46,7 @@ public class RealmsEditBox {
       this.editBox.setMaxStringLength(i);
    }
 
-   public void i(boolean bl) {
+   public void setIsEditable(boolean bl) {
       this.editBox.setEnabled(bl);
    }
 }

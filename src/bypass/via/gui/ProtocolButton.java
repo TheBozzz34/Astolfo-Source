@@ -54,7 +54,7 @@ public class ProtocolButton extends GuiButton {
    }
 
    private void applySliderValue(float f) {
-      ProtocolVersion protocolVersion = GuiMultiplayer.O.get(this.getProtocolIndex(f));
+      ProtocolVersion protocolVersion = GuiMultiplayer.supportedProtocolVersions.get(this.getProtocolIndex(f));
       ViaFabric.INSTANCE.setVersion(protocolVersion);
       lastSliderValue = f;
       this.displayString = "Protocol: " + ViaFabric.INSTANCE.getVersion().getName();

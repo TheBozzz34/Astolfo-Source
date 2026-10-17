@@ -111,8 +111,8 @@ public final class Tracers extends Module {
       this.addSettings(this.entities, this.highlight, this.width);
    }
 
-   private double interpolate(double d, double d2, double d3) {
-      return d2 + (d - d2) * d3;
+   private double interpolate(double d, double e, double d2) {
+      return e + (d - e) * d2;
    }
 
    private boolean shouldTrace(Entity entity) {

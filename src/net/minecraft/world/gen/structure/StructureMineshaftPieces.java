@@ -117,9 +117,9 @@ public class StructureMineshaftPieces {
          this.hasRails = rand.nextInt(3) == 0;
          this.hasSpiders = !this.hasRails && rand.nextInt(23) == 0;
          if (this.coordBaseMode != EnumFacing.NORTH && this.coordBaseMode != EnumFacing.SOUTH) {
-            this.sectionCount = structurebb.G() / 5;
+            this.sectionCount = structurebb.getXSize() / 5;
          } else {
-            this.sectionCount = structurebb.S() / 5;
+            this.sectionCount = structurebb.getZSize() / 5;
          }
       }
 
@@ -792,9 +792,9 @@ public class StructureMineshaftPieces {
 
          int k = 0;
 
-         while (k < this.boundingBox.G()) {
-            k += rand.nextInt(this.boundingBox.G());
-            if (k + 3 > this.boundingBox.G()) {
+         while (k < this.boundingBox.getXSize()) {
+            k += rand.nextInt(this.boundingBox.getXSize());
+            if (k + 3 > this.boundingBox.getXSize()) {
                break;
             }
 
@@ -819,9 +819,9 @@ public class StructureMineshaftPieces {
 
          k = 0;
 
-         while (k < this.boundingBox.G()) {
-            k += rand.nextInt(this.boundingBox.G());
-            if (k + 3 > this.boundingBox.G()) {
+         while (k < this.boundingBox.getXSize()) {
+            k += rand.nextInt(this.boundingBox.getXSize());
+            if (k + 3 > this.boundingBox.getXSize()) {
                break;
             }
 
@@ -846,9 +846,9 @@ public class StructureMineshaftPieces {
 
          k = 0;
 
-         while (k < this.boundingBox.S()) {
-            k += rand.nextInt(this.boundingBox.S());
-            if (k + 3 > this.boundingBox.S()) {
+         while (k < this.boundingBox.getZSize()) {
+            k += rand.nextInt(this.boundingBox.getZSize());
+            if (k + 3 > this.boundingBox.getZSize()) {
                break;
             }
 
@@ -873,9 +873,9 @@ public class StructureMineshaftPieces {
 
          k = 0;
 
-         while (k < this.boundingBox.S()) {
-            k += rand.nextInt(this.boundingBox.S());
-            if (k + 3 > this.boundingBox.S()) {
+         while (k < this.boundingBox.getZSize()) {
+            k += rand.nextInt(this.boundingBox.getZSize());
+            if (k + 3 > this.boundingBox.getZSize()) {
                break;
             }
 

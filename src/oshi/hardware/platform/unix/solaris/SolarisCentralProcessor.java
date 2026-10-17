@@ -76,7 +76,7 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
          if (string.startsWith("lgroup")) {
             i = ParseUtil.getFirstIntValue(string);
          } else if (string.contains("CPUs:")) {
-            String[] strings = ParseUtil.Q.split(string.split(":")[1]);
+            String[] strings = ParseUtil.whitespaces.split(string.split(":")[1]);
 
             for (String string2 : strings) {
                if (string2.contains("-")) {
@@ -207,7 +207,7 @@ public final class SolarisCentralProcessor extends AbstractCentralProcessor {
          }
       }
 
-      return createProcessorID(stepping, model, family, ParseUtil.Q.split(stringBuilder.toString().toLowerCase()));
+      return createProcessorID(stepping, model, family, ParseUtil.whitespaces.split(stringBuilder.toString().toLowerCase()));
    }
 
    @Override

@@ -37,15 +37,15 @@ public class RealmsScreen {
    public void init(Minecraft minecraft, int i, int j) {
    }
 
-   public void D(String string, int i, int j, int k) {
-      this.proxy.i(string, i, j, k);
+   public void drawCenteredString(String string, int i, int j, int k) {
+      this.proxy.func_154325_a(string, i, j, k);
    }
 
-   public void S(String string, int i, int j, int k) {
-      this.proxy.V(string, i, j, k);
+   public void drawString(String string, int i, int j, int k) {
+      this.proxy.drawStringNoShadow(string, i, j, k);
    }
 
-   public void u(int i, int j, int k, int l, int m, int n) {
+   public void blit(int i, int j, int k, int l, int m, int n) {
       this.proxy.drawTexturedModalRect(i, j, k, l, m, n);
    }
 
@@ -57,11 +57,11 @@ public class RealmsScreen {
       Gui.drawModalRectWithCustomSizedTexture(i, j, f, g, k, l, h, f2);
    }
 
-   public void D(int i, int j, int k, int l, int m, int n) {
+   public void fillGradient(int i, int j, int k, int l, int m, int n) {
       this.proxy.drawGradientRect(i, j, k, l, m, n);
    }
 
-   public void Q() {
+   public void renderBackground() {
       this.proxy.drawDefaultBackground();
    }
 
@@ -106,18 +106,18 @@ public class RealmsScreen {
       Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
    }
 
-   public void Z() {
+   public void tick() {
    }
 
-   public int t() {
+   public int width() {
       return this.proxy.width;
    }
 
-   public int o() {
+   public int height() {
       return this.proxy.height;
    }
 
-   public int s() {
+   public int fontLineHeight() {
       return this.proxy.func_154329_h();
    }
 
@@ -125,8 +125,8 @@ public class RealmsScreen {
       return this.proxy.func_154326_c(string);
    }
 
-   public void B(String string, int i, int j, int k) {
-      this.proxy.X(string, i, j, k);
+   public void fontDrawShadow(String string, int i, int j, int k) {
+      this.proxy.drawStringWithShadow(string, i, j, k);
    }
 
    public List<String> fontSplit(String string, int i) {
@@ -144,11 +144,11 @@ public class RealmsScreen {
       return new RealmsButton(i, j, k, l, m, string);
    }
 
-   public void u() {
+   public void buttonsClear() {
       this.proxy.func_154324_i();
    }
 
-   public void c(RealmsButton realmsButton) {
+   public void buttonsAdd(RealmsButton realmsButton) {
       this.proxy.func_154327_a(realmsButton);
    }
 
@@ -156,7 +156,7 @@ public class RealmsScreen {
       return this.proxy.func_154320_j();
    }
 
-   public void j(RealmsButton realmsButton) {
+   public void buttonsRemove(RealmsButton realmsButton) {
       this.proxy.func_154328_b(realmsButton);
    }
 
@@ -164,19 +164,19 @@ public class RealmsScreen {
       return new RealmsEditBox(i, j, k, l, m);
    }
 
-   public void I(int i, int j, int k) {
+   public void mouseClicked(int i, int j, int k) {
    }
 
-   public void E() {
+   public void mouseEvent() {
    }
 
-   public void F() {
+   public void keyboardEvent() {
    }
 
-   public void y(int i, int j, int k) {
+   public void mouseReleased(int i, int j, int k) {
    }
 
-   public void n(int i, int j, int k, long l) {
+   public void mouseDragged(int i, int j, int k, long l) {
    }
 
    public void keyPressed(char c, int i) {
@@ -197,6 +197,6 @@ public class RealmsScreen {
       return new RealmsAnvilLevelStorageSource(Minecraft.getMinecraft().getSaveLoader());
    }
 
-   public void n() {
+   public void removed() {
    }
 }

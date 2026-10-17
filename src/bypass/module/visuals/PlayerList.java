@@ -114,7 +114,7 @@ public final class PlayerList extends Module {
 
             try {
                synchronized (killCounts) {
-                  String string2 = GuiIngame.V(strings[1].split(" ")[0]);
+                  String string2 = GuiIngame.stripToAlphanumeric(strings[1].split(" ")[0]);
                   int i = killCounts.containsKey(string2) ? killCounts.get(string2) : 0;
                   killCounts.put(string2, i + 1);
                }

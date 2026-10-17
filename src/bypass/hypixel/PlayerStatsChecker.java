@@ -23,7 +23,7 @@ public class PlayerStatsChecker {
    private HypixelAPI hypixelApi;
    public final JsonObject[] playerJson = new JsonObject[1];
    public final int[] fetchState = new int[1];
-   public static final HashMap<String, PlayerStatsChecker.r95> unresolvedNicks = new HashMap<>();
+   public static final HashMap<String, PlayerStatsChecker.UnresolvedNick> unresolvedNicks = new HashMap<>();
    private final List<String> nickSkinOwners = Arrays.asList(
       "Pickguard",
       "Tactful",
@@ -100,7 +100,7 @@ public class PlayerStatsChecker {
 
                   if (atomicBoolean.get() || HypixelGameTracker.game == 4) {
                      Denicker.nicks.put(string, "???");
-                     unresolvedNicks.put(string, new PlayerStatsChecker.r95(networkPlayerInfo, this));
+                     unresolvedNicks.put(string, new PlayerStatsChecker.UnresolvedNick(networkPlayerInfo, this));
                   }
                }
 
@@ -678,11 +678,11 @@ public class PlayerStatsChecker {
       }
    }
 
-   public class r95 {
+   public class UnresolvedNick {
       public NetworkPlayerInfo playerInfo;
       public PlayerStatsChecker checker;
 
-      public r95(NetworkPlayerInfo networkPlayerInfo, PlayerStatsChecker playerStatsChecker2) {
+      public UnresolvedNick(NetworkPlayerInfo networkPlayerInfo, PlayerStatsChecker playerStatsChecker2) {
          this.playerInfo = networkPlayerInfo;
          this.checker = playerStatsChecker2;
       }

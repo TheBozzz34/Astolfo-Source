@@ -36,11 +36,11 @@ public class BazaarReply extends AbstractReply {
          return this.productId;
       }
 
-      public List<BazaarReply.Product.Summary> w() {
+      public List<BazaarReply.Product.Summary> getSellSummary() {
          return this.sellSummary;
       }
 
-      public List<BazaarReply.Product.Summary> P() {
+      public List<BazaarReply.Product.Summary> getBuySummary() {
          return this.buySummary;
       }
 
@@ -76,35 +76,35 @@ public class BazaarReply extends AbstractReply {
             return this.productId;
          }
 
-         public double v() {
+         public double getSellPrice() {
             return this.sellPrice;
          }
 
-         public int m() {
+         public int getSellVolume() {
             return this.sellVolume;
          }
 
-         public int U() {
+         public int getSellMovingWeek() {
             return this.sellMovingWeek;
          }
 
-         public int d() {
+         public int getSellOrders() {
             return this.sellOrders;
          }
 
-         public double B() {
+         public double getBuyPrice() {
             return this.buyPrice;
          }
 
-         public int h() {
+         public int getBuyVolume() {
             return this.buyVolume;
          }
 
-         public int Y() {
+         public int getBuyMovingWeek() {
             return this.buyMovingWeek;
          }
 
-         public int R() {
+         public int getBuyOrders() {
             return this.buyOrders;
          }
 
@@ -137,7 +137,7 @@ public class BazaarReply extends AbstractReply {
          private double pricePerUnit;
          private int orders;
 
-         public int d() {
+         public int getAmount() {
             return this.amount;
          }
 
@@ -145,7 +145,7 @@ public class BazaarReply extends AbstractReply {
             return this.pricePerUnit;
          }
 
-         public int b() {
+         public int getOrders() {
             return this.orders;
          }
 

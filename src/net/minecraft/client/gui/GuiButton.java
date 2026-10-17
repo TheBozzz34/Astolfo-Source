@@ -21,12 +21,12 @@ public class GuiButton extends Gui {
    public boolean enabled;
    public boolean visible;
    public boolean hovered;
-   private static int B;
-   private static int p;
-   private static boolean q;
-   public float f = 0.1F;
-   public boolean n;
-   public int t;
+   private static int outlineShaderProgram;
+   private static int colorUniformLocation;
+   private static boolean shaderInitialized;
+   public float outlineAlpha = 0.1F;
+   public boolean useCustomAlpha;
+   public int customAlpha;
 
    public GuiButton(int buttonId, int x, int y, String buttonText) {
       this(buttonId, x, y, 200, 20, buttonText);
@@ -58,15 +58,15 @@ public class GuiButton extends Gui {
 
    public void drawButton(Minecraft mc, int mouseX, int mouseY) {
       if (this.visible) {
-         if (!q) {
+         if (!shaderInitialized) {
             int i = ARBShaderObjects.glCreateShaderObjectARB(35632);
             ARBShaderObjects.glShaderSourceARB(i, "#version 110\nuniform vec4 color;void main() { gl_FragColor = color;}");
             ARBShaderObjects.glCompileShaderARB(i);
             System.err.println(ARBShaderObjects.glGetInfoLogARB(i, 200));
-            ARBShaderObjects.glAttachObjectARB(B = ARBShaderObjects.glCreateProgramObjectARB(), i);
-            ARBShaderObjects.glLinkProgramARB(B);
-            ARBShaderObjects.glValidateProgramARB(B);
-            q = true;
+            ARBShaderObjects.glAttachObjectARB(outlineShaderProgram = ARBShaderObjects.glCreateProgramObjectARB(), i);
+            ARBShaderObjects.glLinkProgramARB(outlineShaderProgram);
+            ARBShaderObjects.glValidateProgramARB(outlineShaderProgram);
+            shaderInitialized = true;
          }
 
          this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
@@ -80,45 +80,45 @@ public class GuiButton extends Gui {
             this.enabled
                ? (
                   this.hovered
-                     ? (this.n ? new Color(18, 18, 18, this.t).getRGB() : -1726737388)
-                     : (this.n ? new Color(18, 18, 18, this.t).getRGB() : -2012081646)
+                     ? (this.useCustomAlpha ? new Color(18, 18, 18, this.customAlpha).getRGB() : -1726737388)
+                     : (this.useCustomAlpha ? new Color(18, 18, 18, this.customAlpha).getRGB() : -2012081646)
                )
                : 1426063360
          );
          GL11.glEnable(3042);
          GL11.glBlendFunc(770, 771);
          GL11.glEnable(3008);
-         float g = mc.theWorld == null ? 0.1F : 0.01F;
-         if (this.hovered && this.f < 1.0F) {
-            this.f += g;
-         } else if (this.f > 0.5F && !this.hovered) {
-            this.f -= g;
+         float f = mc.theWorld == null ? 0.1F : 0.01F;
+         if (this.hovered && this.outlineAlpha < 1.0F) {
+            this.outlineAlpha += f;
+         } else if (this.outlineAlpha > 0.5F && !this.hovered) {
+            this.outlineAlpha -= f;
          }
 
-         if (this.f < 0.5F) {
-            this.f = 0.5F;
-         } else if (this.f > 1.0F) {
-            this.f = 1.0F;
+         if (this.outlineAlpha < 0.5F) {
+            this.outlineAlpha = 0.5F;
+         } else if (this.outlineAlpha > 1.0F) {
+            this.outlineAlpha = 1.0F;
          }
 
          GL11.glDisable(2848);
          GL11.glLineWidth(1.0F);
          GL11.glHint(3154, 4352);
-         float h = Astolfo.INSTANCE.getColor().getRed() / 255.0F;
-         float f2 = Astolfo.INSTANCE.getColor().getGreen() / 255.0F;
-         float f3 = Astolfo.INSTANCE.getColor().getBlue() / 255.0F;
-         ARBShaderObjects.glUseProgramObjectARB(B);
-         if ((!this.hovered || !this.enabled) && (this.hovered || !this.enabled || !(this.f > 0.5F))) {
+         float g = Astolfo.INSTANCE.getColor().getRed() / 255.0F;
+         float h = Astolfo.INSTANCE.getColor().getGreen() / 255.0F;
+         float f2 = Astolfo.INSTANCE.getColor().getBlue() / 255.0F;
+         ARBShaderObjects.glUseProgramObjectARB(outlineShaderProgram);
+         if ((!this.hovered || !this.enabled) && (this.hovered || !this.enabled || !(this.outlineAlpha > 0.5F))) {
             if (this.enabled) {
-               ARBShaderObjects.glUniform4fARB(p, 0.2F, 0.2F, 0.2F, this.f);
+               ARBShaderObjects.glUniform4fARB(colorUniformLocation, 0.2F, 0.2F, 0.2F, this.outlineAlpha);
             } else {
-               ARBShaderObjects.glUniform4fARB(p, 0.1F, 0.1F, 0.1F, this.f);
+               ARBShaderObjects.glUniform4fARB(colorUniformLocation, 0.1F, 0.1F, 0.1F, this.outlineAlpha);
             }
          } else {
-            ARBShaderObjects.glUniform4fARB(p, h, f2, f3, this.f);
+            ARBShaderObjects.glUniform4fARB(colorUniformLocation, g, h, f2, this.outlineAlpha);
          }
 
-         p = ARBShaderObjects.glGetUniformLocationARB(B, "color");
+         colorUniformLocation = ARBShaderObjects.glGetUniformLocationARB(outlineShaderProgram, "color");
          GL11.glBegin(2);
          GL11.glVertex2d(this.xPosition, this.yPosition);
          GL11.glVertex2d(this.xPosition + this.width, this.yPosition);
@@ -130,7 +130,7 @@ public class GuiButton extends Gui {
          GL11.glDisable(3042);
          GL11.glPopMatrix();
          this.mouseDragged(mc, mouseX, mouseY);
-         int j = this.n ? new Color(224, 224, 224, this.t).getRGB() : -2039584;
+         int j = this.useCustomAlpha ? new Color(224, 224, 224, this.customAlpha).getRGB() : -2039584;
          if (!this.enabled) {
             j = -6250336;
          } else if (this.hovered) {
@@ -138,7 +138,7 @@ public class GuiButton extends Gui {
          }
 
          String string = this.enabled ? this.displayString : EnumChatFormatting.ITALIC + this.displayString;
-         this.d(mc.fontRendererObj, string, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+         this.drawCenteredString(mc.fontRendererObj, string, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
       }
    }
 

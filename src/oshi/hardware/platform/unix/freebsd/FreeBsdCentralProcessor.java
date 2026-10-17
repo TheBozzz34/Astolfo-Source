@@ -160,7 +160,7 @@ public final class FreeBsdCentralProcessor extends AbstractCentralProcessor {
       long l = -1L;
       String string = BsdSysctlUtil.sysctl("dev.cpu.0.freq_levels", "");
 
-      for (String string2 : ParseUtil.Q.split(string)) {
+      for (String string2 : ParseUtil.whitespaces.split(string)) {
          long m = ParseUtil.parseLongOrDefault(string2.split("/")[0], -1L);
          if (l < m) {
             l = m;

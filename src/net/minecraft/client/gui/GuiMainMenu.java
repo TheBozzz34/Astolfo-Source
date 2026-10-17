@@ -32,7 +32,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
-   private int u;
+   private int panoramaTimer;
    private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{
       new ResourceLocation("textures/gui/title/background/panorama_0.png"),
       new ResourceLocation("textures/gui/title/background/panorama_1.png"),
@@ -41,40 +41,40 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       new ResourceLocation("textures/gui/title/background/panorama_4.png"),
       new ResourceLocation("textures/gui/title/background/panorama_5.png")
    };
-   private static final ResourceLocation Y;
-   private static TreeMap<String, List<String>> n = new TreeMap<>(Collections.reverseOrder());
-   private static final float O = 200.0F;
+   private static final ResourceLocation backgroundTexture;
+   private static TreeMap<String, List<String>> changelog = new TreeMap<>(Collections.reverseOrder());
+   private static final float MENU_WIDTH = 200.0F;
    private static final float y = 180.0F;
-   public static CustomFontRenderer P = new CustomFontRenderer();
-   public static CustomFontRenderer R = new CustomFontRenderer();
-   public static CustomFontRenderer h = new CustomFontRenderer();
-   public static CustomFontRenderer c = new CustomFontRenderer();
-   public static CustomFontRenderer m = new CustomFontRenderer();
-   public static CustomFontRenderer M = new CustomFontRenderer();
-   public static final ResourceLocation e = new ResourceLocation("client/icon/close.png");
-   private static final ResourceLocation N = new ResourceLocation("client/icon/language.png");
+   public static CustomFontRenderer robotoRegularFont28 = new CustomFontRenderer();
+   public static CustomFontRenderer robotoLightFont20 = new CustomFontRenderer();
+   public static CustomFontRenderer robotoRegularFont18 = new CustomFontRenderer();
+   public static CustomFontRenderer robotoRegularFont10 = new CustomFontRenderer();
+   public static CustomFontRenderer latoBoldFont15 = new CustomFontRenderer();
+   public static CustomFontRenderer comfortaaFont30 = new CustomFontRenderer();
+   public static final ResourceLocation closeIcon = new ResourceLocation("client/icon/close.png");
+   private static final ResourceLocation languageIcon = new ResourceLocation("client/icon/language.png");
    private static final ResourceLocation x = new ResourceLocation("client/icon/options.png");
-   public static final ResourceLocation V = new ResourceLocation("client/icon/sense.png");
-   public static final ResourceLocation K = new ResourceLocation("client/icon/no_sense.png");
-   private static final ResourceLocation i = new ResourceLocation("client/icon/discord.png");
-   private static final float Q = 130.0F;
-   private static final float a = 19.0F;
+   public static final ResourceLocation senseIcon = new ResourceLocation("client/icon/sense.png");
+   public static final ResourceLocation noSenseIcon = new ResourceLocation("client/icon/no_sense.png");
+   private static final ResourceLocation discordIcon = new ResourceLocation("client/icon/discord.png");
+   private static final float BUTTON_WIDTH = 130.0F;
+   private static final float BUTTON_HEIGHT = 19.0F;
    private final boolean field_175375_v = RandomUtils.nextInt(0, 1000) == 500;
-   public static boolean f;
-   private static final int l = RandomUtils.nextInt(0, 5);
-   private final int B = new Color(121, 255, 80, 120).getRGB();
-   private final int q = new Color(255, 47, 40, 120).getRGB();
-   private final int b = new Color(65, 176, 254, 120).getRGB();
-   private final int d = new Color(239, 236, 22, 122).getRGB();
-   private final int w = new Color(255, 255, 255, 120).getRGB();
+   public static boolean panoramaDrawn;
+   private static final int astolfoImageIndex = RandomUtils.nextInt(0, 5);
+   private final int changelogAddedColor = new Color(121, 255, 80, 120).getRGB();
+   private final int changelogRemovedColor = new Color(255, 47, 40, 120).getRGB();
+   private final int changelogChangedColor = new Color(65, 176, 254, 120).getRGB();
+   private final int changelogFixedColor = new Color(239, 236, 22, 122).getRGB();
+   private final int changelogTextColor = new Color(255, 255, 255, 120).getRGB();
 
    public GuiMainMenu() {
-      n.put("Build #latest", Arrays.asList(":D"));
+      changelog.put("Build #latest", Arrays.asList(":D"));
    }
 
    @Override
    public void updateScreen() {
-      this.u++;
+      this.panoramaTimer++;
    }
 
    @Override
@@ -99,7 +99,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
    public void confirmClicked(boolean result, int id) {
    }
 
-   private void drawPanorama(int j, int k, float g) {
+   private void drawPanorama(int i, int j, float f) {
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       GlStateManager.matrixMode(5889);
@@ -107,7 +107,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.loadIdentity();
       Project.gluPerspective(120.0F, 1.0F, 0.05F, 10.0F);
       GlStateManager.matrixMode(5888);
-      f = true;
+      panoramaDrawn = true;
       GlStateManager.pushMatrix();
       GlStateManager.loadIdentity();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -120,14 +120,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       byte b = 8;
 
-      for (int i = 0; i < b * b; i++) {
+      for (int k = 0; k < b * b; k++) {
          GlStateManager.pushMatrix();
-         float h = ((float)(i % b) / b - 0.5F) / 64.0F;
-         float f2 = ((float)(i / b) / b - 0.5F) / 64.0F;
-         float f3 = 0.0F;
-         GlStateManager.translate(h, f2, f3);
-         GlStateManager.rotate(MathHelper.sin((this.u + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-         GlStateManager.rotate(-(this.u + g) * 0.1F, 0.0F, 1.0F, 0.0F);
+         float g = ((float)(k % b) / b - 0.5F) / 64.0F;
+         float h = ((float)(k / b) / b - 0.5F) / 64.0F;
+         float f2 = 0.0F;
+         GlStateManager.translate(g, h, f2);
+         GlStateManager.rotate(MathHelper.sin((this.panoramaTimer + f) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(-(this.panoramaTimer + f) * 0.1F, 0.0F, 1.0F, 0.0F);
 
          for (int l = 0; l < 6; l++) {
             GlStateManager.pushMatrix();
@@ -153,7 +153,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
             this.mc.getTextureManager().bindTexture(titlePanoramaPaths[l]);
             worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            int m = 255 / (i + 1);
+            int m = 255 / (k + 1);
             worldRenderer.pos(-1.0, -1.0, 1.0).tex(0.0, 0.0).color(255, 255, 255, m).endVertex();
             worldRenderer.pos(1.0, -1.0, 1.0).tex(1.0, 0.0).color(255, 255, 255, m).endVertex();
             worldRenderer.pos(1.0, 1.0, 1.0).tex(1.0, 1.0).color(255, 255, 255, m).endVertex();
@@ -177,8 +177,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.enableDepth();
    }
 
-   private void rotateAndBlurSkybox(float g) {
-      this.mc.getTextureManager().bindTexture(Y);
+   private void rotateAndBlurSkybox(float f) {
+      this.mc.getTextureManager().bindTexture(backgroundTexture);
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
       GL11.glCopyTexSubImage2D(3553, 0, 0, 0, 0, 0, 256, 256);
@@ -192,14 +192,14 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       byte b = 3;
 
       for (int i = 0; i < b; i++) {
-         float f = 1.0F / (i + 1);
+         float g = 1.0F / (i + 1);
          int j = this.width;
          int k = this.height;
          float h = (i - b / 2) / 256.0F;
-         worldRenderer.pos(j, k, this.zLevel).tex(0.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(j, 0.0, this.zLevel).tex(1.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(0.0, 0.0, this.zLevel).tex(1.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
-         worldRenderer.pos(0.0, k, this.zLevel).tex(0.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, f).endVertex();
+         worldRenderer.pos(j, k, this.zLevel).tex(0.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(j, 0.0, this.zLevel).tex(1.0F + h, 1.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(0.0, 0.0, this.zLevel).tex(1.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
+         worldRenderer.pos(0.0, k, this.zLevel).tex(0.0F + h, 0.0).color(1.0F, 1.0F, 1.0F, g).endVertex();
       }
 
       tessellator.draw();
@@ -207,30 +207,30 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.colorMask(true, true, true, true);
    }
 
-   private void renderSkybox(int j, int k, float g) {
+   private void renderSkybox(int i, int j, float f) {
       this.mc.getFramebuffer().unbindFramebuffer();
       GlStateManager.viewport(0, 0, 256, 256);
-      this.drawPanorama(j, k, g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
-      this.rotateAndBlurSkybox(g);
+      this.drawPanorama(i, j, f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
+      this.rotateAndBlurSkybox(f);
       this.mc.getFramebuffer().bindFramebuffer(true);
       GlStateManager.viewport(0, 0, this.mc.displayWidth, this.mc.displayHeight);
-      float f = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
-      float h = this.height * f / 256.0F;
-      float f2 = this.width * f / 256.0F;
-      int i = this.width;
+      float g = this.width > this.height ? 120.0F / this.width : 120.0F / this.height;
+      float h = this.height * g / 256.0F;
+      float f2 = this.width * g / 256.0F;
+      int k = this.width;
       int l = this.height;
       Tessellator tessellator = Tessellator.getInstance();
       WorldRenderer worldRenderer = tessellator.getWorldRenderer();
       worldRenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
       worldRenderer.pos(0.0, l, this.zLevel).tex(0.5F - h, 0.5F + f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      worldRenderer.pos(i, l, this.zLevel).tex(0.5F - h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
-      worldRenderer.pos(i, 0.0, this.zLevel).tex(0.5F + h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      worldRenderer.pos(k, l, this.zLevel).tex(0.5F - h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
+      worldRenderer.pos(k, 0.0, this.zLevel).tex(0.5F + h, 0.5F - f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
       worldRenderer.pos(0.0, 0.0, this.zLevel).tex(0.5F + h, 0.5F + f2).color(1.0F, 1.0F, 1.0F, 1.0F).endVertex();
       tessellator.draw();
    }
@@ -241,20 +241,20 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GlStateManager.disableAlpha();
       this.renderSkybox(mouseX, mouseY, partialTicks);
       GlStateManager.enableAlpha();
-      h.renderString(
+      robotoRegularFont18.renderString(
          "Astolfo Client (#" + Astolfo.INSTANCE.getVersion() + ")", 8.0F, scaledResolution.getScaledHeight() - 12, new Color(255, 255, 255, 150).getRGB(), false, false
       );
       float f = scaledResolution.getScaledWidth() - 10.0F;
       float g = 5.0F;
-      float f2 = 8.0F;
+      float h = 8.0F;
 
-      for (int j = 0; j < 5; j++) {
+      for (int i = 0; i < 5; i++) {
          String string;
          ResourceLocation resourceLocation;
-         switch (j) {
+         switch (i) {
             case 0:
                string = "";
-               resourceLocation = e;
+               resourceLocation = closeIcon;
                break;
             case 1:
                string = "Options";
@@ -262,97 +262,99 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
                break;
             case 2:
                string = "Language";
-               resourceLocation = N;
+               resourceLocation = languageIcon;
                break;
             case 3:
                string = "Sense";
-               resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? V : K;
+               resourceLocation = Astolfo.INSTANCE.getSenseSetting().getValue() ? senseIcon : noSenseIcon;
                break;
             case 4:
                string = "Discord";
-               resourceLocation = i;
+               resourceLocation = discordIcon;
                break;
             default:
                continue;
          }
 
-         float f3 = R.getStringWidth(string);
-         float f4 = f3 + g * 2.0F + f2 * 2.0F;
-         boolean bl = mouseX > f - f4 && mouseX < f && mouseY > 7.5F && mouseY < 35.0F;
-         this.n(R, string, (int)(f - f4 / 2.0F + f2), 20.0F, bl ? -1 : -1442840577, false);
-         G(resourceLocation, f2, f - f4 - g + f2, 12.0F);
-         f -= f4 + 10.0F;
+         float f2 = robotoLightFont20.getStringWidth(string);
+         float f3 = f2 + g * 2.0F + h * 2.0F;
+         boolean bl = mouseX > f - f3 && mouseX < f && mouseY > 7.5F && mouseY < 35.0F;
+         this.drawCenteredCustomString(robotoLightFont20, string, (int)(f - f3 / 2.0F + h), 20.0F, bl ? -1 : -1442840577, false);
+         drawIcon(resourceLocation, h, f - f3 - g + h, 12.0F);
+         f -= f3 + 10.0F;
       }
 
       GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-      float f5 = scaledResolution.getScaledWidth() / 2 - 100.0F;
-      float f6 = scaledResolution.getScaledHeight() / 2 - 90.0F;
+      float f4 = scaledResolution.getScaledWidth() / 2 - 100.0F;
+      float f5 = scaledResolution.getScaledHeight() / 2 - 90.0F;
       byte b = 76;
       byte b2 = 75;
-      int k = this.width / 2 - 38;
-      int l = this.height / 2 - this.height / 3;
+      int j = this.width / 2 - 38;
+      int k = this.height / 2 - this.height / 3;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
       Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/logo.png"));
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      drawModalRectWithCustomSizedTexture(k, l, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
-      f5 = scaledResolution.getScaledWidth() / 2 - 65.0F;
-      f6 += 110.0F;
+      drawModalRectWithCustomSizedTexture(j, k, 0.0F, 0.0F, 76, 75, 76.0F, 75.0F);
+      f4 = scaledResolution.getScaledWidth() / 2 - 65.0F;
+      f5 += 110.0F;
       String[] strings = new String[]{"SINGLEPLAYER", "MULTIPLAYER", "ALT MANAGER"};
 
-      for (int m = 0; m < 3; m++) {
-         RenderUtil.drawRect(f5, f6, f5 + 130.0F, f6 + 19.0F, new Color(0, 0, 0, 100).getRGB());
-         boolean bl2 = mouseX >= f5 && mouseX <= f5 + 130.0F && mouseY >= f6 && mouseY <= f6 + 19.0F;
+      for (int l = 0; l < 3; l++) {
+         RenderUtil.drawRect(f4, f5, f4 + 130.0F, f5 + 19.0F, new Color(0, 0, 0, 100).getRGB());
+         boolean bl2 = mouseX >= f4 && mouseX <= f4 + 130.0F && mouseY >= f5 && mouseY <= f5 + 19.0F;
          GlStateManager.enableBlend();
-         this.n(R, strings[m], (int)(f5 + 65.0F), (int)(f6 + 9.5F), bl2 ? -1 : -1442840577, false);
-         f6 += 21.0F;
+         this.drawCenteredCustomString(robotoLightFont20, strings[l], (int)(f4 + 65.0F), (int)(f5 + 9.5F), bl2 ? -1 : -1442840577, false);
+         f5 += 21.0F;
       }
 
-      this.W(mouseX, mouseY, partialTicks);
-      this.M(mouseX, mouseY);
-      String string2 = String.format("Welcome, %s", this.mc.mouseHelper.Y().getAccount().getUsername());
-      h.renderString(string2, scaledResolution.getScaledWidth() - h.getStringWidth(string2) - 8, scaledResolution.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false);
+      this.drawAstolfoImage(mouseX, mouseY, partialTicks);
+      this.drawChangelog(mouseX, mouseY);
+      String string2 = String.format("Welcome, %s", this.mc.mouseHelper.getAuthSession().getAccount().getUsername());
+      robotoRegularFont18.renderString(
+         string2, scaledResolution.getScaledWidth() - robotoRegularFont18.getStringWidth(string2) - 8, scaledResolution.getScaledHeight() - 12, Color.WHITE.getRGB(), false, false
+      );
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
-   public void H(float g, float f2, float f3, float f4, float f5, float f6, int j, int k) {
-      this.e(g, f2, f3, f4, f5, j);
-      this.e(g + f6, f2 + f6, f3 - f6, f4 - f6, f5, k);
+   public void drawRoundedRectWithBorder(float f, float g, float h, float f2, float f3, float f4, int i, int j) {
+      this.drawRoundedRect(f, g, h, f2, f3, i);
+      this.drawRoundedRect(f + f4, g + f4, h - f4, f2 - f4, f3, j);
    }
 
-   public void e(double d, double d2, double d3, double d4, double d5, int j) {
-      float f = (j >> 24 & 0xFF) / 255.0F;
-      float g = (j >> 16 & 0xFF) / 255.0F;
-      float h = (j >> 8 & 0xFF) / 255.0F;
-      float f2 = (j & 0xFF) / 255.0F;
+   public void drawRoundedRect(double d, double e, double d2, double d3, double d4, int i) {
+      float f = (i >> 24 & 0xFF) / 255.0F;
+      float g = (i >> 16 & 0xFF) / 255.0F;
+      float h = (i >> 8 & 0xFF) / 255.0F;
+      float f2 = (i & 0xFF) / 255.0F;
       GL11.glPushAttrib(0);
       GL11.glScaled(0.5, 0.5, 0.5);
       d *= 2.0;
+      e *= 2.0;
       d2 *= 2.0;
       d3 *= 2.0;
-      d4 *= 2.0;
       GL11.glEnable(3042);
       GL11.glDisable(3553);
       GL11.glColor4f(g, h, f2, f);
       GL11.glEnable(2848);
       GL11.glBegin(9);
 
-      for (int i = 0; i <= 90; i += 3) {
-         GL11.glVertex2d(d + d5 + Math.sin(i * Math.PI / 180.0) * (d5 * -1.0), d2 + d5 + Math.cos(i * Math.PI / 180.0) * (d5 * -1.0));
+      for (int j = 0; j <= 90; j += 3) {
+         GL11.glVertex2d(d + d4 + Math.sin(j * Math.PI / 180.0) * (d4 * -1.0), e + d4 + Math.cos(j * Math.PI / 180.0) * (d4 * -1.0));
       }
 
       for (int k = 90; k <= 180; k += 3) {
-         GL11.glVertex2d(d + d5 + Math.sin(k * Math.PI / 180.0) * (d5 * -1.0), d4 - d5 + Math.cos(k * Math.PI / 180.0) * (d5 * -1.0));
+         GL11.glVertex2d(d + d4 + Math.sin(k * Math.PI / 180.0) * (d4 * -1.0), d3 - d4 + Math.cos(k * Math.PI / 180.0) * (d4 * -1.0));
       }
 
       for (int l = 0; l <= 90; l += 3) {
-         GL11.glVertex2d(d3 - d5 + Math.sin(l * Math.PI / 180.0) * d5, d4 - d5 + Math.cos(l * Math.PI / 180.0) * d5);
+         GL11.glVertex2d(d2 - d4 + Math.sin(l * Math.PI / 180.0) * d4, d3 - d4 + Math.cos(l * Math.PI / 180.0) * d4);
       }
 
       for (int m = 90; m <= 180; m += 3) {
-         GL11.glVertex2d(d3 - d5 + Math.sin(m * Math.PI / 180.0) * d5, d2 + d5 + Math.cos(m * Math.PI / 180.0) * d5);
+         GL11.glVertex2d(d2 - d4 + Math.sin(m * Math.PI / 180.0) * d4, e + d4 + Math.cos(m * Math.PI / 180.0) * d4);
       }
 
       GL11.glEnd();
@@ -361,89 +363,96 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       GL11.glPopAttrib();
    }
 
-   public static void G(ResourceLocation resourceLocation, float g, float f2, float f3) {
-      float f = g * 2.0F;
-      float h = g * 2.0F;
+   public static void drawIcon(ResourceLocation resourceLocation, float f, float g, float h) {
+      float f2 = f * 2.0F;
+      float f3 = f * 2.0F;
       float f4 = 0.0F;
       float f5 = 0.0F;
       GL11.glEnable(3042);
       Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
       GL11.glBegin(7);
-      GL11.glTexCoord2d(f4 / g, f5 / g);
-      GL11.glVertex2d(f2, f3);
-      GL11.glTexCoord2d(f4 / g, (f5 + g) / g);
-      GL11.glVertex2d(f2, f3 + f);
-      GL11.glTexCoord2d((f4 + g) / g, (f5 + g) / g);
-      GL11.glVertex2d(f2 + h, f3 + f);
-      GL11.glTexCoord2d((f4 + g) / g, f5 / g);
-      GL11.glVertex2d(f2 + h, f3);
+      GL11.glTexCoord2d(f4 / f, f5 / f);
+      GL11.glVertex2d(g, h);
+      GL11.glTexCoord2d(f4 / f, (f5 + f) / f);
+      GL11.glVertex2d(g, h + f2);
+      GL11.glTexCoord2d((f4 + f) / f, (f5 + f) / f);
+      GL11.glVertex2d(g + f3, h + f2);
+      GL11.glTexCoord2d((f4 + f) / f, f5 / f);
+      GL11.glVertex2d(g + f3, h);
       GL11.glEnd();
    }
 
-   public void n(CustomFontRenderer customFontRenderer, String string, float g, float f2, int j, boolean bl) {
-      int i = customFontRenderer.getStringWidth(string);
+   public void drawCenteredCustomString(CustomFontRenderer customFontRenderer, String string, float f, float g, int i, boolean bl) {
+      int j = customFontRenderer.getStringWidth(string);
       int k = customFontRenderer.getStringHeight(string);
-      float f = g - i / 2.0F;
-      float h = f2 - k / 2.0F;
+      float h = f - j / 2.0F;
+      float f2 = g - k / 2.0F;
       if (bl) {
-         customFontRenderer.drawStringWithShadow(string, (int)f, (int)h, j);
+         customFontRenderer.drawStringWithShadow(string, (int)h, (int)f2, i);
       } else {
-         customFontRenderer.drawString(string, (int)f, (int)h, j);
+         customFontRenderer.drawString(string, (int)h, (int)f2, i);
       }
    }
 
-   private void M(int j, int k) {
-      int i = this.fontRendererObj.getStringWidth("Changelog");
-      boolean bl = this.f(0, 0, i + 5, this.fontRendererObj.FONT_HEIGHT + 4, j, k);
-      Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("Changelog", 3.0F, 3.0F, bl ? Color.WHITE.getRGB() : this.w);
+   private void drawChangelog(int i, int j) {
+      int k = this.fontRendererObj.getStringWidth("Changelog");
+      boolean bl = this.isMouseInBounds(0, 0, k + 5, this.fontRendererObj.FONT_HEIGHT + 4, i, j);
+      Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("Changelog", 3.0F, 3.0F, bl ? Color.WHITE.getRGB() : this.changelogTextColor);
       if (bl) {
-         byte b2 = 15;
+         byte b = 15;
 
-         for (Entry entry : n.entrySet()) {
+         for (Entry entry : changelog.entrySet()) {
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow((String)entry.getKey(), 15.0F, b2 * 2, this.w);
+            Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow((String)entry.getKey(), 15.0F, b * 2, this.changelogTextColor);
             GlStateManager.popMatrix();
-            b2 += 5;
+            b += 5;
 
             for (Object object : (List)entry.getValue()) {
                String string = (String)object;
                GlStateManager.pushMatrix();
                GlStateManager.scale(0.5F, 0.5F, 0.5F);
                int l = string.startsWith("[+]")
-                  ? this.B
-                  : (string.startsWith("[-]") ? this.q : (string.startsWith("[0]") ? this.d : (string.startsWith("[/]") ? this.b : Color.GRAY.getRGB())));
-               drawRect(20, b2 * 2 + 2, 25, b2 * 2 + 7, l);
+                  ? this.changelogAddedColor
+                  : (
+                     string.startsWith("[-]")
+                        ? this.changelogRemovedColor
+                        : (string.startsWith("[0]") ? this.changelogFixedColor : (string.startsWith("[/]") ? this.changelogChangedColor : Color.GRAY.getRGB()))
+                  );
+               drawRect(20, b * 2 + 2, 25, b * 2 + 7, l);
                GlStateManager.enableBlend();
                String string2 = string.replace("[+]", "").replace("[/]", "").replace("[-]", "").replace("[0]", "");
-               Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("   " + string2, 15.0F, b2 * 2, this.w);
-               b2 += 5;
+               Astolfo.INSTANCE.getFontRenderer().drawStringWithShadow("   " + string2, 15.0F, b * 2, this.changelogTextColor);
+               b += 5;
                GlStateManager.popMatrix();
             }
          }
       } else {
-         RenderUtil.drawRect(0.0, 0.0, i + 5, this.fontRendererObj.FONT_HEIGHT + 5, new Color(0, 0, 0, 70).getRGB());
-         RenderUtil.drawRect(1.0, this.fontRendererObj.FONT_HEIGHT + 4, i + 4, this.fontRendererObj.FONT_HEIGHT + 5, new Color(255, 255, 255, 70).getRGB());
+         RenderUtil.drawRect(0.0, 0.0, k + 5, this.fontRendererObj.FONT_HEIGHT + 5, new Color(0, 0, 0, 70).getRGB());
+         RenderUtil.drawRect(1.0, this.fontRendererObj.FONT_HEIGHT + 4, k + 4, this.fontRendererObj.FONT_HEIGHT + 5, new Color(255, 255, 255, 70).getRGB());
       }
    }
 
-   public void W(int j, int k, float g) {
-      int i = this.field_175375_v ? 75 : (l == 2 ? 50 : (l == 3 ? 100 : (l == 4 ? 75 : 60)));
-      int m = this.width - i;
-      int n = this.height - 75;
+   public void drawAstolfoImage(int i, int j, float f) {
+      int k = this.field_175375_v ? 75 : (astolfoImageIndex == 2 ? 50 : (astolfoImageIndex == 3 ? 100 : (astolfoImageIndex == 4 ? 75 : 60)));
+      int l = this.width - k;
+      int m = this.height - 75;
       GL11.glEnable(3553);
       GL11.glBlendFunc(770, 771);
       GL11.glEnable(3042);
       if (this.field_175375_v) {
          Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/astolfos/miguel.png"));
       } else {
-         Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/astolfos/" + l + ".png"));
+         Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("client/astolfos/" + astolfoImageIndex + ".png"));
       }
 
       GL11.glTexParameteri(3553, 10241, 9729);
       GL11.glTexParameteri(3553, 10240, 9729);
-      drawModalRectWithCustomSizedTexture(m, n, 0.0F, 0.0F, i, 75, i, 75.0F);
-      if (this.f(m, n, i, 75, j, k) && Mouse.isButtonDown(0) && Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Action.BROWSE)) {
+      drawModalRectWithCustomSizedTexture(l, m, 0.0F, 0.0F, k, 75, k, 75.0F);
+      if (this.isMouseInBounds(l, m, k, 75, i, j)
+         && Mouse.isButtonDown(0)
+         && Desktop.isDesktopSupported()
+         && Desktop.getDesktop().isSupported(Action.BROWSE)) {
          try {
             Desktop.getDesktop().browse(new URI("https://astolfo.lgbt/forums"));
          } catch (IOException | URISyntaxException value) {
@@ -452,34 +461,34 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
       }
    }
 
-   private boolean f(int j, int k, int i2, int i3, int i4, int i5) {
-      int i = i2;
-      int l = i3;
-      if ((i | l) < 0) {
+   private boolean isMouseInBounds(int i, int j, int k, int l, int m, int n) {
+      int i2 = k;
+      int i3 = l;
+      if ((i2 | i3) < 0) {
          return false;
-      } else if (i4 >= j && i5 >= k) {
-         i += j;
-         l += k;
-         return (i < j || i > i4) && (l < k || l > i5);
+      } else if (m >= i && n >= j) {
+         i2 += i;
+         i3 += j;
+         return (i2 < i || i2 > m) && (i3 < j || i3 > n);
       } else {
          return false;
       }
    }
 
-   public static void g(float g, float f2, ResourceLocation resourceLocation, int j) {
+   public static void drawSquareTexture(float f, float g, ResourceLocation resourceLocation, int i) {
       GL11.glPushMatrix();
       GL11.glDisable(2929);
       GL11.glEnable(3042);
       GL11.glBlendFunc(770, 771);
       Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
-      L((int)g, (int)f2, 0.0F, 0.0F, j, j, j, j, j, j);
+      drawScaledTexture((int)f, (int)g, 0.0F, 0.0F, i, i, i, i, i, i);
       GL11.glDisable(3042);
       GL11.glEnable(2929);
       GL11.glPopMatrix();
    }
 
-   public static void L(int j, int k, float g, float f2, int i2, int i3, int i4, int i5, float f3, float f4) {
-      Gui.drawScaledCustomSizeModalRect(j, k, g, f2, i2, i3, i4, i5, f3, f4);
+   public static void drawScaledTexture(int i, int j, float f, float g, int k, int l, int m, int n, float h, float f2) {
+      Gui.drawScaledCustomSizeModalRect(i, j, f, g, k, l, m, n, h, f2);
    }
 
    @Override
@@ -489,7 +498,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          float f = 5.0F;
          float g = 9.0F;
          float h = scaledResolution.getScaledWidth() - 10.0F;
-         CustomFontRenderer customFontRenderer = R;
+         CustomFontRenderer customFontRenderer = robotoLightFont20;
 
          for (int i = 0; i < 5; i++) {
             String string;
@@ -576,7 +585,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
    static {
       DynamicTexture dynamicTexture = new DynamicTexture(256, 256);
-      Y = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
+      backgroundTexture = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation("background", dynamicTexture);
 
       try {
          Font font2 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(28.0F);
@@ -585,12 +594,12 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          Font font5 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Roboto-Regular.ttf")).deriveFont(10.0F);
          Font font6 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Lato-Bold.ttf")).deriveFont(15.0F);
          Font font7 = Font.createFont(0, GuiMainMenu.class.getResourceAsStream("/assets/minecraft/client/font/Comfortaa.ttf")).deriveFont(30.0F);
-         P.loadFont(font2, true);
-         R.loadFont(font3, true);
-         h.loadFont(font4, true);
-         c.loadFont(font5, true);
-         m.loadFont(font6, true);
-         M.loadFont(font7, true);
+         robotoRegularFont28.loadFont(font2, true);
+         robotoLightFont20.loadFont(font3, true);
+         robotoRegularFont18.loadFont(font4, true);
+         robotoRegularFont10.loadFont(font5, true);
+         latoBoldFont15.loadFont(font6, true);
+         comfortaaFont30.loadFont(font7, true);
       } catch (FontFormatException | IOException value) {
          value.printStackTrace();
       }

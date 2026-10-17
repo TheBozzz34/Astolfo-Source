@@ -5,10 +5,10 @@ public class Vector3d {
    public double y;
    public double z;
 
-   public Vector3d(double d, double d2, double d3) {
+   public Vector3d(double d, double e, double d2) {
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
    }
 
    public Vector3d() {

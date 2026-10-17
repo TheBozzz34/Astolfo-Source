@@ -102,7 +102,7 @@ public final class Fucker extends Module {
          case POST:
             if (this.targetBlock != null
                && mc.thePlayer.getDistance(this.targetBlock.getX(), this.targetBlock.getY(), this.targetBlock.getZ()) <= this.range.getValue().floatValue()) {
-               mc.thePlayer.sendQueue.u(new C0APacketAnimation());
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C0APacketAnimation());
                if (this.breakTimer.hasElapsed(100.0F) && !mc.theWorld.isAirBlock(this.targetBlock)) {
                   if (mc.theWorld.getBlockState(this.targetBlock).getBlock().equals(Blocks.cake)) {
                      mc.playerController

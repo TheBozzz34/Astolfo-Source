@@ -74,7 +74,7 @@ public final class InventoryUtil implements ClientAccess {
 
       if (d == 0.0 && itemStack.getItem() instanceof ItemSword) {
          ItemSword itemSword = (ItemSword)itemStack.getItem();
-         d = itemSword.E();
+         d = itemSword.getAttackDamage();
       }
 
       if (HypixelGameTracker.game == 3) {

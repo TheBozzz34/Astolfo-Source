@@ -11,7 +11,7 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry {
       int i = y + slotHeight / 2 - this.mc.fontRendererObj.FONT_HEIGHT / 2;
       this.mc
          .fontRendererObj
-         .D(
+         .drawStringNoShadow(
             I18n.format("lanServer.scanning"),
             this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(I18n.format("lanServer.scanning")) / 2,
             i,
@@ -33,7 +33,9 @@ public class ServerListEntryLanScan implements GuiListExtended.IGuiListEntry {
 
       this.mc
          .fontRendererObj
-         .D(string, this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, i + this.mc.fontRendererObj.FONT_HEIGHT, 8421504);
+         .drawStringNoShadow(
+            string, this.mc.currentScreen.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, i + this.mc.fontRendererObj.FONT_HEIGHT, 8421504
+         );
    }
 
    @Override

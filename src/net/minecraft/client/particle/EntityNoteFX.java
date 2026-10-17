@@ -8,11 +8,11 @@ import net.minecraft.world.World;
 public class EntityNoteFX extends EntityFX {
    public float noteParticleScale;
 
-   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
-      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 2.0F);
+   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, e, d2, 2.0F);
    }
 
-   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float f) {
+   public EntityNoteFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2, float f) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.01F;
       this.motionY *= 0.01F;

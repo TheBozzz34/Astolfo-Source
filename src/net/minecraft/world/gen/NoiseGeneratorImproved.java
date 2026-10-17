@@ -36,18 +36,18 @@ public class NoiseGeneratorImproved extends NoiseGenerator {
       }
    }
 
-   public final double lerp(double d, double d2, double d3) {
-      return d2 + d * (d3 - d2);
+   public final double lerp(double d, double e, double d2) {
+      return e + d * (d2 - e);
    }
 
-   public final double func_76309_a(int i, double d, double d2) {
+   public final double func_76309_a(int i, double d, double e) {
       int j = i & 15;
-      return field_152384_h[j] * d + field_152385_i[j] * d2;
+      return field_152384_h[j] * d + field_152385_i[j] * e;
    }
 
-   public final double grad(int i, double d, double d2, double d3) {
+   public final double grad(int i, double d, double e, double d2) {
       int j = i & 15;
-      return field_152381_e[j] * d + field_152382_f[j] * d2 + field_152383_g[j] * d3;
+      return field_152381_e[j] * d + field_152382_f[j] * e + field_152383_g[j] * d2;
    }
 
    public void populateNoiseArray(

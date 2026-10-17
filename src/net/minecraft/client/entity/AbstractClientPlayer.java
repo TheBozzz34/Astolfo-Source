@@ -31,7 +31,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
    private NetworkPlayerInfo playerInfo;
    private ResourceLocation locationOfCape = null;
    private String nameClear = null;
-   public static final ResourceLocation SF = new ResourceLocation("client/normalCape.png");
+   public static final ResourceLocation locationNormalCape = new ResourceLocation("client/normalCape.png");
 
    public AbstractClientPlayer(World worldIn, GameProfile playerProfile) {
       super(worldIn, playerProfile);
@@ -69,16 +69,16 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
 
    public ResourceLocation getLocationSkin() {
       NetworkPlayerInfo networkPlayerInfo = this.getPlayerInfo();
-      return networkPlayerInfo == null ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkPlayerInfo.c();
+      return networkPlayerInfo == null ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkPlayerInfo.getDisplayedSkin();
    }
 
-   public ResourceLocation u() {
+   public ResourceLocation getLocationCape() {
       AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().getUser(this.getName());
       if (astolfoUser != null) {
-         return LayerCape.h(this, astolfoUser.clientName);
+         return LayerCape.downloadCapeTexture(this, astolfoUser.clientName);
       }
 
-      if (!Config.b()) {
+      if (!Config.isShowCapes()) {
          return null;
       }
 
@@ -87,7 +87,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
       }
 
       NetworkPlayerInfo networkPlayerInfo = this.getPlayerInfo();
-      return networkPlayerInfo == null ? null : networkPlayerInfo.B();
+      return networkPlayerInfo == null ? null : networkPlayerInfo.getLocationCape();
    }
 
    public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
@@ -133,7 +133,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
       }
 
       if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow) {
-         int i = this.n();
+         int i = this.getItemInUseDuration();
          float g = i / 20.0F;
          if (g > 1.0F) {
             g = 1.0F;

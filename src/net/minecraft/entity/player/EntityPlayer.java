@@ -151,7 +151,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return this.itemInUse;
    }
 
-   public int p() {
+   public int getItemInUseCount() {
       return this.itemInUseCount;
    }
 
@@ -159,7 +159,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return this.itemInUse != null;
    }
 
-   public int n() {
+   public int getItemInUseDuration() {
       return this.isUsingItem() ? this.itemInUse.getMaxItemUseDuration() - this.itemInUseCount : 0;
    }
 
@@ -406,7 +406,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
    public void updateRidden() {
       if (!this.worldObj.isRemote && this.isSneaking()) {
          this.mountEntity((Entity)null);
-         this.v(false);
+         this.setSneaking(false);
       } else {
          double d = this.posX;
          double e = this.posY;
@@ -436,7 +436,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
    @Override
    public void updateEntityActionState() {
       super.updateEntityActionState();
-      this.L();
+      this.updateArmSwingProgress();
       this.rotationYawHead = this.rotationYaw;
    }
 
@@ -456,7 +456,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
          }
       }
 
-      this.inventory.Y();
+      this.inventory.decrementAnimations();
       this.prevCameraYaw = this.cameraYaw;
       super.onLivingUpdate();
       IAttributeInstance iAttributeInstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
@@ -504,13 +504,13 @@ public abstract class EntityPlayer extends EntityLivingBase {
          for (int i = 0; i < list.size(); i++) {
             Entity entity = (Entity)list.get(i);
             if (!entity.isDead) {
-               this.e(entity);
+               this.collideWithPlayer(entity);
             }
          }
       }
    }
 
-   private void e(Entity entity) {
+   private void collideWithPlayer(Entity entity) {
       entity.onCollideWithPlayer(this);
    }
 
@@ -1008,11 +1008,11 @@ public abstract class EntityPlayer extends EntityLivingBase {
                }
 
                if (bl) {
-                  this.L(targetEntity);
+                  this.onCriticalHit(targetEntity);
                }
 
                if (g > 0.0F) {
-                  this.x(targetEntity);
+                  this.onEnchantmentCritical(targetEntity);
                }
 
                if (f >= 18.0F) {
@@ -1056,10 +1056,10 @@ public abstract class EntityPlayer extends EntityLivingBase {
       }
    }
 
-   public void L(Entity entity) {
+   public void onCriticalHit(Entity entityHit) {
    }
 
-   public void x(Entity entity) {
+   public void onEnchantmentCritical(Entity entityHit) {
    }
 
    public void respawnPlayer() {
@@ -1079,7 +1079,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return !this.sleeping && super.isEntityInsideOpaqueBlock();
    }
 
-   public boolean v() {
+   public boolean isUser() {
       return false;
    }
 
@@ -1126,7 +1126,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
          }
       }
 
-      if (this.E()) {
+      if (this.isRiding()) {
          this.mountEntity((Entity)null);
       }
 
@@ -1254,7 +1254,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return this.sleeping && this.sleepTimer >= 100;
    }
 
-   public int c() {
+   public int getSleepTimer() {
       return this.sleepTimer;
    }
 
@@ -1265,7 +1265,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return this.spawnChunk;
    }
 
-   public boolean S() {
+   public boolean isSpawnForced() {
       return this.spawnForced;
    }
 
@@ -1329,26 +1329,26 @@ public abstract class EntityPlayer extends EntityLivingBase {
       return (float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
    }
 
-   public void addMovementStat(double d, double d2, double d3) {
+   public void addMovementStat(double d, double e, double d2) {
       if (this.ridingEntity == null) {
          if (this.isInsideOfMaterial(Material.water)) {
-            int i = Math.round(MathHelper.sqrt_double(d * d + d2 * d2 + d3 * d3) * 100.0F);
+            int i = Math.round(MathHelper.sqrt_double(d * d + e * e + d2 * d2) * 100.0F);
             if (i > 0) {
                this.addStat(StatList.distanceDoveStat, i);
                this.addExhaustion(0.015F * i * 0.01F);
             }
          } else if (this.isInWater()) {
-            int j = Math.round(MathHelper.sqrt_double(d * d + d3 * d3) * 100.0F);
+            int j = Math.round(MathHelper.sqrt_double(d * d + d2 * d2) * 100.0F);
             if (j > 0) {
                this.addStat(StatList.distanceSwumStat, j);
                this.addExhaustion(0.015F * j * 0.01F);
             }
          } else if (this.isOnLadder()) {
-            if (d2 > 0.0) {
-               this.addStat(StatList.distanceClimbedStat, (int)Math.round(d2 * 100.0));
+            if (e > 0.0) {
+               this.addStat(StatList.distanceClimbedStat, (int)Math.round(e * 100.0));
             }
          } else if (this.onGround) {
-            int k = Math.round(MathHelper.sqrt_double(d * d + d3 * d3) * 100.0F);
+            int k = Math.round(MathHelper.sqrt_double(d * d + d2 * d2) * 100.0F);
             if (k > 0) {
                this.addStat(StatList.distanceWalkedStat, k);
                if (this.isSprinting()) {
@@ -1363,7 +1363,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
                }
             }
          } else {
-            int l = Math.round(MathHelper.sqrt_double(d * d + d3 * d3) * 100.0F);
+            int l = Math.round(MathHelper.sqrt_double(d * d + d2 * d2) * 100.0F);
             if (l > 25) {
                this.addStat(StatList.distanceFlownStat, l);
             }
@@ -1371,9 +1371,9 @@ public abstract class EntityPlayer extends EntityLivingBase {
       }
    }
 
-   private void addMountedMovementStat(double d, double d2, double d3) {
+   private void addMountedMovementStat(double d, double e, double d2) {
       if (this.ridingEntity != null) {
-         int i = Math.round(MathHelper.sqrt_double(d * d + d2 * d2 + d3 * d3) * 100.0F);
+         int i = Math.round(MathHelper.sqrt_double(d * d + e * e + d2 * d2) * 100.0F);
          if (i > 0) {
             if (this.ridingEntity instanceof EntityMinecart) {
                this.addStat(StatList.distanceByMinecartStat, i);
@@ -1757,7 +1757,7 @@ public abstract class EntityPlayer extends EntityLivingBase {
       }
    }
 
-   public boolean w() {
+   public boolean hasReducedDebug() {
       return this.hasReducedDebug;
    }
 

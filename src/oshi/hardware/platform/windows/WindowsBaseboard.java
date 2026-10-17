@@ -15,22 +15,22 @@ public final class WindowsBaseboard extends AbstractBaseboard {
    private final Supplier<Quartet<String, String, String, String>> manufModelVersSerial = Memoizer.memoize(WindowsBaseboard::queryManufModelVersSerial);
 
    @Override
-   public String p() {
+   public String getManufacturer() {
       return this.manufModelVersSerial.get().getA();
    }
 
    @Override
-   public String g() {
+   public String getModel() {
       return this.manufModelVersSerial.get().getB();
    }
 
    @Override
-   public String W() {
+   public String getVersion() {
       return this.manufModelVersSerial.get().getC();
    }
 
    @Override
-   public String A() {
+   public String getSerialNumber() {
       return this.manufModelVersSerial.get().getD();
    }
 

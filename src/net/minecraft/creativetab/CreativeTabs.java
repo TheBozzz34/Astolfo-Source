@@ -97,7 +97,7 @@ public abstract class CreativeTabs {
       public Item getTabIconItem() {
          return Item.getItemFromBlock(Blocks.chest);
       }
-   }).setBackgroundImageName("inventory.png").P().W();
+   }).setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
    private final int tabIndex;
    private final String tabLabel;
    private String theTexture = "items.png";
@@ -151,7 +151,7 @@ public abstract class CreativeTabs {
       return this.drawTitle;
    }
 
-   public CreativeTabs W() {
+   public CreativeTabs setNoTitle() {
       this.drawTitle = false;
       return this;
    }
@@ -160,7 +160,7 @@ public abstract class CreativeTabs {
       return this.hasScrollbar;
    }
 
-   public CreativeTabs P() {
+   public CreativeTabs setNoScrollbar() {
       this.hasScrollbar = false;
       return this;
    }

@@ -41,7 +41,7 @@ public final class Regen extends Module {
          && this.canRegen()
          && mc.thePlayer.getHealth() < mc.thePlayer.getMaxHealth()
          && mc.thePlayer.ticksExisted % 2 == 0) {
-         mc.thePlayer.sendQueue.u(new C03PacketPlayer(((C03PacketPlayer)packetEvent.getPacket()).isOnGround()));
+         mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(((C03PacketPlayer)packetEvent.getPacket()).isOnGround()));
       }
    };
 
@@ -53,7 +53,7 @@ public final class Regen extends Module {
    private void sendRegenPackets() {
       if (mc.thePlayer.getHealth() < mc.thePlayer.getMaxHealth()) {
          for (int i = 0; i < mc.thePlayer.getMaxHealth() - mc.thePlayer.getHealth(); i++) {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer(mc.thePlayer.onGround));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(mc.thePlayer.onGround));
          }
       }
    }

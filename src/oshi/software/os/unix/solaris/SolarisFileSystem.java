@@ -38,7 +38,7 @@ public class SolarisFileSystem extends AbstractFileSystem {
 
       for (String string5 : ExecutingCommand.runNative(string4)) {
          if (string5.startsWith("/")) {
-            string = ParseUtil.Q.split(string5)[0];
+            string = ParseUtil.whitespaces.split(string5)[0];
             string2 = null;
          } else if (string5.contains("available") && string5.contains("total files")) {
             string2 = ParseUtil.getTextBetweenStrings(string5, "available", "total files").trim();
@@ -53,7 +53,7 @@ public class SolarisFileSystem extends AbstractFileSystem {
       }
 
       for (String string6 : ExecutingCommand.runNative("cat /etc/mnttab")) {
-         String[] strings = ParseUtil.Q.split(string6);
+         String[] strings = ParseUtil.whitespaces.split(string6);
          if (strings.length >= 5) {
             String string7 = strings[0];
             String string8 = strings[1];

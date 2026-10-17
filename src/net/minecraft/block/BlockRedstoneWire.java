@@ -318,7 +318,7 @@ public class BlockRedstoneWire extends Block {
       Block block = blockState.getBlock();
       if (block == Blocks.redstone_wire) {
          return true;
-      } else if (Blocks.unpowered_repeater.N(block)) {
+      } else if (Blocks.unpowered_repeater.isAssociated(block)) {
          EnumFacing enumFacing = blockState.getValue(BlockRedstoneRepeater.FACING);
          return enumFacing == side || enumFacing.getOpposite() == side;
       } else {

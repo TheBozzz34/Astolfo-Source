@@ -47,7 +47,7 @@ public class EntitySnowman extends EntityGolem implements IRangedAttackMob {
          int i = MathHelper.floor_double(this.posX);
          int j = MathHelper.floor_double(this.posY);
          int k = MathHelper.floor_double(this.posZ);
-         if (this.G()) {
+         if (this.isWet()) {
             this.attackEntityFrom(DamageSource.drown, 1.0F);
          }
 

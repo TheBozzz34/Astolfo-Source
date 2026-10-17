@@ -68,10 +68,10 @@ public final class PlayerListTracker extends HiddenModule {
    @EventHandler(PacketEvent.class)
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED) {
-         if (GuiIngame.A) {
+         if (GuiIngame.serverIdChanged) {
             PlayerList.killCounts.clear();
             lastPositions.clear();
-            GuiIngame.A = false;
+            GuiIngame.serverIdChanged = false;
          }
 
          if (packetEvent.getPacket() instanceof S38PacketPlayerListItem) {
@@ -135,7 +135,7 @@ public final class PlayerListTracker extends HiddenModule {
                   && (networkPlayerInfo.getDisplayName() == null || !networkPlayerInfo.getDisplayName().getUnformattedText().contains("[NCP]"))) {
                   String string2 = ScorePlayerTeam.formatPlayerName(networkPlayerInfo.getPlayerTeam(), networkPlayerInfo.getGameProfile().getName());
                   if (string2.contains("§") && !string2.contains("§8") && !checkedPlayers.contains(networkPlayerInfo.getGameProfile().getName())) {
-                     if (requestedPlayers.contains(string) && HypixelAPI.O > 0) {
+                     if (requestedPlayers.contains(string) && HypixelAPI.pendingRequests > 0) {
                         if (!networkPlayerInfo.lookupTimer.hasElapsed(15000.0F)) {
                            continue;
                         }
@@ -149,7 +149,7 @@ public final class PlayerListTracker extends HiddenModule {
                         String string3 = AutoHypixel.autoChecker.getSetting("API-Key").asString();
 
                         try {
-                           hypixelApi.l(UUID.fromString(string3));
+                           hypixelApi.setApiKey(UUID.fromString(string3));
                         } catch (Exception exception) {
                            chat.printError("Invalid API Key");
                         }

@@ -47,7 +47,7 @@ public class GuiCustomizeSkin extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.title, this.width / 2, 20, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 20, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 

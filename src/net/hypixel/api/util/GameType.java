@@ -64,7 +64,7 @@ public enum GameType {
       return VALUES;
    }
 
-   public String g() {
+   public String getName() {
       return this.name;
    }
 
@@ -72,7 +72,7 @@ public enum GameType {
       return this.id;
    }
 
-   public String t() {
+   public String getDbName() {
       return this.dbName;
    }
 }

@@ -30,27 +30,27 @@ import oshi.util.platform.mac.SysctlUtil;
 @ThreadSafe
 public class MacFileSystem extends AbstractFileSystem {
    private static final Pattern LOCAL_DISK = Pattern.compile("/dev/disk\\d");
-   private static final int n = 2;
-   private static final int G = 4;
-   private static final int Z = 8;
-   private static final int i = 16;
-   private static final int L = 32;
-   private static final int p = 64;
-   private static final int c = 128;
-   private static final int X = 256;
-   private static final int V = 1024;
-   private static final int H = 4096;
+   private static final int MNT_SYNCHRONOUS = 2;
+   private static final int MNT_NOEXEC = 4;
+   private static final int MNT_NOSUID = 8;
+   private static final int MNT_NODEV = 16;
+   private static final int MNT_UNION = 32;
+   private static final int MNT_ASYNC = 64;
+   private static final int MNT_CPROTECT = 128;
+   private static final int MNT_EXPORTED = 256;
+   private static final int MNT_QUARANTINE = 1024;
+   private static final int MNT_LOCAL = 4096;
    private static final int y = 8192;
-   private static final int D = 16384;
-   private static final int g = 32768;
-   private static final int s = 1048576;
-   private static final int E = 2097152;
-   private static final int f = 4194304;
-   private static final int b = 8388608;
-   private static final int a = 16777216;
-   private static final int Q = 33554432;
-   private static final int d = 67108864;
-   private static final int M = 268435456;
+   private static final int MNT_ROOTFS = 16384;
+   private static final int MNT_DOVOLFS = 32768;
+   private static final int MNT_DONTBROWSE = 1048576;
+   private static final int MNT_IGNORE_OWNERSHIP = 2097152;
+   private static final int MNT_AUTOMOUNTED = 4194304;
+   private static final int MNT_JOURNALED = 8388608;
+   private static final int MNT_NOUSERXATTR = 16777216;
+   private static final int MNT_DEFWRITE = 33554432;
+   private static final int MNT_MULTILABEL = 67108864;
+   private static final int MNT_NOATIME = 268435456;
    private static final Map<Integer, String> OPTIONS_MAP = new HashMap<>();
 
    @Override
@@ -97,11 +97,7 @@ public class MacFileSystem extends AbstractFileSystem {
 
                   if (nameToMatch == null || nameToMatch.equals(string5)) {
                      StringBuilder stringBuilder = new StringBuilder((1 & k) == 0 ? "rw" : "ro");
-                     String string6 = OPTIONS_MAP.entrySet()
-                        .stream()
-                        .filter(eIn -> (eIn.getKey() & k) > 0)
-                        .map(Entry::getValue)
-                        .collect(Collectors.joining(","));
+                     String string6 = OPTIONS_MAP.entrySet().stream().filter(e -> (e.getKey() & k) > 0).map(Entry::getValue).collect(Collectors.joining(","));
                      if (!string6.isEmpty()) {
                         stringBuilder.append(',').append(string6);
                      }

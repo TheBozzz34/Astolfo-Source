@@ -16,17 +16,17 @@ public final class FreeBsdComputerSystem extends AbstractComputerSystem {
    private final Supplier<Quartet<String, String, String, String>> manufModelSerialVers = Memoizer.memoize(FreeBsdComputerSystem::readDmiDecode);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return this.manufModelSerialVers.get().getA();
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return this.manufModelSerialVers.get().getB();
    }
 
    @Override
-   public String k() {
+   public String getSerialNumber() {
       return this.manufModelSerialVers.get().getC();
    }
 

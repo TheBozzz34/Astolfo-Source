@@ -165,7 +165,7 @@ public final class HUD extends Module {
    private boolean unusedFlag;
    @EventHandler(RenderEvent.class)
    private final Listener<RenderEvent> onRender = renderEvent -> {
-      if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.n) {
+      if (renderEvent.getType() == RenderType.SCREEN && !mc.gameSettings.showDebugInfo) {
          HUDWatermarkMode hudWatermarkMode = this.getWatermarkMode();
          float f = hudScale.getValue();
          double d = renderEvent.getResolution().getScaleFactor() / Math.pow(renderEvent.getResolution().getScaleFactor(), 2.0);
@@ -176,11 +176,11 @@ public final class HUD extends Module {
             if (isPowerBranding()) {
                RenderUtil.drawRect(2.0, 2.0, 55.0, 19.0, new Color(1, 1, 1, 150).getRGB());
                RenderUtil.drawRect(2.3F, 2.3F, 4.0, 18.3F, client.getColorSetting().getValue().getRGB());
-               GuiMainMenu.M.drawStringWithShadow("P", 6.0F, 3.5F, client.getColorSetting().getValue().getRGB());
-               GuiMainMenu.M.drawStringWithShadow("ower", 6 + GuiMainMenu.M.getStringWidth("P") + 1, 3.5F, -1);
+               GuiMainMenu.comfortaaFont30.drawStringWithShadow("P", 6.0F, 3.5F, client.getColorSetting().getValue().getRGB());
+               GuiMainMenu.comfortaaFont30.drawStringWithShadow("ower", 6 + GuiMainMenu.comfortaaFont30.getStringWidth("P") + 1, 3.5F, -1);
             } else {
                string = string.replace("&", "§");
-               string = string.replace("%fps%", String.valueOf(Minecraft.B()));
+               string = string.replace("%fps%", String.valueOf(Minecraft.getDebugFPS()));
                string = string.replace("%time%", this.timeFormat.format(new Date()));
                if (this.information.getSetting("Ping").asBoolean()
                   && mc.thePlayer.getPlayerInfo() != null
@@ -194,7 +194,7 @@ public final class HUD extends Module {
                   string = string.replace("%ip%", mc.getCurrentServerData().serverIP);
                }
 
-               string = string.replace("%user%", mc.mouseHelper.Y().getAccount().getUsername());
+               string = string.replace("%user%", mc.mouseHelper.getAuthSession().getAccount().getUsername());
                if (DisconnectHandler.disconnected) {
                   string = string + EnumChatFormatting.GRAY + " - DISCONNECTED";
                }
@@ -262,7 +262,7 @@ public final class HUD extends Module {
                         string2 = String.format(
                            string2,
                            client.getName() + (isDevelopment ? " [DEVELOPMENT]" : (client.getVersion().contains("BETA") ? " [BETA]" : "")),
-                           mc.mouseHelper.Y().getAccount().getUsername(),
+                           mc.mouseHelper.getAuthSession().getAccount().getUsername(),
                            k
                         );
                         RenderUtil.drawRect(3.0, 3.0, 10 + client.getFontRenderer().getStringWidth(string2), 18.0, new Color(1, 1, 1, 80).getRGB());
@@ -273,7 +273,7 @@ public final class HUD extends Module {
                         RenderUtil.drawRect(
                            3.0, 5.0, 10 + client.getFontRenderer().getStringWidth(string2), 6.0, client.getColorSetting().getValue().darker().darker().getRGB()
                         );
-                        client.getFontRenderer().O(string2, 7, 8, -1);
+                        client.getFontRenderer().drawOutlinedString(string2, 7, 8, -1);
                         GL11.glPopMatrix();
                         break;
                      case ROTATE:
@@ -317,8 +317,8 @@ public final class HUD extends Module {
                this.compass = new CompassHud(numberSetting.asFloat(), numberSetting2.asFloat(), 75, 20);
             } else {
                int m = renderEvent.getResolution().getScaledHeight();
-               int i2 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i3 = m - Mouse.getY() * m / mc.displayHeight - 1;
+               int n = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i2 = m - Mouse.getY() * m / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting.setValue(this.compass.getX());
                   numberSetting2.setValue(this.compass.getYPos());
@@ -333,17 +333,17 @@ public final class HUD extends Module {
                }
 
                this.compass.setScreenWidth(renderEvent.getResolution().getScaledWidth());
-               this.compass.render(i2, i3);
+               this.compass.render(n, i2);
                if (mc.currentScreen instanceof GuiChat && this.compass.isDragging() && Mouse.isButtonDown(0)) {
-                  this.compass.updateDragPosition(i2, i3);
+                  this.compass.updateDragPosition(n, i2);
                }
 
                if (Mouse.isButtonDown(0)
                   && this.compass
                      .isMouseInRect(
-                        (int)this.compass.getX() - 75, (int)this.compass.getYPos(), this.compass.getWidth() + 75, this.compass.getHeight(), i2, i3
+                        (int)this.compass.getX() - 75, (int)this.compass.getYPos(), this.compass.getWidth() + 75, this.compass.getHeight(), n, i2
                      )) {
-                  this.compass.setDragging(true, i2, i3);
+                  this.compass.setDragging(true, n, i2);
                } else {
                   this.compass.setDraggingNoOffset(false);
                }
@@ -359,9 +359,9 @@ public final class HUD extends Module {
             if (this.outgoingGraph == null) {
                this.outgoingGraph = new PacketGraphHud(numberSetting3.asFloat(), numberSetting4.asFloat(), 150, 39);
             } else {
-               int i4 = renderEvent.getResolution().getScaledHeight();
-               int i5 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i6 = i4 - Mouse.getY() * i4 / mc.displayHeight - 1;
+               int i3 = renderEvent.getResolution().getScaledHeight();
+               int i4 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i5 = i3 - Mouse.getY() * i3 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting3.setValue(this.outgoingGraph.getX());
                   numberSetting4.setValue(this.outgoingGraph.getYPos());
@@ -377,13 +377,13 @@ public final class HUD extends Module {
 
                this.outgoingGraph.setSnapshots(this.packetHistory);
                this.outgoingGraph.setShowAverage(bl);
-               this.outgoingGraph.render(i5, i6);
+               this.outgoingGraph.render(i4, i5);
                if (mc.currentScreen instanceof GuiChat && this.outgoingGraph.isDragging() && Mouse.isButtonDown(0)) {
-                  this.outgoingGraph.updateDragPosition(i5, i6);
+                  this.outgoingGraph.updateDragPosition(i4, i5);
                }
 
-               if (Mouse.isButtonDown(0) && this.outgoingGraph.isHovered(i5, i6)) {
-                  this.outgoingGraph.setDragging(true, i5, i6);
+               if (Mouse.isButtonDown(0) && this.outgoingGraph.isHovered(i4, i5)) {
+                  this.outgoingGraph.setDragging(true, i4, i5);
                } else {
                   this.outgoingGraph.setDraggingNoOffset(false);
                }
@@ -398,9 +398,9 @@ public final class HUD extends Module {
             if (this.incomingGraph == null) {
                this.incomingGraph = new PacketGraphHud(numberSetting5.asFloat(), numberSetting6.asFloat(), 150, 39);
             } else {
-               int i7 = renderEvent.getResolution().getScaledHeight();
-               int i8 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i9 = i7 - Mouse.getY() * i7 / mc.displayHeight - 1;
+               int i6 = renderEvent.getResolution().getScaledHeight();
+               int i7 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i8 = i6 - Mouse.getY() * i6 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting5.setValue(this.incomingGraph.getX());
                   numberSetting6.setValue(this.incomingGraph.getYPos());
@@ -417,13 +417,13 @@ public final class HUD extends Module {
                this.incomingGraph.setSnapshots(this.packetHistory);
                this.incomingGraph.setShowIncoming(true);
                this.incomingGraph.setShowAverage(bl);
-               this.incomingGraph.render(i8, i9);
+               this.incomingGraph.render(i7, i8);
                if (mc.currentScreen instanceof GuiChat && this.incomingGraph.isDragging() && Mouse.isButtonDown(0)) {
-                  this.incomingGraph.updateDragPosition(i8, i9);
+                  this.incomingGraph.updateDragPosition(i7, i8);
                }
 
-               if (Mouse.isButtonDown(0) && this.incomingGraph.isHovered(i8, i9)) {
-                  this.incomingGraph.setDragging(true, i8, i9);
+               if (Mouse.isButtonDown(0) && this.incomingGraph.isHovered(i7, i8)) {
+                  this.incomingGraph.setDragging(true, i7, i8);
                } else {
                   this.incomingGraph.setDraggingNoOffset(false);
                }
@@ -443,9 +443,9 @@ public final class HUD extends Module {
             if (this.statsHud == null) {
                this.statsHud = new StatsHud(numberSetting7.asFloat(), numberSetting8.asFloat(), 300, 100);
             } else {
-               int i10 = renderEvent.getResolution().getScaledHeight();
-               int i11 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
-               int i12 = i10 - Mouse.getY() * i10 / mc.displayHeight - 1;
+               int i9 = renderEvent.getResolution().getScaledHeight();
+               int i10 = Mouse.getX() * renderEvent.getResolution().getScaledWidth() / mc.displayWidth;
+               int i11 = i9 - Mouse.getY() * i9 / mc.displayHeight - 1;
                if (Mouse.isButtonDown(0)) {
                   numberSetting7.setValue(this.statsHud.getX());
                   numberSetting8.setValue(this.statsHud.getYPos());
@@ -469,13 +469,13 @@ public final class HUD extends Module {
 
                this.statsHud.setGameMode((AutoHypixelAutoCheckerGameMode)enumSetting.getValue());
                this.statsHud.setMaxPlayers((Integer)numberSetting9.getValue());
-               this.statsHud.render(i11, i12);
+               this.statsHud.render(i10, i11);
                if (mc.currentScreen instanceof GuiChat && this.statsHud.isDragging() && Mouse.isButtonDown(0)) {
-                  this.statsHud.updateDragPosition(i11, i12);
+                  this.statsHud.updateDragPosition(i10, i11);
                }
 
-               if (Mouse.isButtonDown(0) && this.statsHud.isHovered(i11, i12)) {
-                  this.statsHud.setDragging(true, i11, i12);
+               if (Mouse.isButtonDown(0) && this.statsHud.isHovered(i10, i11)) {
+                  this.statsHud.setDragging(true, i10, i11);
                } else {
                   this.statsHud.setDraggingNoOffset(false);
                }
@@ -784,9 +784,10 @@ public final class HUD extends Module {
       GlStateManager.translate(-12.0F, -12.0F, 0.0F);
       RenderUtil.drawCircle(12.0, 12.0, 10.0, -1728053248);
       String string = String.valueOf("Astolfo".charAt(this.logoLetterIndex)).toUpperCase();
-      float f = GuiMainMenu.P.getStringWidth((java.lang.String)(string));
-      float g = GuiMainMenu.P.getStringHeight((java.lang.String)(string));
-      GuiMainMenu.P.drawString(EnumChatFormatting.BOLD + string, 2.0F + (20.0F - f) / 2.0F - 1.0F, 4.0F + (20.0F - g) / 2.0F - 2.0F, j);
+      float f = GuiMainMenu.robotoRegularFont28.getStringWidth((java.lang.String)(string));
+      float g = GuiMainMenu.robotoRegularFont28.getStringHeight((java.lang.String)(string));
+      GuiMainMenu.robotoRegularFont28
+         .drawString(EnumChatFormatting.BOLD + string, 2.0F + (20.0F - f) / 2.0F - 1.0F, 4.0F + (20.0F - g) / 2.0F - 2.0F, j);
       GlStateManager.pushMatrix();
       GL11.glEnable(2848);
       GL11.glLineWidth(4.0F);
@@ -845,7 +846,7 @@ public final class HUD extends Module {
       }
 
       if (this.information.getSetting("FPS").asBoolean()) {
-         this.leftInfoLines.add("FPS: " + Minecraft.B());
+         this.leftInfoLines.add("FPS: " + Minecraft.getDebugFPS());
       }
 
       byte b = 0;
@@ -873,7 +874,7 @@ public final class HUD extends Module {
             isDevelopment
                ? String.valueOf(this.buildDate.getYear()).substring(2) + "" + this.buildDate.getMonthValue() + "" + this.buildDate.getDayOfMonth()
                : client.getVersion(),
-            mc.mouseHelper.Y().getAccount().getUsername()
+            mc.mouseHelper.getAuthSession().getAccount().getUsername()
          );
       } else {
          string = String.format(
@@ -882,7 +883,7 @@ public final class HUD extends Module {
             isDevelopment
                ? String.valueOf(this.buildDate.getYear()).substring(2) + "" + this.buildDate.getMonthValue() + "" + this.buildDate.getDayOfMonth()
                : client.getVersion().replace("BETA", ""),
-            mc.mouseHelper.Y().getAccount().getUsername()
+            mc.mouseHelper.getAuthSession().getAccount().getUsername()
          );
       }
 

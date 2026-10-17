@@ -6,12 +6,12 @@ import net.minecraft.util.Vec3;
 public final class MathUtil {
    public static final DecimalFormat ONE_DECIMAL = new DecimalFormat("#.#");
 
-   public static double interpolate(double d, double d2, float f, double d3) {
-      return d + (d2 - d) * f - d3;
+   public static double interpolate(double d, double e, float f, double d2) {
+      return d + (e - d) * f - d2;
    }
 
-   public static double randomInRange(double d, double d2) {
-      return Math.random() * (d2 - d) + d;
+   public static double randomInRange(double d, double e) {
+      return Math.random() * (e - d) + d;
    }
 
    public static final Vec3 rotate(Vec3 vec3, float f, float g) {

@@ -57,7 +57,7 @@ public abstract class AbstractNetworkParams implements NetworkParams {
       for (String string : lines) {
          String string2 = string.replaceFirst("^\\s+", "");
          if (string2.startsWith("gateway:")) {
-            String[] strings = ParseUtil.Q.split(string2);
+            String[] strings = ParseUtil.whitespaces.split(string2);
             if (strings.length < 2) {
                return "";
             }

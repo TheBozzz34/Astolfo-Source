@@ -38,16 +38,16 @@ public class BlockFurnace extends BlockContainer {
 
    @Override
    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-      this.y(worldIn, pos, state);
+      this.setDefaultFacing(worldIn, pos, state);
    }
 
-   private void y(World world, BlockPos blockPos, IBlockState iBlockState) {
-      if (!world.isRemote) {
-         Block block = world.getBlockState(blockPos.north()).getBlock();
-         Block block2 = world.getBlockState(blockPos.south()).getBlock();
-         Block block3 = world.getBlockState(blockPos.west()).getBlock();
-         Block block4 = world.getBlockState(blockPos.east()).getBlock();
-         EnumFacing enumFacing = iBlockState.getValue(FACING);
+   private void setDefaultFacing(World worldIn, BlockPos pos, IBlockState state) {
+      if (!worldIn.isRemote) {
+         Block block = worldIn.getBlockState(pos.north()).getBlock();
+         Block block2 = worldIn.getBlockState(pos.south()).getBlock();
+         Block block3 = worldIn.getBlockState(pos.west()).getBlock();
+         Block block4 = worldIn.getBlockState(pos.east()).getBlock();
+         EnumFacing enumFacing = state.getValue(FACING);
          if (enumFacing == EnumFacing.NORTH && block.isFullBlock() && !block2.isFullBlock()) {
             enumFacing = EnumFacing.SOUTH;
          } else if (enumFacing == EnumFacing.SOUTH && block2.isFullBlock() && !block.isFullBlock()) {
@@ -58,7 +58,7 @@ public class BlockFurnace extends BlockContainer {
             enumFacing = EnumFacing.WEST;
          }
 
-         world.setBlockState(blockPos, iBlockState.withProperty(FACING, enumFacing), 2);
+         worldIn.setBlockState(pos, state.withProperty(FACING, enumFacing), 2);
       }
    }
 

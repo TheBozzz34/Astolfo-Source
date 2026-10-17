@@ -8,18 +8,18 @@ import net.minecraft.world.World;
 public class EntityCrit2FX extends EntityFX {
    public float field_174839_a;
 
-   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
-      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 1.0F);
+   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, e, d2, 1.0F);
    }
 
-   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float f) {
+   public EntityCrit2FX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2, float f) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.1F;
       this.motionY *= 0.1F;
       this.motionZ *= 0.1F;
       this.motionX += d * 0.4;
-      this.motionY += d2 * 0.4;
-      this.motionZ += d3 * 0.4;
+      this.motionY += e * 0.4;
+      this.motionZ += d2 * 0.4;
       this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.3F + 0.6F);
       this.particleScale *= 0.75F;
       this.particleScale *= f;

@@ -70,8 +70,8 @@ public class GuiScreenServerList extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("selectServer.direct"), this.width / 2, 20, 16777215);
-      this.I(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 100, 10526880);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("selectServer.direct"), this.width / 2, 20, 16777215);
+      this.drawString(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 100, 10526880);
       this.field_146302_g.drawTextBox();
       super.drawScreen(mouseX, mouseY, partialTicks);
    }

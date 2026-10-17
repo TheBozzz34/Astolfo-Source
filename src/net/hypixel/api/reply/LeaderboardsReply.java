@@ -24,11 +24,11 @@ public class LeaderboardsReply extends AbstractReply {
       private List<UUID> leaders;
       private String title;
 
-      public String D() {
+      public String getPath() {
          return this.path;
       }
 
-      public String X() {
+      public String getPrefix() {
          return this.prefix;
       }
 
@@ -40,7 +40,7 @@ public class LeaderboardsReply extends AbstractReply {
          return this.leaders;
       }
 
-      public String A() {
+      public String getTitle() {
          return this.title;
       }
 

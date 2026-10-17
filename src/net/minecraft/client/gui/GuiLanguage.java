@@ -38,7 +38,7 @@ public class GuiLanguage extends GuiScreen {
          );
       this.buttonList.add(this.confirmSettingsBtn = new GuiOptionButton(6, this.width / 2 - 155 + 160, this.height - 38, I18n.format("gui.done")));
       this.list = new GuiLanguage.List(this.mc);
-      this.list.U(7, 8);
+      this.list.registerScrollButtons(7, 8);
    }
 
    @Override
@@ -75,8 +75,8 @@ public class GuiLanguage extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.list.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, I18n.format("options.language"), this.width / 2, 16, 16777215);
-      this.d(this.fontRendererObj, "(" + I18n.format("options.languageWarning") + ")", this.width / 2, this.height - 56, 8421504);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("options.language"), this.width / 2, 16, 16777215);
+      this.drawCenteredString(this.fontRendererObj, "(" + I18n.format("options.languageWarning") + ")", this.width / 2, this.height - 56, 8421504);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
@@ -130,7 +130,9 @@ public class GuiLanguage extends GuiScreen {
       @Override
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          GuiLanguage.this.fontRendererObj.setBidiFlag(true);
-         GuiLanguage.this.d(GuiLanguage.this.fontRendererObj, this.languageMap.get(this.langCodeList.get(entryID)).toString(), this.width / 2, j + 1, 16777215);
+         GuiLanguage.this.drawCenteredString(
+            GuiLanguage.this.fontRendererObj, this.languageMap.get(this.langCodeList.get(entryID)).toString(), this.width / 2, j + 1, 16777215
+         );
          GuiLanguage.this.fontRendererObj.setBidiFlag(GuiLanguage.this.languageManager.getCurrentLanguage().isBidirectional());
       }
    }

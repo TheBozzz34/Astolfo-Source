@@ -92,7 +92,7 @@ public final class Annoy extends Module {
 
                   mc.thePlayer.setPosition(mc.thePlayer.posX + d, mc.thePlayer.posY + 2.0, mc.thePlayer.posZ + d);
                   mc.thePlayer.rotationYaw += 20.0F;
-                  mc.thePlayer.sendQueue.u(new C0APacketAnimation());
+                  mc.thePlayer.sendQueue.sendPacketNoEvent(new C0APacketAnimation());
                }
          }
 

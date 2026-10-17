@@ -38,7 +38,7 @@ public class OsLibrary extends TwoArgFunction {
       LuaTable luaTable = new LuaTable();
 
       for (int i = 0; i < NAMES.length; i++) {
-         luaTable.set(NAMES[i], new OsLibrary.pp(i, NAMES[i]));
+         luaTable.set(NAMES[i], new OsLibrary.OsFunction(i, NAMES[i]));
       }
 
       luaValue2.set("os", luaTable);
@@ -53,8 +53,8 @@ public class OsLibrary extends TwoArgFunction {
       return (System.currentTimeMillis() - START_TIME_MILLIS) / 1000.0;
    }
 
-   public double difftime(double d, double d2) {
-      return d - d2;
+   public double difftime(double d, double e) {
+      return d - e;
    }
 
    public String date(String string, double d) {
@@ -306,8 +306,8 @@ public class OsLibrary extends TwoArgFunction {
       return osLibrary.isDaylightSavingTime(calendar);
    }
 
-   public class pp extends VarArgFunction {
-      public pp(int i, String string) {
+   public class OsFunction extends VarArgFunction {
+      public OsFunction(int i, String string) {
          this.opcode = i;
          this.name = string;
       }

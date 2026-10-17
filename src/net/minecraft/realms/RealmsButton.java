@@ -37,16 +37,16 @@ public class RealmsButton {
       this.proxy.setText(string);
    }
 
-   public int h() {
+   public int getWidth() {
       return this.proxy.getButtonWidth();
    }
 
-   public int r() {
-      return this.proxy.g();
+   public int getHeight() {
+      return this.proxy.getHeight();
    }
 
-   public int J() {
-      return this.proxy.V();
+   public int y() {
+      return this.proxy.getPositionY();
    }
 
    public void render(int i, int j) {

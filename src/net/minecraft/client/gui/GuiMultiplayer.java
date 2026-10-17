@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
-   public static List<ProtocolVersion> O = new ArrayList<>();
-   public static final HypixelAPI a = new HypixelAPI(UUID.fromString("3b88faf8-17e3-4a98-a1ee-ef767a6eb4b1"));
+   public static List<ProtocolVersion> supportedProtocolVersions = new ArrayList<>();
+   public static final HypixelAPI hypixelApi = new HypixelAPI(UUID.fromString("3b88faf8-17e3-4a98-a1ee-ef767a6eb4b1"));
    private static final Logger logger = LogManager.getLogger();
    private final OldServerPinger oldServerPinger = new OldServerPinger();
    private GuiScreen parentScreen;
@@ -31,7 +31,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
    private GuiButton btnEditServer;
    private GuiButton btnSelectServer;
    private GuiButton btnDeleteServer;
-   private ProtocolButton q;
+   private ProtocolButton protocolButton;
    private boolean deletingServer;
    private boolean addingServer;
    private boolean editingServer;
@@ -41,9 +41,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
    private LanServerDetector.LanServerList lanServerList;
    private LanServerDetector.ThreadLanServerFind lanServerDetector;
    private boolean initialized;
-   private String M;
-   private int w;
-   private int K;
+   private String unusedString;
+   private int unusedInt1;
+   private int unusedInt2;
 
    public GuiMultiplayer(GuiScreen parentScreen) {
       this.parentScreen = parentScreen;
@@ -69,7 +69,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
          this.serverListSelector = new ServerSelectionList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
          this.serverListSelector.func_148195_a(this.savedServerList);
       } else {
-         this.serverListSelector.m(this.width, this.height, 32, this.height - 64);
+         this.serverListSelector.setDimensions(this.width, this.height, 32, this.height - 64);
       }
 
       this.createButtons();
@@ -90,7 +90,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
       this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh")));
       this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel")));
       this.buttonList.add(new GuiButton(9, 3, this.height - 28, 50, 20, "Proxy"));
-      this.buttonList.add(this.q = new ProtocolButton(10, this.width - 105, 5));
+      this.buttonList.add(this.protocolButton = new ProtocolButton(10, this.width - 105, 5));
       this.selectServer(this.serverListSelector.func_148193_k());
    }
 
@@ -151,14 +151,14 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
          } else if (button.id == 0) {
             this.mc.displayGuiScreen(this.parentScreen);
          } else if (button.id == 8) {
-            this.c();
+            this.refreshServerList();
          } else if (button.id == 9) {
             this.mc.displayGuiScreen(new ProxyScreen());
          }
       }
    }
 
-   private void c() {
+   private void refreshServerList() {
       this.mc.displayGuiScreen(new GuiMultiplayer(this.parentScreen));
    }
 
@@ -214,23 +214,23 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
       int i = this.serverListSelector.func_148193_k();
       GuiListExtended.IGuiListEntry iGuiListEntry = i < 0 ? null : this.serverListSelector.getListEntry(i);
       if (keyCode == 63) {
-         this.c();
+         this.refreshServerList();
       } else if (i >= 0) {
          if (keyCode == 200) {
             if (isShiftKeyDown()) {
                if (i > 0 && iGuiListEntry instanceof ServerListEntryNormal) {
                   this.savedServerList.swapServers(i, i - 1);
                   this.selectServer(this.serverListSelector.func_148193_k() - 1);
-                  this.serverListSelector.scrollBy(-this.serverListSelector.l());
+                  this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                   this.serverListSelector.func_148195_a(this.savedServerList);
                }
             } else if (i > 0) {
                this.selectServer(this.serverListSelector.func_148193_k() - 1);
-               this.serverListSelector.scrollBy(-this.serverListSelector.l());
+               this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                if (this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
                   if (this.serverListSelector.func_148193_k() > 0) {
                      this.selectServer(this.serverListSelector.getSize() - 1);
-                     this.serverListSelector.scrollBy(-this.serverListSelector.l());
+                     this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                   } else {
                      this.selectServer(-1);
                   }
@@ -243,16 +243,16 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
                if (i < this.savedServerList.countServers() - 1) {
                   this.savedServerList.swapServers(i, i + 1);
                   this.selectServer(i + 1);
-                  this.serverListSelector.scrollBy(this.serverListSelector.l());
+                  this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                   this.serverListSelector.func_148195_a(this.savedServerList);
                }
             } else if (i < this.serverListSelector.getSize()) {
                this.selectServer(this.serverListSelector.func_148193_k() + 1);
-               this.serverListSelector.scrollBy(this.serverListSelector.l());
+               this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                if (this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
                   if (this.serverListSelector.func_148193_k() < this.serverListSelector.getSize() - 1) {
                      this.selectServer(this.serverListSelector.getSize() + 1);
-                     this.serverListSelector.scrollBy(this.serverListSelector.l());
+                     this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                   } else {
                      this.selectServer(-1);
                   }
@@ -275,13 +275,13 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
       this.hoveringText = null;
       this.drawDefaultBackground();
       this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.hoveringText != null) {
          this.drawHoveringText(Lists.newArrayList(Splitter.on("\n").split(this.hoveringText)), mouseX, mouseY);
       }
 
-      this.I(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
+      this.drawString(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
    }
 
    public void connectToSelected() {
@@ -298,7 +298,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
 
    private void connectToServer(ServerData server) {
       if (server.serverIP != null) {
-         ServerData.I = server.serverIP;
+         ServerData.currentServerIp = server.serverIP;
       }
 
       this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, server));
@@ -372,37 +372,37 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
    }
 
    static {
-      O.add(ProtocolVersion.v1_8);
-      O.add(ProtocolVersion.v1_9);
-      O.add(ProtocolVersion.v1_9_1);
-      O.add(ProtocolVersion.v1_9_2);
-      O.add(ProtocolVersion.v1_9_3);
-      O.add(ProtocolVersion.v1_10);
-      O.add(ProtocolVersion.v1_11);
-      O.add(ProtocolVersion.v1_11_1);
-      O.add(ProtocolVersion.v1_12);
-      O.add(ProtocolVersion.v1_12_1);
-      O.add(ProtocolVersion.v1_12_2);
-      O.add(ProtocolVersion.v1_13);
-      O.add(ProtocolVersion.v1_13_1);
-      O.add(ProtocolVersion.v1_13_2);
-      O.add(ProtocolVersion.v1_14);
-      O.add(ProtocolVersion.v1_14_1);
-      O.add(ProtocolVersion.v1_14_2);
-      O.add(ProtocolVersion.v1_14_3);
-      O.add(ProtocolVersion.v1_14_4);
-      O.add(ProtocolVersion.v1_15);
-      O.add(ProtocolVersion.v1_15_1);
-      O.add(ProtocolVersion.v1_15_2);
-      O.add(ProtocolVersion.v1_16);
-      O.add(ProtocolVersion.v1_16_1);
-      O.add(ProtocolVersion.v1_16_2);
-      O.add(ProtocolVersion.v1_16_3);
-      O.add(ProtocolVersion.v1_16_4);
-      O.add(ProtocolVersion.v1_17);
-      O.add(ProtocolVersion.v1_17_1);
-      O.add(ProtocolVersion.v1_18);
-      O.add(ProtocolVersion.v1_18_2);
-      O.add(ProtocolVersion.v1_19);
+      supportedProtocolVersions.add(ProtocolVersion.v1_8);
+      supportedProtocolVersions.add(ProtocolVersion.v1_9);
+      supportedProtocolVersions.add(ProtocolVersion.v1_9_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_9_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_9_3);
+      supportedProtocolVersions.add(ProtocolVersion.v1_10);
+      supportedProtocolVersions.add(ProtocolVersion.v1_11);
+      supportedProtocolVersions.add(ProtocolVersion.v1_11_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_12);
+      supportedProtocolVersions.add(ProtocolVersion.v1_12_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_12_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_13);
+      supportedProtocolVersions.add(ProtocolVersion.v1_13_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_13_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_14);
+      supportedProtocolVersions.add(ProtocolVersion.v1_14_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_14_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_14_3);
+      supportedProtocolVersions.add(ProtocolVersion.v1_14_4);
+      supportedProtocolVersions.add(ProtocolVersion.v1_15);
+      supportedProtocolVersions.add(ProtocolVersion.v1_15_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_15_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_16);
+      supportedProtocolVersions.add(ProtocolVersion.v1_16_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_16_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_16_3);
+      supportedProtocolVersions.add(ProtocolVersion.v1_16_4);
+      supportedProtocolVersions.add(ProtocolVersion.v1_17);
+      supportedProtocolVersions.add(ProtocolVersion.v1_17_1);
+      supportedProtocolVersions.add(ProtocolVersion.v1_18);
+      supportedProtocolVersions.add(ProtocolVersion.v1_18_2);
+      supportedProtocolVersions.add(ProtocolVersion.v1_19);
    }
 }

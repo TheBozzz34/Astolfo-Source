@@ -78,12 +78,12 @@ public class ChunkRenderDispatcher {
       return bl;
    }
 
-   public boolean N(RenderChunk renderChunk) {
-      renderChunk.getLockCompileTask().lock();
+   public boolean updateChunkLater(RenderChunk chunkRenderer) {
+      chunkRenderer.getLockCompileTask().lock();
 
       boolean bl;
       try {
-         ChunkCompileTaskGenerator chunkCompileTaskGenerator = renderChunk.makeCompileTaskChunk();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = chunkRenderer.makeCompileTaskChunk();
          chunkCompileTaskGenerator.addFinishRunnable(new ChunkRenderDispatcher.RemoveChunkTask(this, chunkCompileTaskGenerator));
          boolean bl2 = this.queueChunkUpdates.offer(chunkCompileTaskGenerator);
          if (!bl2) {
@@ -92,7 +92,7 @@ public class ChunkRenderDispatcher {
 
          bl = bl2;
       } finally {
-         renderChunk.getLockCompileTask().unlock();
+         chunkRenderer.getLockCompileTask().unlock();
       }
 
       return bl;
@@ -148,12 +148,12 @@ public class ChunkRenderDispatcher {
       return this.queueChunkUpdates.take();
    }
 
-   public boolean p(RenderChunk renderChunk) {
-      renderChunk.getLockCompileTask().lock();
+   public boolean updateTransparencyLater(RenderChunk chunkRenderer) {
+      chunkRenderer.getLockCompileTask().lock();
 
       boolean bl;
       try {
-         ChunkCompileTaskGenerator chunkCompileTaskGenerator = renderChunk.makeCompileTaskTransparency();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = chunkRenderer.makeCompileTaskTransparency();
          if (chunkCompileTaskGenerator == null) {
             return true;
          }
@@ -161,7 +161,7 @@ public class ChunkRenderDispatcher {
          chunkCompileTaskGenerator.addFinishRunnable(new ChunkRenderDispatcher.RemoveTransparencyTask(this, chunkCompileTaskGenerator));
          bl = this.queueChunkUpdates.offer(chunkCompileTaskGenerator);
       } finally {
-         renderChunk.getLockCompileTask().unlock();
+         chunkRenderer.getLockCompileTask().unlock();
       }
 
       return bl;
@@ -221,32 +221,32 @@ public class ChunkRenderDispatcher {
    }
 
    public static class RemoveChunkTask implements Runnable {
-      public final ChunkCompileTaskGenerator m;
-      public final ChunkRenderDispatcher h;
+      public final ChunkCompileTaskGenerator compileTask;
+      public final ChunkRenderDispatcher dispatcher;
 
       public RemoveChunkTask(ChunkRenderDispatcher chunkRenderDispatcher, ChunkCompileTaskGenerator chunkCompileTaskGenerator) {
-         this.h = chunkRenderDispatcher;
-         this.m = chunkCompileTaskGenerator;
+         this.dispatcher = chunkRenderDispatcher;
+         this.compileTask = chunkCompileTaskGenerator;
       }
 
       @Override
       public void run() {
-         ChunkRenderDispatcher.access$000(this.h).remove(this.m);
+         ChunkRenderDispatcher.access$000(this.dispatcher).remove(this.compileTask);
       }
    }
 
    public static class RemoveTransparencyTask implements Runnable {
-      public final ChunkCompileTaskGenerator a;
-      public final ChunkRenderDispatcher T;
+      public final ChunkCompileTaskGenerator compileTask;
+      public final ChunkRenderDispatcher dispatcher;
 
       public RemoveTransparencyTask(ChunkRenderDispatcher chunkRenderDispatcher, ChunkCompileTaskGenerator chunkCompileTaskGenerator) {
-         this.T = chunkRenderDispatcher;
-         this.a = chunkCompileTaskGenerator;
+         this.dispatcher = chunkRenderDispatcher;
+         this.compileTask = chunkCompileTaskGenerator;
       }
 
       @Override
       public void run() {
-         ChunkRenderDispatcher.access$000(this.T).remove(this.a);
+         ChunkRenderDispatcher.access$000(this.dispatcher).remove(this.compileTask);
       }
    }
 }

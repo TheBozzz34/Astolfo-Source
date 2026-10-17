@@ -44,7 +44,7 @@ public class GuiInventory extends InventoryEffectRenderer {
 
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-      this.fontRendererObj.D(I18n.format("container.crafting"), 86.0F, 16.0F, 4210752);
+      this.fontRendererObj.drawStringNoShadow(I18n.format("container.crafting"), 86.0F, 16.0F, 4210752);
    }
 
    @Override
@@ -103,7 +103,7 @@ public class GuiInventory extends InventoryEffectRenderer {
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
    }
 
-   public static void g(int i, int j, float f, float g, int k, EntityLivingBase entityLivingBase) {
+   public static void drawEntityWithRotation(int i, int j, float f, float g, int k, EntityLivingBase entityLivingBase) {
       GlStateManager.enableColorMaterial();
       GlStateManager.pushMatrix();
       GlStateManager.translate(i, j, 50.0F);

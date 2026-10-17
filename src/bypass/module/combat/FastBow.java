@@ -24,10 +24,12 @@ public final class FastBow extends Module {
          mc.thePlayer.inventory.getCurrentItem().getItem().onItemRightClick(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer);
 
          for (int i = 0; i < 20; i++) {
-            mc.thePlayer.sendQueue.u(new C03PacketPlayer(true));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C03PacketPlayer(true));
          }
 
-         mc.thePlayer.sendQueue.u(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
+         mc.thePlayer
+            .sendQueue
+            .sendPacketNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
          mc.thePlayer.inventory.getCurrentItem().getItem().onPlayerStoppedUsing(mc.thePlayer.inventory.getCurrentItem(), mc.theWorld, mc.thePlayer, 10);
       }
    };
@@ -48,6 +50,6 @@ public final class FastBow extends Module {
          && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBow
          && mc.thePlayer.getHealth() > 0.0F
          && mc.thePlayer.onGround
-         && mc.gameSettings.Z7.pressed;
+         && mc.gameSettings.keyBindUseItem.pressed;
    }
 }

@@ -293,15 +293,15 @@ public class ShaderGroup {
       }
    }
 
-   public void t(float f) {
-      if (f < this.field_148037_k) {
+   public void loadShaderGroup(float partialTicks) {
+      if (partialTicks < this.field_148037_k) {
          this.field_148036_j = this.field_148036_j + (1.0F - this.field_148037_k);
-         this.field_148036_j += f;
+         this.field_148036_j += partialTicks;
       } else {
-         this.field_148036_j = this.field_148036_j + (f - this.field_148037_k);
+         this.field_148036_j = this.field_148036_j + (partialTicks - this.field_148037_k);
       }
 
-      this.field_148037_k = f;
+      this.field_148037_k = partialTicks;
 
       while (this.field_148036_j > 20.0F) {
          this.field_148036_j -= 20.0F;
@@ -312,7 +312,7 @@ public class ShaderGroup {
       }
    }
 
-   public void o(float f) {
+   public void loadShaderGroupBlended(float f) {
       if (f < this.field_148037_k) {
          this.field_148036_j = this.field_148036_j + (1.0F - this.field_148037_k);
          this.field_148036_j += f;
@@ -327,7 +327,7 @@ public class ShaderGroup {
       }
 
       for (Shader shader : this.listShaders) {
-         shader.Q(this.field_148036_j / 20.0F);
+         shader.renderBlended(this.field_148036_j / 20.0F);
       }
    }
 
@@ -339,7 +339,7 @@ public class ShaderGroup {
       return string == null ? null : (string.equals("minecraft:main") ? this.mainFramebuffer : this.mapFramebuffers.get(string));
    }
 
-   public List<Shader> O() {
+   public List<Shader> getShaders() {
       return this.listShaders;
    }
 }

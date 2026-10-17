@@ -164,7 +164,7 @@ public class EntityWolf extends EntityTameable {
    @Override
    public void onLivingUpdate() {
       super.onLivingUpdate();
-      if (!this.worldObj.isRemote && this.isWet && !this.isShaking && !this.u() && this.onGround) {
+      if (!this.worldObj.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
          this.isShaking = true;
          this.timeWolfIsShaking = 0.0F;
          this.prevTimeWolfIsShaking = 0.0F;
@@ -186,7 +186,7 @@ public class EntityWolf extends EntityTameable {
          this.headRotationCourse = this.headRotationCourse + (0.0F - this.headRotationCourse) * 0.4F;
       }
 
-      if (this.G()) {
+      if (this.isWet()) {
          this.isWet = true;
          this.isShaking = false;
          this.timeWolfIsShaking = 0.0F;
@@ -323,9 +323,9 @@ public class EntityWolf extends EntityTameable {
             }
          }
 
-         if (this.V(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemStack)) {
+         if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemStack)) {
             this.aiSit.setSitting(!this.isSitting());
-            this.Lr = false;
+            this.isJumping = false;
             this.navigator.clearPathEntity();
             this.setAttackTarget((EntityLivingBase)null);
          }

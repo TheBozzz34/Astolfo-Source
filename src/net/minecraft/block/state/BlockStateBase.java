@@ -36,7 +36,7 @@ public abstract class BlockStateBase implements IBlockState {
       return this.blockId;
    }
 
-   public int q() {
+   public int getBlockStateId() {
       if (this.blockStateId < 0) {
          this.blockStateId = Block.getStateId(this);
       }

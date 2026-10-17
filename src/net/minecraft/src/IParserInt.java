@@ -1,5 +1,5 @@
 package net.minecraft.src;
 
 public interface IParserInt {
-   int E(String string, int i);
+   int parse(String string, int i);
 }

@@ -22,27 +22,27 @@ public class GlyphFontRenderer implements TextRenderer {
       for (int k = 0; k < j; k++) {
          char c = string.charAt(k);
          if (glyphPage.hasGlyph(c)) {
-            GlyphPage.aun aun2 = drawGlyph(glyphPage, f, g, c);
-            f += aun2.width + this.charSpacing;
+            GlyphPage.Glyph glyph = drawGlyph(glyphPage, f, g, c);
+            f += glyph.width + this.charSpacing;
          }
       }
 
       return f;
    }
 
-   public static GlyphPage.aun drawGlyph(GlyphPage glyphPage, float f, float g, char c) {
-      GlyphPage.aun aun2 = glyphPage.getGlyph(c);
+   public static GlyphPage.Glyph drawGlyph(GlyphPage glyphPage, float f, float g, char c) {
+      GlyphPage.Glyph glyph = glyphPage.getGlyph(c);
       RenderUtil.drawTexturedRect(
          f,
          g,
-         aun2.width,
-         aun2.height,
-         (float)aun2.x / glyphPage.getTextureWidth(),
-         (float)aun2.y / glyphPage.getTextureHeight(),
-         (float)(aun2.x + aun2.width) / glyphPage.getTextureWidth(),
-         (float)(aun2.y + aun2.height) / glyphPage.getTextureHeight()
+         glyph.width,
+         glyph.height,
+         (float)glyph.x / glyphPage.getTextureWidth(),
+         (float)glyph.y / glyphPage.getTextureHeight(),
+         (float)(glyph.x + glyph.width) / glyphPage.getTextureWidth(),
+         (float)(glyph.y + glyph.height) / glyphPage.getTextureHeight()
       );
-      return aun2;
+      return glyph;
    }
 
    @Override

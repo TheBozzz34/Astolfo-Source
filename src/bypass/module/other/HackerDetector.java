@@ -62,7 +62,7 @@ public final class HackerDetector extends Module {
                if (entityPlayer.ticksExisted < 15
                   || GameUtil.isDead(entityPlayer)
                   || client.getUserManager().getUser(entity.getName()) != null
-                  || entity.E()
+                  || entity.isRiding()
                   || entityPlayer.capabilities != null && entityPlayer.capabilities.allowFlying
                   || BotDetector.bots.contains(entityPlayer)
                   || client.getRelationManager().isFriend(entity)
@@ -118,7 +118,7 @@ public final class HackerDetector extends Module {
                            }
 
                            if (this.autoReport.getValue()) {
-                              mc.thePlayer.sendQueue.u(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
+                              mc.thePlayer.sendQueue.sendPacketNoEvent(new C01PacketChatMessage("/wdr " + entity.getName() + " ka fly nokb ac speed"));
                            }
 
                            this.detectedPlayers.add(entityPlayer.getName());

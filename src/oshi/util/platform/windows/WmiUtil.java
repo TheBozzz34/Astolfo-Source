@@ -9,7 +9,7 @@ import oshi.util.ParseUtil;
 
 @ThreadSafe
 public final class WmiUtil {
-   public static final String L = "ROOT\\OpenHardwareMonitor";
+   public static final String OHM_NAMESPACE = "ROOT\\OpenHardwareMonitor";
 
    private WmiUtil() {
    }

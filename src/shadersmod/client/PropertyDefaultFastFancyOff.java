@@ -10,19 +10,19 @@ public class PropertyDefaultFastFancyOff extends Property {
       super(propertyName, PROPERTY_VALUES, userName, USER_VALUES, defaultValue);
    }
 
-   public boolean E() {
+   public boolean isDefault() {
       return this.getValue() == 0;
    }
 
-   public boolean B() {
+   public boolean isFast() {
       return this.getValue() == 1;
    }
 
-   public boolean K() {
+   public boolean isFancy() {
       return this.getValue() == 2;
    }
 
-   public boolean a() {
+   public boolean isOff() {
       return this.getValue() == 3;
    }
 

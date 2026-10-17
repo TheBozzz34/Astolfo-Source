@@ -10,13 +10,13 @@ public class ClippingHelper {
       return floats[0] * f + floats[1] * g + floats[2] * h + floats[3];
    }
 
-   public boolean isBoxInFrustum(double d, double d2, double d3, double d4, double d5, double d6) {
+   public boolean isBoxInFrustum(double d, double e, double d2, double d3, double d4, double d5) {
       float f = (float)d;
-      float g = (float)d2;
-      float h = (float)d3;
-      float f2 = (float)d4;
-      float f3 = (float)d5;
-      float f4 = (float)d6;
+      float g = (float)e;
+      float h = (float)d2;
+      float f2 = (float)d3;
+      float f3 = (float)d4;
+      float f4 = (float)d5;
 
       for (int i = 0; i < 6; i++) {
          float[] floats = this.frustum[i];

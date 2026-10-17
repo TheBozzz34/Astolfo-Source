@@ -3,9 +3,9 @@ package net.minecraftforge.fml.common.registry;
 import net.minecraft.util.ResourceLocation;
 
 public interface RegistryDelegate<T> {
-   T f();
+   T get();
 
-   ResourceLocation S();
+   ResourceLocation name();
 
-   Class<T> D();
+   Class<T> type();
 }

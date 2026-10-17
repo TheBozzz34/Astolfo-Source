@@ -33,27 +33,27 @@ public class GuildReply extends AbstractReply {
       private long exp;
       private int legacyRanking;
 
-      public String s() {
+      public String get_id() {
          return this._id;
       }
 
-      public String Q() {
+      public String getName() {
          return this.name;
       }
 
-      public String G() {
+      public String getDescription() {
          return this.description;
       }
 
-      public String W() {
+      public String getTag() {
          return this.tag;
       }
 
-      public String n() {
+      public String getTagColor() {
          return this.tagColor;
       }
 
-      public Boolean F() {
+      public Boolean getPubliclyListed() {
          return this.publiclyListed;
       }
 
@@ -69,7 +69,7 @@ public class GuildReply extends AbstractReply {
          return this.coins;
       }
 
-      public int X() {
+      public int getCoinsEver() {
          return this.coinsEver;
       }
 
@@ -77,7 +77,7 @@ public class GuildReply extends AbstractReply {
          return this.created;
       }
 
-      public Boolean Z() {
+      public Boolean getJoinable() {
          return this.joinable;
       }
 
@@ -85,7 +85,7 @@ public class GuildReply extends AbstractReply {
          return this.exp;
       }
 
-      public int j() {
+      public int getLegacyRanking() {
          return this.legacyRanking;
       }
 

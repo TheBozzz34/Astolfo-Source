@@ -15,10 +15,10 @@ public class AutoArmorCheck extends MovementCheck {
    }
 
    @Override
-   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double e, double d2, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (entityPlayer.getTotalArmorValue() > this.lastArmorValue && (this.lastHeldItem == null || !(this.lastHeldItem instanceof ItemArmor))) {
-         double e = Math.hypot(d - this.lastX, d3 - this.lastZ);
-         if (e >= 0.5 && e < 3.0) {
+         double d3 = Math.hypot(d - this.lastX, d2 - this.lastZ);
+         if (d3 >= 0.5 && d3 < 3.0) {
             this.flag(entityPlayer.getName());
          }
       }
@@ -35,7 +35,7 @@ public class AutoArmorCheck extends MovementCheck {
       }
 
       this.lastX = d;
-      this.lastZ = d3;
+      this.lastZ = d2;
       return this.violations;
    }
 

@@ -58,13 +58,13 @@ public final class HypixelPacketHandler extends HiddenModule {
       }
 
       if (packetEvent.getDirection() == PacketDirection.OUTGOING
-         && !Minecraft.c
+         && !Minecraft.hypixelInHostsFile
          && mc.theWorld != null
          && mc.thePlayer != null
          && GameUtil.isOnHypixel()
          && !mc.isSingleplayer()
-         && ServerData.I != null
-         && ServerData.I.toLowerCase().endsWith("hypixel.net")) {
+         && ServerData.currentServerIp != null
+         && ServerData.currentServerIp.toLowerCase().endsWith("hypixel.net")) {
          if (packetEvent.getPacket() instanceof C02PacketUseEntity) {
             C02PacketUseEntity c02PacketUseEntity = (C02PacketUseEntity)packetEvent.getPacket();
             if (client.getModuleManager().get(AutoClicker.class).isEnabled()) {
@@ -122,7 +122,7 @@ public final class HypixelPacketHandler extends HiddenModule {
             PlayerCapabilities playerCapabilities = (PlayerCapabilities)mc.thePlayer.capabilities.getClass().newInstance();
             playerCapabilities.isFlying = true;
             playerCapabilities.allowFlying = true;
-            mc.thePlayer.sendQueue.u(new C13PacketPlayerAbilities(playerCapabilities));
+            mc.thePlayer.sendQueue.sendPacketNoEvent(new C13PacketPlayerAbilities(playerCapabilities));
          } catch (InstantiationException | IllegalAccessException value) {
             value.printStackTrace();
          }
@@ -133,7 +133,7 @@ public final class HypixelPacketHandler extends HiddenModule {
       while (this.queuedPackets.peek() != null) {
          Packet packet = this.queuedPackets.poll();
          if (packet != null) {
-            mc.thePlayer.sendQueue.u(packet);
+            mc.thePlayer.sendQueue.sendPacketNoEvent(packet);
          }
       }
 

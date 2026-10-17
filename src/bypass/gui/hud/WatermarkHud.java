@@ -20,7 +20,7 @@ public class WatermarkHud extends HudElement {
    public void render(int i, int j) {
       String string = HUD.getWatermarkText();
       string = string.replace("&", "§");
-      string = string.replace("%fps%", String.valueOf(Minecraft.B()));
+      string = string.replace("%fps%", String.valueOf(Minecraft.getDebugFPS()));
       string = string.replace("%time%", this.timeFormat.format(new Date()));
       if (mc.thePlayer.getPlayerInfo() != null && mc.thePlayer.getPlayerInfo().getResponseTime() > 1) {
          string = string.replace("%ping%", mc.thePlayer.getPlayerInfo().getResponseTime() + "ms");
@@ -32,7 +32,7 @@ public class WatermarkHud extends HudElement {
          string = string.replace("%ip%", mc.getCurrentServerData().serverIP);
       }
 
-      string = string.replace("%user%", mc.mouseHelper.Y().getAccount().getUsername());
+      string = string.replace("%user%", mc.mouseHelper.getAuthSession().getAccount().getUsername());
       if (DisconnectHandler.disconnected) {
          string = string + EnumChatFormatting.GRAY + " - DISCONNECTED";
       }

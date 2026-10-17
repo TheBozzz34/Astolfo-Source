@@ -23,7 +23,7 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
       GameSettings.Options.AUTOSAVE_TICKS,
       GameSettings.Options.ANAGLYPH
    };
-   private TooltipProviderOptions N = new TooltipProviderOptions(this);
+   private TooltipProviderOptions tooltipManager = new TooltipProviderOptions(this);
 
    public GuiOtherSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
       this.prevScreen = guiscreen;
@@ -83,8 +83,8 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
-      this.N.U(mouseX, mouseY, this.buttonList);
+      this.tooltipManager.drawTooltips(mouseX, mouseY, this.buttonList);
    }
 }

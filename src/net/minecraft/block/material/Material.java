@@ -4,43 +4,43 @@ public class Material {
    public static final Material air = new MaterialTransparent(MapColor.airColor);
    public static final Material grass = new Material(MapColor.grassColor);
    public static final Material ground = new Material(MapColor.dirtColor);
-   public static final Material wood = new Material(MapColor.woodColor).c();
-   public static final Material rock = new Material(MapColor.stoneColor).d();
-   public static final Material iron = new Material(MapColor.ironColor).d();
-   public static final Material anvil = new Material(MapColor.ironColor).d().a();
-   public static final Material water = new MaterialLiquid(MapColor.waterColor).k();
-   public static final Material lava = new MaterialLiquid(MapColor.tntColor).k();
-   public static final Material leaves = new Material(MapColor.foliageColor).c().K().k();
-   public static final Material plants = new MaterialLogic(MapColor.foliageColor).k();
-   public static final Material vine = new MaterialLogic(MapColor.foliageColor).c().k().X();
+   public static final Material wood = new Material(MapColor.woodColor).setBurning();
+   public static final Material rock = new Material(MapColor.stoneColor).setRequiresTool();
+   public static final Material iron = new Material(MapColor.ironColor).setRequiresTool();
+   public static final Material anvil = new Material(MapColor.ironColor).setRequiresTool().setImmovableMobility();
+   public static final Material water = new MaterialLiquid(MapColor.waterColor).setNoPushMobility();
+   public static final Material lava = new MaterialLiquid(MapColor.tntColor).setNoPushMobility();
+   public static final Material leaves = new Material(MapColor.foliageColor).setBurning().setTranslucent().setNoPushMobility();
+   public static final Material plants = new MaterialLogic(MapColor.foliageColor).setNoPushMobility();
+   public static final Material vine = new MaterialLogic(MapColor.foliageColor).setBurning().setNoPushMobility().setReplaceable();
    public static final Material sponge = new Material(MapColor.yellowColor);
-   public static final Material cloth = new Material(MapColor.clothColor).c();
-   public static final Material fire = new MaterialTransparent(MapColor.airColor).k();
+   public static final Material cloth = new Material(MapColor.clothColor).setBurning();
+   public static final Material fire = new MaterialTransparent(MapColor.airColor).setNoPushMobility();
    public static final Material sand = new Material(MapColor.sandColor);
-   public static final Material circuits = new MaterialLogic(MapColor.airColor).k();
-   public static final Material carpet = new MaterialLogic(MapColor.clothColor).c();
-   public static final Material glass = new Material(MapColor.airColor).K().h();
-   public static final Material redstoneLight = new Material(MapColor.airColor).h();
-   public static final Material tnt = new Material(MapColor.tntColor).c().K();
-   public static final Material coral = new Material(MapColor.foliageColor).k();
-   public static final Material ice = new Material(MapColor.iceColor).K().h();
-   public static final Material packedIce = new Material(MapColor.iceColor).h();
-   public static final Material snow = new MaterialLogic(MapColor.snowColor).X().K().d().k();
-   public static final Material craftedSnow = new Material(MapColor.snowColor).d();
-   public static final Material cactus = new Material(MapColor.foliageColor).K().k();
+   public static final Material circuits = new MaterialLogic(MapColor.airColor).setNoPushMobility();
+   public static final Material carpet = new MaterialLogic(MapColor.clothColor).setBurning();
+   public static final Material glass = new Material(MapColor.airColor).setTranslucent().setAdventureModeExempt();
+   public static final Material redstoneLight = new Material(MapColor.airColor).setAdventureModeExempt();
+   public static final Material tnt = new Material(MapColor.tntColor).setBurning().setTranslucent();
+   public static final Material coral = new Material(MapColor.foliageColor).setNoPushMobility();
+   public static final Material ice = new Material(MapColor.iceColor).setTranslucent().setAdventureModeExempt();
+   public static final Material packedIce = new Material(MapColor.iceColor).setAdventureModeExempt();
+   public static final Material snow = new MaterialLogic(MapColor.snowColor).setReplaceable().setTranslucent().setRequiresTool().setNoPushMobility();
+   public static final Material craftedSnow = new Material(MapColor.snowColor).setRequiresTool();
+   public static final Material cactus = new Material(MapColor.foliageColor).setTranslucent().setNoPushMobility();
    public static final Material clay = new Material(MapColor.clayColor);
-   public static final Material gourd = new Material(MapColor.foliageColor).k();
-   public static final Material dragonEgg = new Material(MapColor.foliageColor).k();
-   public static final Material portal = new MaterialPortal(MapColor.airColor).a();
-   public static final Material cake = new Material(MapColor.airColor).k();
+   public static final Material gourd = new Material(MapColor.foliageColor).setNoPushMobility();
+   public static final Material dragonEgg = new Material(MapColor.foliageColor).setNoPushMobility();
+   public static final Material portal = new MaterialPortal(MapColor.airColor).setImmovableMobility();
+   public static final Material cake = new Material(MapColor.airColor).setNoPushMobility();
    public static final Material web = (new Material(MapColor.clothColor) {
       @Override
       public boolean blocksMovement() {
          return false;
       }
-   }).d().k();
-   public static final Material piston = new Material(MapColor.stoneColor).a();
-   public static final Material barrier = new Material(MapColor.airColor).d().a();
+   }).setRequiresTool().setNoPushMobility();
+   public static final Material piston = new Material(MapColor.stoneColor).setImmovableMobility();
+   public static final Material barrier = new Material(MapColor.airColor).setRequiresTool().setImmovableMobility();
    private boolean canBurn;
    private boolean replaceable;
    private boolean isTranslucent;
@@ -69,17 +69,17 @@ public class Material {
       return true;
    }
 
-   private Material K() {
+   private Material setTranslucent() {
       this.isTranslucent = true;
       return this;
    }
 
-   public Material d() {
+   public Material setRequiresTool() {
       this.requiresNoTool = false;
       return this;
    }
 
-   public Material c() {
+   public Material setBurning() {
       this.canBurn = true;
       return this;
    }
@@ -88,7 +88,7 @@ public class Material {
       return this.canBurn;
    }
 
-   public Material X() {
+   public Material setReplaceable() {
       this.replaceable = true;
       return this;
    }
@@ -109,17 +109,17 @@ public class Material {
       return this.mobilityFlag;
    }
 
-   public Material k() {
+   public Material setNoPushMobility() {
       this.mobilityFlag = 1;
       return this;
    }
 
-   public Material a() {
+   public Material setImmovableMobility() {
       this.mobilityFlag = 2;
       return this;
    }
 
-   public Material h() {
+   public Material setAdventureModeExempt() {
       this.isAdventureModeExempt = true;
       return this;
    }

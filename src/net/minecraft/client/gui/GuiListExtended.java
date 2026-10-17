@@ -36,11 +36,11 @@ public abstract class GuiListExtended extends GuiSlot {
          int i = this.getSlotIndexFromScreenCoords(mouseX, mouseY);
          if (i >= 0) {
             int j = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-            int k = this.top + 4 - this.Y() + i * this.slotHeight + this.headerPadding;
+            int k = this.top + 4 - this.getAmountScrolled() + i * this.slotHeight + this.headerPadding;
             int l = mouseX - j;
             int m = mouseY - k;
             if (this.getListEntry(i).mousePressed(i, mouseX, mouseY, mouseEvent, l, m)) {
-               this.a(false);
+               this.setEnabled(false);
                return true;
             }
          }
@@ -52,13 +52,13 @@ public abstract class GuiListExtended extends GuiSlot {
    public boolean mouseReleased(int i, int j, int k) {
       for (int l = 0; l < this.getSize(); l++) {
          int m = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
-         int n = this.top + 4 - this.Y() + l * this.slotHeight + this.headerPadding;
+         int n = this.top + 4 - this.getAmountScrolled() + l * this.slotHeight + this.headerPadding;
          int i2 = i - m;
          int i3 = j - n;
          this.getListEntry(l).mouseReleased(l, i, j, k, i2, i3);
       }
 
-      this.a(true);
+      this.setEnabled(true);
       return false;
    }
 
@@ -69,7 +69,7 @@ public abstract class GuiListExtended extends GuiSlot {
 
       void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeightIn, int mouseXIn, int mouseYIn, boolean isSelected);
 
-      boolean mousePressed(int slotIndex, int i, int j, int k, int m, int n);
+      boolean mousePressed(int slotIndex, int i, int j, int k, int l, int m);
 
       void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY);
    }

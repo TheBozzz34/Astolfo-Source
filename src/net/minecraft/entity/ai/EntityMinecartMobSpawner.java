@@ -30,8 +30,8 @@ public class EntityMinecartMobSpawner extends EntityMinecart {
       super(worldIn);
    }
 
-   public EntityMinecartMobSpawner(World worldIn, double d, double d2, double d3) {
-      super(worldIn, d, d2, d3);
+   public EntityMinecartMobSpawner(World worldIn, double d, double e, double d2) {
+      super(worldIn, d, e, d2);
    }
 
    @Override

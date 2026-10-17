@@ -102,19 +102,25 @@ public class GuiCommandBlock extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("advMode.setCommand"), this.width / 2, 20, 16777215);
-      this.I(this.fontRendererObj, I18n.format("advMode.command"), this.width / 2 - 150, 37, 10526880);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("advMode.setCommand"), this.width / 2, 20, 16777215);
+      this.drawString(this.fontRendererObj, I18n.format("advMode.command"), this.width / 2 - 150, 37, 10526880);
       this.commandTextField.drawTextBox();
       int i = 75;
       int j = 0;
-      this.I(this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-      this.I(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.drawString(
+         this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880
+      );
+      this.drawString(
+         this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880
+      );
+      this.drawString(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+      this.drawString(
+         this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880
+      );
+      this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
       if (this.previousOutputTextField.getText().length() > 0) {
          i = i + j * this.fontRendererObj.FONT_HEIGHT + 16;
-         this.I(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, i, 10526880);
+         this.drawString(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, i, 10526880);
          this.previousOutputTextField.drawTextBox();
       }
 

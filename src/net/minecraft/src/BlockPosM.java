@@ -103,7 +103,7 @@ public class BlockPosM extends BlockPos {
       this.needsUpdate = false;
    }
 
-   public static Iterable m(BlockPos blockPos, BlockPos blockPos2) {
+   public static Iterable getAllInBoxPosM(BlockPos blockPos, BlockPos blockPos2) {
       BlockPos blockPos3 = new BlockPos(
          Math.min(blockPos.getX(), blockPos2.getX()), Math.min(blockPos.getY(), blockPos2.getY()), Math.min(blockPos.getZ(), blockPos2.getZ())
       );
@@ -118,11 +118,11 @@ public class BlockPosM extends BlockPos {
    }
 
    public static final class AllInBoxIterable implements Iterable {
-      public final BlockPos G;
+      public final BlockPos from;
       public final BlockPos z;
 
       public AllInBoxIterable(BlockPos blockPos, BlockPos blockPos2) {
-         this.G = blockPos;
+         this.from = blockPos;
          this.z = blockPos2;
       }
 
@@ -132,39 +132,39 @@ public class BlockPosM extends BlockPos {
       }
 
       public class r4d extends AbstractIterator {
-         private BlockPosM M = null;
+         private BlockPosM theBlockPos = null;
 
-         public BlockPosM Y() {
-            if (this.M == null) {
-               this.M = new BlockPosM(AllInBoxIterable.this.G.getX(), AllInBoxIterable.this.G.getY(), AllInBoxIterable.this.G.getZ(), 3);
-               return this.M;
+         public BlockPosM computeNextPos() {
+            if (this.theBlockPos == null) {
+               this.theBlockPos = new BlockPosM(AllInBoxIterable.this.from.getX(), AllInBoxIterable.this.from.getY(), AllInBoxIterable.this.from.getZ(), 3);
+               return this.theBlockPos;
             }
 
-            if (this.M.equals(AllInBoxIterable.this.z)) {
+            if (this.theBlockPos.equals(AllInBoxIterable.this.z)) {
                return (BlockPosM)this.endOfData();
             }
 
-            int i = this.M.getX();
-            int j = this.M.getY();
-            int k = this.M.getZ();
+            int i = this.theBlockPos.getX();
+            int j = this.theBlockPos.getY();
+            int k = this.theBlockPos.getZ();
             if (i < AllInBoxIterable.this.z.getX()) {
                i++;
             } else if (j < AllInBoxIterable.this.z.getY()) {
-               i = AllInBoxIterable.this.G.getX();
+               i = AllInBoxIterable.this.from.getX();
                j++;
             } else if (k < AllInBoxIterable.this.z.getZ()) {
-               i = AllInBoxIterable.this.G.getX();
-               j = AllInBoxIterable.this.G.getY();
+               i = AllInBoxIterable.this.from.getX();
+               j = AllInBoxIterable.this.from.getY();
                k++;
             }
 
-            this.M.setXyz(i, j, k);
-            return this.M;
+            this.theBlockPos.setXyz(i, j, k);
+            return this.theBlockPos;
          }
 
          @Override
          public Object computeNext() {
-            return this.Y();
+            return this.computeNextPos();
          }
       }
    }

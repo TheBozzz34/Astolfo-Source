@@ -17,7 +17,7 @@ public class UpgradeshopCommand extends Command {
       if (GameUtil.isOnHypixel()) {
          for (Entity entity2 : mc.theWorld.loadedEntityList) {
             if (entity2 instanceof EntityArmorStand && entity2.getDisplayName().getFormattedText().contains("UPGRADES")) {
-               mc.thePlayer.sendQueue.u(new C02PacketUseEntity(entity2, ItemshopCommand.HIT_VECTOR));
+               mc.thePlayer.sendQueue.sendPacketNoEvent(new C02PacketUseEntity(entity2, ItemshopCommand.HIT_VECTOR));
                return;
             }
          }

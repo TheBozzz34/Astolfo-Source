@@ -21,7 +21,9 @@ public abstract class GuiResourcePackList extends GuiListExtended {
    @Override
    public void drawListHeader(int i, int j, Tessellator tessellator) {
       String string = EnumChatFormatting.UNDERLINE + "" + EnumChatFormatting.BOLD + this.getListHeader();
-      this.mc.fontRendererObj.D(string, i + this.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, Math.min(this.top + 3, j), 16777215);
+      this.mc
+         .fontRendererObj
+         .drawStringNoShadow(string, i + this.width / 2 - this.mc.fontRendererObj.getStringWidth(string) / 2, Math.min(this.top + 3, j), 16777215);
    }
 
    public abstract String getListHeader();

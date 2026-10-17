@@ -664,8 +664,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       this.netManager.sendPacket(packet);
    }
 
-   public void u(Packet packet) {
-      this.netManager.B(packet);
+   public void sendPacketNoEvent(Packet packet) {
+      this.netManager.sendPacketNoEvent(packet);
    }
 
    @Override
@@ -765,7 +765,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
    @Override
    public void handleTimeUpdate(S03PacketTimeUpdate packetIn) {
       PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-      this.gameController.theWorld.m(packetIn.getTotalWorldTime());
+      this.gameController.theWorld.setTotalWorldTime(packetIn.getTotalWorldTime());
       this.gameController.theWorld.setWorldTime(packetIn.getWorldTime());
    }
 
@@ -1084,10 +1084,10 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
       if (i == 1) {
          this.clientWorldController.getWorldInfo().setRaining(true);
-         this.clientWorldController.V(0.0F);
+         this.clientWorldController.setRainStrength(0.0F);
       } else if (i == 2) {
          this.clientWorldController.getWorldInfo().setRaining(false);
-         this.clientWorldController.V(1.0F);
+         this.clientWorldController.setRainStrength(1.0F);
       } else if (i == 3) {
          this.gameController.playerController.setGameType(WorldSettings.GameType.getByID(j));
       } else if (i == 4) {
@@ -1123,9 +1123,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       } else if (i == 6) {
          this.clientWorldController.playSound(entityPlayerSP.posX, entityPlayerSP.posY + entityPlayerSP.getEyeHeight(), entityPlayerSP.posZ, "random.successful_hit", 0.18F, 0.45F, false);
       } else if (i == 7) {
-         this.clientWorldController.V(f);
+         this.clientWorldController.setRainStrength(f);
       } else if (i == 8) {
-         this.clientWorldController.t(f);
+         this.clientWorldController.setThunderStrength(f);
       } else if (i == 10) {
          this.clientWorldController.spawnParticle(EnumParticleTypes.MOB_APPEARANCE, entityPlayerSP.posX, entityPlayerSP.posY, entityPlayerSP.posZ, 0.0, 0.0, 0.0);
          this.clientWorldController.playSound(entityPlayerSP.posX, entityPlayerSP.posY, entityPlayerSP.posZ, "mob.guardian.curse", 1.0F, 1.0F, false);
@@ -1163,7 +1163,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
                Achievement achievement = (Achievement)statBase;
                this.gameController.guiAchievement.displayAchievement(achievement);
                if (statBase == AchievementList.openInventory) {
-                  this.gameController.gameSettings.l8 = false;
+                  this.gameController.gameSettings.showInventoryAchievementHint = false;
                   this.gameController.gameSettings.saveOptions();
                }
             }
@@ -1174,7 +1174,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
          this.gameController.thePlayer.getStatFileWriter().unlockAchievement(this.gameController.thePlayer, statBase, i);
       }
 
-      if (!this.field_147308_k && !bl && this.gameController.gameSettings.l8) {
+      if (!this.field_147308_k && !bl && this.gameController.gameSettings.showInventoryAchievementHint) {
          this.gameController.guiAchievement.displayUnformattedAchievement(AchievementList.openInventory);
       }
 
@@ -1350,9 +1350,9 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
 
    @Override
    public void handleResourcePack(S48PacketResourcePackSend packetIn) {
-      if (this.C(packetIn.R(), packetIn.r())) {
-         final String string = packetIn.R();
-         final String string2 = packetIn.r();
+      if (this.validateResourcePackUrl(packetIn.getURL(), packetIn.getHash())) {
+         final String string = packetIn.getURL();
+         final String string2 = packetIn.getHash();
          if (string.startsWith("level://")) {
             String string3 = string.substring("level://".length());
             File file = new File(this.gameController.mcDataDir, "saves");
@@ -1464,7 +1464,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient {
       }
    }
 
-   private boolean C(String string, String string2) {
+   private boolean validateResourcePackUrl(String string, String string2) {
       try {
          URI uri = new URI(string);
          String string3 = uri.getScheme();
