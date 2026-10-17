@@ -108,7 +108,7 @@ public class EntityBlaze extends EntityMob {
 
    @Override
    public void updateAITasks() {
-      if (this.G()) {
+      if (this.isWet()) {
          this.attackEntityFrom(DamageSource.drown, 1.0F);
       }
 

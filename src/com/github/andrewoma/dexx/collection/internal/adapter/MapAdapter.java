@@ -33,9 +33,9 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public boolean containsKey(Object key) {
       try {
          return this.map.containsKey((K)key);
-      } catch (ClassCastException eIn) {
+      } catch (ClassCastException e) {
          return false;
-      } catch (NullPointerException eIn) {
+      } catch (NullPointerException e) {
          return false;
       }
    }
@@ -49,9 +49,9 @@ public class MapAdapter<K, V> extends AbstractMap<K, V> {
    public V get(Object key) {
       try {
          return this.map.get((K)key);
-      } catch (ClassCastException eIn) {
+      } catch (ClassCastException e) {
          return null;
-      } catch (NullPointerException eIn) {
+      } catch (NullPointerException e) {
          return null;
       }
    }

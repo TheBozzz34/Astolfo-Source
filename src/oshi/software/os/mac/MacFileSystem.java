@@ -97,11 +97,7 @@ public class MacFileSystem extends AbstractFileSystem {
 
                   if (nameToMatch == null || nameToMatch.equals(string5)) {
                      StringBuilder stringBuilder = new StringBuilder((1 & k) == 0 ? "rw" : "ro");
-                     String string6 = OPTIONS_MAP.entrySet()
-                        .stream()
-                        .filter(eIn -> (eIn.getKey() & k) > 0)
-                        .map(Entry::getValue)
-                        .collect(Collectors.joining(","));
+                     String string6 = OPTIONS_MAP.entrySet().stream().filter(e -> (e.getKey() & k) > 0).map(Entry::getValue).collect(Collectors.joining(","));
                      if (!string6.isEmpty()) {
                         stringBuilder.append(',').append(string6);
                      }

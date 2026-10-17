@@ -84,7 +84,7 @@ public final class FastMine extends Module {
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
          if (this.fast.getValue()) {
-            if (packetEvent.getPacket() instanceof C07PacketPlayerDigging && !mc.playerController.L() && mc.playerController != null) {
+            if (packetEvent.getPacket() instanceof C07PacketPlayerDigging && !mc.playerController.extendedReach() && mc.playerController != null) {
                C07PacketPlayerDigging c07PacketPlayerDigging = (C07PacketPlayerDigging)packetEvent.getPacket();
                if (c07PacketPlayerDigging.getStatus() == C07PacketPlayerDigging.Action.START_DESTROY_BLOCK) {
                   this.mining = true;

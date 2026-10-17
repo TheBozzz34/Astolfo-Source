@@ -32,7 +32,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Project;
 
 public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
-   private int u;
+   private int panoramaTimer;
    private static final ResourceLocation[] titlePanoramaPaths = new ResourceLocation[]{
       new ResourceLocation("textures/gui/title/background/panorama_0.png"),
       new ResourceLocation("textures/gui/title/background/panorama_1.png"),
@@ -74,7 +74,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
 
    @Override
    public void updateScreen() {
-      this.u++;
+      this.panoramaTimer++;
    }
 
    @Override
@@ -126,8 +126,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback {
          float f2 = ((float)(i / b) / b - 0.5F) / 64.0F;
          float f3 = 0.0F;
          GlStateManager.translate(h, f2, f3);
-         GlStateManager.rotate(MathHelper.sin((this.u + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
-         GlStateManager.rotate(-(this.u + g) * 0.1F, 0.0F, 1.0F, 0.0F);
+         GlStateManager.rotate(MathHelper.sin((this.panoramaTimer + g) / 400.0F) * 25.0F + 20.0F, 1.0F, 0.0F, 0.0F);
+         GlStateManager.rotate(-(this.panoramaTimer + g) * 0.1F, 0.0F, 1.0F, 0.0F);
 
          for (int l = 0; l < 6; l++) {
             GlStateManager.pushMatrix();

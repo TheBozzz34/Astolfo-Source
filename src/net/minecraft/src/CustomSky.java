@@ -17,7 +17,7 @@ public class CustomSky {
       worldSkyLayers = (CustomSkyLayer[][])null;
    }
 
-   public static void L() {
+   public static void update() {
       v();
       if (Config.L()) {
          worldSkyLayers = readCustomSkies();

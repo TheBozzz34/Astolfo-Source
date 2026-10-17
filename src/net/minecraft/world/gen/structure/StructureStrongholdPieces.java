@@ -239,7 +239,7 @@ public class StructureStrongholdPieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
       }
 
       public static StructureStrongholdPieces.ChestCorridor func_175868_a(
@@ -414,7 +414,7 @@ public class StructureStrongholdPieces {
             j = 8 - j;
          }
 
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 5, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 5, 1);
          if (this.field_74996_b) {
             this.a((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, i, 1);
          }
@@ -984,7 +984,7 @@ public class StructureStrongholdPieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
       }
 
       public static StructureStrongholdPieces.Prison func_175860_a(
@@ -1086,7 +1086,7 @@ public class StructureStrongholdPieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 4, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 4, 1);
          this.a((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 4);
          this.u((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 4);
       }
@@ -1271,7 +1271,7 @@ public class StructureStrongholdPieces {
             StructureStrongholdPieces.strongComponentType = StructureStrongholdPieces.Crossing.class;
          }
 
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
       }
 
       public static StructureStrongholdPieces.Stairs func_175863_a(
@@ -1344,7 +1344,7 @@ public class StructureStrongholdPieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
       }
 
       public static StructureStrongholdPieces.StairsStraight func_175861_a(
@@ -1437,7 +1437,7 @@ public class StructureStrongholdPieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.W((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
+         this.getNextComponentNormal((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 1);
          if (this.expandsX) {
             this.a((StructureStrongholdPieces.Stairs2)componentIn, listIn, rand, 1, 2);
          }
@@ -1568,7 +1568,7 @@ public class StructureStrongholdPieces {
          }
       }
 
-      public StructureComponent W(StructureStrongholdPieces.Stairs2 stairs2, List<StructureComponent> list, Random random2, int i, int j) {
+      public StructureComponent getNextComponentNormal(StructureStrongholdPieces.Stairs2 stairs2, List<StructureComponent> list, Random random2, int i, int j) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case SOUTH:

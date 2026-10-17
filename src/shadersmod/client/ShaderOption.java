@@ -77,7 +77,7 @@ public abstract class ShaderOption {
       }
    }
 
-   public void B() {
+   public void prevValue() {
       int i = getIndex(this.value, this.values);
       if (i >= 0) {
          i = (i - 1 + this.values.length) % this.values.length;
@@ -123,7 +123,7 @@ public abstract class ShaderOption {
       return !Config.equals(this.value, this.valueDefault);
    }
 
-   public boolean V() {
+   public boolean isVisible() {
       return this.visible;
    }
 
@@ -131,8 +131,8 @@ public abstract class ShaderOption {
       this.visible = visible;
    }
 
-   public boolean Y(String string) {
-      return getIndex(string, this.values) >= 0;
+   public boolean isValidValue(String val) {
+      return getIndex(val, this.values) >= 0;
    }
 
    public String getNameText() {

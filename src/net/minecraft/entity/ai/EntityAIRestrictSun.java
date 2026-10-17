@@ -17,11 +17,11 @@ public class EntityAIRestrictSun extends EntityAIBase {
 
    @Override
    public void startExecuting() {
-      ((PathNavigateGround)this.theEntity.getNavigator()).H(true);
+      ((PathNavigateGround)this.theEntity.getNavigator()).setAvoidSun(true);
    }
 
    @Override
    public void resetTask() {
-      ((PathNavigateGround)this.theEntity.getNavigator()).H(false);
+      ((PathNavigateGround)this.theEntity.getNavigator()).setAvoidSun(false);
    }
 }

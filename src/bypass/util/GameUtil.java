@@ -209,7 +209,7 @@ public final class GameUtil implements ClientAccess {
       return !mc.thePlayer.isOnLadder()
          && !mc.thePlayer.isInWater()
          && !mc.thePlayer.isPotionActive(Potion.blindness)
-         && !mc.thePlayer.E()
+         && !mc.thePlayer.isRiding()
          && mc.thePlayer.isCollidedVertically
          && !mc.playerController.isHittingBlock
          && !client.getModuleManager().get(Speed.class).isEnabled()
@@ -398,7 +398,7 @@ public final class GameUtil implements ClientAccess {
       MovingObjectPosition movingObjectPosition;
       MovingObjectPosition movingObjectPosition2 = movingObjectPosition = rayTraceBlocks(e, f, g);
       Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
-      if (mc.playerController.L()) {
+      if (mc.playerController.extendedReach()) {
          e = 6.0;
          d2 = 6.0;
       } else if (e > 3.0) {
@@ -526,8 +526,8 @@ public final class GameUtil implements ClientAccess {
       return mc.theWorld.getBlockState(blockPos).getBlock();
    }
 
-   public static Block getBlock(double d, double d2, double d3) {
-      return mc.theWorld.getBlockState(new BlockPos((int)Math.floor(d), (int)Math.floor(d2), (int)Math.floor(d3))).getBlock();
+   public static Block getBlock(double d, double e, double d2) {
+      return mc.theWorld.getBlockState(new BlockPos((int)Math.floor(d), (int)Math.floor(e), (int)Math.floor(d2))).getBlock();
    }
 
    public static Block getBlockAtPlayer() {

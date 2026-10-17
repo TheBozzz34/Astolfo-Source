@@ -16,12 +16,12 @@ public class EntityFirework$StarterFX extends EntityFX {
    public boolean twinkle;
 
    public EntityFirework$StarterFX(
-      World world, double d, double d2, double d3, double d4, double d5, double d6, EffectRenderer effectRenderer, NBTTagCompound nbtTagCompound
+      World world, double d, double e, double d2, double d3, double d4, double d5, EffectRenderer effectRenderer, NBTTagCompound nbtTagCompound
    ) {
-      super(world, d, d2, d3, 0.0, 0.0, 0.0);
-      this.motionX = d4;
-      this.motionY = d5;
-      this.motionZ = d6;
+      super(world, d, e, d2, 0.0, 0.0, 0.0);
+      this.motionX = d3;
+      this.motionY = d4;
+      this.motionZ = d5;
       this.theEffectRenderer = effectRenderer;
       this.particleMaxAge = 8;
       if (nbtTagCompound != null) {
@@ -163,8 +163,8 @@ public class EntityFirework$StarterFX extends EntityFX {
       return minecraft == null || minecraft.getRenderViewEntity() == null || minecraft.getRenderViewEntity().getDistanceSq(this.posX, this.posY, this.posZ) >= 256.0;
    }
 
-   private void createParticle(double d, double d2, double d3, double d4, double d5, double d6, int[] ints, int[] ints2, boolean bl, boolean bl2) {
-      EntityFirework$SparkFX entityFirework$SparkFX = new EntityFirework$SparkFX(this.worldObj, d, d2, d3, d4, d5, d6, this.theEffectRenderer);
+   private void createParticle(double d, double e, double d2, double d3, double d4, double d5, int[] ints, int[] ints2, boolean bl, boolean bl2) {
+      EntityFirework$SparkFX entityFirework$SparkFX = new EntityFirework$SparkFX(this.worldObj, d, e, d2, d3, d4, d5, this.theEffectRenderer);
       entityFirework$SparkFX.setAlphaF(0.99F);
       entityFirework$SparkFX.setTrail(bl);
       entityFirework$SparkFX.setTwinkle(bl2);

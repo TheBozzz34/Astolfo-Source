@@ -8,12 +8,12 @@ public final class DecoyStage2 extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new DecoyStage2.azg(this);
+      return new DecoyStage2.DecoyTwoAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new DecoyStage2.r9g(this);
+      return new DecoyStage2.JvmArgumentsCheckValue(this);
    }
 
    @Override
@@ -30,8 +30,8 @@ public final class DecoyStage2 extends AbstractLoadStage {
       return decoyStage2.jvmArgumentsCheckSetup;
    }
 
-   public class azg extends StageAction {
-      public azg(LoadStage loadStage) {
+   public class DecoyTwoAction extends StageAction {
+      public DecoyTwoAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -40,8 +40,8 @@ public final class DecoyStage2 extends AbstractLoadStage {
       }
    }
 
-   public class r9g extends StageValue {
-      public r9g(LoadStage loadStage) {
+   public class JvmArgumentsCheckValue extends StageValue {
+      public JvmArgumentsCheckValue(LoadStage loadStage) {
          super(loadStage);
       }
 

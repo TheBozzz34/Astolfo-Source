@@ -9,8 +9,8 @@ public class RealmsMth {
       return MathHelper.sin(f);
    }
 
-   public static double nextDouble(Random random2, double d, double d2) {
-      return MathHelper.getRandomDoubleInRange(random2, d, d2);
+   public static double nextDouble(Random random2, double d, double e) {
+      return MathHelper.getRandomDoubleInRange(random2, d, e);
    }
 
    public static int N(float f) {
@@ -33,8 +33,8 @@ public class RealmsMth {
       return MathHelper.clamp_int(i, j, k);
    }
 
-   public static double L(double d, double d2, double d3) {
-      return MathHelper.denormalizeClamp(d, d2, d3);
+   public static double L(double d, double e, double d2) {
+      return MathHelper.denormalizeClamp(d, e, d2);
    }
 
    public static int O(double d) {
@@ -53,8 +53,8 @@ public class RealmsMth {
       return MathHelper.sqrt_double(d);
    }
 
-   public static double X(double d, double d2, double d3) {
-      return MathHelper.clamp_double(d, d2, d3);
+   public static double X(double d, double e, double d2) {
+      return MathHelper.clamp_double(d, e, d2);
    }
 
    public static int getInt(String string, int i) {
@@ -93,8 +93,8 @@ public class RealmsMth {
       return MathHelper.truncateDoubleToInt(d);
    }
 
-   public static double absMax(double d, double d2) {
-      return MathHelper.abs_max(d, d2);
+   public static double absMax(double d, double e) {
+      return MathHelper.abs_max(d, e);
    }
 
    public static float nextFloat(Random random2, float f, float g) {
@@ -113,8 +113,8 @@ public class RealmsMth {
       return MathHelper.clamp_float(f, g, h);
    }
 
-   public static double getDouble(String string, double d, double d2) {
-      return MathHelper.parseDoubleWithDefaultAndMax(string, d, d2);
+   public static double getDouble(String string, double d, double e) {
+      return MathHelper.parseDoubleWithDefaultAndMax(string, d, e);
    }
 
    public static int u(int i, int j) {

@@ -86,11 +86,11 @@ public class GuiSnooper extends GuiScreen {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       this.field_146606_s.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_146610_i, this.width / 2, 8, 16777215);
       int i = 22;
 
       for (String string : this.field_146607_r) {
-         this.d(this.fontRendererObj, string, this.width / 2, i, 8421504);
+         this.drawCenteredString(this.fontRendererObj, string, this.width / 2, i, 8421504);
          i += this.fontRendererObj.FONT_HEIGHT;
       }
 

@@ -41,21 +41,21 @@ public class NoiseGeneratorSimplex {
       return d > 0.0 ? (int)d : (int)d - 1;
    }
 
-   private static double func_151604_a(int[] ints, double d, double d2) {
-      return ints[0] * d + ints[1] * d2;
+   private static double func_151604_a(int[] ints, double d, double e) {
+      return ints[0] * d + ints[1] * e;
    }
 
-   public double func_151605_a(double d, double d2) {
-      double e = 0.5 * (field_151614_a - 1.0);
-      double d3 = (d + d2) * e;
+   public double func_151605_a(double d, double e) {
+      double d2 = 0.5 * (field_151614_a - 1.0);
+      double d3 = (d + e) * d2;
       int i = func_151607_a(d + d3);
-      int j = func_151607_a(d2 + d3);
+      int j = func_151607_a(e + d3);
       double d4 = (3.0 - field_151614_a) / 6.0;
       double d5 = (i + j) * d4;
       double d6 = i - d5;
       double d7 = j - d5;
       double d8 = d - d6;
-      double d9 = d2 - d7;
+      double d9 = e - d7;
       byte b;
       byte b2;
       if (d8 > d9) {
@@ -105,22 +105,22 @@ public class NoiseGeneratorSimplex {
       return 70.0 * (d15 + d17 + d19);
    }
 
-   public void func_151606_a(double[] doubles, double d, double d2, int i, int j, double d3, double d4, double d5) {
+   public void func_151606_a(double[] doubles, double d, double e, int i, int j, double d2, double d3, double d4) {
       int k = 0;
 
       for (int l = 0; l < j; l++) {
-         double e = (d2 + l) * d4 + this.field_151613_c;
+         double d5 = (e + l) * d3 + this.field_151613_c;
 
          for (int m = 0; m < i; m++) {
-            double d6 = (d + m) * d3 + this.field_151612_b;
-            double d7 = (d6 + e) * field_151609_g;
+            double d6 = (d + m) * d2 + this.field_151612_b;
+            double d7 = (d6 + d5) * field_151609_g;
             int n = func_151607_a(d6 + d7);
-            int i2 = func_151607_a(e + d7);
+            int i2 = func_151607_a(d5 + d7);
             double d8 = (n + i2) * field_151615_h;
             double d9 = n - d8;
             double d10 = i2 - d8;
             double d11 = d6 - d9;
-            double d12 = e - d10;
+            double d12 = d5 - d10;
             byte b;
             byte b2;
             if (d11 > d12) {
@@ -168,7 +168,7 @@ public class NoiseGeneratorSimplex {
             }
 
             int i8 = k++;
-            doubles[i8] += 70.0 * (d18 + d20 + d22) * d5;
+            doubles[i8] += 70.0 * (d18 + d20 + d22) * d4;
          }
       }
    }

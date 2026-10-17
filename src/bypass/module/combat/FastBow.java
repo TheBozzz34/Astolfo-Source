@@ -48,6 +48,6 @@ public final class FastBow extends Module {
          && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemBow
          && mc.thePlayer.getHealth() > 0.0F
          && mc.thePlayer.onGround
-         && mc.gameSettings.Z7.pressed;
+         && mc.gameSettings.keyBindUseItem.pressed;
    }
 }

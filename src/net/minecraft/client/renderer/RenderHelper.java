@@ -38,8 +38,8 @@ public class RenderHelper {
       GL11.glLightModel(2899, setColorBuffer(f, f, f, 1.0F));
    }
 
-   private static FloatBuffer setColorBuffer(double d, double d2, double d3, double d4) {
-      return setColorBuffer((float)d, (float)d2, (float)d3, (float)d4);
+   private static FloatBuffer setColorBuffer(double d, double e, double d2, double d3) {
+      return setColorBuffer((float)d, (float)e, (float)d2, (float)d3);
    }
 
    private static FloatBuffer setColorBuffer(float f, float g, float h, float f2) {

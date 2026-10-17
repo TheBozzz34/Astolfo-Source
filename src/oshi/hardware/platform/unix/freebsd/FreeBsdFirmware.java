@@ -14,18 +14,18 @@ public final class FreeBsdFirmware extends AbstractFirmware {
    private final Supplier<Triplet<String, String, String>> manufVersRelease = Memoizer.memoize(FreeBsdFirmware::readDmiDecode);
 
    @Override
-   public String R() {
+   public String getManufacturer() {
       return this.manufVersRelease.get().v();
    }
 
    @Override
-   public String P() {
+   public String getVersion() {
       return this.manufVersRelease.get().q();
    }
 
    @Override
    public String getReleaseDate() {
-      return this.manufVersRelease.get().U();
+      return this.manufVersRelease.get().getC();
    }
 
    private static Triplet<String, String, String> readDmiDecode() {

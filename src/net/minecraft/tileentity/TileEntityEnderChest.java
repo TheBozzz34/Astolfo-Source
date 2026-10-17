@@ -68,12 +68,12 @@ public class TileEntityEnderChest extends TileEntity implements ITickable {
       super.invalidate();
    }
 
-   public void A() {
+   public void openChest() {
       this.numPlayersUsing++;
       this.worldObj.addBlockEvent(this.pos, Blocks.ender_chest, 1, this.numPlayersUsing);
    }
 
-   public void C() {
+   public void closeChest() {
       this.numPlayersUsing--;
       this.worldObj.addBlockEvent(this.pos, Blocks.ender_chest, 1, this.numPlayersUsing);
    }

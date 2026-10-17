@@ -36,12 +36,12 @@ public class DynamicLights {
    private static final int LIGHT_LEVEL_GLOWSTONE_DUST = 8;
    private static final int LIGHT_LEVEL_PRISMARINE_CRYSTALS = 8;
 
-   public static void P(Entity entity, RenderGlobal renderGlobal) {
+   public static void entityAdded(Entity entityIn, RenderGlobal renderGlobal) {
    }
 
-   public static void z(Entity entity, RenderGlobal renderGlobal) {
+   public static void entityRemoved(Entity entityIn, RenderGlobal renderGlobal) {
       synchronized (f) {
-         DynamicLight dynamicLight = f.remove(net.minecraft.util.IntegerCache.getInteger(entity.getEntityId()));
+         DynamicLight dynamicLight = f.remove(net.minecraft.util.IntegerCache.getInteger(entityIn.getEntityId()));
          if (dynamicLight != null) {
             dynamicLight.updateLitChunks(renderGlobal);
          }
@@ -115,14 +115,14 @@ public class DynamicLights {
          for (DynamicLight dynamicLight : f.values()) {
             int i = dynamicLight.getLastLightLevel();
             if (i > 0) {
-               double e = dynamicLight.B();
-               double d2 = dynamicLight.r();
-               double d3 = dynamicLight.f();
+               double e = dynamicLight.getLastPosX();
+               double d2 = dynamicLight.getLastPosY();
+               double d3 = dynamicLight.getLastPosZ();
                double d4 = pos.getX() - e;
                double d5 = pos.getY() - d2;
                double d6 = pos.getZ() - d3;
                double d7 = d4 * d4 + d5 * d5 + d6 * d6;
-               if (dynamicLight.isUnderwater() && !Config.V()) {
+               if (dynamicLight.isUnderwater() && !Config.isClearWater()) {
                   i = Config.limit(i - 2, 0, 15);
                   d7 *= 2.0;
                }

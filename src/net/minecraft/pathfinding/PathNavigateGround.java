@@ -30,8 +30,8 @@ public class PathNavigateGround extends PathNavigate {
    @Override
    public boolean canNavigate() {
       return this.theEntity.onGround
-         || this.j() && this.isInLiquid()
-         || this.theEntity.E() && this.theEntity instanceof EntityZombie && this.theEntity.ridingEntity instanceof EntityChicken;
+         || this.getCanSwim() && this.isInLiquid()
+         || this.theEntity.isRiding() && this.theEntity instanceof EntityZombie && this.theEntity.ridingEntity instanceof EntityChicken;
    }
 
    @Override
@@ -40,18 +40,18 @@ public class PathNavigateGround extends PathNavigate {
    }
 
    private int getPathablePosY() {
-      if (this.theEntity.isInWater() && this.j()) {
+      if (this.theEntity.isInWater() && this.getCanSwim()) {
          int i = (int)this.theEntity.getEntityBoundingBox().minY;
          Block block = this.worldObj
             .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), i, MathHelper.floor_double(this.theEntity.posZ)))
             .getBlock();
-         int k = 0;
+         int j = 0;
 
          while (block == Blocks.flowing_water || block == Blocks.water) {
             block = this.worldObj
                .getBlockState(new BlockPos(MathHelper.floor_double(this.theEntity.posX), ++i, MathHelper.floor_double(this.theEntity.posZ)))
                .getBlock();
-            if (++k > 16) {
+            if (++j > 16) {
                return (int)this.theEntity.getEntityBoundingBox().minY;
             }
          }
@@ -149,18 +149,18 @@ public class PathNavigateGround extends PathNavigate {
       return true;
    }
 
-   private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3 vec31, double d, double d2) {
+   private boolean isSafeToStandAt(int x, int y, int z, int sizeX, int sizeY, int sizeZ, Vec3 vec31, double d, double e) {
       int i = x - sizeX / 2;
       int j = z - sizeZ / 2;
-      if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, d, d2)) {
+      if (!this.isPositionClear(i, y, j, sizeX, sizeY, sizeZ, vec31, d, e)) {
          return false;
       }
 
       for (int k = i; k < i + sizeX; k++) {
          for (int l = j; l < j + sizeZ; l++) {
-            double e = k + 0.5 - vec31.xCoord;
+            double d2 = k + 0.5 - vec31.xCoord;
             double d3 = l + 0.5 - vec31.zCoord;
-            if (e * d + d3 * d2 >= 0.0) {
+            if (d2 * d + d3 * e >= 0.0) {
                Block block = this.worldObj.getBlockState(new BlockPos(k, y - 1, l)).getBlock();
                Material material = block.getMaterial();
                if (material == Material.air) {
@@ -181,11 +181,11 @@ public class PathNavigateGround extends PathNavigate {
       return true;
    }
 
-   private boolean isPositionClear(int i, int j, int k, int l, int m, int n, Vec3 vec3, double d, double d2) {
+   private boolean isPositionClear(int i, int j, int k, int l, int m, int n, Vec3 vec3, double d, double e) {
       for (BlockPos blockPos : BlockPos.getAllInBox(new BlockPos(i, j, k), new BlockPos(i + l - 1, j + m - 1, k + n - 1))) {
-         double e = blockPos.getX() + 0.5 - vec3.xCoord;
+         double d2 = blockPos.getX() + 0.5 - vec3.xCoord;
          double d3 = blockPos.getZ() + 0.5 - vec3.zCoord;
-         if (e * d + d3 * d2 >= 0.0) {
+         if (d2 * d + d3 * e >= 0.0) {
             Block block = this.worldObj.getBlockState(blockPos).getBlock();
             if (!block.isPassable(this.worldObj, blockPos)) {
                return false;
@@ -200,16 +200,16 @@ public class PathNavigateGround extends PathNavigate {
       this.nodeProcessor.setAvoidsWater(avoidsWater);
    }
 
-   public boolean S() {
-      return this.nodeProcessor.n();
+   public boolean getAvoidsWater() {
+      return this.nodeProcessor.getAvoidsWater();
    }
 
    public void setBreakDoors(boolean canBreakDoors) {
       this.nodeProcessor.setBreakDoors(canBreakDoors);
    }
 
-   public void D(boolean bl) {
-      this.nodeProcessor.setEnterDoors(bl);
+   public void setEnterDoors(boolean par1) {
+      this.nodeProcessor.setEnterDoors(par1);
    }
 
    public boolean getEnterDoors() {
@@ -220,11 +220,11 @@ public class PathNavigateGround extends PathNavigate {
       this.nodeProcessor.setCanSwim(canSwim);
    }
 
-   public boolean j() {
-      return this.nodeProcessor.j();
+   public boolean getCanSwim() {
+      return this.nodeProcessor.getCanSwim();
    }
 
-   public void H(boolean bl) {
-      this.shouldAvoidSun = bl;
+   public void setAvoidSun(boolean par1) {
+      this.shouldAvoidSun = par1;
    }
 }

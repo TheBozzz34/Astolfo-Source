@@ -7,6 +7,6 @@ import org.luaj.vm2.lib.ZeroArgFunction;
 public final class Fps extends ZeroArgFunction {
    @Override
    public LuaValue call() {
-      return valueOf(Minecraft.B());
+      return valueOf(Minecraft.getDebugFPS());
    }
 }

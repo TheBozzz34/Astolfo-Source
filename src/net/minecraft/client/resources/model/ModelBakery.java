@@ -627,7 +627,7 @@ public class ModelBakery {
             TextureAtlasSprite textureAtlasSprite2 = this.sprites.get(new ResourceLocation(modelBlock.resolveTextureName(blockPartFace.texture)));
             boolean bl2 = true;
             if (blockPartFace.cullFace != null && bl2) {
-               builder.addFaceQuad(iTransformation.E(blockPartFace.cullFace), this.A(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
+               builder.addFaceQuad(iTransformation.rotate(blockPartFace.cullFace), this.A(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
             } else {
                builder.addGeneralQuad(this.A(blockPart, blockPartFace, textureAtlasSprite2, enumFacing, iTransformation, bl));
             }

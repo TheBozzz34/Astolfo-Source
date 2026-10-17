@@ -30,7 +30,7 @@ public class LayerEnderDragonEyes implements LayerRenderer<EntityDragon> {
       GlStateManager.enableLighting();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
-         Shaders.s();
+         Shaders.beginSpiderEyes();
       }
 
       this.dragonRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);

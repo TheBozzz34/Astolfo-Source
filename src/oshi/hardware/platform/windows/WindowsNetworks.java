@@ -23,7 +23,7 @@ public final class WindowsNetworks extends Networks {
          }
 
          netIF.setIfType(miB_IF_ROW2.Type);
-         netIF.d(miB_IF_ROW2.PhysicalMediumType);
+         netIF.setNdisPhysicalMediumType(miB_IF_ROW2.PhysicalMediumType);
          netIF.setConnectorPresent((miB_IF_ROW2.InterfaceAndOperStatusFlags & 32) > 0);
          netIF.setBytesSent(miB_IF_ROW2.OutOctets);
          netIF.setBytesRecv(miB_IF_ROW2.InOctets);

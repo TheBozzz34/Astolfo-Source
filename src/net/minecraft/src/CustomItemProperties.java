@@ -42,13 +42,13 @@ public class CustomItemProperties {
    public Map<String, String> B = null;
    public RangeListInt damage = null;
    public boolean damagePercent = false;
-   public int M = 0;
+   public int damageMask = 0;
    public RangeListInt stackSize = null;
    public RangeListInt enchantmentIds = null;
    public RangeListInt enchantmentLevels = null;
    public NbtTagValue[] nbtTagValues = null;
    public int T = 0;
-   public int a = 1;
+   public int blend = 1;
    public float speed = 0.0F;
    public float rotation = 0.0F;
    public int layer = 0;
@@ -58,8 +58,8 @@ public class CustomItemProperties {
    public Map mapTextureLocations = null;
    public TextureAtlasSprite sprite = null;
    public Map mapSprites = null;
-   public IBakedModel c = null;
-   public Map<String, IBakedModel> L = null;
+   public IBakedModel model = null;
+   public Map<String, IBakedModel> mapModels = null;
    public IBakedModel x = null;
    public Map<String, IBakedModel> b = null;
    private int textureWidth = 0;
@@ -90,7 +90,7 @@ public class CustomItemProperties {
          this.damagePercent = string.contains("%");
          string = string.replace("%", "");
          this.damage = this.parseRangeListInt(string);
-         this.M = this.parseInt(props.getProperty("damageMask"), 0);
+         this.damageMask = this.parseInt(props.getProperty("damageMask"), 0);
       }
 
       this.stackSize = this.parseRangeListInt(props.getProperty("stackSize"));
@@ -98,7 +98,7 @@ public class CustomItemProperties {
       this.enchantmentLevels = this.parseRangeListInt(props.getProperty("enchantmentLevels"));
       this.nbtTagValues = this.parseNbtTagValues(props);
       this.T = this.q(props.getProperty("hand"));
-      this.a = Blender.parseBlend(props.getProperty("blend"));
+      this.blend = Blender.parseBlend(props.getProperty("blend"));
       this.speed = this.parseFloat(props.getProperty("speed"), 0.0F);
       this.rotation = this.parseFloat(props.getProperty("rotation"), 0.0F);
       this.layer = this.parseInt(props.getProperty("layer"), 0);
@@ -624,7 +624,7 @@ public class CustomItemProperties {
       if (this.texture != null || this.mapTextures != null) {
          String[] strings = this.getModelTextures();
          boolean bl = this.isUseTint();
-         this.c = makeBakedModel(textureMap, itemModelGenerator, strings, bl);
+         this.model = makeBakedModel(textureMap, itemModelGenerator, strings, bl);
          if (this.type == 1 && this.mapTextures != null) {
             for (String string : this.mapTextures.keySet()) {
                String string2 = this.mapTextures.get(string);
@@ -632,12 +632,12 @@ public class CustomItemProperties {
                if (string3.startsWith("bow") || string3.startsWith("fishing_rod") || string3.startsWith("shield")) {
                   String[] strings2 = new String[]{string2};
                   IBakedModel iBakedModel = makeBakedModel(textureMap, itemModelGenerator, strings2, bl);
-                  if (this.L == null) {
-                     this.L = new HashMap<>();
+                  if (this.mapModels == null) {
+                     this.mapModels = new HashMap<>();
                   }
 
                   String string4 = "item/" + string3;
-                  this.L.put(string4, iBakedModel);
+                  this.mapModels.put(string4, iBakedModel);
                }
             }
          }
@@ -758,7 +758,7 @@ public class CustomItemProperties {
             if (blockPartFace.cullFace == null) {
                builder.addGeneralQuad(bakedQuad);
             } else {
-               builder.addFaceQuad(modelRotation.s(blockPartFace.cullFace), bakedQuad);
+               builder.addFaceQuad(modelRotation.rotateFace(blockPartFace.cullFace), bakedQuad);
             }
          }
       }
@@ -838,8 +838,8 @@ public class CustomItemProperties {
          iBakedModel = this.x;
          map = this.b;
       } else {
-         iBakedModel = this.c;
-         map = this.L;
+         iBakedModel = this.model;
+         map = this.mapModels;
       }
 
       if (resourceLocation != null && map != null) {

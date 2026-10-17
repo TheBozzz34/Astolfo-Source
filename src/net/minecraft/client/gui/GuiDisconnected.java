@@ -275,11 +275,13 @@ public class GuiDisconnected extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810);
+      this.drawCenteredString(
+         this.fontRendererObj, this.reason, this.width / 2, this.height / 2 - this.field_175353_i / 2 - this.fontRendererObj.FONT_HEIGHT * 2, 11184810
+      );
       int i = this.height / 2 - this.field_175353_i / 2;
       if (this.multilineMessage != null) {
          for (String string : this.multilineMessage) {
-            this.d(this.fontRendererObj, string, this.width / 2, i, 16777215);
+            this.drawCenteredString(this.fontRendererObj, string, this.width / 2, i, 16777215);
             i += this.fontRendererObj.FONT_HEIGHT;
          }
       }

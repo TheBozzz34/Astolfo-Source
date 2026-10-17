@@ -85,10 +85,10 @@ public class ScriptsPanel extends Container {
          byte b = 30;
 
          for (Element element : this.getChildren()) {
-            if (element instanceof ScriptsPanel.ax_) {
-               ScriptsPanel.ax_ ax_2 = (ScriptsPanel.ax_)element;
-               ax_2.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
-               ax_2.render(i, j);
+            if (element instanceof ScriptsPanel.ScriptEntry) {
+               ScriptsPanel.ScriptEntry scriptEntry = (ScriptsPanel.ScriptEntry)element;
+               scriptEntry.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
+               scriptEntry.render(i, j);
                b += 15;
             }
          }
@@ -99,7 +99,7 @@ public class ScriptsPanel extends Container {
       byte b = 0;
       if (this.isExpanded()) {
          for (Element element : this.getChildren()) {
-            if (element instanceof ScriptsPanel.ax_) {
+            if (element instanceof ScriptsPanel.ScriptEntry) {
                b += 15;
             }
          }
@@ -115,7 +115,7 @@ public class ScriptsPanel extends Container {
 
       for (File file3 : files) {
          if (!file3.isDirectory() && file3.getName().endsWith(".lua")) {
-            this.addChildren(new ScriptsPanel.ax_(file3.getName(), file3, 103, 15));
+            this.addChildren(new ScriptsPanel.ScriptEntry(file3.getName(), file3, 103, 15));
             System.out.println(file3.getName());
          }
       }
@@ -133,10 +133,10 @@ public class ScriptsPanel extends Container {
       return scriptsPanel.screen;
    }
 
-   public class ax_ extends Component {
+   public class ScriptEntry extends Component {
       private File file;
 
-      public ax_(String string, File file, int i, int j) {
+      public ScriptEntry(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);
          this.file = file;
       }

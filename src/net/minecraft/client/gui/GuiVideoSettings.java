@@ -135,7 +135,7 @@ public class GuiVideoSettings extends GuiScreen {
                return;
             }
 
-            if (Config.pL()) {
+            if (Config.isAnisotropicFiltering()) {
                Config.showGuiMessage(Lang.get("of.message.shaders.af1"), Lang.get("of.message.shaders.af2"));
                return;
             }
@@ -155,7 +155,7 @@ public class GuiVideoSettings extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 15, 16777215);
       String string = Config.getVersion();
       String string2 = "HD_U";
       if (string2.equals("HD")) {
@@ -170,10 +170,10 @@ public class GuiVideoSettings extends GuiScreen {
          string = "OptiFine H8 Light";
       }
 
-      this.I(this.fontRendererObj, string, 2, this.height - 10, 8421504);
+      this.drawString(this.fontRendererObj, string, 2, this.height - 10, 8421504);
       String string3 = "Minecraft 1.8.8";
       int i = this.fontRendererObj.getStringWidth(string3);
-      this.I(this.fontRendererObj, string3, this.width - i - 2, this.height - 10, 8421504);
+      this.drawString(this.fontRendererObj, string3, this.width - i - 2, this.height - 10, 8421504);
       super.drawScreen(mouseX, mouseY, partialTicks);
       this.optionsRowList.U(mouseX, mouseY, this.buttonList);
    }

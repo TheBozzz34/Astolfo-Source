@@ -134,23 +134,23 @@ public class EntityFishHook extends Entity {
       return distance < d * d;
    }
 
-   public void handleHookCasting(double d, double d2, double d3, float f, float g) {
-      float h = MathHelper.sqrt_double(d * d + d2 * d2 + d3 * d3);
+   public void handleHookCasting(double d, double e, double d2, float f, float g) {
+      float h = MathHelper.sqrt_double(d * d + e * e + d2 * d2);
       d /= h;
+      e /= h;
       d2 /= h;
-      d3 /= h;
       d += this.rand.nextGaussian() * 0.0075F * g;
+      e += this.rand.nextGaussian() * 0.0075F * g;
       d2 += this.rand.nextGaussian() * 0.0075F * g;
-      d3 += this.rand.nextGaussian() * 0.0075F * g;
       d *= f;
+      e *= f;
       d2 *= f;
-      d3 *= f;
       this.motionX = d;
-      this.motionY = d2;
-      this.motionZ = d3;
-      float f2 = MathHelper.sqrt_double(d * d + d3 * d3);
-      this.prevRotationYaw = this.rotationYaw = (float)(MathHelper.atan2(d, d3) * 180.0 / Math.PI);
-      this.prevRotationPitch = this.rotationPitch = (float)(MathHelper.atan2(d2, f2) * 180.0 / Math.PI);
+      this.motionY = e;
+      this.motionZ = d2;
+      float f2 = MathHelper.sqrt_double(d * d + d2 * d2);
+      this.prevRotationYaw = this.rotationYaw = (float)(MathHelper.atan2(d, d2) * 180.0 / Math.PI);
+      this.prevRotationPitch = this.rotationPitch = (float)(MathHelper.atan2(e, f2) * 180.0 / Math.PI);
       this.ticksInGround = 0;
    }
 

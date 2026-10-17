@@ -15,12 +15,12 @@ public final class FreeBsdGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(FreeBsdGlobalMemory::createVirtualMemory);
 
    @Override
-   public long d() {
+   public long getAvailable() {
       return this.available.get();
    }
 
    @Override
-   public long f() {
+   public long getTotal() {
       return this.total.get();
    }
 

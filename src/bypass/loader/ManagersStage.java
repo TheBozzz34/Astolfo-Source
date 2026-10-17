@@ -10,12 +10,12 @@ public final class ManagersStage extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new ManagersStage.az9(this);
+      return new ManagersStage.RegisterManagersAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new ManagersStage.r99(this);
+      return new ManagersStage.JvmPropertyCheckValue(this);
    }
 
    @Override
@@ -32,8 +32,18 @@ public final class ManagersStage extends AbstractLoadStage {
       return managersStage.jvmArgumentsPropertyCheckSetup;
    }
 
-   public class az9 extends StageAction {
-      public az9(LoadStage loadStage) {
+   public class JvmPropertyCheckValue extends StageValue {
+      public JvmPropertyCheckValue(LoadStage loadStage) {
+         super(loadStage);
+      }
+
+      public Pair get() {
+         return (Pair)ManagersStage.accessJvmArgumentsPropertyCheckSetup(ManagersStage.this).getJvmArgumentsPropertyCheck().checkJvmArgumentProperties().value;
+      }
+   }
+
+   public class RegisterManagersAction extends StageAction {
+      public RegisterManagersAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -48,16 +58,6 @@ public final class ManagersStage extends AbstractLoadStage {
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getAlteningManager());
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getChatManager());
          }
-      }
-   }
-
-   public class r99 extends StageValue {
-      public r99(LoadStage loadStage) {
-         super(loadStage);
-      }
-
-      public Pair get() {
-         return (Pair)ManagersStage.accessJvmArgumentsPropertyCheckSetup(ManagersStage.this).getJvmArgumentsPropertyCheck().checkJvmArgumentProperties().value;
       }
    }
 }

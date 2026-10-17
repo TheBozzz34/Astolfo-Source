@@ -15,17 +15,17 @@ public final class SolarisComputerSystem extends AbstractComputerSystem {
    private final Supplier<SolarisComputerSystem.SmbiosStrings> smbiosStrings = Memoizer.memoize(SolarisComputerSystem::readSmbios);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return SolarisComputerSystem.SmbiosStrings.L(this.smbiosStrings.get());
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return SolarisComputerSystem.SmbiosStrings.v(this.smbiosStrings.get());
    }
 
    @Override
-   public String k() {
+   public String getSerialNumber() {
       return SolarisComputerSystem.SmbiosStrings.X(this.smbiosStrings.get());
    }
 

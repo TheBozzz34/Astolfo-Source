@@ -13,17 +13,17 @@ public class SprintACheck extends MovementCheck {
    }
 
    @Override
-   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double e, double d2, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (f == 0.0F && g == 0.0F) {
          return 0;
       }
 
-      double e = d - this.lastX;
-      double d4 = d3 - this.lastZ;
+      double d3 = d - this.lastX;
+      double d4 = d2 - this.lastZ;
       if (entityPlayer.isSprinting() && (this.lastX != 0.0 || this.lastZ != 0.0)) {
          EnumFacing enumFacing = this.getFacingFromYaw(f);
          EnumFacing enumFacing2;
-         if (e > 0.0) {
+         if (d3 > 0.0) {
             enumFacing2 = EnumFacing.EAST;
             if (d4 < 0.0) {
                enumFacing2 = EnumFacing.NORTH;
@@ -41,7 +41,7 @@ public class SprintACheck extends MovementCheck {
       }
 
       this.lastX = d;
-      this.lastZ = d3;
+      this.lastZ = d2;
       return this.violations;
    }
 

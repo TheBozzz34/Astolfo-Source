@@ -55,7 +55,7 @@ public class InventoryEnderChest extends InventoryBasic {
    @Override
    public void openInventory(EntityPlayer player) {
       if (this.associatedChest != null) {
-         this.associatedChest.A();
+         this.associatedChest.openChest();
       }
 
       super.openInventory(player);
@@ -64,7 +64,7 @@ public class InventoryEnderChest extends InventoryBasic {
    @Override
    public void closeInventory(EntityPlayer player) {
       if (this.associatedChest != null) {
-         this.associatedChest.C();
+         this.associatedChest.closeChest();
       }
 
       super.closeInventory(player);

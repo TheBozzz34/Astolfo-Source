@@ -9,9 +9,9 @@ public class MacOSVersionInfoEx extends AbstractOSVersionInfoEx {
    private int osxVersionNumber = -1;
 
    public MacOSVersionInfoEx() {
-      this.n(System.getProperty("os.version"));
-      this.I(this.parseCodeName());
-      this.C(SysctlUtil.sysctl("kern.osversion", ""));
+      this.setVersion(System.getProperty("os.version"));
+      this.setCodeName(this.parseCodeName());
+      this.setBuildNumber(SysctlUtil.sysctl("kern.osversion", ""));
    }
 
    public int getOsxVersionNumber() {

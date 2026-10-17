@@ -103,7 +103,7 @@ public class ModelPlayer extends ModelBiped {
       this.bipedDeadmau5Head.render(f);
    }
 
-   public void X(float f) {
+   public void renderCape(float f) {
       this.bipedCape.render(f);
    }
 

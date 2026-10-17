@@ -42,9 +42,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName("drw")
-   public void drawRect(double d, double d2, double d3, double d4, int i, int j, int k, int l) {
+   public void drawRect(double d, double e, double d2, double d3, int i, int j, int k, int l) {
       if (i <= 255 && i >= 0 && j >= 0 && k >= 0 && l >= 0 && j <= 255 && k <= 255 && l <= 255) {
-         RenderUtil.drawRectRgba(d, d2, d3, d4, i, j, k, l);
+         RenderUtil.drawRectRgba(d, e, d2, d3, i, j, k, l);
       } else {
          chat.print("Incorrect color");
       }
@@ -80,11 +80,11 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName("dbuywaehyudwa")
-   public void setMotion(double d, double d2, double d3) {
+   public void setMotion(double d, double e, double d2) {
       if (mc.thePlayer != null) {
          mc.thePlayer.motionX = d;
-         mc.thePlayer.motionY = d2;
-         mc.thePlayer.motionZ = d3;
+         mc.thePlayer.motionY = e;
+         mc.thePlayer.motionZ = d2;
       }
    }
 
@@ -94,9 +94,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName("wjn")
-   public void setPlayerPosition(double d, double d2, double d3) {
+   public void setPlayerPosition(double d, double e, double d2) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.setPosition(d, d2, d3);
+         mc.thePlayer.setPosition(d, e, d2);
       }
    }
 
@@ -140,9 +140,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName("nbhdwuinwd")
-   public void setPosition(double d, double d2, double d3) {
+   public void setPosition(double d, double e, double d2) {
       if (mc.thePlayer != null) {
-         mc.thePlayer.setPosition(d, d2, d3);
+         mc.thePlayer.setPosition(d, e, d2);
       }
    }
 
@@ -308,7 +308,7 @@ public class LuaApi implements ClientAccess {
    public void setHeldItemSlot(int i) {
       if (mc.thePlayer != null) {
          mc.thePlayer.inventory.currentItem = i;
-         mc.playerController.u();
+         mc.playerController.updateController();
       }
    }
 
@@ -338,7 +338,7 @@ public class LuaApi implements ClientAccess {
       }
 
       Entity entity = entitiesById.get(i);
-      return entity != null ? mc.thePlayer.C(entity) : false;
+      return entity != null ? mc.thePlayer.canEntityBeSeen(entity) : false;
    }
 
    @ScriptName("cvhbru8y")
@@ -454,9 +454,9 @@ public class LuaApi implements ClientAccess {
    }
 
    @ScriptName("dhwiudhwu")
-   public String getBlockName(double d, double d2, double d3) {
+   public String getBlockName(double d, double e, double d2) {
       if (mc.theWorld != null) {
-         Block block = mc.theWorld.getBlockState(new BlockPos(d, d2, d3)).getBlock();
+         Block block = mc.theWorld.getBlockState(new BlockPos(d, e, d2)).getBlock();
          if (block != null) {
             return block.getUnlocalizedName();
          }

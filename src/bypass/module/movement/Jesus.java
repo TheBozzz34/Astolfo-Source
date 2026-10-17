@@ -206,9 +206,9 @@ public final class Jesus extends Module {
       this.addSettings(this.mode);
    }
 
-   private boolean isShallowLiquid(double d, double d2, double d3) {
+   private boolean isShallowLiquid(double d, double e, double d2) {
       try {
-         IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, d2, d3));
+         IBlockState iBlockState = mc.theWorld.getBlockState(new BlockPos(d, e, d2));
          if (iBlockState instanceof BlockLiquid) {
             return (Integer)iBlockState.getProperties().get(BlockLiquid.LEVEL) < 4;
          }

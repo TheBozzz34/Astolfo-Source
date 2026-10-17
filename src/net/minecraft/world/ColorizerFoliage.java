@@ -7,10 +7,10 @@ public class ColorizerFoliage {
       foliageBuffer = ints;
    }
 
-   public static int getFoliageColor(double d, double d2) {
-      d2 *= d;
+   public static int getFoliageColor(double d, double e) {
+      e *= d;
       int i = (int)((1.0 - d) * 255.0);
-      int j = (int)((1.0 - d2) * 255.0);
+      int j = (int)((1.0 - e) * 255.0);
       return foliageBuffer[j << 8 | i];
    }
 

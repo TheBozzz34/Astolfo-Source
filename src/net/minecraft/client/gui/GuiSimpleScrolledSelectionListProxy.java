@@ -20,7 +20,7 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
 
    @Override
    public int getSize() {
-      return this.field_178050_u.Q();
+      return this.field_178050_u.getItemCount();
    }
 
    @Override
@@ -43,7 +43,7 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
       this.field_178050_u.renderItem(entryID, i, j, k, mouseXIn, mouseYIn);
    }
 
-   public int i() {
+   public int getWidth() {
       return super.width;
    }
 
@@ -91,8 +91,8 @@ public class GuiSimpleScrolledSelectionListProxy extends GuiSlot {
 
          this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
          GlStateManager.disableDepth();
-         this.W(0, this.top, 255, 255);
-         this.W(this.bottom, this.height, 255, 255);
+         this.overlayBackground(0, this.top, 255, 255);
+         this.overlayBackground(this.bottom, this.height, 255, 255);
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableAlpha();

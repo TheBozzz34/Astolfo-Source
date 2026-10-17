@@ -249,7 +249,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
                int m = this.getWatchedTargetId(j);
                if (m > 0) {
                   Entity entity = this.worldObj.getEntityByID(m);
-                  if (entity == null || !entity.isEntityAlive() || !(this.getDistanceSqToEntity(entity) <= 900.0) || !this.C(entity)) {
+                  if (entity == null || !entity.isEntityAlive() || !(this.getDistanceSqToEntity(entity) <= 900.0) || !this.canEntityBeSeen(entity)) {
                      this.updateWatchedTargetId(j, 0);
                   } else if (entity instanceof EntityPlayer && ((EntityPlayer)entity).capabilities.disableDamage) {
                      this.updateWatchedTargetId(j, 0);
@@ -268,7 +268,7 @@ public class EntityWither extends EntityMob implements IBossDisplayData, IRanged
 
                   for (int n = 0; n < 10 && !list.isEmpty(); n++) {
                      EntityLivingBase entityLivingBase = (EntityLivingBase)list.get(this.rand.nextInt(list.size()));
-                     if (entityLivingBase != this && entityLivingBase.isEntityAlive() && this.C(entityLivingBase)) {
+                     if (entityLivingBase != this && entityLivingBase.isEntityAlive() && this.canEntityBeSeen(entityLivingBase)) {
                         if (entityLivingBase instanceof EntityPlayer) {
                            if (!((EntityPlayer)entityLivingBase).capabilities.disableDamage) {
                               this.updateWatchedTargetId(j, entityLivingBase.getEntityId());

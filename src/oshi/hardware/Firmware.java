@@ -4,13 +4,13 @@ import oshi.annotation.concurrent.Immutable;
 
 @Immutable
 public interface Firmware {
-   String R();
+   String getManufacturer();
 
    String getName();
 
    String getDescription();
 
-   String P();
+   String getVersion();
 
    String getReleaseDate();
 }

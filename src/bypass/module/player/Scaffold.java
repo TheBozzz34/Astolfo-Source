@@ -481,7 +481,7 @@ public final class Scaffold extends Module {
                mc.thePlayer.sendQueue.addToSendQueue(new C09PacketHeldItemChange(i));
             } else {
                mc.thePlayer.inventory.currentItem = i;
-               mc.playerController.u();
+               mc.playerController.updateController();
             }
          } else if (this.serverSlot != i) {
             mc.thePlayer.sendQueue.u(new C09PacketHeldItemChange(i));
@@ -668,7 +668,7 @@ public final class Scaffold extends Module {
    public void onDisable() {
       if (this.previousSlot >= 0 && mc.thePlayer != null) {
          mc.thePlayer.inventory.currentItem = this.previousSlot;
-         mc.playerController.u();
+         mc.playerController.updateController();
       }
 
       if (this.resetMotionYOnDisable && mc.thePlayer != null) {
@@ -741,7 +741,7 @@ public final class Scaffold extends Module {
          motionEvent.getZ() - this.lastZ
       );
       Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
-      vec33 = vec33.l(vec3);
+      vec33 = vec33.add(vec3);
       MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
       if (this.isValidHit(movingObjectPosition)) {
          target.pos = movingObjectPosition.getBlockPos();
@@ -844,7 +844,7 @@ public final class Scaffold extends Module {
             motionEvent.getZ() - this.lastZ
          );
          Vec3 vec33 = new Vec3(vec32.xCoord * -d, vec32.yCoord * -d, vec32.zCoord * -d);
-         vec33 = vec33.l(vec3);
+         vec33 = vec33.add(vec3);
          MovingObjectPosition movingObjectPosition = mc.theWorld.rayTraceBlocks(vec3, vec33);
          if (movingObjectPosition != null && movingObjectPosition.getBlockPos() != null) {
             return movingObjectPosition.hitVec;
@@ -918,8 +918,8 @@ public final class Scaffold extends Module {
       };
    }
 
-   public static double randomBetween(double d, double d2) {
-      return Math.random() * (d - d2) + d2;
+   public static double randomBetween(double d, double e) {
+      return Math.random() * (d - e) + e;
    }
 
    private ScaffoldTarget findTarget(BlockPos blockPos) {

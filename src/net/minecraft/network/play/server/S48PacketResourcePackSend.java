@@ -36,11 +36,11 @@ public class S48PacketResourcePackSend implements Packet<INetHandlerPlayClient> 
       handler.handleResourcePack(this);
    }
 
-   public String R() {
+   public String getURL() {
       return this.url;
    }
 
-   public String r() {
+   public String getHash() {
       return this.hash;
    }
 }

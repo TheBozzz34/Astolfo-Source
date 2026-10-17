@@ -34,7 +34,7 @@ public class RealmsVertexFormat {
    }
 
    public boolean C() {
-      return this.v.H();
+      return this.v.hasColor();
    }
 
    public boolean hasUv(int i) {

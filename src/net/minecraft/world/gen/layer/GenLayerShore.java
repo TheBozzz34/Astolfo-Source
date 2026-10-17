@@ -38,7 +38,7 @@ public class GenLayerShore extends GenLayer {
                int i4 = ints[j + 1 + 1 + (i + 1) * (areaWidth + 2)];
                int i5 = ints[j + 1 - 1 + (i + 1) * (areaWidth + 2)];
                int i6 = ints[j + 1 + (i + 1 + 1) * (areaWidth + 2)];
-               if (!this.I(i3) || !this.I(i4) || !this.I(i5) || !this.I(i6)) {
+               if (!this.func_151631_c(i3) || !this.func_151631_c(i4) || !this.func_151631_c(i5) || !this.func_151631_c(i6)) {
                   ints2[j + i * areaWidth] = BiomeGenBase.jungleEdge.biomeID;
                } else if (!isBiomeOceanic(i3) && !isBiomeOceanic(i4) && !isBiomeOceanic(i5) && !isBiomeOceanic(i6)) {
                   ints2[j + i * areaWidth] = k;
@@ -58,7 +58,7 @@ public class GenLayerShore extends GenLayer {
                int i10 = ints[j + 1 + (i + 1 + 1) * (areaWidth + 2)];
                if (isBiomeOceanic(i7) || isBiomeOceanic(i8) || isBiomeOceanic(i9) || isBiomeOceanic(i10)) {
                   ints2[j + i * areaWidth] = k;
-               } else if (this.p(i7) && this.p(i8) && this.p(i9) && this.p(i10)) {
+               } else if (this.func_151633_d(i7) && this.func_151633_d(i8) && this.func_151633_d(i9) && this.func_151633_d(i10)) {
                   ints2[j + i * areaWidth] = k;
                } else {
                   ints2[j + i * areaWidth] = BiomeGenBase.desert.biomeID;
@@ -101,7 +101,7 @@ public class GenLayerShore extends GenLayer {
       }
    }
 
-   private boolean I(int i) {
+   private boolean func_151631_c(int i) {
       return BiomeGenBase.getBiome(i) != null && BiomeGenBase.getBiome(i).getBiomeClass() == BiomeGenJungle.class
          ? true
          : i == BiomeGenBase.jungleEdge.biomeID
@@ -112,7 +112,7 @@ public class GenLayerShore extends GenLayer {
             || isBiomeOceanic(i);
    }
 
-   private boolean p(int i) {
+   private boolean func_151633_d(int i) {
       return BiomeGenBase.getBiome(i) instanceof BiomeGenMesa;
    }
 }

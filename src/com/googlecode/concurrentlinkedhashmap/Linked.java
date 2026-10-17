@@ -1,7 +1,7 @@
 package com.googlecode.concurrentlinkedhashmap;
 
 public interface Linked<T extends Linked<T>> {
-   T U();
+   T getPrevious();
 
    void setPrevious(T linked);
 

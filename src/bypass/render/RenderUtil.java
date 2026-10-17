@@ -11,19 +11,19 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 public final class RenderUtil {
-   public static void drawRect(double d, double d2, double d3, double d4, int i) {
+   public static void drawRect(double d, double e, double d2, double d3, int i) {
       begin2D();
       setColor(i);
-      rectVertices(d, d2, d3, d4);
+      rectVertices(d, e, d2, d3);
       GL11.glColor3f(1.0F, 1.0F, 1.0F);
       end2D();
    }
 
    @ScriptName("drw")
-   public static void drawRectRgba(double d, double d2, double d3, double d4, int i, int j, int k, int l) {
+   public static void drawRectRgba(double d, double e, double d2, double d3, int i, int j, int k, int l) {
       begin2D();
       GL11.glColor4f(i / 255.0F, j / 255.0F, k / 255.0F, l / 255.0F);
-      rectVertices(d, d2, d3, d4);
+      rectVertices(d, e, d2, d3);
       GL11.glColor3f(1.0F, 1.0F, 1.0F);
       end2D();
    }
@@ -44,11 +44,11 @@ public final class RenderUtil {
       end2D();
    }
 
-   public static void drawArrow(double d, double d2, double d3, boolean bl, int i) {
+   public static void drawArrow(double d, double e, double d2, boolean bl, int i) {
       begin2D();
       GL11.glEnable(2881);
       setColor(i);
-      arrowVertices(d, d2, d3, bl);
+      arrowVertices(d, e, d2, bl);
       GL11.glDisable(2881);
       end2D();
    }
@@ -69,70 +69,70 @@ public final class RenderUtil {
       GL11.glDisable(2848);
    }
 
-   public static void drawArc(double d, double d2, int i, int j, double d3, int k) {
+   public static void drawArc(double d, double e, int i, int j, double d2, int k) {
       float f = (k >> 24 & 0xFF) / 255.0F;
       float g = (k >> 16 & 0xFF) / 255.0F;
       float h = (k >> 8 & 0xFF) / 255.0F;
       float f2 = (k & 0xFF) / 255.0F;
       begin2D();
       GlStateManager.color(g, h, f2, f);
-      GlStateManager.translate(d, d2, 0.0);
+      GlStateManager.translate(d, e, 0.0);
       GlStateManager.rotate(j, 0.0F, 0.0F, 1.0F);
-      GlStateManager.translate(-d, -d2, 0.0);
+      GlStateManager.translate(-d, -e, 0.0);
       GL11.glBegin(3);
 
       for (int l = 0; l <= i; l++) {
-         double e = Math.sin(l * Math.PI / 180.0) * d3;
-         double d4 = Math.cos(l * Math.PI / 180.0) * d3;
-         GL11.glVertex2d(d + e, d2 + d4);
+         double d3 = Math.sin(l * Math.PI / 180.0) * d2;
+         double d4 = Math.cos(l * Math.PI / 180.0) * d2;
+         GL11.glVertex2d(d + d3, e + d4);
       }
 
       GL11.glEnd();
       end2D();
    }
 
-   public static void drawFilledArc(double d, double d2, int i, int j, double d3, int k) {
+   public static void drawFilledArc(double d, double e, int i, int j, double d2, int k) {
       float f = (k >> 24 & 0xFF) / 255.0F;
       float g = (k >> 16 & 0xFF) / 255.0F;
       float h = (k >> 8 & 0xFF) / 255.0F;
       float f2 = (k & 0xFF) / 255.0F;
       begin2D();
       GlStateManager.color(g, h, f2, f);
-      GlStateManager.translate(d, d2, 0.0);
+      GlStateManager.translate(d, e, 0.0);
       GlStateManager.rotate(j, 0.0F, 0.0F, 1.0F);
-      GlStateManager.translate(-d, -d2, 0.0);
+      GlStateManager.translate(-d, -e, 0.0);
       GL11.glBegin(6);
-      GL11.glVertex2d(d, d2);
+      GL11.glVertex2d(d, e);
 
       for (int l = 0; l <= i; l++) {
-         double e = Math.sin(l * Math.PI / 180.0) * d3;
-         double d4 = Math.cos(l * Math.PI / 180.0) * d3;
-         GL11.glVertex2d(d + e, d2 + d4);
+         double d3 = Math.sin(l * Math.PI / 180.0) * d2;
+         double d4 = Math.cos(l * Math.PI / 180.0) * d2;
+         GL11.glVertex2d(d + d3, e + d4);
       }
 
       GL11.glEnd();
       end2D();
    }
 
-   public static void drawCircle(double d, double d2, double d3, int i) {
-      drawArc(d, d2, 360, 0, d3, i);
-      drawFilledArc(d, d2, 360, 0, d3, i);
+   public static void drawCircle(double d, double e, double d2, int i) {
+      drawArc(d, e, 360, 0, d2, i);
+      drawFilledArc(d, e, 360, 0, d2, i);
    }
 
-   public static void arrowVertices(double d, double d2, double d3, boolean bl) {
+   public static void arrowVertices(double d, double e, double d2, boolean bl) {
       GL11.glScalef(0.5F, 0.5F, 0.5F);
       d *= 2.0;
+      e *= 2.0;
       d2 *= 2.0;
-      d3 *= 2.0;
       GL11.glBegin(4);
       if (bl) {
-         GL11.glVertex2d(d + d3, d2 + d3 / 2.0);
-         GL11.glVertex2d(d, d2);
-         GL11.glVertex2d(d, d2 + d3);
+         GL11.glVertex2d(d + d2, e + d2 / 2.0);
+         GL11.glVertex2d(d, e);
+         GL11.glVertex2d(d, e + d2);
       } else {
-         GL11.glVertex2d(d + d3, d2 - d3);
-         GL11.glVertex2d(d, d2 - d3);
-         GL11.glVertex2d(d + d3 / 2.0, d2);
+         GL11.glVertex2d(d + d2, e - d2);
+         GL11.glVertex2d(d, e - d2);
+         GL11.glVertex2d(d + d2 / 2.0, e);
       }
 
       GL11.glEnd();
@@ -189,14 +189,14 @@ public final class RenderUtil {
       drawRect(f, g + 1.0F, f + 1.0F, h, i);
    }
 
-   public static void drawHorizontalLine(double d, double d2, double d3, int i) {
-      if (d2 < d) {
-         double e = d;
-         d = d2;
-         d2 = e;
+   public static void drawHorizontalLine(double d, double e, double d2, int i) {
+      if (e < d) {
+         double d3 = d;
+         d = e;
+         e = d3;
       }
 
-      drawRect(d, d3, d2 + 1.0, d3 + 1.0, i);
+      drawRect(d, d2, e + 1.0, d2 + 1.0, i);
    }
 
    public static void drawGradientRect(float f, float g, float h, float f2, int i, int j) {
@@ -263,28 +263,28 @@ public final class RenderUtil {
       GlStateManager.enableTexture2D();
    }
 
-   public static void drawRectOutline(double d, double d2, double d3, double d4, int i) {
+   public static void drawRectOutline(double d, double e, double d2, double d3, int i) {
       begin2D();
       setColor(i);
-      rectOutlineVertices(d, d2, d3, d4);
+      rectOutlineVertices(d, e, d2, d3);
       GL11.glColor3f(1.0F, 1.0F, 1.0F);
       end2D();
    }
 
-   public static void rectVertices(double d, double d2, double d3, double d4) {
-      drawQuadVertices(d, d2, d3, d4, 7);
+   public static void rectVertices(double d, double e, double d2, double d3) {
+      drawQuadVertices(d, e, d2, d3, 7);
    }
 
-   public static void rectOutlineVertices(double d, double d2, double d3, double d4) {
-      drawQuadVertices(d, d2, d3, d4, 2);
+   public static void rectOutlineVertices(double d, double e, double d2, double d3) {
+      drawQuadVertices(d, e, d2, d3, 2);
    }
 
-   private static void drawQuadVertices(double d, double d2, double d3, double d4, int i) {
+   private static void drawQuadVertices(double d, double e, double d2, double d3, int i) {
       GL11.glBegin(i);
-      GL11.glVertex2d(d, d4);
-      GL11.glVertex2d(d3, d4);
-      GL11.glVertex2d(d3, d2);
-      GL11.glVertex2d(d, d2);
+      GL11.glVertex2d(d, d3);
+      GL11.glVertex2d(d2, d3);
+      GL11.glVertex2d(d2, e);
+      GL11.glVertex2d(d, e);
       GL11.glEnd();
    }
 
@@ -374,7 +374,7 @@ public final class RenderUtil {
       GL11.glColor4f(f, g, h, f2);
    }
 
-   public static void drawTriangle(double d, double d2, double d3, double d4, double d5, double d6, int i) {
+   public static void drawTriangle(double d, double e, double d2, double d3, double d4, double d5, int i) {
       float f = (i >> 16 & 0xFF) / 255.0F;
       float g = (i >> 8 & 0xFF) / 255.0F;
       float h = (i & 0xFF) / 255.0F;
@@ -386,14 +386,14 @@ public final class RenderUtil {
       GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
       GlStateManager.color(f, g, h, f2);
       GL11.glBegin(6);
-      if ((!(d2 > d4) || !(d < d5)) && (!(d2 < d4) || !(d > d5))) {
-         GL11.glVertex2d(d, d2);
-         GL11.glVertex2d(d3, d4);
-         GL11.glVertex2d(d5, d6);
+      if ((!(e > d3) || !(d < d4)) && (!(e < d3) || !(d > d4))) {
+         GL11.glVertex2d(d, e);
+         GL11.glVertex2d(d2, d3);
+         GL11.glVertex2d(d4, d5);
       } else {
-         GL11.glVertex2d(d5, d6);
-         GL11.glVertex2d(d3, d4);
-         GL11.glVertex2d(d, d2);
+         GL11.glVertex2d(d4, d5);
+         GL11.glVertex2d(d2, d3);
+         GL11.glVertex2d(d, e);
       }
 
       GL11.glEnd();
@@ -423,52 +423,52 @@ public final class RenderUtil {
       end2D();
    }
 
-   public static void drawVerticalGradient(double d, double d2, double d3, double d4, int i, int j) {
+   public static void drawVerticalGradient(double d, double e, double d2, double d3, int i, int j) {
       begin2D();
       GL11.glShadeModel(7425);
       GL11.glBegin(7);
       setColor(i);
-      GL11.glVertex2d(d, d4);
-      GL11.glVertex2d(d3, d4);
+      GL11.glVertex2d(d, d3);
+      GL11.glVertex2d(d2, d3);
       setColor(j);
-      GL11.glVertex2d(d3, d2);
-      GL11.glVertex2d(d, d2);
+      GL11.glVertex2d(d2, e);
+      GL11.glVertex2d(d, e);
       GL11.glEnd();
       GL11.glShadeModel(7424);
       end2D();
    }
 
-   public static void drawHorizontalGradient(double d, double d2, double d3, double d4, int i, int j) {
+   public static void drawHorizontalGradient(double d, double e, double d2, double d3, int i, int j) {
       begin2D();
       GL11.glShadeModel(7425);
       GL11.glBegin(7);
-      GL11.glVertex2d(d, d4);
+      GL11.glVertex2d(d, d3);
       setColor(j);
-      GL11.glVertex2d(d3, d4);
-      GL11.glVertex2d(d3, d2);
+      GL11.glVertex2d(d2, d3);
+      GL11.glVertex2d(d2, e);
       setColor(i);
-      GL11.glVertex2d(d, d2);
+      GL11.glVertex2d(d, e);
       GL11.glEnd();
       GL11.glShadeModel(7424);
       end2D();
    }
 
-   public static void drawWorldCircle(double d, double d2, double d3, double d4, float f, Color color) {
+   public static void drawWorldCircle(double d, double e, double d2, double d3, float f, Color color) {
       GlStateManager.pushMatrix();
       GL11.glLineWidth(f);
       GL11.glBegin(2);
-      double e = Math.tan(Math.PI / 180.0);
+      double d4 = Math.tan(Math.PI / 180.0);
       double d5 = Math.cos(Math.PI / 180.0);
-      double d6 = d4;
+      double d6 = d3;
       double d7 = 0.0;
 
       for (int i = 0; i <= 360.0; i++) {
          setColor(color.getRGB());
-         GL11.glVertex3d(d + d6, d2, d3 + d7);
+         GL11.glVertex3d(d + d6, e, d2 + d7);
          double d8 = -d7;
          double d9 = d6;
-         d6 += d8 * e;
-         d7 += d9 * e;
+         d6 += d8 * d4;
+         d7 += d9 * d4;
          d6 *= d5;
          d7 *= d5;
       }

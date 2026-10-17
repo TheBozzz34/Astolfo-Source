@@ -11,7 +11,7 @@ public final class SetHeldItemSlot extends OneArgFunction {
          return valueOf(false);
       } else if (ClientAccess.mc.thePlayer != null && luaValue.isint()) {
          ClientAccess.mc.thePlayer.inventory.currentItem = luaValue.checkint() + 1;
-         ClientAccess.mc.playerController.u();
+         ClientAccess.mc.playerController.updateController();
          return valueOf(true);
       } else {
          return valueOf(false);

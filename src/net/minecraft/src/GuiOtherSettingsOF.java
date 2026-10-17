@@ -83,7 +83,7 @@ public class GuiOtherSettingsOF extends GuiScreen implements GuiYesNoCallback {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
       this.N.U(mouseX, mouseY, this.buttonList);
    }

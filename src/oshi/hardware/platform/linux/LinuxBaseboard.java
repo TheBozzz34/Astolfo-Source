@@ -17,22 +17,22 @@ public final class LinuxBaseboard extends AbstractBaseboard {
    private final Supplier<String> serialNumber = Memoizer.memoize(LinuxBaseboard::T);
 
    @Override
-   public String p() {
+   public String getManufacturer() {
       return this.manufacturer.get();
    }
 
    @Override
-   public String g() {
+   public String getModel() {
       return this.model.get();
    }
 
    @Override
-   public String W() {
+   public String getVersion() {
       return this.version.get();
    }
 
    @Override
-   public String A() {
+   public String getSerialNumber() {
       return this.serialNumber.get();
    }
 

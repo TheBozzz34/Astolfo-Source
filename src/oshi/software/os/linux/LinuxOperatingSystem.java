@@ -69,7 +69,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
          }
       }
 
-      OperatingSystem.OSVersionInfo osVersionInfo = new OperatingSystem.OSVersionInfo((String)triplet.q(), (String)triplet.U(), string);
+      OperatingSystem.OSVersionInfo osVersionInfo = new OperatingSystem.OSVersionInfo((String)triplet.q(), (String)triplet.getC(), string);
       return new AbstractOperatingSystem.FamilyVersionInfo((String)triplet.v(), osVersionInfo);
    }
 
@@ -353,7 +353,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
                }
 
                if (string3.equals("unknown")) {
-                  string3 = (String)triplet.U();
+                  string3 = (String)triplet.getC();
                }
             }
          } else if (string4.startsWith("Distributor ID:") && string == null) {
@@ -384,7 +384,7 @@ public class LinuxOperatingSystem extends AbstractOperatingSystem {
                }
 
                if (string3.equals("unknown")) {
-                  string3 = (String)triplet.U();
+                  string3 = (String)triplet.getC();
                }
             }
          } else if (string4.startsWith("DISTRIB_ID=") && string == null) {

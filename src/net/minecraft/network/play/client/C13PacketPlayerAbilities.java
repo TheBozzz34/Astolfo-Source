@@ -40,7 +40,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
    @Override
    public void writePacketData(PacketBuffer buf) throws IOException {
       byte b = 0;
-      if (this.o()) {
+      if (this.isInvulnerable()) {
          b = (byte)(b | 1);
       }
 
@@ -48,11 +48,11 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
          b = (byte)(b | 2);
       }
 
-      if (this.H()) {
+      if (this.isAllowFlying()) {
          b = (byte)(b | 4);
       }
 
-      if (this.D()) {
+      if (this.isCreativeMode()) {
          b = (byte)(b | 8);
       }
 
@@ -65,7 +65,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
       handler.processPlayerAbilities(this);
    }
 
-   public boolean o() {
+   public boolean isInvulnerable() {
       return this.invulnerable;
    }
 
@@ -85,7 +85,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
       return this.flySpeed;
    }
 
-   public boolean H() {
+   public boolean isAllowFlying() {
       return this.allowFlying;
    }
 
@@ -93,7 +93,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
       this.allowFlying = isAllowFlying;
    }
 
-   public boolean D() {
+   public boolean isCreativeMode() {
       return this.creativeMode;
    }
 

@@ -67,7 +67,7 @@ public class VertexFormat {
       return this.normalElementOffset;
    }
 
-   public boolean H() {
+   public boolean hasColor() {
       return this.colorElementOffset >= 0;
    }
 

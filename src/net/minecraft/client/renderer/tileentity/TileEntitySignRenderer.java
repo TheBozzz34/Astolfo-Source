@@ -72,7 +72,7 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
       GlStateManager.depthMask(false);
       int j = 0;
       if (Config.isCustomColors()) {
-         j = CustomColors.E(j);
+         j = CustomColors.getSignTextColor(j);
       }
 
       if (destroyStage < 0) {

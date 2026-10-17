@@ -21,18 +21,18 @@ public final class WindowsGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(this::createVirtualMemory);
 
    @Override
-   public long d() {
+   public long getAvailable() {
       return this.availTotalSize.get().v();
    }
 
    @Override
-   public long f() {
+   public long getTotal() {
       return this.availTotalSize.get().q();
    }
 
    @Override
    public long getPageSize() {
-      return this.availTotalSize.get().U();
+      return this.availTotalSize.get().getC();
    }
 
    @Override

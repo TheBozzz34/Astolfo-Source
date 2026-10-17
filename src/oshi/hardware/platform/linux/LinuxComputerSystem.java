@@ -18,17 +18,17 @@ public final class LinuxComputerSystem extends AbstractComputerSystem {
    private final Supplier<String> serialNumber = Memoizer.memoize(LinuxComputerSystem::N);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return this.manufacturer.get();
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return this.model.get();
    }
 
    @Override
-   public String k() {
+   public String getSerialNumber() {
       return this.serialNumber.get();
    }
 

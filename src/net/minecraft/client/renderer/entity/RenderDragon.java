@@ -77,7 +77,7 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
       }
    }
 
-   public void drawRechargeRay(EntityDragon dragon, double d, double d2, double d3, float g) {
+   public void drawRechargeRay(EntityDragon dragon, double d, double e, double d2, float g) {
       float f = dragon.healingEnderCrystal.innerRotation + g;
       float h = MathHelper.sin(f * 0.2F) / 2.0F + 0.5F;
       h = (h * h + h) * 0.2F;
@@ -87,7 +87,7 @@ public class RenderDragon extends RenderLiving<EntityDragon> {
       float f5 = MathHelper.sqrt_float(f2 * f2 + f4 * f4);
       float f6 = MathHelper.sqrt_float(f2 * f2 + f3 * f3 + f4 * f4);
       GlStateManager.pushMatrix();
-      GlStateManager.translate((float)d, (float)d2 + 2.0F, (float)d3);
+      GlStateManager.translate((float)d, (float)e + 2.0F, (float)d2);
       GlStateManager.rotate((float)(-Math.atan2(f4, f2)) * 180.0F / (float) Math.PI - 90.0F, 0.0F, 1.0F, 0.0F);
       GlStateManager.rotate((float)(-Math.atan2(f5, f3)) * 180.0F / (float) Math.PI - 90.0F, 1.0F, 0.0F, 0.0F);
       Tessellator tessellator = Tessellator.getInstance();

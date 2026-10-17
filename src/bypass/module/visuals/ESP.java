@@ -273,9 +273,9 @@ public final class ESP extends Module {
                this.drawMenuButton("Teleport", f - 75.0F, g - 75.0F, f - 20.0F, g - 20.0F);
                RenderUtil.drawLine(1.0F, f + this.menuX, g + this.menuY, f, g, -1);
                if (this.clickESP.getSetting("Right-Click").asBoolean()) {
-                  mc.gameSettings.Z7.pressed = false;
+                  mc.gameSettings.keyBindUseItem.pressed = false;
                } else {
-                  mc.gameSettings.lu.pressed = false;
+                  mc.gameSettings.keyBindAttack.pressed = false;
                }
 
                this.menuOpen = true;
@@ -575,7 +575,7 @@ public final class ESP extends Module {
                      Float float2 = this.displayedHealth.get(entityLivingBase.getEntityId());
                      if (float2 != null && this.healthBar.getSetting("Animated").asBoolean()) {
                         if (float2 > entityLivingBase.getHealth()) {
-                           float2 = float2 - this.healthBar.getSetting("Speed").asFloat() / Minecraft.B();
+                           float2 = float2 - this.healthBar.getSetting("Speed").asFloat() / Minecraft.getDebugFPS();
                         } else {
                            float2 = entityLivingBase.getHealth();
                         }
@@ -896,8 +896,8 @@ public final class ESP extends Module {
       GL11.glPopMatrix();
    }
 
-   private float angleTo(double d, double d2, double d3, double d4) {
-      return (float)Math.toDegrees(Math.atan2(d4 - d3, d2 - d));
+   private float angleTo(double d, double e, double d2, double d3) {
+      return (float)Math.toDegrees(Math.atan2(d3 - d2, e - d));
    }
 
    private boolean isInside(int i, int j, int k, int l, int m, int n) {
@@ -986,26 +986,26 @@ public final class ESP extends Module {
       GlStateManager.popMatrix();
    }
 
-   private void drawTileEntity(RenderEvent renderEvent, TileEntity tileEntity, double d, double d2, double d3) {
-      float[] floats = this.project((float)d, (float)d2, (float)d3);
+   private void drawTileEntity(RenderEvent renderEvent, TileEntity tileEntity, double d, double e, double d2) {
+      float[] floats = this.project((float)d, (float)e, (float)d2);
       if (floats != null && !(floats[2] > 1.0F)) {
          if (this.isOnScreen(floats[0], floats[1])) {
-            AxisAlignedBB axisAlignedBB = AxisAlignedBB.fromBounds(d, d2, d3, d + 1.0, d2 + 1.0, d3 + 1.0);
+            AxisAlignedBB axisAlignedBB = AxisAlignedBB.fromBounds(d, e, d2, d + 1.0, e + 1.0, d2 + 1.0);
             if (tileEntity instanceof TileEntityChest) {
                TileEntityChest tileEntityChest = (TileEntityChest)tileEntity;
                if (tileEntityChest.adjacentChestZNeg != null) {
-                  axisAlignedBB = AxisAlignedBB.fromBounds(d, d2, d3 + 1.0, d + 0.9375, d2 + 0.875, d3 - 1.0);
+                  axisAlignedBB = AxisAlignedBB.fromBounds(d, e, d2 + 1.0, d + 0.9375, e + 0.875, d2 - 1.0);
                } else if (tileEntityChest.adjacentChestXPos != null) {
-                  axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, d2, d3 + 0.0625, d + 1.9375, d2 + 0.875, d3 + 0.9375);
+                  axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, e, d2 + 0.0625, d + 1.9375, e + 0.875, d2 + 0.9375);
                } else {
                   if (tileEntityChest.adjacentChestZNeg != null || tileEntityChest.adjacentChestXPos != null || tileEntityChest.adjacentChestXNeg != null || tileEntityChest.adjacentChestZPos != null) {
                      return;
                   }
 
-                  axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, d2, d3 + 0.0625, d + 0.9375, d2 + 0.875, d3 + 0.9375);
+                  axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, e, d2 + 0.0625, d + 0.9375, e + 0.875, d2 + 0.9375);
                }
             } else if (tileEntity instanceof TileEntityEnderChest) {
-               axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, d2, d3 + 0.0625, d + 0.9375, d2 + 0.875, d3 + 0.9375);
+               axisAlignedBB = AxisAlignedBB.fromBounds(d + 0.0625, e, d2 + 0.0625, d + 0.9375, e + 0.875, d2 + 0.9375);
             }
 
             int i = Integer.MAX_VALUE;
@@ -1035,13 +1035,13 @@ public final class ESP extends Module {
 
             if (i != Integer.MAX_VALUE && j != Integer.MIN_VALUE && k != Integer.MAX_VALUE && l != Integer.MIN_VALUE) {
                int n = this.getTileEntityColor(tileEntity);
-               double e = renderEvent.getResolution().getScaleFactor();
-               GlStateManager.scale(1.0 / e, 1.0 / e, 1.0 / e);
+               double d3 = renderEvent.getResolution().getScaleFactor();
+               GlStateManager.scale(1.0 / d3, 1.0 / d3, 1.0 / d3);
                if (this.box.getSetting("Enable").asBoolean()) {
                   this.drawBox(i, j, k, l, n);
                }
 
-               GlStateManager.scale(e, e, e);
+               GlStateManager.scale(d3, d3, d3);
             }
          }
       }
@@ -1315,7 +1315,7 @@ public final class ESP extends Module {
       GL11.glPopAttrib();
    }
 
-   private boolean isOnScreen(double d, double d2) {
-      return d > 0.0 && d2 > 0.0 && d < mc.displayWidth && d2 < mc.displayHeight;
+   private boolean isOnScreen(double d, double e) {
+      return d > 0.0 && e > 0.0 && d < mc.displayWidth && e < mc.displayHeight;
    }
 }

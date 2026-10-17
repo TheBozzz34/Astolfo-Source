@@ -95,7 +95,7 @@ public final class Phase extends Module {
          mc.thePlayer.getEntityBoundingBox().X(g * Math.cos(Math.toRadians(f + 90.0F)), 0.0, g * Math.sin(Math.toRadians(f + 90.0F)));
       }
 
-      if (this.mode.getValue() == PhaseMode.VANILLA && mc.gameSettings.keyBindSneak.h() && !this.isInsideBlock(mc.thePlayer)) {
+      if (this.mode.getValue() == PhaseMode.VANILLA && mc.gameSettings.keyBindSneak.isPressed() && !this.isInsideBlock(mc.thePlayer)) {
          mc.thePlayer
             .sendQueue
             .addToSendQueue(

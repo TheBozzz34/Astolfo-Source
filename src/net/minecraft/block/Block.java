@@ -1560,12 +1560,12 @@ public class Block {
       private final double y;
       private final double z;
 
-      public CollisionBoxEvent(AxisAlignedBB axisAlignedBB, Block block, double d, double d2, double d3) {
+      public CollisionBoxEvent(AxisAlignedBB axisAlignedBB, Block block, double d, double e, double d2) {
          this.block = block;
          this.boundingBox = axisAlignedBB;
          this.x = d;
-         this.y = d2;
-         this.z = d3;
+         this.y = e;
+         this.z = d2;
       }
 
       public AxisAlignedBB getBoundingBox() {

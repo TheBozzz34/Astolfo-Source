@@ -59,7 +59,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
       this.field_146635_w[WorldSettings.GameType.ADVENTURE.getID()] = I18n.format("gameMode.adventure");
       this.field_146635_w[WorldSettings.GameType.SPECTATOR.getID()] = I18n.format("gameMode.spectator");
       this.availableWorlds = new GuiSelectWorld.List(this.mc);
-      this.availableWorlds.U(4, 5);
+      this.availableWorlds.registerScrollButtons(4, 5);
       this.addWorldSelectionButtons();
    }
 
@@ -176,7 +176,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.availableWorlds.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 20, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 
@@ -251,9 +251,9 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
             }
          }
 
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string, i + 2, j + 1, 16777215);
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string2, i + 2, j + 12, 8421504);
-         GuiSelectWorld.this.I(GuiSelectWorld.this.fontRendererObj, string3, i + 2, j + 12 + 10, 8421504);
+         GuiSelectWorld.this.drawString(GuiSelectWorld.this.fontRendererObj, string, i + 2, j + 1, 16777215);
+         GuiSelectWorld.this.drawString(GuiSelectWorld.this.fontRendererObj, string2, i + 2, j + 12, 8421504);
+         GuiSelectWorld.this.drawString(GuiSelectWorld.this.fontRendererObj, string3, i + 2, j + 12 + 10, 8421504);
       }
    }
 }

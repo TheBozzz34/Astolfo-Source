@@ -92,7 +92,7 @@ public class BlockModelRenderer {
                   renderEnv = RenderEnv.getInstance(iBlockAccess, iBlockState, blockPos);
                }
 
-               if (!renderEnv.isBreakingAnimation(list) && Config.py()) {
+               if (!renderEnv.isBreakingAnimation(list) && Config.isBetterGrass()) {
                   list = BetterGrass.Q(iBlockAccess, block, blockPos, enumFacing, list);
                }
 
@@ -117,7 +117,7 @@ public class BlockModelRenderer {
          bl2 = true;
       }
 
-      if (renderEnv != null && Config.d() && !renderEnv.isBreakingAnimation() && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)) {
+      if (renderEnv != null && Config.isBetterSnow() && !renderEnv.isBreakingAnimation() && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)) {
          IBakedModel iBakedModel2 = BetterSnow.r();
          IBlockState iBlockState2 = BetterSnow.V();
          this.renderModelAmbientOcclusion(iBlockAccess, iBakedModel2, iBlockState2.getBlock(), iBlockState2, blockPos, worldRenderer, true);
@@ -145,7 +145,7 @@ public class BlockModelRenderer {
                   renderEnv = RenderEnv.getInstance(iBlockAccess, iBlockState, blockPos);
                }
 
-               if (!renderEnv.isBreakingAnimation(list) && Config.py()) {
+               if (!renderEnv.isBreakingAnimation(list) && Config.isBetterGrass()) {
                   list = BetterGrass.Q(iBlockAccess, block, blockPos, enumFacing, list);
                }
 
@@ -167,7 +167,7 @@ public class BlockModelRenderer {
       }
 
       if (renderEnv != null
-         && Config.d()
+         && Config.isBetterSnow()
          && !renderEnv.isBreakingAnimation()
          && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)
          && BetterSnow.V(iBlockAccess, block, iBlockState, blockPos)) {

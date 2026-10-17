@@ -44,7 +44,7 @@ public class SoundList {
          this.name = nameIn;
       }
 
-      public float q() {
+      public float getSoundEntryVolume() {
          return this.volume;
       }
 
@@ -52,7 +52,7 @@ public class SoundList {
          this.volume = volumeIn;
       }
 
-      public float y() {
+      public float getSoundEntryPitch() {
          return this.pitch;
       }
 

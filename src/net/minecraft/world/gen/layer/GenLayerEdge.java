@@ -14,46 +14,46 @@ public class GenLayerEdge extends GenLayer {
       switch (this.field_151627_c) {
          case COOL_WARM:
          default:
-            return this.n(areaX, areaY, areaWidth, areaHeight);
+            return this.getIntsCoolWarm(areaX, areaY, areaWidth, areaHeight);
          case HEAT_ICE:
-            return this.B(areaX, areaY, areaWidth, areaHeight);
+            return this.getIntsHeatIce(areaX, areaY, areaWidth, areaHeight);
          case SPECIAL:
             return this.getIntsSpecial(areaX, areaY, areaWidth, areaHeight);
       }
    }
 
-   private int[] n(int i, int j, int k, int l) {
+   private int[] getIntsCoolWarm(int i, int j, int k, int l) {
       int m = i - 1;
-      int i2 = j - 1;
-      int i3 = 1 + k + 1;
-      int i4 = 1 + l + 1;
-      int[] ints = this.parent.getInts(m, i2, i3, i4);
+      int n = j - 1;
+      int i2 = 1 + k + 1;
+      int i3 = 1 + l + 1;
+      int[] ints = this.parent.getInts(m, n, i2, i3);
       int[] ints2 = IntCache.getIntCache(k * l);
 
-      for (int i5 = 0; i5 < l; i5++) {
-         for (int i6 = 0; i6 < k; i6++) {
-            this.initChunkSeed(i6 + i, i5 + j);
-            int i7 = ints[i6 + 1 + (i5 + 1) * i3];
-            if (i7 == 1) {
-               int i8 = ints[i6 + 1 + (i5 + 1 - 1) * i3];
-               int i9 = ints[i6 + 1 + 1 + (i5 + 1) * i3];
-               int i10 = ints[i6 + 1 - 1 + (i5 + 1) * i3];
-               int i11 = ints[i6 + 1 + (i5 + 1 + 1) * i3];
-               boolean bl = i8 == 3 || i9 == 3 || i10 == 3 || i11 == 3;
-               boolean bl2 = i8 == 4 || i9 == 4 || i10 == 4 || i11 == 4;
+      for (int i4 = 0; i4 < l; i4++) {
+         for (int i5 = 0; i5 < k; i5++) {
+            this.initChunkSeed(i5 + i, i4 + j);
+            int i6 = ints[i5 + 1 + (i4 + 1) * i2];
+            if (i6 == 1) {
+               int i7 = ints[i5 + 1 + (i4 + 1 - 1) * i2];
+               int i8 = ints[i5 + 1 + 1 + (i4 + 1) * i2];
+               int i9 = ints[i5 + 1 - 1 + (i4 + 1) * i2];
+               int i10 = ints[i5 + 1 + (i4 + 1 + 1) * i2];
+               boolean bl = i7 == 3 || i8 == 3 || i9 == 3 || i10 == 3;
+               boolean bl2 = i7 == 4 || i8 == 4 || i9 == 4 || i10 == 4;
                if (bl || bl2) {
-                  i7 = 2;
+                  i6 = 2;
                }
             }
 
-            ints2[i6 + i5 * k] = i7;
+            ints2[i5 + i4 * k] = i6;
          }
       }
 
       return ints2;
    }
 
-   private int[] B(int i, int j, int k, int l) {
+   private int[] getIntsHeatIce(int i, int j, int k, int l) {
       int m = i - 1;
       int n = j - 1;
       int i2 = 1 + k + 1;

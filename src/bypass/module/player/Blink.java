@@ -109,7 +109,7 @@ public final class Blink extends Module {
          fakePlayer = new EntityOtherPlayerMP(mc.thePlayer.getEntityWorld(), new GameProfile(UUID.randomUUID(), mc.thePlayer.getName()));
          fakePlayer.worldObj = mc.thePlayer.getEntityWorld();
          fakePlayer.entityUniqueID = mc.thePlayer.getUniqueID();
-         fakePlayer.z(mc.thePlayer);
+         fakePlayer.copyLocationAndAnglesFrom(mc.thePlayer);
          fakePlayer.inventory = mc.thePlayer.inventory;
          fakePlayer.capabilities = mc.thePlayer.capabilities;
          mc.theWorld.addEntityToWorld(-420, fakePlayer);

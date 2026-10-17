@@ -156,7 +156,7 @@ public class FaceBakery {
       boolean bl,
       boolean bl2
    ) {
-      EnumFacing enumFacing2 = iTransformation.E(enumFacing);
+      EnumFacing enumFacing2 = iTransformation.rotate(enumFacing);
       int j = bl2 ? this.getFaceShadeColor(enumFacing2) : -1;
       EnumFaceDirection.VertexInformation vertexInformation = EnumFaceDirection.getFacing(enumFacing).getVertexInformation(i);
       Vector3f vector3f = new Vector3f(floats[vertexInformation.xIndex], floats[vertexInformation.yIndex], floats[vertexInformation.zIndex]);
@@ -224,7 +224,7 @@ public class FaceBakery {
       }
 
       if (Reflector.ForgeHooksClient_transform.exists()) {
-         Reflector.call(Reflector.ForgeHooksClient_transform, vector3f, iTransformation.m());
+         Reflector.call(Reflector.ForgeHooksClient_transform, vector3f, iTransformation.getMatrix());
       } else {
          this.rotateScale(vector3f, new Vector3f(0.5F, 0.5F, 0.5F), ((ModelRotation)iTransformation).getMatrix4d(), new Vector3f(1.0F, 1.0F, 1.0F));
       }

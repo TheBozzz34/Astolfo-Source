@@ -127,7 +127,7 @@ public class SidebarGui extends ComponentManager implements Loadable {
    }
 
    public int getAnimationStep() {
-      int i = Minecraft.B();
+      int i = Minecraft.getDebugFPS();
       if (i == 0) {
          i = 250;
       }

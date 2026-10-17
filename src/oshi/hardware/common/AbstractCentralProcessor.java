@@ -52,7 +52,7 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
 
    @Override
    public String getName() {
-      return this.getProcessorIdentifier().O();
+      return this.getProcessorIdentifier().getName();
    }
 
    @Override
@@ -91,14 +91,14 @@ public abstract class AbstractCentralProcessor implements CentralProcessor {
    }
 
    @Override
-   public long K() {
+   public long getMaxFreq() {
       return this.maxFreq.get();
    }
 
    public abstract long queryMaxFreq();
 
    @Override
-   public long[] o() {
+   public long[] getCurrentFreq() {
       return this.currentFreq.get();
    }
 

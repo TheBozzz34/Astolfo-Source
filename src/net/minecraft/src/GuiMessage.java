@@ -38,11 +38,11 @@ public class GuiMessage extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.messageLine1, this.width / 2, 70, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.messageLine1, this.width / 2, 70, 16777215);
       int i = 90;
 
       for (Object object : this.listLines2) {
-         this.d(this.fontRendererObj, (String)object, this.width / 2, i, 16777215);
+         this.drawCenteredString(this.fontRendererObj, (String)object, this.width / 2, i, 16777215);
          i += this.fontRendererObj.FONT_HEIGHT;
       }
 

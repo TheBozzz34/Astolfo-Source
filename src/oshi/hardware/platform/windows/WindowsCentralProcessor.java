@@ -258,7 +258,7 @@ public final class WindowsCentralProcessor extends AbstractCentralProcessor {
          Map map = (Map)pair.getB();
          List list2 = (List)map.get(ProcessorInformation.ProcessorFrequencyProperty.PERCENTOFMAXIMUMFREQUENCY);
          if (!list.isEmpty()) {
-            long l = this.K();
+            long l = this.getMaxFreq();
             long[] longs = new long[this.getLogicalProcessorCount()];
 
             for (int i = 0; i < list.size(); i++) {

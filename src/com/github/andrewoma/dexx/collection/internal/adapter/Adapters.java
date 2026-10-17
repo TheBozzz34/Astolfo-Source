@@ -20,8 +20,8 @@ public class Adapters {
       try {
          traversable.forEach(new Function<E, Object>() {
             @Override
-            public Object invoke(E eIn) {
-               if (eIn.equals(o)) {
+            public Object invoke(E e) {
+               if (e.equals(o)) {
                   throw new RuntimeException();
                } else {
                   return null;
@@ -29,7 +29,7 @@ public class Adapters {
             }
          });
          return false;
-      } catch (Exception eIn) {
+      } catch (Exception e) {
          return true;
       }
    }
@@ -40,8 +40,8 @@ public class Adapters {
       final int[] ints = new int[]{0};
       traversable.forEach(new Function<E, Object>() {
          @Override
-         public Object invoke(E eIn) {
-            objects[ints[0]] = eIn;
+         public Object invoke(E e) {
+            objects[ints[0]] = e;
             ints[0]++;
             return null;
          }

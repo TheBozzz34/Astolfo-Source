@@ -117,9 +117,9 @@ public class RecipesBanners {
 
       private TileEntityBanner.EnumBannerPattern func_179533_c(InventoryCrafting inventoryCrafting) {
          for (TileEntityBanner.EnumBannerPattern enumBannerPattern : TileEntityBanner.EnumBannerPattern.values()) {
-            if (enumBannerPattern.m()) {
+            if (enumBannerPattern.hasValidCrafting()) {
                boolean bl = true;
-               if (enumBannerPattern.o()) {
+               if (enumBannerPattern.hasCraftingStack()) {
                   boolean bl2 = false;
                   boolean bl3 = false;
 
@@ -152,7 +152,7 @@ public class RecipesBanners {
 
                   for (int k = 0; k < inventoryCrafting.getSizeInventory() && bl; k++) {
                      int l = k / 3;
-                     int n = k % 3;
+                     int m = k % 3;
                      ItemStack itemStack2 = inventoryCrafting.getStackInSlot(k);
                      if (itemStack2 != null && itemStack2.getItem() != Items.banner) {
                         if (itemStack2.getItem() != Items.dye) {
@@ -165,13 +165,13 @@ public class RecipesBanners {
                            break;
                         }
 
-                        if (enumBannerPattern.getCraftingLayers()[l].charAt(n) == ' ') {
+                        if (enumBannerPattern.getCraftingLayers()[l].charAt(m) == ' ') {
                            bl = false;
                            break;
                         }
 
                         j = itemStack2.getMetadata();
-                     } else if (enumBannerPattern.getCraftingLayers()[l].charAt(n) != ' ') {
+                     } else if (enumBannerPattern.getCraftingLayers()[l].charAt(m) != ' ') {
                         bl = false;
                         break;
                      }

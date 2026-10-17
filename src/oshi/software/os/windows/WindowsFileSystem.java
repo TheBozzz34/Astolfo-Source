@@ -97,7 +97,7 @@ public class WindowsFileSystem extends AbstractFileSystem {
             String string3 = new String(chars3).trim();
             String string4 = new String(chars2).trim();
             StringBuilder stringBuilder = new StringBuilder((524288 & i) == 0 ? "rw" : "ro");
-            String string5 = OPTIONS_MAP.entrySet().stream().filter(eIn -> (eIn.getKey() & i) > 0).map(Entry::getValue).collect(Collectors.joining(","));
+            String string5 = OPTIONS_MAP.entrySet().stream().filter(e -> (e.getKey() & i) > 0).map(Entry::getValue).collect(Collectors.joining(","));
             if (!string5.isEmpty()) {
                stringBuilder.append(',').append(string5);
             }

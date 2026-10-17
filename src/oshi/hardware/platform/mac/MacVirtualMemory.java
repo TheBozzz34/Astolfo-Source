@@ -18,12 +18,12 @@ public final class MacVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Pair<Long, Long>> inOut = Memoizer.memoize(MacVirtualMemory::queryVmStat, Memoizer.defaultExpiration());
 
    @Override
-   public long y() {
+   public long getSwapUsed() {
       return this.usedTotal.get().getA();
    }
 
    @Override
-   public long n() {
+   public long getSwapTotal() {
       return this.usedTotal.get().getB();
    }
 

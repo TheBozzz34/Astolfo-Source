@@ -282,7 +282,7 @@ public class CustomColormap implements CustomColors.IColorizer {
    }
 
    public int getColor(BiomeGenBase biome, BlockPos blockPos) {
-      return this.format == 0 ? this.R(biome, blockPos) : (this.format == 1 ? this.getColorGrid(biome, blockPos) : this.color);
+      return this.format == 0 ? this.getColorVanilla(biome, blockPos) : (this.format == 1 ? this.getColorGrid(biome, blockPos) : this.color);
    }
 
    public int getColorSmooth(IBlockAccess blockAccess, double x, double y, double z, int radius) {
@@ -316,13 +316,13 @@ public class CustomColormap implements CustomColors.IColorizer {
       return i6 << 16 | i7 << 8 | i8;
    }
 
-   private int R(BiomeGenBase biomeGenBase, BlockPos blockPos) {
-      double d = MathHelper.clamp_float(biomeGenBase.getFloatTemperature(blockPos), 0.0F, 1.0F);
-      double e = MathHelper.clamp_float(biomeGenBase.getFloatRainfall(), 0.0F, 1.0F);
-      e *= d;
-      int i = (int)((1.0 - d) * (this.width - 1));
-      int j = (int)((1.0 - e) * (this.height - 1));
-      return this.getColor(i, j);
+   private int getColorVanilla(BiomeGenBase biome, BlockPos blockPos) {
+      double temperature = MathHelper.clamp_float(biome.getFloatTemperature(blockPos), 0.0F, 1.0F);
+      double rainfall = MathHelper.clamp_float(biome.getFloatRainfall(), 0.0F, 1.0F);
+      rainfall *= temperature;
+      int cx = (int)((1.0 - temperature) * (this.width - 1));
+      int cy = (int)((1.0 - rainfall) * (this.height - 1));
+      return this.getColor(cx, cy);
    }
 
    private int getColorGrid(BiomeGenBase biome, BlockPos blockPos) {

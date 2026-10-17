@@ -125,26 +125,26 @@ public final class InfiniteReach extends Module {
       this.lastPath = list;
    }
 
-   public static List<Vector3> createSteppedPathFromPlayer(double d, double d2, double d3) {
+   public static List<Vector3> createSteppedPathFromPlayer(double d, double e, double d2) {
       ArrayList arrayList = new ArrayList();
-      double e = mc.thePlayer.posX;
+      double d3 = mc.thePlayer.posX;
       double d4 = mc.thePlayer.posY;
       double d5 = mc.thePlayer.posZ;
-      double d6 = Math.abs(e - d) + Math.abs(d4 - d2) + Math.abs(d5 - d3);
+      double d6 = Math.abs(d3 - d) + Math.abs(d4 - e) + Math.abs(d5 - d2);
 
       for (int i = 0; d6 > 0.0; i++) {
-         d6 = Math.abs(e - d) + Math.abs(d4 - d2) + Math.abs(d5 - d3);
-         double d7 = e - d;
-         double d8 = d4 - d2;
-         double d9 = d5 - d3;
+         d6 = Math.abs(d3 - d) + Math.abs(d4 - e) + Math.abs(d5 - d2);
+         double d7 = d3 - d;
+         double d8 = d4 - e;
+         double d9 = d5 - d2;
          double d10 = (i & 1) == 0 ? 0.4 : 0.1;
          double d11 = Math.min(Math.abs(d7), d10);
          if (d7 < 0.0) {
-            e += d11;
+            d3 += d11;
          }
 
          if (d7 > 0.0) {
-            e -= d11;
+            d3 -= d11;
          }
 
          double d12 = Math.min(Math.abs(d8), 0.25);
@@ -165,30 +165,30 @@ public final class InfiniteReach extends Module {
             d5 -= d13;
          }
 
-         arrayList.add(new Vector3(e, d4, d5));
+         arrayList.add(new Vector3(d3, d4, d5));
       }
 
       return arrayList;
    }
 
-   public static List<Vector3> createLinearPath(double d, double d2, double d3, double d4, double d5, double d6, double d7) {
+   public static List<Vector3> createLinearPath(double d, double e, double d2, double d3, double d4, double d5, double d6) {
       ArrayList arrayList = new ArrayList();
-      double e = Math.ceil(getDistance(d, d2, d3, d4, d5, d6) / d7);
-      double d8 = d4 - d;
-      double d9 = d5 - d2;
-      double d10 = d6 - d3;
+      double d7 = Math.ceil(getDistance(d, e, d2, d3, d4, d5) / d6);
+      double d8 = d3 - d;
+      double d9 = d4 - e;
+      double d10 = d5 - d2;
 
-      for (double d11 = 1.0; d11 <= e; d11++) {
-         arrayList.add(new Vector3(d + d8 * d11 / e, d2 + d9 * d11 / e, d3 + d10 * d11 / e));
+      for (double d11 = 1.0; d11 <= d7; d11++) {
+         arrayList.add(new Vector3(d + d8 * d11 / d7, e + d9 * d11 / d7, d2 + d10 * d11 / d7));
       }
 
       return arrayList;
    }
 
-   private static double getDistance(double d, double d2, double d3, double d4, double d5, double d6) {
-      double e = d - d4;
-      double d7 = d2 - d5;
-      double d8 = d3 - d6;
-      return MathHelper.sqrt_double(e * e + d7 * d7 + d8 * d8);
+   private static double getDistance(double d, double e, double d2, double d3, double d4, double d5) {
+      double d6 = d - d3;
+      double d7 = e - d4;
+      double d8 = d2 - d5;
+      return MathHelper.sqrt_double(d6 * d6 + d7 * d7 + d8 * d8);
    }
 }

@@ -261,7 +261,7 @@ public class ShaderPackParser {
                ShaderOption shaderOption2 = ShaderUtils.getShaderOption(string9, shaderOptions);
                if (shaderOption2 == null) {
                   Config.warn("[Shaders] Invalid option: " + string4);
-               } else if (!shaderOption2.Y(string10)) {
+               } else if (!shaderOption2.isValidValue(string10)) {
                   Config.warn("[Shaders] Invalid value: " + string4);
                } else {
                   shaderOption2.setVisible(true);

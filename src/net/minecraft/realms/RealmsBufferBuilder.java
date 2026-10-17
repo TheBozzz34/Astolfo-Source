@@ -36,8 +36,8 @@ public class RealmsBufferBuilder {
       return this.b.getDrawMode();
    }
 
-   public void h(double d, double d2, double d3) {
-      this.b.setTranslation(d, d2, d3);
+   public void h(double d, double e, double d2) {
+      this.b.setTranslation(d, e, d2);
    }
 
    public void restoreState(WorldRenderer.State state) {
@@ -68,8 +68,8 @@ public class RealmsBufferBuilder {
       this.b.putBrightness4(i, j, k, l);
    }
 
-   public void p(double d, double d2, double d3) {
-      this.b.putPosition(d, d2, d3);
+   public void p(double d, double e, double d2) {
+      this.b.putPosition(d, e, d2);
    }
 
    public void J(float f, float g, float h, int i) {
@@ -96,8 +96,8 @@ public class RealmsBufferBuilder {
       this.b.addVertexData(ints);
    }
 
-   public RealmsBufferBuilder tex(double d, double d2) {
-      return this.from(this.b.tex(d, d2));
+   public RealmsBufferBuilder tex(double d, double e) {
+      return this.from(this.b.tex(d, e));
    }
 
    public int c() {
@@ -108,8 +108,8 @@ public class RealmsBufferBuilder {
       this.b.reset();
    }
 
-   public RealmsBufferBuilder vertex(double d, double d2, double d3) {
-      return this.from(this.b.pos(d, d2, d3));
+   public RealmsBufferBuilder vertex(double d, double e, double d2) {
+      return this.from(this.b.pos(d, e, d2));
    }
 
    public void E(float f, float g, float h) {

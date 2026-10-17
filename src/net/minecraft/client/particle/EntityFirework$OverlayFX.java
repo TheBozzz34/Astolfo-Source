@@ -6,8 +6,8 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityFirework$OverlayFX extends EntityFX {
-   public EntityFirework$OverlayFX(World world, double d, double d2, double d3) {
-      super(world, d, d2, d3);
+   public EntityFirework$OverlayFX(World world, double d, double e, double d2) {
+      super(world, d, e, d2);
       this.particleMaxAge = 4;
    }
 

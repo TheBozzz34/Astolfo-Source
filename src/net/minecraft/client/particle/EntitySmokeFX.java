@@ -8,18 +8,18 @@ import net.minecraft.world.World;
 public class EntitySmokeFX extends EntityFX {
    public float smokeParticleScale;
 
-   public EntitySmokeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3) {
-      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, d2, d3, 1.0F);
+   public EntitySmokeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2) {
+      this(worldIn, xCoordIn, yCoordIn, zCoordIn, d, e, d2, 1.0F);
    }
 
-   public EntitySmokeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double d2, double d3, float f) {
+   public EntitySmokeFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double d, double e, double d2, float f) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0, 0.0, 0.0);
       this.motionX *= 0.1F;
       this.motionY *= 0.1F;
       this.motionZ *= 0.1F;
       this.motionX += d;
-      this.motionY += d2;
-      this.motionZ += d3;
+      this.motionY += e;
+      this.motionZ += d2;
       this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.3F);
       this.particleScale *= 0.75F;
       this.particleScale *= f;

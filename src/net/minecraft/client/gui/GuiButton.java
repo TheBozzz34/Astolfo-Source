@@ -138,7 +138,7 @@ public class GuiButton extends Gui {
          }
 
          String string = this.enabled ? this.displayString : EnumChatFormatting.ITALIC + this.displayString;
-         this.d(mc.fontRendererObj, string, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+         this.drawCenteredString(mc.fontRendererObj, string, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
       }
    }
 

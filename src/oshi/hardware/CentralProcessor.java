@@ -38,9 +38,9 @@ public interface CentralProcessor {
    @Deprecated
    long g();
 
-   long K();
+   long getMaxFreq();
 
-   long[] o();
+   long[] getCurrentFreq();
 
    CentralProcessor.LogicalProcessor[] getLogicalProcessors();
 
@@ -103,7 +103,7 @@ public interface CentralProcessor {
          return this.numaNode;
       }
 
-      public int z() {
+      public int getProcessorGroup() {
          return this.processorGroup;
       }
    }
@@ -153,7 +153,7 @@ public interface CentralProcessor {
          return this.cpuVendor;
       }
 
-      public String O() {
+      public String getName() {
          return this.cpuName;
       }
 

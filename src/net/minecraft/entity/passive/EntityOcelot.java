@@ -63,17 +63,17 @@ public class EntityOcelot extends EntityTameable {
       if (this.getMoveHelper().isUpdating()) {
          double d = this.getMoveHelper().getSpeed();
          if (d == 0.6) {
-            this.v(true);
+            this.setSneaking(true);
             this.setSprinting(false);
          } else if (d == 1.33) {
-            this.v(false);
+            this.setSneaking(false);
             this.setSprinting(true);
          } else {
-            this.v(false);
+            this.setSneaking(false);
             this.setSprinting(false);
          }
       } else {
-         this.v(false);
+         this.setSneaking(false);
          this.setSprinting(false);
       }
    }
@@ -154,7 +154,7 @@ public class EntityOcelot extends EntityTameable {
    public boolean interact(EntityPlayer player) {
       ItemStack itemStack = player.inventory.getCurrentItem();
       if (this.isTamed()) {
-         if (this.V(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemStack)) {
+         if (this.isOwner(player) && !this.worldObj.isRemote && !this.isBreedingItem(itemStack)) {
             this.aiSit.setSitting(!this.isSitting());
          }
       } else if (this.aiTempt.isRunning() && itemStack != null && itemStack.getItem() == Items.fish && player.getDistanceSqToEntity(this) < 9.0) {

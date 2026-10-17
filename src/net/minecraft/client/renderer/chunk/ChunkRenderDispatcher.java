@@ -148,12 +148,12 @@ public class ChunkRenderDispatcher {
       return this.queueChunkUpdates.take();
    }
 
-   public boolean p(RenderChunk renderChunk) {
-      renderChunk.getLockCompileTask().lock();
+   public boolean updateTransparencyLater(RenderChunk chunkRenderer) {
+      chunkRenderer.getLockCompileTask().lock();
 
       boolean bl;
       try {
-         ChunkCompileTaskGenerator chunkCompileTaskGenerator = renderChunk.makeCompileTaskTransparency();
+         ChunkCompileTaskGenerator chunkCompileTaskGenerator = chunkRenderer.makeCompileTaskTransparency();
          if (chunkCompileTaskGenerator == null) {
             return true;
          }
@@ -161,7 +161,7 @@ public class ChunkRenderDispatcher {
          chunkCompileTaskGenerator.addFinishRunnable(new ChunkRenderDispatcher.RemoveTransparencyTask(this, chunkCompileTaskGenerator));
          bl = this.queueChunkUpdates.offer(chunkCompileTaskGenerator);
       } finally {
-         renderChunk.getLockCompileTask().unlock();
+         chunkRenderer.getLockCompileTask().unlock();
       }
 
       return bl;

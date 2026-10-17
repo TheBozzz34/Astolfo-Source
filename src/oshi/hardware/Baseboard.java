@@ -4,11 +4,11 @@ import oshi.annotation.concurrent.Immutable;
 
 @Immutable
 public interface Baseboard {
-   String p();
+   String getManufacturer();
 
-   String g();
+   String getModel();
 
-   String W();
+   String getVersion();
 
-   String A();
+   String getSerialNumber();
 }

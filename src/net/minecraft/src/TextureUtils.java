@@ -219,7 +219,7 @@ public class TextureUtils {
          BetterSnow.R();
          TextureAnimations.f();
          CustomColors.update();
-         CustomSky.L();
+         CustomSky.update();
          RandomMobs.resetTextures();
          CustomItems.G();
          Shaders.j();
@@ -250,7 +250,7 @@ public class TextureUtils {
       ITickableTextureObject iTickableTextureObject = new ITickableTextureObject() {
          @Override
          public void tick() {
-            TextureAnimations.s();
+            TextureAnimations.updateCustomAnimations();
          }
 
          @Override

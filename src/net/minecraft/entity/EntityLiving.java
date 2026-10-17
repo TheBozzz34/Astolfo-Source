@@ -365,8 +365,8 @@ public abstract class EntityLiving extends EntityLivingBase {
                } else if (itemStack.getItem() instanceof ItemSword && itemStack2.getItem() instanceof ItemSword) {
                   ItemSword itemSword = (ItemSword)itemStack.getItem();
                   ItemSword itemSword2 = (ItemSword)itemStack2.getItem();
-                  if (itemSword.Q() != itemSword2.Q()) {
-                     bl = itemSword.Q() > itemSword2.Q();
+                  if (itemSword.getDamageVsEntity() != itemSword2.getDamageVsEntity()) {
+                     bl = itemSword.getDamageVsEntity() > itemSword2.getDamageVsEntity();
                   } else {
                      bl = itemStack.getMetadata() > itemStack2.getMetadata() || itemStack.hasTagCompound() && !itemStack2.hasTagCompound();
                   }
@@ -769,7 +769,7 @@ public abstract class EntityLiving extends EntityLivingBase {
             return true;
          }
 
-         if (((EntityTameable)this).V(playerIn)) {
+         if (((EntityTameable)this).isOwner(playerIn)) {
             this.setLeashedToEntity(playerIn, true);
             itemStack.stackSize--;
             return true;
@@ -881,8 +881,8 @@ public abstract class EntityLiving extends EntityLivingBase {
    }
 
    @Override
-   public boolean C() {
-      return super.C() && !this.isAIDisabled();
+   public boolean isServerWorld() {
+      return super.isServerWorld() && !this.isAIDisabled();
    }
 
    public void setNoAI(boolean disable) {

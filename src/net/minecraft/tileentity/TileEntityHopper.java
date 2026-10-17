@@ -441,9 +441,9 @@ public class TileEntityHopper extends TileEntityLockable implements IHopper, ITi
       return getInventoryAtPosition(hopper.getWorld(), hopper.getXPos(), hopper.getYPos() + 1.0, hopper.getZPos());
    }
 
-   public static List<EntityItem> func_181556_a(World world, double d, double d2, double d3) {
+   public static List<EntityItem> func_181556_a(World world, double d, double e, double d2) {
       return world.getEntitiesWithinAABB(
-         EntityItem.class, new AxisAlignedBB(d - 0.5, d2 - 0.5, d3 - 0.5, d + 0.5, d2 + 0.5, d3 + 0.5), EntitySelectors.selectAnything
+         EntityItem.class, new AxisAlignedBB(d - 0.5, e - 0.5, d2 - 0.5, d + 0.5, e + 0.5, d2 + 0.5), EntitySelectors.selectAnything
       );
    }
 

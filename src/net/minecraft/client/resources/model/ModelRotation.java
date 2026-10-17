@@ -62,7 +62,7 @@ public enum ModelRotation implements IModelState, ITransformation {
       return this.matrix4d;
    }
 
-   public EnumFacing s(EnumFacing enumFacing) {
+   public EnumFacing rotateFace(EnumFacing enumFacing) {
       EnumFacing enumFacing2 = enumFacing;
 
       for (int i = 0; i < this.quartersX; i++) {
@@ -103,19 +103,19 @@ public enum ModelRotation implements IModelState, ITransformation {
 
    @Override
    public Optional<TRSRTransformation> apply(Optional<? extends IModelPart> optional) {
-      return (Optional<TRSRTransformation>)Reflector.call(Reflector.ForgeHooksClient_applyTransform, this.m(), optional);
+      return (Optional<TRSRTransformation>)Reflector.call(Reflector.ForgeHooksClient_applyTransform, this.getMatrix(), optional);
    }
 
    @Override
-   public javax.vecmath.Matrix4f m() {
+   public javax.vecmath.Matrix4f getMatrix() {
       return Reflector.ForgeHooksClient_getMatrix.exists()
          ? (javax.vecmath.Matrix4f)Reflector.call(Reflector.ForgeHooksClient_getMatrix, this)
          : new javax.vecmath.Matrix4f();
    }
 
    @Override
-   public EnumFacing E(EnumFacing enumFacing) {
-      return this.s(enumFacing);
+   public EnumFacing rotate(EnumFacing enumFacing) {
+      return this.rotateFace(enumFacing);
    }
 
    @Override

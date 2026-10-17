@@ -125,9 +125,9 @@ public class GuiScreenAddServer extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("addServer.title"), this.width / 2, 17, 16777215);
-      this.I(this.fontRendererObj, I18n.format("addServer.enterName"), this.width / 2 - 100, 53, 10526880);
-      this.I(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94, 10526880);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("addServer.title"), this.width / 2, 17, 16777215);
+      this.drawString(this.fontRendererObj, I18n.format("addServer.enterName"), this.width / 2 - 100, 53, 10526880);
+      this.drawString(this.fontRendererObj, I18n.format("addServer.enterIp"), this.width / 2 - 100, 94, 10526880);
       this.serverNameField.drawTextBox();
       this.serverIPField.drawTextBox();
       super.drawScreen(mouseX, mouseY, partialTicks);

@@ -60,8 +60,8 @@ public class Vec3 {
       return this.addVector(-x, -y, -z);
    }
 
-   public Vec3 l(Vec3 vec3) {
-      return this.addVector(vec3.xCoord, vec3.yCoord, vec3.zCoord);
+   public Vec3 add(Vec3 vec) {
+      return this.addVector(vec.xCoord, vec.yCoord, vec.zCoord);
    }
 
    public Vec3 addVector(double x, double y, double z) {

@@ -138,8 +138,8 @@ public class GuiBeacon extends GuiContainer {
    @Override
    public void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
       RenderHelper.disableStandardItemLighting();
-      this.d(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
-      this.d(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.primary"), 62, 10, 14737632);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("tile.beacon.secondary"), 169, 10, 14737632);
 
       for (GuiButton guiButton : this.buttonList) {
          if (guiButton.isMouseOver()) {

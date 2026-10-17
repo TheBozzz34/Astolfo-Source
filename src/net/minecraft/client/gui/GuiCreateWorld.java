@@ -357,16 +357,16 @@ public class GuiCreateWorld extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("selectWorld.create"), this.width / 2, 20, -1);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.create"), this.width / 2, 20, -1);
       if (this.inMoreWorldOptionsDisplay) {
-         this.I(this.fontRendererObj, I18n.format("selectWorld.enterSeed"), this.width / 2 - 100, 47, -6250336);
-         this.I(this.fontRendererObj, I18n.format("selectWorld.seedInfo"), this.width / 2 - 100, 85, -6250336);
+         this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterSeed"), this.width / 2 - 100, 47, -6250336);
+         this.drawString(this.fontRendererObj, I18n.format("selectWorld.seedInfo"), this.width / 2 - 100, 85, -6250336);
          if (this.btnMapFeatures.visible) {
-            this.I(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, -6250336);
+            this.drawString(this.fontRendererObj, I18n.format("selectWorld.mapFeatures.info"), this.width / 2 - 150, 122, -6250336);
          }
 
          if (this.btnAllowCommands.visible) {
-            this.I(this.fontRendererObj, I18n.format("selectWorld.allowCommands.info"), this.width / 2 - 150, 172, -6250336);
+            this.drawString(this.fontRendererObj, I18n.format("selectWorld.allowCommands.info"), this.width / 2 - 150, 172, -6250336);
          }
 
          this.worldSeedField.drawTextBox();
@@ -381,11 +381,11 @@ public class GuiCreateWorld extends GuiScreen {
                );
          }
       } else {
-         this.I(this.fontRendererObj, I18n.format("selectWorld.enterName"), this.width / 2 - 100, 47, -6250336);
-         this.I(this.fontRendererObj, I18n.format("selectWorld.resultFolder") + " " + this.saveDirName, this.width / 2 - 100, 85, -6250336);
+         this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName"), this.width / 2 - 100, 47, -6250336);
+         this.drawString(this.fontRendererObj, I18n.format("selectWorld.resultFolder") + " " + this.saveDirName, this.width / 2 - 100, 85, -6250336);
          this.worldNameField.drawTextBox();
-         this.I(this.fontRendererObj, this.gameModeDesc1, this.width / 2 - 100, 137, -6250336);
-         this.I(this.fontRendererObj, this.gameModeDesc2, this.width / 2 - 100, 149, -6250336);
+         this.drawString(this.fontRendererObj, this.gameModeDesc1, this.width / 2 - 100, 137, -6250336);
+         this.drawString(this.fontRendererObj, this.gameModeDesc2, this.width / 2 - 100, 149, -6250336);
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);

@@ -24,7 +24,7 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
    public static final OneArgFunction postFunction = new Post();
    public static final TwoArgFunction postAsyncFunction = new PostAsync();
    public static final TwoArgFunction getAsyncFunction = new GetAsync();
-   private final OneArgFunction loadFunction = new HttpLibrary.z8();
+   private final OneArgFunction loadFunction = new HttpLibrary.LoadUrlFunction();
 
    public HttpLibrary(Globals globals) {
       this.globals = globals;
@@ -43,7 +43,7 @@ public class HttpLibrary extends TwoArgFunction implements ClientAccess {
       return luaTable;
    }
 
-   public class z8 extends OneArgFunction {
+   public class LoadUrlFunction extends OneArgFunction {
       @Override
       public LuaValue call(LuaValue luaValue) {
          if (!ScriptManager.unsafeFunctions.isEnabled()) {

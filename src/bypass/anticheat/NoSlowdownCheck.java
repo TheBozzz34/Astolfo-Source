@@ -12,11 +12,11 @@ public class NoSlowdownCheck extends MovementCheck {
    }
 
    @Override
-   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double e, double d2, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (entityPlayer.isUsingItem()) {
          if (this.lastX != 0.0 && this.lastZ != 0.0) {
-            double e = Math.hypot(d - this.lastX, d3 - this.lastZ);
-            if (entityPlayer.isSprinting() && e >= 0.25 && e < 3.0 && this.sprintedWhileUsing) {
+            double d3 = Math.hypot(d - this.lastX, d2 - this.lastZ);
+            if (entityPlayer.isSprinting() && d3 >= 0.25 && d3 < 3.0 && this.sprintedWhileUsing) {
                this.flag(entityPlayer.getName());
             }
 
@@ -26,7 +26,7 @@ public class NoSlowdownCheck extends MovementCheck {
          }
 
          this.lastX = d;
-         this.lastZ = d3;
+         this.lastZ = d2;
       } else {
          this.sprintedWhileUsing = false;
          this.lastZ = 0.0;

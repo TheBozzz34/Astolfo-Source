@@ -55,7 +55,7 @@ public final class Inventory extends Module {
          }
 
          if (this.inventory.getValue() && mc.currentScreen instanceof GuiInventory) {
-            mc.playerController.u();
+            mc.playerController.updateController();
          }
       }
    };

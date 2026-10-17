@@ -29,7 +29,7 @@ public class VersionCheckThread extends Thread {
             String string2 = strings[0].trim();
             Config.dbg("Version found: " + string2);
             if (Config.compareRelease(string2, "H8") > 0) {
-               Config.G(string2);
+               Config.setNewRelease(string2);
                return;
             }
          } finally {

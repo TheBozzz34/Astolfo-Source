@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
 public class Barrier extends EntityFX {
-   public Barrier(World worldIn, double d, double d2, double d3, Item item) {
-      super(worldIn, d, d2, d3, 0.0, 0.0, 0.0);
+   public Barrier(World worldIn, double d, double e, double d2, Item item) {
+      super(worldIn, d, e, d2, 0.0, 0.0, 0.0);
       this.setParticleIcon(Minecraft.getMinecraft().getRenderItem().getItemModelMesher().getParticleIcon(item));
       this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
       this.motionX = this.motionY = this.motionZ = 0.0;

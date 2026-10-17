@@ -29,13 +29,13 @@ public class MotionEvent extends CancellableEvent {
       AxisAlignedBB axisAlignedBB,
       boolean bl,
       double d,
+      double e,
       double d2,
-      double d3,
       float f,
       float g,
+      double d3,
       double d4,
       double d5,
-      double d6,
       float h,
       float f2,
       int i,
@@ -46,13 +46,13 @@ public class MotionEvent extends CancellableEvent {
       this.minY = axisAlignedBB.minY;
       this.onGround = bl;
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
       this.yaw = f;
       this.pitch = g;
-      this.lastX = d4;
-      this.lastY = d5;
-      this.lastZ = d6;
+      this.lastX = d3;
+      this.lastY = d4;
+      this.lastZ = d5;
       this.lastYaw = h;
       this.lastPitch = f2;
       this.positionUpdateTicks = i;

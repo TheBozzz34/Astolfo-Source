@@ -10,12 +10,12 @@ import net.minecraft.util.EnumWorldBlockLayer;
 public class CompiledChunk {
    public static final CompiledChunk DUMMY = new CompiledChunk() {
       @Override
-      public void q(EnumWorldBlockLayer enumWorldBlockLayer) {
+      public void setLayerUsed(EnumWorldBlockLayer layer) {
          throw new UnsupportedOperationException();
       }
 
       @Override
-      public void G(EnumWorldBlockLayer enumWorldBlockLayer) {
+      public void setLayerStarted(EnumWorldBlockLayer layer) {
          throw new UnsupportedOperationException();
       }
 
@@ -35,17 +35,17 @@ public class CompiledChunk {
       return this.empty;
    }
 
-   public void q(EnumWorldBlockLayer enumWorldBlockLayer) {
+   public void setLayerUsed(EnumWorldBlockLayer layer) {
       this.empty = false;
-      this.layersUsed[enumWorldBlockLayer.ordinal()] = true;
+      this.layersUsed[layer.ordinal()] = true;
    }
 
    public boolean isLayerEmpty(EnumWorldBlockLayer layer) {
       return !this.layersUsed[layer.ordinal()];
    }
 
-   public void G(EnumWorldBlockLayer enumWorldBlockLayer) {
-      this.layersStarted[enumWorldBlockLayer.ordinal()] = true;
+   public void setLayerStarted(EnumWorldBlockLayer layer) {
+      this.layersStarted[layer.ordinal()] = true;
    }
 
    public boolean isLayerStarted(EnumWorldBlockLayer layer) {

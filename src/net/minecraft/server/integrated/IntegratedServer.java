@@ -48,11 +48,11 @@ public class IntegratedServer extends MinecraftServer {
 
    public IntegratedServer(Minecraft mcIn, String folderName, String worldName, WorldSettings settings) {
       super(new File(mcIn.mcDataDir, "saves"), mcIn.getProxy(), new File(mcIn.mcDataDir, USER_CACHE_FILE.getName()));
-      this.s(mcIn.getSession().getUsername());
-      this.L(folderName);
-      this.h(worldName);
-      this.y(mcIn.isDemo());
-      this.F(settings.isBonusChestEnabled());
+      this.setServerOwner(mcIn.getSession().getUsername());
+      this.setFolderName(folderName);
+      this.setWorldName(worldName);
+      this.setDemo(mcIn.isDemo());
+      this.canCreateBonusChest(settings.isBonusChestEnabled());
       this.setBuildLimit(256);
       this.setConfigManager(new IntegratedPlayerList(this));
       this.mc = mcIn;
@@ -143,11 +143,11 @@ public class IntegratedServer extends MinecraftServer {
    @Override
    public boolean startServer() throws IOException {
       logger.info("Starting integrated minecraft server version 1.8.8");
-      this.L(true);
-      this.b(true);
-      this.i(true);
-      this.v(true);
-      this.E(true);
+      this.setOnlineMode(true);
+      this.setCanSpawnAnimals(true);
+      this.setCanSpawnNPCs(true);
+      this.setAllowPvp(true);
+      this.setAllowFlight(true);
       logger.info("Generating keypair");
       this.setKeyPair(CryptManager.generateKeyPair());
       if (Reflector.FMLCommonHandler_handleServerAboutToStart.exists()) {
@@ -158,9 +158,13 @@ public class IntegratedServer extends MinecraftServer {
       }
 
       this.loadAllWorlds(
-         this.getFolderName(), this.l(), this.theWorldSettings.getSeed(), this.theWorldSettings.getTerrainType(), this.theWorldSettings.getWorldName()
+         this.getFolderName(),
+         this.getWorldName(),
+         this.theWorldSettings.getSeed(),
+         this.theWorldSettings.getTerrainType(),
+         this.theWorldSettings.getWorldName()
       );
-      this.G(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
+      this.setMOTD(this.getServerOwner() + " - " + this.worldServers[0].getWorldInfo().getWorldName());
       if (Reflector.FMLCommonHandler_handleServerStarting.exists()) {
          Object object2 = Reflector.call(Reflector.FMLCommonHandler_instance);
          if (Reflector.FMLCommonHandler_handleServerStarting.getReturnType() == boolean.class) {
@@ -371,7 +375,7 @@ public class IntegratedServer extends MinecraftServer {
    }
 
    public void setStaticInstance() {
-      this.T();
+      this.setInstance();
    }
 
    public boolean getPublic() {

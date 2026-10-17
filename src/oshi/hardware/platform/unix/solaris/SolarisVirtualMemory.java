@@ -18,12 +18,12 @@ public final class SolarisVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Long> pagesOut = Memoizer.memoize(SolarisVirtualMemory::queryPagesOut, Memoizer.defaultExpiration());
 
    @Override
-   public long y() {
+   public long getSwapUsed() {
       return this.usedTotal.get().getA();
    }
 
    @Override
-   public long n() {
+   public long getSwapTotal() {
       return this.usedTotal.get().getB();
    }
 

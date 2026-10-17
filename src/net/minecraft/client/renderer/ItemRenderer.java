@@ -45,8 +45,8 @@ public class ItemRenderer {
    private static final ResourceLocation RES_UNDERWATER_OVERLAY = new ResourceLocation("textures/misc/underwater.png");
    private final Minecraft mc;
    private ItemStack itemToRender;
-   private float j;
-   private float I;
+   private float equippedProgress;
+   private float prevEquippedProgress;
    private final RenderManager renderManager;
    private final RenderItem itemRenderer;
    private int equippedItemSlot = -1;
@@ -228,7 +228,7 @@ public class ItemRenderer {
    }
 
    private void performDrinking(AbstractClientPlayer clientPlayer, float partialTicks) {
-      float f = clientPlayer.p() - partialTicks + 1.0F;
+      float f = clientPlayer.getItemInUseCount() - partialTicks + 1.0F;
       float g = f / this.itemToRender.getMaxItemUseDuration();
       float h = MathHelper.abs(MathHelper.cos(f / 4.0F * (float) Math.PI) * 0.1F);
       if (g >= 0.8F) {
@@ -278,7 +278,7 @@ public class ItemRenderer {
       GlStateManager.rotate(-12.0F, 0.0F, 1.0F, 0.0F);
       GlStateManager.rotate(-8.0F, 1.0F, 0.0F, 0.0F);
       GlStateManager.translate(-0.9F, 0.2F, 0.0F);
-      float f = this.itemToRender.getMaxItemUseDuration() - (clientPlayer.p() - partialTicks + 1.0F);
+      float f = this.itemToRender.getMaxItemUseDuration() - (clientPlayer.getItemInUseCount() - partialTicks + 1.0F);
       float g = f / 20.0F;
       g = (g * g + g * 2.0F) / 3.0F;
       if (g > 1.0F) {
@@ -312,7 +312,7 @@ public class ItemRenderer {
    // $VF: Unable to simplify switch on enum
    // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public void renderItemInFirstPerson(float partialTicks) {
-      float f = 1.0F - (this.I + (this.j - this.I) * partialTicks);
+      float f = 1.0F - (this.prevEquippedProgress + (this.equippedProgress - this.prevEquippedProgress) * partialTicks);
       EntityPlayerSP entityPlayerSP = this.mc.thePlayer;
       float g = entityPlayerSP.getSwingProgress(partialTicks);
       float h = entityPlayerSP.prevRotationPitch + (entityPlayerSP.rotationPitch - entityPlayerSP.prevRotationPitch) * partialTicks;
@@ -329,7 +329,7 @@ public class ItemRenderer {
 
          if (this.itemToRender.getItem() instanceof ItemMap) {
             this.renderItemMap(entityPlayerSP, h, f, g);
-         } else if (entityPlayerSP.p() <= 0 && !J) {
+         } else if (entityPlayerSP.getItemInUseCount() <= 0 && !J) {
             this.doItemUsedTransformations(g);
             this.L(f, g);
          } else {
@@ -603,7 +603,7 @@ public class ItemRenderer {
    }
 
    public void updateEquippedItem() {
-      this.I = this.j;
+      this.prevEquippedProgress = this.equippedProgress;
       EntityPlayerSP entityPlayerSP = this.mc.thePlayer;
       ItemStack itemStack = entityPlayerSP.inventory.getCurrentItem();
       boolean bl = false;
@@ -634,9 +634,9 @@ public class ItemRenderer {
 
       float f = 0.4F;
       float g = bl ? 0.0F : 1.0F;
-      float h = MathHelper.clamp_float(g - this.j, -f, f);
-      this.j += h;
-      if (this.j < 0.1F) {
+      float h = MathHelper.clamp_float(g - this.equippedProgress, -f, f);
+      this.equippedProgress += h;
+      if (this.equippedProgress < 0.1F) {
          if (Config.isShaders()) {
             Shaders.setItemToRenderMain(itemStack);
          }
@@ -647,10 +647,10 @@ public class ItemRenderer {
    }
 
    public void resetEquippedProgress() {
-      this.j = 0.0F;
+      this.equippedProgress = 0.0F;
    }
 
    public void resetEquippedProgress2() {
-      this.j = 0.0F;
+      this.equippedProgress = 0.0F;
    }
 }

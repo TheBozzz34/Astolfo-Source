@@ -27,17 +27,17 @@ public class GuiScreenRealmsProxy extends GuiScreen {
       super.initGui();
    }
 
-   public void i(String string, int i, int j, int k) {
-      super.d(this.fontRendererObj, string, i, j, k);
+   public void func_154325_a(String string, int i, int j, int k) {
+      super.drawCenteredString(this.fontRendererObj, string, i, j, k);
    }
 
    public void V(String string, int i, int j, int k) {
-      super.I(this.fontRendererObj, string, i, j, k);
+      super.drawString(this.fontRendererObj, string, i, j, k);
    }
 
    @Override
    public void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height) {
-      this.field_154330_a.u(x, y, textureX, textureY, width, height);
+      this.field_154330_a.blit(x, y, textureX, textureY, width, height);
       super.drawTexturedModalRect(x, y, textureX, textureY, width, height);
    }
 
@@ -83,7 +83,7 @@ public class GuiScreenRealmsProxy extends GuiScreen {
 
    @Override
    public void updateScreen() {
-      this.field_154330_a.Z();
+      this.field_154330_a.tick();
       super.updateScreen();
    }
 
@@ -132,30 +132,30 @@ public class GuiScreenRealmsProxy extends GuiScreen {
 
    @Override
    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-      this.field_154330_a.I(mouseX, mouseY, mouseButton);
+      this.field_154330_a.mouseClicked(mouseX, mouseY, mouseButton);
       super.mouseClicked(mouseX, mouseY, mouseButton);
    }
 
    @Override
    public void handleMouseInput() throws IOException {
-      this.field_154330_a.E();
+      this.field_154330_a.mouseEvent();
       super.handleMouseInput();
    }
 
    @Override
    public void I() throws IOException {
-      this.field_154330_a.F();
+      this.field_154330_a.keyboardEvent();
       super.I();
    }
 
    @Override
    public void mouseReleased(int mouseX, int mouseY, int state) {
-      this.field_154330_a.y(mouseX, mouseY, state);
+      this.field_154330_a.mouseReleased(mouseX, mouseY, state);
    }
 
    @Override
    public void mouseClickMove(int mouseX, int mouseY, int clickedMouseButton, long timeSinceLastClick) {
-      this.field_154330_a.n(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
+      this.field_154330_a.mouseDragged(mouseX, mouseY, clickedMouseButton, timeSinceLastClick);
    }
 
    @Override
@@ -170,7 +170,7 @@ public class GuiScreenRealmsProxy extends GuiScreen {
 
    @Override
    public void onGuiClosed() {
-      this.field_154330_a.n();
+      this.field_154330_a.removed();
       super.onGuiClosed();
    }
 }

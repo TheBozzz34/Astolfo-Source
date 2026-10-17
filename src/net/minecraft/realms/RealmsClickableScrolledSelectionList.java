@@ -14,7 +14,7 @@ public class RealmsClickableScrolledSelectionList {
    }
 
    public int b() {
-      return this.proxy.X();
+      return this.proxy.func_178044_e();
    }
 
    public int G() {
@@ -46,12 +46,12 @@ public class RealmsClickableScrolledSelectionList {
    public void renderBackground() {
    }
 
-   public int n() {
+   public int getMaxPosition() {
       return 0;
    }
 
-   public int g() {
-      return this.proxy.X() / 2 + 124;
+   public int getScrollbarPosition() {
+      return this.proxy.func_178044_e() / 2 + 124;
    }
 
    public void mouseEvent() {
@@ -66,7 +66,7 @@ public class RealmsClickableScrolledSelectionList {
    }
 
    public int j() {
-      return this.proxy.Y();
+      return this.proxy.getAmountScrolled();
    }
 
    public void renderList(int i, int j, int k, int l) {

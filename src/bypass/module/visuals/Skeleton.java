@@ -84,7 +84,7 @@ public final class Skeleton extends Module {
          && (!GameUtil.isFullyInvisible(entityPlayer) || this.checks.getSetting("Invisible").asBoolean());
    }
 
-   private void drawSkeleton(EntityPlayer entityPlayer, double d, double d2, double d3) {
+   private void drawSkeleton(EntityPlayer entityPlayer, double d, double e, double d2) {
       float[][] floatss = modelRotations.get(entityPlayer);
       if (floatss != null) {
          int i = this.color.getValue().getRGB();
@@ -95,7 +95,7 @@ public final class Skeleton extends Module {
          GL11.glPushMatrix();
          GL11.glLineWidth(1.0F);
          RenderUtil.setColor(i);
-         GL11.glTranslated(d, d2, d3);
+         GL11.glTranslated(d, e, d2);
          float f = entityPlayer.prevRenderYawOffset + (entityPlayer.renderYawOffset - entityPlayer.prevRenderYawOffset) * mc.timer.timerSpeed;
          GL11.glRotatef(-f, 0.0F, 1.0F, 0.0F);
          GL11.glTranslated(0.0, 0.0, entityPlayer.isSneaking() ? -0.235 : 0.0);

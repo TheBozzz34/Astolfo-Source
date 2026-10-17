@@ -8,13 +8,13 @@ public class Waypoint {
    private final double y;
    private final double z;
 
-   public Waypoint(String string, String string2, int i, double d, double d2, double d3) {
+   public Waypoint(String string, String string2, int i, double d, double e, double d2) {
       this.name = string;
       this.server = string2;
       this.dimension = i;
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
    }
 
    public String getName() {

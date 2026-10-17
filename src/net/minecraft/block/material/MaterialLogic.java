@@ -3,7 +3,7 @@ package net.minecraft.block.material;
 public class MaterialLogic extends Material {
    public MaterialLogic(MapColor color) {
       super(color);
-      this.h();
+      this.setAdventureModeExempt();
    }
 
    @Override

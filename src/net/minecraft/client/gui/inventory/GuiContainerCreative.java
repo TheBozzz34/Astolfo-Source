@@ -166,7 +166,7 @@ public class GuiContainerCreative extends InventoryEffectRenderer {
          }
       } else {
          this.inventorySlots.slotClick(slotIn == null ? slotId : slotIn.slotNumber, clickedButton, clickType, this.mc.thePlayer);
-         if (Container.p(clickedButton) == 2) {
+         if (Container.getDragEvent(clickedButton) == 2) {
             for (int j = 0; j < 9; j++) {
                this.mc.playerController.sendSlotPacket(this.inventorySlots.getSlot(45 + j).getStack(), 36 + j);
             }

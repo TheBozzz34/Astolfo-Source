@@ -90,13 +90,13 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    private String clientBrand;
    public MovementInput movementInput;
    public Minecraft mc;
-   public int eD;
+   public int sprintToggleTimer;
    public int sprintingTicksLeft;
    public float renderArmYaw;
    public float renderArmPitch;
    public float prevRenderArmYaw;
    public float prevRenderArmPitch;
-   private int eU;
+   private int horseJumpPowerCounter;
    private float horseJumpPower;
    public float timeInPortal;
    public float prevTimeInPortal;
@@ -136,7 +136,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          super.onUpdate();
          Astolfo.INSTANCE.getEventBus().post(new UpdateEvent(EventState.POST));
          boolean bl = Astolfo.INSTANCE.getModuleManager().get(RiderGod.class).isEnabled();
-         if (this.E()) {
+         if (this.isRiding()) {
             this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
             this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
             if (RiderGod.isExactly1122Protocol()) {
@@ -193,7 +193,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                this.eF = bl2;
             }
 
-            if (this.Y_()) {
+            if (this.isCurrentViewEntity()) {
                double d = motionEvent.getX();
                double e = motionEvent.getMinY();
                double d2 = motionEvent.getZ();
@@ -291,7 +291,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.eF = bl2;
          }
 
-         if (this.Y_()) {
+         if (this.isCurrentViewEntity()) {
             double d = motionEvent.getX();
             double e = motionEvent.getMinY();
             double d2 = motionEvent.getZ();
@@ -442,7 +442,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public boolean v() {
+   public boolean isUser() {
       return true;
    }
 
@@ -567,11 +567,11 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public boolean C() {
+   public boolean isServerWorld() {
       return true;
    }
 
-   public boolean Y8() {
+   public boolean isRidingHorse() {
       return this.ridingEntity != null && this.ridingEntity instanceof EntityHorse && ((EntityHorse)this.ridingEntity).isHorseSaddled();
    }
 
@@ -640,13 +640,13 @@ public class EntityPlayerSP extends AbstractClientPlayer {
    }
 
    @Override
-   public void L(Entity entity) {
-      this.mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT);
+   public void onCriticalHit(Entity entityHit) {
+      this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
    }
 
    @Override
-   public void x(Entity entity) {
-      this.mc.effectRenderer.emitParticleAtEntity(entity, EnumParticleTypes.CRIT_MAGIC);
+   public void onEnchantmentCritical(Entity entityHit) {
+      this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
    }
 
    @Override
@@ -663,10 +663,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       this.rotationYaw = rotationYawEvent.getYaw();
       super.updateEntityActionState();
       this.rotationYaw = f;
-      if (this.Y_()) {
+      if (this.isCurrentViewEntity()) {
          this.moveStrafing = this.movementInput.moveStrafe;
          this.moveForward = this.movementInput.moveForward;
-         this.Lr = this.movementInput.jump;
+         this.isJumping = this.movementInput.jump;
          this.prevRenderArmYaw = this.renderArmYaw;
          this.prevRenderArmPitch = this.renderArmPitch;
          this.renderArmPitch = (float)(this.renderArmPitch + (this.rotationPitch - this.renderArmPitch) * 0.5);
@@ -674,7 +674,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
    }
 
-   public boolean Y_() {
+   public boolean isCurrentViewEntity() {
       return this.mc.getRenderViewEntity() == this;
    }
 
@@ -687,8 +687,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          }
       }
 
-      if (this.eD > 0) {
-         this.eD--;
+      if (this.sprintToggleTimer > 0) {
+         this.sprintToggleTimer--;
       }
 
       this.prevTimeInPortal = this.timeInPortal;
@@ -731,10 +731,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       float f = 0.8F;
       boolean bl3 = this.movementInput.moveForward >= f;
       this.movementInput.updatePlayerMoveState();
-      if (this.isUsingItem() && !this.E() && !ModuleManager.noSlow.isEnabled()) {
+      if (this.isUsingItem() && !this.isRiding() && !ModuleManager.noSlow.isEnabled()) {
          this.movementInput.moveStrafe *= 0.2F;
          this.movementInput.moveForward *= 0.2F;
-         this.eD = 0;
+         this.sprintToggleTimer = 0;
       }
 
       this.pushOutOfBlocks(this.posX - this.width * 0.35, this.getEntityBoundingBox().minY + 0.5, this.posZ + this.width * 0.35);
@@ -750,8 +750,8 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          && bl4
          && !this.isUsingItem()
          && !this.isPotionActive(Potion.blindness)) {
-         if (this.eD <= 0 && !this.mc.gameSettings.Ze.isKeyDown()) {
-            this.eD = 7;
+         if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown()) {
+            this.sprintToggleTimer = 7;
          } else {
             this.setSprinting(true);
          }
@@ -762,7 +762,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          && bl4
          && !this.isUsingItem()
          && !this.isPotionActive(Potion.blindness)
-         && this.mc.gameSettings.Ze.isKeyDown()) {
+         && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
          this.setSprinting(true);
       }
 
@@ -775,7 +775,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
 
       if (this.capabilities.allowFlying) {
-         if (this.mc.playerController.C()) {
+         if (this.mc.playerController.isSpectatorMode()) {
             if (!this.capabilities.isFlying) {
                this.capabilities.isFlying = true;
                this.sendPlayerAbilities();
@@ -791,7 +791,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          }
       }
 
-      if (this.capabilities.isFlying && this.Y_()) {
+      if (this.capabilities.isFlying && this.isCurrentViewEntity()) {
          if (this.movementInput.sneak) {
             this.motionY = this.motionY - this.capabilities.getFlySpeed() * 3.0F;
          }
@@ -801,26 +801,26 @@ public class EntityPlayerSP extends AbstractClientPlayer {
          }
       }
 
-      if (this.Y8()) {
-         if (this.eU < 0) {
-            this.eU++;
-            if (this.eU == 0) {
+      if (this.isRidingHorse()) {
+         if (this.horseJumpPowerCounter < 0) {
+            this.horseJumpPowerCounter++;
+            if (this.horseJumpPowerCounter == 0) {
                this.horseJumpPower = 0.0F;
             }
          }
 
          if (bl && !this.movementInput.jump) {
-            this.eU = -10;
+            this.horseJumpPowerCounter = -10;
             this.sendHorseJump();
          } else if (!bl && this.movementInput.jump) {
-            this.eU = 0;
+            this.horseJumpPowerCounter = 0;
             this.horseJumpPower = 0.0F;
          } else if (bl) {
-            this.eU++;
-            if (this.eU < 10) {
-               this.horseJumpPower = this.eU * 0.1F;
+            this.horseJumpPowerCounter++;
+            if (this.horseJumpPowerCounter < 10) {
+               this.horseJumpPower = this.horseJumpPowerCounter * 0.1F;
             } else {
-               this.horseJumpPower = 0.8F + 2.0F / (this.eU - 9) * 0.1F;
+               this.horseJumpPower = 0.8F + 2.0F / (this.horseJumpPowerCounter - 9) * 0.1F;
             }
          }
       } else {
@@ -828,7 +828,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
       }
 
       super.onLivingUpdate();
-      if (this.onGround && this.capabilities.isFlying && !this.mc.playerController.C()) {
+      if (this.onGround && this.capabilities.isFlying && !this.mc.playerController.isSpectatorMode()) {
          this.capabilities.isFlying = false;
          this.sendPlayerAbilities();
       }

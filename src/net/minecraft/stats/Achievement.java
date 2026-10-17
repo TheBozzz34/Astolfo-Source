@@ -56,7 +56,7 @@ public class Achievement extends StatBase {
       return this;
    }
 
-   public Achievement J() {
+   public Achievement setSpecial() {
       this.isSpecial = true;
       return this;
    }

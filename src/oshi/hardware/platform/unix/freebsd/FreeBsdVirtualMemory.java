@@ -16,12 +16,12 @@ public final class FreeBsdVirtualMemory extends AbstractVirtualMemory {
    private final Supplier<Long> pagesOut = Memoizer.memoize(FreeBsdVirtualMemory::queryPagesOut, Memoizer.defaultExpiration());
 
    @Override
-   public long y() {
+   public long getSwapUsed() {
       return this.used.get();
    }
 
    @Override
-   public long n() {
+   public long getSwapTotal() {
       return this.total.get();
    }
 

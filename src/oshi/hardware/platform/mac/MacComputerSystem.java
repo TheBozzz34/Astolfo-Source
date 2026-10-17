@@ -17,18 +17,18 @@ public final class MacComputerSystem extends AbstractComputerSystem {
    private final Supplier<Triplet<String, String, String>> manufacturerModelSerial = Memoizer.memoize(MacComputerSystem::platformExpert);
 
    @Override
-   public String V() {
+   public String getManufacturer() {
       return this.manufacturerModelSerial.get().v();
    }
 
    @Override
-   public String z() {
+   public String getModel() {
       return this.manufacturerModelSerial.get().q();
    }
 
    @Override
-   public String k() {
-      return this.manufacturerModelSerial.get().U();
+   public String getSerialNumber() {
+      return this.manufacturerModelSerial.get().getC();
    }
 
    @Override

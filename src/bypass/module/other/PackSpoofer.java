@@ -17,12 +17,16 @@ public final class PackSpoofer extends Module {
    private Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.RECEIVED && packetEvent.getPacket() instanceof S48PacketResourcePackSend && mc.thePlayer != null) {
          S48PacketResourcePackSend s48PacketResourcePackSend = (S48PacketResourcePackSend)packetEvent.getPacket();
-         mc.thePlayer.sendQueue.addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.r() == null ? "" : s48PacketResourcePackSend.r(), C19PacketResourcePackStatus.Action.ACCEPTED));
          mc.thePlayer
             .sendQueue
-            .addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.r() == null ? "" : s48PacketResourcePackSend.r(), C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED));
+            .addToSendQueue(new C19PacketResourcePackStatus(s48PacketResourcePackSend.getHash() == null ? "" : s48PacketResourcePackSend.getHash(), C19PacketResourcePackStatus.Action.ACCEPTED));
+         mc.thePlayer
+            .sendQueue
+            .addToSendQueue(
+               new C19PacketResourcePackStatus(s48PacketResourcePackSend.getHash() == null ? "" : s48PacketResourcePackSend.getHash(), C19PacketResourcePackStatus.Action.SUCCESSFULLY_LOADED)
+            );
          client.getNotificationManager()
-            .createNotification("Pack spoofed", String.format("Pack spoofed (%s - %s)", s48PacketResourcePackSend.R(), s48PacketResourcePackSend.r()), NotificationType.SUCCESS, 3500)
+            .createNotification("Pack spoofed", String.format("Pack spoofed (%s - %s)", s48PacketResourcePackSend.getURL(), s48PacketResourcePackSend.getHash()), NotificationType.SUCCESS, 3500)
             .show();
          packetEvent.cancel();
       }

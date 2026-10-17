@@ -22,7 +22,7 @@ public class Triplet<A, B, C> {
       return this.b;
    }
 
-   public final C U() {
+   public final C getC() {
       return this.c;
    }
 }

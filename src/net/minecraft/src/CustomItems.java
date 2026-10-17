@@ -519,8 +519,8 @@ public class CustomItems {
       Item item = itemStack.getItem();
       if (cip.damage != null) {
          int i = itemStack.getItemDamage();
-         if (cip.M != 0) {
-            i &= cip.M;
+         if (cip.damageMask != 0) {
+            i &= cip.damageMask;
          }
 
          if (cip.damagePercent) {
@@ -662,7 +662,7 @@ public class CustomItems {
                         GlStateManager.matrixMode(5890);
                      }
 
-                     Blender.setupBlend(customItemProperties.a, 1.0F);
+                     Blender.setupBlend(customItemProperties.blend, 1.0F);
                      GlStateManager.pushMatrix();
                      GlStateManager.scale(f / 2.0F, f / 2.0F, f / 2.0F);
                      float g = customItemProperties.speed * (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F / 8.0F;
@@ -749,7 +749,7 @@ public class CustomItems {
                         GlStateManager.depthMask(false);
                      }
 
-                     Blender.setupBlend(customItemProperties.a, 1.0F);
+                     Blender.setupBlend(customItemProperties.blend, 1.0F);
                      GlStateManager.disableLighting();
                      GlStateManager.matrixMode(5890);
                      GlStateManager.loadIdentity();

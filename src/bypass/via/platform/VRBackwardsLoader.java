@@ -46,7 +46,7 @@ public class VRBackwardsLoader implements ViaBackwardsPlatform, Runnable {
 
    @Override
    public void run() {
-      ViaBackwards.init(this, new VRBackwardsLoader.rgp());
+      ViaBackwards.init(this, new VRBackwardsLoader.DefaultBackwardsConfig());
       if (!this.isOutdated()) {
          String string = ViaBackwards.class.getPackage().getImplementationVersion();
          Via.getManager().getSubPlatforms().add(string != null ? string : "UNKNOWN");
@@ -103,7 +103,7 @@ public class VRBackwardsLoader implements ViaBackwardsPlatform, Runnable {
       return false;
    }
 
-   public class rgp implements ViaBackwardsConfig {
+   public class DefaultBackwardsConfig implements ViaBackwardsConfig {
       @Override
       public boolean addCustomEnchantsToLore() {
          return true;

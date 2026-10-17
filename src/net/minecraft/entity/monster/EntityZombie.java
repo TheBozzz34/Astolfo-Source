@@ -180,7 +180,7 @@ public class EntityZombie extends EntityMob {
          }
       }
 
-      if (this.E() && this.getAttackTarget() != null && this.ridingEntity instanceof EntityChicken) {
+      if (this.isRiding() && this.getAttackTarget() != null && this.ridingEntity instanceof EntityChicken) {
          ((EntityLiving)this.ridingEntity).getNavigator().setPath(this.getNavigator().getPath(), 1.5);
       }
 
@@ -358,7 +358,7 @@ public class EntityZombie extends EntityMob {
 
          EntityLiving entityLiving = (EntityLiving)entityLivingIn;
          EntityZombie entityZombie = new EntityZombie(this.worldObj);
-         entityZombie.z(entityLivingIn);
+         entityZombie.copyLocationAndAnglesFrom(entityLivingIn);
          this.worldObj.removeEntity(entityLivingIn);
          entityZombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityZombie)), (IEntityLivingData)null);
          entityZombie.setVillager(true);
@@ -389,7 +389,7 @@ public class EntityZombie extends EntityMob {
 
    @Override
    public boolean func_175448_a(ItemStack stack) {
-      return stack.getItem() == Items.egg && this.isChild() && this.E() ? false : super.func_175448_a(stack);
+      return stack.getItem() == Items.egg && this.isChild() && this.isRiding() ? false : super.func_175448_a(stack);
    }
 
    @Override
@@ -517,7 +517,7 @@ public class EntityZombie extends EntityMob {
 
    public void convertToVillager() {
       EntityVillager entityVillager = new EntityVillager(this.worldObj);
-      entityVillager.z(this);
+      entityVillager.copyLocationAndAnglesFrom(this);
       entityVillager.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityVillager)), (IEntityLivingData)null);
       entityVillager.setLookingForHome();
       if (this.isChild()) {

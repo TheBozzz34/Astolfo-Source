@@ -31,7 +31,7 @@ public class TextureAnimations {
       }
    }
 
-   public static void s() {
+   public static void updateCustomAnimations() {
       if (textureAnimations != null && Config.pN()) {
          i();
       }

@@ -698,8 +698,8 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
             this.moveForward = g;
          }
 
-         this.Lr = bl;
-         this.v(sneaking);
+         this.isJumping = bl;
+         this.setSneaking(sneaking);
       }
    }
 
@@ -799,13 +799,13 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
    }
 
    @Override
-   public void L(Entity entity) {
-      this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entity, 4));
+   public void onCriticalHit(Entity entityHit) {
+      this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entityHit, 4));
    }
 
    @Override
-   public void x(Entity entity) {
-      this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entity, 5));
+   public void onEnchantmentCritical(Entity entityHit) {
+      this.getServerForPlayer().getEntityTracker().func_151248_b(this, new S0BPacketAnimation(entityHit, 5));
    }
 
    @Override
@@ -831,7 +831,7 @@ public class EntityPlayerMP extends EntityPlayer implements ICrafting {
       }
 
       this.sendPlayerAbilities();
-      this.l();
+      this.markPotionsDirty();
    }
 
    @Override

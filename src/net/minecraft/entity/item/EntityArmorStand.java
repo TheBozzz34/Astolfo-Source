@@ -55,8 +55,8 @@ public class EntityArmorStand extends EntityLivingBase {
    }
 
    @Override
-   public boolean C() {
-      return super.C() && !this.hasNoGravity();
+   public boolean isServerWorld() {
+      return super.isServerWorld() && !this.hasNoGravity();
    }
 
    @Override

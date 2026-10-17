@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import net.minecraft.client.renderer.GlStateManager;
 
 public final class GlyphPage {
-   private final GlyphPage.aun[] glyphs = new GlyphPage.aun[256];
+   private final GlyphPage.Glyph[] glyphs = new GlyphPage.Glyph[256];
    private int textureId = -1;
    private int maxGlyphHeight = 0;
    private int textureWidth;
@@ -48,7 +48,7 @@ public final class GlyphPage {
             }
          }
 
-         this.glyphs[n] = new GlyphPage.aun(l, m, i3, i2);
+         this.glyphs[n] = new GlyphPage.Glyph(l, m, i3, i2);
          l += i3 + j;
          if (l + i3 + j > this.textureWidth) {
             this.textureWidth = l + i3 + j;
@@ -84,7 +84,7 @@ public final class GlyphPage {
       GlStateManager.bindTexture(this.textureId);
    }
 
-   public GlyphPage.aun getGlyph(char c) {
+   public GlyphPage.Glyph getGlyph(char c) {
       return this.glyphs[c];
    }
 
@@ -118,13 +118,13 @@ public final class GlyphPage {
       return this.textureHeight;
    }
 
-   public class aun {
+   public class Glyph {
       public final int x;
       public final int y;
       public final int width;
       public final int height;
 
-      public aun(int i, int j, int k, int l) {
+      public Glyph(int i, int j, int k, int l) {
          this.x = i;
          this.y = j;
          this.width = k;

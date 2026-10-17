@@ -18,12 +18,12 @@ public final class SolarisGlobalMemory extends AbstractGlobalMemory {
    private final Supplier<VirtualMemory> vm = Memoizer.memoize(SolarisGlobalMemory::createVirtualMemory);
 
    @Override
-   public long d() {
+   public long getAvailable() {
       return this.availTotal.get().getA();
    }
 
    @Override
-   public long f() {
+   public long getTotal() {
       return this.availTotal.get().getB();
    }
 

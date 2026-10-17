@@ -47,17 +47,17 @@ public abstract class GuiSlot {
       this.right = width;
    }
 
-   public void m(int i, int j, int k, int m) {
-      this.width = i;
-      this.height = j;
-      this.top = k;
-      this.bottom = m;
+   public void setDimensions(int widthIn, int heightIn, int topIn, int bottomIn) {
+      this.width = widthIn;
+      this.height = heightIn;
+      this.top = topIn;
+      this.bottom = bottomIn;
       this.left = 0;
-      this.right = i;
+      this.right = widthIn;
    }
 
-   public void C(boolean bl) {
-      this.showSelectionBox = bl;
+   public void setShowSelectionBox(boolean showSelectionBoxIn) {
+      this.showSelectionBox = showSelectionBoxIn;
    }
 
    public void setHasListHeader(boolean hasListHeaderIn, int headerPaddingIn) {
@@ -102,9 +102,9 @@ public abstract class GuiSlot {
       return i < this.getScrollBarX() && i >= k && i <= l && n >= 0 && m >= 0 && n < this.getSize() ? n : -1;
    }
 
-   public void U(int i, int j) {
-      this.scrollUpButtonID = i;
-      this.scrollDownButtonID = j;
+   public void registerScrollButtons(int scrollUpButtonIDIn, int scrollDownButtonIDIn) {
+      this.scrollUpButtonID = scrollUpButtonIDIn;
+      this.scrollDownButtonID = scrollDownButtonIDIn;
    }
 
    public void bindAmountScrolled() {
@@ -115,7 +115,7 @@ public abstract class GuiSlot {
       return Math.max(0, this.getContentHeight() - (this.bottom - this.top - 4));
    }
 
-   public int Y() {
+   public int getAmountScrolled() {
       return (int)this.amountScrolled;
    }
 
@@ -164,8 +164,8 @@ public abstract class GuiSlot {
          this.drawSelectionBox(k, l, mouseXIn, mouseYIn);
          GlStateManager.disableDepth();
          byte b = 4;
-         this.W(0, this.top, 255, 255);
-         this.W(this.bottom, this.height, 255, 255);
+         this.overlayBackground(0, this.top, 255, 255);
+         this.overlayBackground(this.bottom, this.height, 255, 255);
          GlStateManager.enableBlend();
          GlStateManager.tryBlendFuncSeparate(770, 771, 0, 1);
          GlStateManager.disableAlpha();
@@ -296,8 +296,8 @@ public abstract class GuiSlot {
       }
    }
 
-   public void a(boolean bl) {
-      this.enabled = bl;
+   public void setEnabled(boolean enabledIn) {
+      this.enabled = enabledIn;
    }
 
    public boolean getEnabled() {
@@ -346,8 +346,8 @@ public abstract class GuiSlot {
       return this.width / 2 + 124;
    }
 
-   public void W(int i, int j, int k, int m) {
-      this.W(0, i, this.width, j, v, l);
+   public void overlayBackground(int startY, int endY, int startAlpha, int endAlpha) {
+      this.W(0, startY, this.width, endY, v, l);
    }
 
    public void W(int i, int j, int k, int m, int n, int i2) {
@@ -383,7 +383,7 @@ public abstract class GuiSlot {
       this.right = leftIn + this.width;
    }
 
-   public int l() {
+   public int getSlotHeight() {
       return this.slotHeight;
    }
 }

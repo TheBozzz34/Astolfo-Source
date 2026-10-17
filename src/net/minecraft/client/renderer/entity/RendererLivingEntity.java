@@ -42,8 +42,8 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
    public FloatBuffer brightnessBuffer = GLAllocation.createDirectFloatBuffer(4);
    public List<LayerRenderer<T>> layerRenderers = Lists.newArrayList();
    public boolean renderOutlines = false;
-   public static float p = 64.0F;
-   public static float E = 32.0F;
+   public static float NAME_TAG_RANGE = 64.0F;
+   public static float NAME_TAG_RANGE_SNEAK = 32.0F;
    private static float f;
 
    public RendererLivingEntity(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
@@ -86,10 +86,10 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
          || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Pre_Constructor, entity, this, x, y, z)) {
          GlStateManager.pushMatrix();
          GlStateManager.disableCull();
-         this.mainModel.swingProgress = this.o((T)entity, partialTicks);
-         this.mainModel.isRiding = entity.E();
+         this.mainModel.swingProgress = this.getSwingProgress((T)entity, partialTicks);
+         this.mainModel.isRiding = entity.isRiding();
          if (Reflector.ForgeEntity_shouldRiderSit.exists()) {
-            this.mainModel.isRiding = entity.E()
+            this.mainModel.isRiding = entity.isRiding()
                && entity.ridingEntity != null
                && Reflector.callBoolean(entity.ridingEntity, Reflector.ForgeEntity_shouldRiderSit);
          }
@@ -152,7 +152,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                }
 
                if (bl) {
-                  this.z();
+                  this.unsetScoreTeamColor();
                }
             } else {
                boolean bl2 = this.setDoRenderBrightness((T)entity, partialTicks);
@@ -218,7 +218,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       return true;
    }
 
-   public void z() {
+   public void unsetScoreTeamColor() {
       GlStateManager.enableLighting();
       GlStateManager.setActiveTexture(OpenGlHelper.defaultTexUnit);
       GlStateManager.enableTexture2D();
@@ -404,8 +404,8 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       }
    }
 
-   public float o(T entityLivingBase, float g) {
-      return entityLivingBase.getSwingProgress(g);
+   public float getSwingProgress(T livingBase, float partialTickTime) {
+      return livingBase.getSwingProgress(partialTickTime);
    }
 
    public float handleRotationFloat(T livingBase, float partialTicks) {
@@ -438,7 +438,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
          || !Reflector.postForgeBusEvent(Reflector.RenderLivingEvent_Specials_Pre_Constructor, entity, this, x, y, z)) {
          if (this.canRenderName((T)entity)) {
             double d = entity.getDistanceSqToEntity(this.renderManager.livingPlayer);
-            float f = entity.isSneaking() ? E : p;
+            float f = entity.isSneaking() ? NAME_TAG_RANGE_SNEAK : NAME_TAG_RANGE;
             if (d < f * f) {
                String string = entity.getDisplayName().getFormattedText();
                GlStateManager.alphaFunc(516, 0.1F);

@@ -105,7 +105,7 @@ public class GuiIngameMenu extends GuiScreen {
          }
       }
 
-      this.d(this.fontRendererObj, I18n.format("menu.game"), this.width / 2, 40, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("menu.game"), this.width / 2, 40, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 

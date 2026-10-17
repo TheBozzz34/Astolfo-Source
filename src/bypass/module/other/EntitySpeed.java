@@ -13,7 +13,7 @@ public class EntitySpeed extends Module {
    private final NumberSetting<Float> vertical = new NumberSetting<>("Vertical", "Vertical move speed", 3.0F, 0.1F, 5.0F);
    @EventHandler(UpdateEvent.class)
    private Listener<UpdateEvent> onUpdate = updateEvent -> {
-      if (mc.thePlayer.E()) {
+      if (mc.thePlayer.isRiding()) {
          if (mc.thePlayer.ridingEntity instanceof EntityHorse) {
             EntityHorse entityHorse = (EntityHorse)mc.thePlayer.ridingEntity;
             entityHorse.setHorseSaddled(true);

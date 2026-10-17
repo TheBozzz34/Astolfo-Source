@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 public class MapGenCaves extends MapGenBase {
-   public void func_180703_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3) {
-      this.func_180702_a(l, i, j, chunkPrimer, d, d2, d3, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5);
+   public void func_180703_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double e, double d2) {
+      this.func_180702_a(l, i, j, chunkPrimer, d, e, d2, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5);
    }
 
-   public void func_180702_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double d2, double d3, float f, float g, float h, int k, int m, double d4) {
-      double e = i * 16 + 8;
+   public void func_180702_a(long l, int i, int j, ChunkPrimer chunkPrimer, double d, double e, double d2, float f, float g, float h, int k, int m, double d3) {
+      double d4 = i * 16 + 8;
       double d5 = j * 16 + 8;
       float f2 = 0.0F;
       float f3 = 0.0F;
@@ -38,12 +38,12 @@ public class MapGenCaves extends MapGenBase {
 
       while (k < m) {
          double d6 = 1.5 + MathHelper.sin(k * (float) Math.PI / m) * f * 1.0F;
-         double d7 = d6 * d4;
+         double d7 = d6 * d3;
          float f4 = MathHelper.cos(h);
          float f5 = MathHelper.sin(h);
          d += MathHelper.cos(g) * f4;
-         d2 += f5;
-         d3 += MathHelper.sin(g) * f4;
+         e += f5;
+         d2 += MathHelper.sin(g) * f4;
          if (bl2) {
             h *= 0.92F;
          } else {
@@ -57,27 +57,27 @@ public class MapGenCaves extends MapGenBase {
          f3 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 2.0F;
          f2 += (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
          if (!bl && k == i2 && f > 1.0F && m > 0) {
-            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, d2, d3, random.nextFloat() * 0.5F + 0.5F, g - (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
-            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, d2, d3, random.nextFloat() * 0.5F + 0.5F, g + (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
+            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, e, d2, random.nextFloat() * 0.5F + 0.5F, g - (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
+            this.func_180702_a(random.nextLong(), i, j, chunkPrimer, d, e, d2, random.nextFloat() * 0.5F + 0.5F, g + (float) (Math.PI / 2), h / 3.0F, k, m, 1.0);
             return;
          }
 
          if (bl || random.nextInt(4) != 0) {
-            double d8 = d - e;
-            double d9 = d3 - d5;
+            double d8 = d - d4;
+            double d9 = d2 - d5;
             double d10 = m - k;
             double d11 = f + 2.0F + 16.0F;
             if (d8 * d8 + d9 * d9 - d10 * d10 > d11 * d11) {
                return;
             }
 
-            if (d >= e - 16.0 - d6 * 2.0 && d3 >= d5 - 16.0 - d6 * 2.0 && d <= e + 16.0 + d6 * 2.0 && d3 <= d5 + 16.0 + d6 * 2.0) {
+            if (d >= d4 - 16.0 - d6 * 2.0 && d2 >= d5 - 16.0 - d6 * 2.0 && d <= d4 + 16.0 + d6 * 2.0 && d2 <= d5 + 16.0 + d6 * 2.0) {
                int i3 = MathHelper.floor_double(d - d6) - i * 16 - 1;
                int i4 = MathHelper.floor_double(d + d6) - i * 16 + 1;
-               int i5 = MathHelper.floor_double(d2 - d7) - 1;
-               int i6 = MathHelper.floor_double(d2 + d7) + 1;
-               int i7 = MathHelper.floor_double(d3 - d6) - j * 16 - 1;
-               int i8 = MathHelper.floor_double(d3 + d6) - j * 16 + 1;
+               int i5 = MathHelper.floor_double(e - d7) - 1;
+               int i6 = MathHelper.floor_double(e + d7) + 1;
+               int i7 = MathHelper.floor_double(d2 - d6) - j * 16 - 1;
+               int i8 = MathHelper.floor_double(d2 + d6) - j * 16 + 1;
                if (i3 < 0) {
                   i3 = 0;
                }
@@ -128,11 +128,11 @@ public class MapGenCaves extends MapGenBase {
                      double d12 = (i12 + i * 16 + 0.5 - d) / d6;
 
                      for (int i13 = i7; i13 < i8; i13++) {
-                        double d13 = (i13 + j * 16 + 0.5 - d3) / d6;
+                        double d13 = (i13 + j * 16 + 0.5 - d2) / d6;
                         boolean bl4 = false;
                         if (d12 * d12 + d13 * d13 < 1.0) {
                            for (int i14 = i6; i14 > i5; i14--) {
-                              double d14 = (i14 - 1 + 0.5 - d2) / d7;
+                              double d14 = (i14 - 1 + 0.5 - e) / d7;
                               if (d14 > -0.7 && d12 * d12 + d14 * d14 + d13 * d13 < 1.0) {
                                  IBlockState iBlockState2 = chunkPrimer.getBlockState(i12, i14, i13);
                                  IBlockState iBlockState3 = Objects.firstNonNull(chunkPrimer.getBlockState(i12, i14 + 1, i13), Blocks.air.getDefaultState());

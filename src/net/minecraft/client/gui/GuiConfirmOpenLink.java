@@ -44,7 +44,7 @@ public class GuiConfirmOpenLink extends GuiYesNo {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.showSecurityWarning) {
-         this.d(this.fontRendererObj, this.openLinkWarning, this.width / 2, 110, 16764108);
+         this.drawCenteredString(this.fontRendererObj, this.openLinkWarning, this.width / 2, 110, 16764108);
       }
    }
 

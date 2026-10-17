@@ -142,8 +142,8 @@ public abstract class EntityTameable extends EntityAnimal implements IEntityOwna
       }
    }
 
-   public boolean V(EntityLivingBase entityLivingBase) {
-      return entityLivingBase == this.getOwner();
+   public boolean isOwner(EntityLivingBase entityIn) {
+      return entityIn == this.getOwner();
    }
 
    public EntityAISit getAISit() {

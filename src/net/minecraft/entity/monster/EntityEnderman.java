@@ -119,7 +119,7 @@ public class EntityEnderman extends EntityMob {
       double d = vec32.lengthVector();
       vec32 = vec32.normalize();
       double e = vec3.dotProduct(vec32);
-      return e > 1.0 - 0.025 / d ? player.C(this) : false;
+      return e > 1.0 - 0.025 / d ? player.canEntityBeSeen(this) : false;
    }
 
    @Override
@@ -144,13 +144,13 @@ public class EntityEnderman extends EntityMob {
          }
       }
 
-      this.Lr = false;
+      this.isJumping = false;
       super.onLivingUpdate();
    }
 
    @Override
    public void updateAITasks() {
-      if (this.G()) {
+      if (this.isWet()) {
          this.attackEntityFrom(DamageSource.drown, 1.0F);
       }
 

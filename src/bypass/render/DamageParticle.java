@@ -28,11 +28,11 @@ public class DamageParticle extends EntityFX {
       int i,
       World world,
       double d,
+      double e,
       double d2,
       double d3,
       double d4,
       double d5,
-      double d6,
       float f,
       float g,
       int j,
@@ -42,7 +42,7 @@ public class DamageParticle extends EntityFX {
       Color color,
       Color color2
    ) {
-      super(world, d, d2, d3, d4, d5, d6);
+      super(world, d, e, d2, d3, d4, d5);
       this.particleTextureJitterX = 0.0F;
       this.particleTextureJitterY = 0.0F;
       this.particleGravity = f;

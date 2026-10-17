@@ -8,12 +8,12 @@ public final class DecoyStage3 extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new DecoyStage3.azx(this);
+      return new DecoyStage3.DecoyThreeAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new DecoyStage3.r9x(this);
+      return new DecoyStage3.FileHashCheckValue(this);
    }
 
    @Override
@@ -30,8 +30,8 @@ public final class DecoyStage3 extends AbstractLoadStage {
       return decoyStage3.fileHashCheckSetup;
    }
 
-   public class azx extends StageAction {
-      public azx(LoadStage loadStage) {
+   public class DecoyThreeAction extends StageAction {
+      public DecoyThreeAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -40,8 +40,8 @@ public final class DecoyStage3 extends AbstractLoadStage {
       }
    }
 
-   public class r9x extends StageValue {
-      public r9x(LoadStage loadStage) {
+   public class FileHashCheckValue extends StageValue {
+      public FileHashCheckValue(LoadStage loadStage) {
          super(loadStage);
       }
 

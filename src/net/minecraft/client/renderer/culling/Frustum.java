@@ -17,15 +17,15 @@ public class Frustum implements ICamera {
    }
 
    @Override
-   public void setPosition(double d, double d2, double d3) {
+   public void setPosition(double d, double e, double d2) {
       this.xPosition = d;
-      this.yPosition = d2;
-      this.zPosition = d3;
+      this.yPosition = e;
+      this.zPosition = d2;
    }
 
-   public boolean isBoxInFrustum(double d, double d2, double d3, double d4, double d5, double d6) {
+   public boolean isBoxInFrustum(double d, double e, double d2, double d3, double d4, double d5) {
       return this.clippingHelper
-         .isBoxInFrustum(d - this.xPosition, d2 - this.yPosition, d3 - this.zPosition, d4 - this.xPosition, d5 - this.yPosition, d6 - this.zPosition);
+         .isBoxInFrustum(d - this.xPosition, e - this.yPosition, d2 - this.zPosition, d3 - this.xPosition, d4 - this.yPosition, d5 - this.zPosition);
    }
 
    @Override

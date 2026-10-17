@@ -98,13 +98,13 @@ public class GuiPageButtonList extends GuiListExtended {
       return this.field_178075_A;
    }
 
-   public void I() {
+   public void func_178071_h() {
       if (this.field_178077_y > 0) {
          this.func_181156_c(this.field_178077_y - 1);
       }
    }
 
-   public void H() {
+   public void func_178064_i() {
       if (this.field_178077_y < this.field_178078_x.length - 1) {
          this.func_181156_c(this.field_178077_y + 1);
       }
@@ -341,11 +341,11 @@ public class GuiPageButtonList extends GuiListExtended {
          this.field_178030_c = gui2;
       }
 
-      public Gui X() {
+      public Gui func_178022_a() {
          return this.field_178029_b;
       }
 
-      public Gui Q() {
+      public Gui func_178021_b() {
          return this.field_178030_c;
       }
 

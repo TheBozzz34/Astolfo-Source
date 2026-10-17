@@ -77,37 +77,37 @@ public abstract class WorldGenHugeTrees extends WorldGenAbstractTree {
       return this.func_175926_c(worldIn, blockPos, i) && this.func_175927_a(blockPos, worldIn);
    }
 
-   public void j(World world, BlockPos blockPos, int i) {
-      int k = i * i;
+   public void func_175925_a(World worldIn, BlockPos blockPos, int i) {
+      int j = i * i;
 
-      for (int l = -i; l <= i + 1; l++) {
-         for (int m = -i; m <= i + 1; m++) {
+      for (int k = -i; k <= i + 1; k++) {
+         for (int l = -i; l <= i + 1; l++) {
+            int m = k - 1;
             int n = l - 1;
-            int i2 = m - 1;
-            if (l * l + m * m <= k
-               || n * n + i2 * i2 <= k
-               || l * l + i2 * i2 <= k
-               || n * n + m * m <= k) {
-               BlockPos blockPos2 = blockPos.add(l, 0, m);
-               Material material = world.getBlockState(blockPos2).getBlock().getMaterial();
+            if (k * k + l * l <= j
+               || m * m + n * n <= j
+               || k * k + n * n <= j
+               || m * m + l * l <= j) {
+               BlockPos blockPos2 = blockPos.add(k, 0, l);
+               Material material = worldIn.getBlockState(blockPos2).getBlock().getMaterial();
                if (material == Material.air || material == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(world, blockPos2, this.leavesMetadata);
+                  this.setBlockAndNotifyAdequately(worldIn, blockPos2, this.leavesMetadata);
                }
             }
          }
       }
    }
 
-   public void e(World world, BlockPos blockPos, int i) {
+   public void func_175928_b(World worldIn, BlockPos blockPos, int i) {
       int j = i * i;
 
       for (int k = -i; k <= i; k++) {
          for (int l = -i; l <= i; l++) {
             if (k * k + l * l <= j) {
                BlockPos blockPos2 = blockPos.add(k, 0, l);
-               Material material = world.getBlockState(blockPos2).getBlock().getMaterial();
+               Material material = worldIn.getBlockState(blockPos2).getBlock().getMaterial();
                if (material == Material.air || material == Material.leaves) {
-                  this.setBlockAndNotifyAdequately(world, blockPos2, this.leavesMetadata);
+                  this.setBlockAndNotifyAdequately(worldIn, blockPos2, this.leavesMetadata);
                }
             }
          }

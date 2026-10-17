@@ -50,7 +50,7 @@ public class GuiOverlayDebug extends Gui {
    }
 
    private boolean isReducedDebug() {
-      return this.mc.thePlayer.w() || this.mc.gameSettings.reducedDebugInfo;
+      return this.mc.thePlayer.hasReducedDebug() || this.mc.gameSettings.reducedDebugInfo;
    }
 
    public void renderDebugInfoLeft() {
@@ -93,7 +93,7 @@ public class GuiOverlayDebug extends Gui {
       if (this.isReducedDebug()) {
          return Lists.newArrayList(
             "Minecraft 1.8.8 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-            this.mc.xQ,
+            this.mc.debug,
             this.mc.renderGlobal.getDebugInfoRenders(),
             this.mc.renderGlobal.getDebugInfoEntities(),
             "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),
@@ -122,7 +122,7 @@ public class GuiOverlayDebug extends Gui {
 
       ArrayList arrayList = Lists.newArrayList(
          "Minecraft 1.8.8 (" + this.mc.getVersion() + "/" + ClientBrandRetriever.getClientModName() + ")",
-         this.mc.xQ,
+         this.mc.debug,
          this.mc.renderGlobal.getDebugInfoRenders(),
          this.mc.renderGlobal.getDebugInfoEntities(),
          "P: " + this.mc.effectRenderer.getStatistics() + ". T: " + this.mc.theWorld.getDebugLoadedEntities(),

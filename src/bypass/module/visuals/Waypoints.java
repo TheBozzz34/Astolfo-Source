@@ -52,24 +52,24 @@ public final class Waypoints extends Module {
       this.addSettings(this.scale);
    }
 
-   private void renderWaypoint(Minecraft minecraft, Waypoint waypoint, double d, double d2, double d3) {
-      double e = minecraft.thePlayer.getDistance(waypoint.getX(), waypoint.getY(), waypoint.getZ());
+   private void renderWaypoint(Minecraft minecraft, Waypoint waypoint, double d, double e, double d2) {
+      double d3 = minecraft.thePlayer.getDistance(waypoint.getX(), waypoint.getY(), waypoint.getZ());
       double d4 = minecraft.gameSettings.renderDistanceChunks * 12.8;
-      double d5 = Math.sqrt(d * d + d3 * d3 + d2 * d2);
+      double d5 = Math.sqrt(d * d + d2 * d2 + e * e);
       if (d5 > d4) {
          double d6 = d4 / d5;
-         e *= d6;
-         d *= d6;
-         d2 *= d6;
          d3 *= d6;
+         d *= d6;
+         e *= d6;
+         d2 *= d6;
       }
 
-      double d7 = e / 3.0 <= 2.0 ? 2.0 : e / 3.0;
+      double d7 = d3 / 3.0 <= 2.0 ? 2.0 : d3 / 3.0;
       double d8 = 0.016666668 * d7;
       double d9 = 2.0 + d7 / 6.0 + 0.325F;
       GlStateManager.pushMatrix();
       RenderHelper.enableStandardItemLighting();
-      GlStateManager.translate(d, d2 + d9, d3);
+      GlStateManager.translate(d, e + d9, d2);
       GL11.glScalef(this.scale.getValue(), this.scale.getValue(), this.scale.getValue());
       GL11.glNormal3f(0.0F, 1.0F, 0.0F);
       if (minecraft.gameSettings.thirdPersonView == 2) {
@@ -111,9 +111,9 @@ public final class Waypoints extends Module {
       GlStateManager.popMatrix();
    }
 
-   public static void addWaypoint(String string, double d, double d2, double d3) {
+   public static void addWaypoint(String string, double d, double e, double d2) {
       waypoints.add(
-         new Waypoint(string, mc.getCurrentServerData() == null ? "SinglePlayer" : mc.getCurrentServerData().serverIP, mc.thePlayer.dimension, d, d2, d3)
+         new Waypoint(string, mc.getCurrentServerData() == null ? "SinglePlayer" : mc.getCurrentServerData().serverIP, mc.thePlayer.dimension, d, e, d2)
       );
    }
 

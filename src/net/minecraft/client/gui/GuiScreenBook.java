@@ -316,7 +316,7 @@ public class GuiScreenBook extends GuiScreen {
          }
 
          if (this.bookIsUnsigned) {
-            if (this.fontRendererObj.U()) {
+            if (this.fontRendererObj.getBidiFlag()) {
                string6 = string6 + "_";
             } else if (this.updateCount / 6 % 2 == 0) {
                string6 = string6 + "" + EnumChatFormatting.BLACK + "_";

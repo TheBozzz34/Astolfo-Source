@@ -29,7 +29,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
       if (entitylivingbaseIn.hasPlayerInfo()
          && !entitylivingbaseIn.isInvisible()
          && entitylivingbaseIn.isWearing(EnumPlayerModelParts.CAPE)
-         && entitylivingbaseIn.u() != null) {
+         && entitylivingbaseIn.getLocationCape() != null) {
          GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
          if (!J) {
             InputStream inputStream = LayerCape.class.getResourceAsStream("/assets/minecraft/client/cape.png");
@@ -47,7 +47,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
             J = true;
          }
 
-         this.playerRenderer.bindTexture(entitylivingbaseIn.u());
+         this.playerRenderer.bindTexture(entitylivingbaseIn.getLocationCape());
          GlStateManager.pushMatrix();
          GlStateManager.translate(0.0F, 0.0F, 0.125F);
          double d = entitylivingbaseIn.prevChasingPosX
@@ -93,7 +93,7 @@ public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
          GlStateManager.rotate(f7 / 2.0F, 0.0F, 0.0F, 1.0F);
          GlStateManager.rotate(-f7 / 2.0F, 0.0F, 1.0F, 0.0F);
          GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-         this.playerRenderer.getMainModel().X(0.0625F);
+         this.playerRenderer.getMainModel().renderCape(0.0625F);
          GlStateManager.popMatrix();
       }
    }

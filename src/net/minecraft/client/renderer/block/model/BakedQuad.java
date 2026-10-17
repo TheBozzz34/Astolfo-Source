@@ -9,14 +9,14 @@ import net.minecraftforge.client.model.pipeline.IVertexConsumer;
 import net.minecraftforge.client.model.pipeline.IVertexProducer;
 
 public class BakedQuad implements IVertexProducer {
-   public int[] u;
+   public int[] vertexData;
    public final int tintIndex;
    public final EnumFacing face;
    private TextureAtlasSprite sprite = null;
    private int[] vertexDataSingle = null;
 
    public BakedQuad(int[] ints, int i, EnumFacing enumFacing, TextureAtlasSprite textureAtlasSprite) {
-      this.u = ints;
+      this.vertexData = ints;
       this.tintIndex = i;
       this.face = enumFacing;
       this.sprite = textureAtlasSprite;
@@ -33,11 +33,11 @@ public class BakedQuad implements IVertexProducer {
 
    @Override
    public String toString() {
-      return "vertex: " + this.u.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
+      return "vertex: " + this.vertexData.length / 7 + ", tint: " + this.tintIndex + ", facing: " + this.face + ", sprite: " + this.sprite;
    }
 
    public BakedQuad(int[] vertexDataIn, int tintIndexIn, EnumFacing faceIn) {
-      this.u = vertexDataIn;
+      this.vertexData = vertexDataIn;
       this.tintIndex = tintIndexIn;
       this.face = faceIn;
       this.fixVertexData();
@@ -45,7 +45,7 @@ public class BakedQuad implements IVertexProducer {
 
    public int[] getVertexData() {
       this.fixVertexData();
-      return this.u;
+      return this.vertexData;
    }
 
    public boolean hasTintIndex() {
@@ -116,11 +116,11 @@ public class BakedQuad implements IVertexProducer {
 
    private void fixVertexData() {
       if (Config.isShaders()) {
-         if (this.u.length == 28) {
-            this.u = expandVertexData(this.u);
+         if (this.vertexData.length == 28) {
+            this.vertexData = expandVertexData(this.vertexData);
          }
-      } else if (this.u.length == 56) {
-         this.u = compactVertexData(this.u);
+      } else if (this.vertexData.length == 56) {
+         this.vertexData = compactVertexData(this.vertexData);
       }
    }
 

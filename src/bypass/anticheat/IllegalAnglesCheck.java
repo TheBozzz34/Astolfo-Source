@@ -8,7 +8,7 @@ public class IllegalAnglesCheck extends MovementCheck {
    }
 
    @Override
-   public int handleMovement(double d, double d2, double d3, float f, float g, boolean bl, EntityPlayer entityPlayer) {
+   public int handleMovement(double d, double e, double d2, float f, float g, boolean bl, EntityPlayer entityPlayer) {
       if (f == 0.0F && g == 0.0F) {
          return 0;
       }

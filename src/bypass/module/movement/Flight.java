@@ -414,7 +414,7 @@ public final class Flight extends Module {
 
       for (this.groundDistance = 0.0; this.groundDistance < mc.thePlayer.posY; this.groundDistance += d) {
          AxisAlignedBB axisAlignedBB2 = axisAlignedBB.offset(0.0, -this.groundDistance, 0.0);
-         if (mc.theWorld.X(axisAlignedBB2)) {
+         if (mc.theWorld.checkBlockCollision(axisAlignedBB2)) {
             if (d < 0.0625) {
                break;
             }

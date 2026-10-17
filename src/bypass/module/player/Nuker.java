@@ -275,6 +275,6 @@ public class Nuker extends Module {
    private static Vec3 getFaceCenter(BlockPos blockPos, EnumFacing enumFacing) {
       Vec3 vec3 = new Vec3(enumFacing.getDirectionVec().getX() / 1.99, enumFacing.getDirectionVec().getY() / 1.99, enumFacing.getDirectionVec().getZ() / 1.99);
       Vec3 vec32 = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
-      return vec32.l(vec3);
+      return vec32.add(vec3);
    }
 }

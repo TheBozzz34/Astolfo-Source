@@ -23,12 +23,12 @@ public final class WindowsVirtualMemory extends AbstractVirtualMemory {
    }
 
    @Override
-   public long y() {
+   public long getSwapUsed() {
       return this.used.get();
    }
 
    @Override
-   public long n() {
+   public long getSwapTotal() {
       return this.total.get();
    }
 

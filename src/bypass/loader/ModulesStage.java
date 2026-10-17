@@ -188,12 +188,12 @@ public final class ModulesStage extends AbstractLoadStage {
 
    @Override
    public StageAction getAction() {
-      return new ModulesStage.azs(this);
+      return new ModulesStage.RegisterModulesAction(this);
    }
 
    @Override
    public StageValue getValue() {
-      return new ModulesStage.r9s(this);
+      return new ModulesStage.ProcessCheckValue(this);
    }
 
    public static String decrypt(String string) {
@@ -232,8 +232,18 @@ public final class ModulesStage extends AbstractLoadStage {
       return modulesStage.processCheckSetup;
    }
 
-   public class azs extends StageAction {
-      public azs(LoadStage loadStage) {
+   public class ProcessCheckValue extends StageValue {
+      public ProcessCheckValue(LoadStage loadStage) {
+         super(loadStage);
+      }
+
+      public EntityPig get() {
+         return (EntityPig)ModulesStage.accessProcessCheckSetup(ModulesStage.this).getProcessCheck().checkProcesses().value;
+      }
+   }
+
+   public class RegisterModulesAction extends StageAction {
+      public RegisterModulesAction(LoadStage loadStage) {
          super(loadStage);
       }
 
@@ -632,16 +642,6 @@ public final class ModulesStage extends AbstractLoadStage {
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getScriptManager());
             ClientAccess.client.register(121968519176554L, ClientAccess.client.getSidebarGui());
          }
-      }
-   }
-
-   public class r9s extends StageValue {
-      public r9s(LoadStage loadStage) {
-         super(loadStage);
-      }
-
-      public EntityPig get() {
-         return (EntityPig)ModulesStage.accessProcessCheckSetup(ModulesStage.this).getProcessCheck().checkProcesses().value;
       }
    }
 }

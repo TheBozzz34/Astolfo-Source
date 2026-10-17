@@ -69,7 +69,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
          this.serverListSelector = new ServerSelectionList(this, this.mc, this.width, this.height, 32, this.height - 64, 36);
          this.serverListSelector.func_148195_a(this.savedServerList);
       } else {
-         this.serverListSelector.m(this.width, this.height, 32, this.height - 64);
+         this.serverListSelector.setDimensions(this.width, this.height, 32, this.height - 64);
       }
 
       this.createButtons();
@@ -151,14 +151,14 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
          } else if (button.id == 0) {
             this.mc.displayGuiScreen(this.parentScreen);
          } else if (button.id == 8) {
-            this.c();
+            this.refreshServerList();
          } else if (button.id == 9) {
             this.mc.displayGuiScreen(new ProxyScreen());
          }
       }
    }
 
-   private void c() {
+   private void refreshServerList() {
       this.mc.displayGuiScreen(new GuiMultiplayer(this.parentScreen));
    }
 
@@ -214,23 +214,23 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
       int i = this.serverListSelector.func_148193_k();
       GuiListExtended.IGuiListEntry iGuiListEntry = i < 0 ? null : this.serverListSelector.getListEntry(i);
       if (keyCode == 63) {
-         this.c();
+         this.refreshServerList();
       } else if (i >= 0) {
          if (keyCode == 200) {
             if (isShiftKeyDown()) {
                if (i > 0 && iGuiListEntry instanceof ServerListEntryNormal) {
                   this.savedServerList.swapServers(i, i - 1);
                   this.selectServer(this.serverListSelector.func_148193_k() - 1);
-                  this.serverListSelector.scrollBy(-this.serverListSelector.l());
+                  this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                   this.serverListSelector.func_148195_a(this.savedServerList);
                }
             } else if (i > 0) {
                this.selectServer(this.serverListSelector.func_148193_k() - 1);
-               this.serverListSelector.scrollBy(-this.serverListSelector.l());
+               this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                if (this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
                   if (this.serverListSelector.func_148193_k() > 0) {
                      this.selectServer(this.serverListSelector.getSize() - 1);
-                     this.serverListSelector.scrollBy(-this.serverListSelector.l());
+                     this.serverListSelector.scrollBy(-this.serverListSelector.getSlotHeight());
                   } else {
                      this.selectServer(-1);
                   }
@@ -243,16 +243,16 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
                if (i < this.savedServerList.countServers() - 1) {
                   this.savedServerList.swapServers(i, i + 1);
                   this.selectServer(i + 1);
-                  this.serverListSelector.scrollBy(this.serverListSelector.l());
+                  this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                   this.serverListSelector.func_148195_a(this.savedServerList);
                }
             } else if (i < this.serverListSelector.getSize()) {
                this.selectServer(this.serverListSelector.func_148193_k() + 1);
-               this.serverListSelector.scrollBy(this.serverListSelector.l());
+               this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                if (this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k()) instanceof ServerListEntryLanScan) {
                   if (this.serverListSelector.func_148193_k() < this.serverListSelector.getSize() - 1) {
                      this.selectServer(this.serverListSelector.getSize() + 1);
-                     this.serverListSelector.scrollBy(this.serverListSelector.l());
+                     this.serverListSelector.scrollBy(this.serverListSelector.getSlotHeight());
                   } else {
                      this.selectServer(-1);
                   }
@@ -275,13 +275,13 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
       this.hoveringText = null;
       this.drawDefaultBackground();
       this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
-      this.d(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
       if (this.hoveringText != null) {
          this.drawHoveringText(Lists.newArrayList(Splitter.on("\n").split(this.hoveringText)), mouseX, mouseY);
       }
 
-      this.I(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
+      this.drawString(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
    }
 
    public void connectToSelected() {

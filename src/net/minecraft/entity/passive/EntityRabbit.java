@@ -89,7 +89,7 @@ public class EntityRabbit extends EntityAnimal {
    }
 
    public void setJumping(boolean jump, EntityRabbit.EnumMoveType moveTypeIn) {
-      super.j(jump);
+      super.setJumping(jump);
       if (!jump) {
          if (this.moveType == EntityRabbit.EnumMoveType.ATTACK) {
             this.moveType = EntityRabbit.EnumMoveType.HOP;
@@ -391,8 +391,8 @@ public class EntityRabbit extends EntityAnimal {
    public static class AIAvoidEntity<T extends Entity> extends EntityAIAvoidEntity<T> {
       private EntityRabbit entityInstance;
 
-      public AIAvoidEntity(EntityRabbit rabbit, Class<T> class2, float f, double d, double d2) {
-         super(rabbit, class2, f, d, d2);
+      public AIAvoidEntity(EntityRabbit rabbit, Class<T> class2, float f, double d, double e) {
+         super(rabbit, class2, f, d, e);
          this.entityInstance = rabbit;
       }
 

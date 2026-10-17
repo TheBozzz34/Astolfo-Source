@@ -114,7 +114,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.S((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
+         this.getNextComponentX((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
       }
 
       public static StructureNetherBridgePieces.Corridor func_175879_a(
@@ -200,7 +200,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
       }
 
       public static StructureNetherBridgePieces.Corridor2 func_175876_a(
@@ -271,7 +271,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
       }
 
       public static StructureNetherBridgePieces.Corridor3 func_175883_a(
@@ -397,8 +397,8 @@ public class StructureNetherBridgePieces {
             b = 5;
          }
 
-         this.S((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, b, rand.nextInt(8) > 0);
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, b, rand.nextInt(8) > 0);
+         this.getNextComponentX((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, b, rand.nextInt(8) > 0);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, b, rand.nextInt(8) > 0);
       }
 
       public static StructureNetherBridgePieces.Corridor4 func_175880_a(
@@ -486,7 +486,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
       }
 
       public static StructureNetherBridgePieces.Corridor5 func_175877_a(
@@ -548,9 +548,9 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 2, 0, false);
-         this.S((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 2, false);
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 2, false);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 2, 0, false);
+         this.getNextComponentX((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 2, false);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 2, false);
       }
 
       public static StructureNetherBridgePieces.Crossing func_175873_a(
@@ -639,9 +639,9 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
-         this.S((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 0, true);
+         this.getNextComponentX((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 0, 1, true);
       }
 
       public static StructureNetherBridgePieces.Crossing2 func_175878_a(
@@ -710,9 +710,9 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 8, 3, false);
-         this.S((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 3, 8, false);
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 3, 8, false);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 8, 3, false);
+         this.getNextComponentX((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 3, 8, false);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 3, 8, false);
       }
 
       public static StructureNetherBridgePieces.Crossing3 func_175885_a(
@@ -920,7 +920,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 3, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 3, true);
       }
 
       public static StructureNetherBridgePieces.Entrance func_175881_a(
@@ -1126,8 +1126,8 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 3, true);
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 11, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 3, true);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 5, 11, true);
       }
 
       public static StructureNetherBridgePieces.NetherStalkRoom func_175875_a(
@@ -1510,7 +1510,9 @@ public class StructureNetherBridgePieces {
          }
       }
 
-      public StructureComponent H(StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl) {
+      public StructureComponent getNextComponentNormal(
+         StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl
+      ) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case NORTH:
@@ -1567,7 +1569,9 @@ public class StructureNetherBridgePieces {
          return null;
       }
 
-      public StructureComponent S(StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl) {
+      public StructureComponent getNextComponentX(
+         StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl
+      ) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case NORTH:
@@ -1624,7 +1628,9 @@ public class StructureNetherBridgePieces {
          return null;
       }
 
-      public StructureComponent m(StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl) {
+      public StructureComponent getNextComponentZ(
+         StructureNetherBridgePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j, boolean bl
+      ) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case NORTH:
@@ -1725,7 +1731,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.m((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 6, 2, false);
+         this.getNextComponentZ((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 6, 2, false);
       }
 
       public static StructureNetherBridgePieces.Stairs func_175872_a(
@@ -1850,7 +1856,7 @@ public class StructureNetherBridgePieces {
 
       @Override
       public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
-         this.H((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 3, false);
+         this.getNextComponentNormal((StructureNetherBridgePieces.Start)componentIn, listIn, rand, 1, 3, false);
       }
 
       public static StructureNetherBridgePieces.Straight func_175882_a(

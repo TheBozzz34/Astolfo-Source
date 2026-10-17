@@ -72,7 +72,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
       return networkPlayerInfo == null ? DefaultPlayerSkin.getDefaultSkin(this.getUniqueID()) : networkPlayerInfo.c();
    }
 
-   public ResourceLocation u() {
+   public ResourceLocation getLocationCape() {
       AstolfoUser astolfoUser = Astolfo.INSTANCE.getUserManager().getUser(this.getName());
       if (astolfoUser != null) {
          return LayerCape.h(this, astolfoUser.clientName);
@@ -87,7 +87,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
       }
 
       NetworkPlayerInfo networkPlayerInfo = this.getPlayerInfo();
-      return networkPlayerInfo == null ? null : networkPlayerInfo.B();
+      return networkPlayerInfo == null ? null : networkPlayerInfo.getLocationCape();
    }
 
    public static ThreadDownloadImageData getDownloadImageSkin(ResourceLocation resourceLocationIn, String username) {
@@ -133,7 +133,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
       }
 
       if (this.isUsingItem() && this.getItemInUse().getItem() == Items.bow) {
-         int i = this.n();
+         int i = this.getItemInUseDuration();
          float g = i / 20.0F;
          if (g > 1.0F) {
             g = 1.0F;

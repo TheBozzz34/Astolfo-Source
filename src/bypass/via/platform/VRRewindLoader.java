@@ -12,7 +12,7 @@ public class VRRewindLoader implements ViaRewindPlatform, Runnable {
 
    @Override
    public void run() {
-      this.init(new VRRewindLoader.d0());
+      this.init(new VRRewindLoader.DefaultRewindConfig());
    }
 
    @Override
@@ -20,7 +20,7 @@ public class VRRewindLoader implements ViaRewindPlatform, Runnable {
       return this.logger;
    }
 
-   public class d0 implements ViaRewindConfig {
+   public class DefaultRewindConfig implements ViaRewindConfig {
       @Override
       public CooldownIndicator getCooldownIndicator() {
          return CooldownIndicator.DISABLED;

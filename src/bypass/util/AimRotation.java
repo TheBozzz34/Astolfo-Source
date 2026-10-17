@@ -17,7 +17,7 @@ public class AimRotation {
    public void applyTo(EntityPlayer entityPlayer) {
       if (!Float.isNaN(this.yaw) && !Float.isNaN(this.pitch)) {
          if (this.gcdFixEnabled) {
-            this.applyGcdFix(Minecraft.getMinecraft().gameSettings.Zm);
+            this.applyGcdFix(Minecraft.getMinecraft().gameSettings.mouseSensitivity);
          }
 
          float f = MathHelper.wrapAngleTo180_float(this.yaw - entityPlayer.rotationYaw);

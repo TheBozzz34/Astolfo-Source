@@ -11,14 +11,14 @@ public class PathSegmentNode {
    private double totalCost;
    public final PathSegment segment;
 
-   public PathSegmentNode(PathSegment pathSegment, Vector3 vector3, PathSegmentNode pathSegmentNode, ArrayList arrayList, double d, double d2, double d3) {
+   public PathSegmentNode(PathSegment pathSegment, Vector3 vector3, PathSegmentNode pathSegmentNode, ArrayList arrayList, double d, double e, double d2) {
       this.segment = pathSegment;
       this.position = vector3;
       this.parent = pathSegmentNode;
       this.path = arrayList;
       this.heuristic = d;
-      this.stepCost = d2;
-      this.totalCost = d3;
+      this.stepCost = e;
+      this.totalCost = d2;
    }
 
    private Vector3 getPosition() {

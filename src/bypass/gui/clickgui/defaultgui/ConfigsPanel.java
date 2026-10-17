@@ -67,10 +67,10 @@ public class ConfigsPanel extends Container {
          byte b = 30;
 
          for (Element element : this.getChildren()) {
-            if (element instanceof ConfigsPanel.ax4) {
-               ConfigsPanel.ax4 ax42 = (ConfigsPanel.ax4)element;
-               ax42.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
-               ax42.render(i, j);
+            if (element instanceof ConfigsPanel.ConfigEntry) {
+               ConfigsPanel.ConfigEntry configEntry = (ConfigsPanel.ConfigEntry)element;
+               configEntry.setPosition(this.getX() + 2.0F, this.getYPos() - b + 17.0F);
+               configEntry.render(i, j);
                b += 15;
             }
          }
@@ -81,7 +81,7 @@ public class ConfigsPanel extends Container {
       byte b = 0;
       if (this.isExpanded()) {
          for (Element element : this.getChildren()) {
-            if (element instanceof ConfigsPanel.ax4) {
+            if (element instanceof ConfigsPanel.ConfigEntry) {
                b += 15;
             }
          }
@@ -104,7 +104,7 @@ public class ConfigsPanel extends Container {
             && !file3.getName().equals("chat.json")
             && !file3.getName().equals("colors.json")
             && !file3.getName().equals("relations.json")) {
-            this.addChildren(new ConfigsPanel.ax4(file3.getName().split("\\.json")[0], file3, 103, 15));
+            this.addChildren(new ConfigsPanel.ConfigEntry(file3.getName().split("\\.json")[0], file3, 103, 15));
             System.out.println(file3.getName());
          }
       }
@@ -122,10 +122,10 @@ public class ConfigsPanel extends Container {
       return configsPanel.dateFormat;
    }
 
-   public class ax4 extends Component {
+   public class ConfigEntry extends Component {
       private File configFile;
 
-      public ax4(String string, File file, int i, int j) {
+      public ConfigEntry(String string, File file, int i, int j) {
          super(string, 0.0F, 0.0F, i, j);
          this.configFile = file;
       }

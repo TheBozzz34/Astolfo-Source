@@ -13,7 +13,7 @@ public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
 
    @Override
    public void registerPackets() {
-      this.registerServerbound(State.HANDSHAKE, 0, 0, new ViaFabricHostnameProtocol.alf());
+      this.registerServerbound(State.HANDSHAKE, 0, 0, new ViaFabricHostnameProtocol.HandshakeRemapper());
    }
 
    @Override
@@ -21,15 +21,15 @@ public class ViaFabricHostnameProtocol extends AbstractSimpleProtocol {
       return true;
    }
 
-   public class alf extends PacketRemapper {
+   public class HandshakeRemapper extends PacketRemapper {
       @Override
       public void registerMap() {
          this.map(Type.VAR_INT);
-         this.map(Type.STRING, new ViaFabricHostnameProtocol.alf.a1w(Type.STRING));
+         this.map(Type.STRING, new ViaFabricHostnameProtocol.HandshakeRemapper.HostnameTransformer(Type.STRING));
       }
 
-      public class a1w extends ValueTransformer<String, String> {
-         public a1w(Type type2) {
+      public class HostnameTransformer extends ValueTransformer<String, String> {
+         public HostnameTransformer(Type type2) {
             super(type2);
          }
 

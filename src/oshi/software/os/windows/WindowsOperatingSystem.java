@@ -63,7 +63,7 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
    private static final boolean IS_VISTA_OR_GREATER = VersionHelpers.IsWindowsVistaOrGreater();
    private static final boolean IS_WINDOWS7_OR_GREATER = VersionHelpers.IsWindows7OrGreater();
    private static Supplier<String> systemLog = Memoizer.memoize(WindowsOperatingSystem::querySystemLog, TimeUnit.HOURS.toNanos(1L));
-   private static final long x = querySystemBootTime();
+   private static final long BOOTTIME = querySystemBootTime();
    private Supplier<Map<Integer, OSProcess>> processMapFromRegistry = Memoizer.memoize(this::E, Memoizer.defaultExpiration());
    private Supplier<Map<Integer, OSProcess>> processMapFromPerfCounters = Memoizer.memoize(this::N, Memoizer.defaultExpiration());
 
@@ -487,7 +487,7 @@ public class WindowsOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public long getSystemBootTime() {
-      return x;
+      return BOOTTIME;
    }
 
    private static long querySystemBootTime() {

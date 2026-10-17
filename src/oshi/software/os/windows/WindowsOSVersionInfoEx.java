@@ -16,16 +16,16 @@ public class WindowsOSVersionInfoEx extends AbstractOSVersionInfoEx {
          this.handleNoVersionInfo();
       } else {
          int i = WmiUtil.getUint32(wmiResult, Win32OperatingSystem.OSVersionProperty.SUITEMASK, 0);
-         this.C(WmiUtil.getString(wmiResult, Win32OperatingSystem.OSVersionProperty.BUILDNUMBER, 0));
-         this.n(this.parseVersion(wmiResult, i));
-         this.I(this.parseCodeName(i));
+         this.setBuildNumber(WmiUtil.getString(wmiResult, Win32OperatingSystem.OSVersionProperty.BUILDNUMBER, 0));
+         this.setVersion(this.parseVersion(wmiResult, i));
+         this.setCodeName(this.parseCodeName(i));
       }
    }
 
    public void handleNoVersionInfo() {
-      this.n(System.getProperty("os.version"));
-      this.I("");
-      this.C("");
+      this.setVersion(System.getProperty("os.version"));
+      this.setCodeName("");
+      this.setBuildNumber("");
    }
 
    private String parseVersion(WmiResult<Win32OperatingSystem.OSVersionProperty> versionInfo, int suiteMask) {

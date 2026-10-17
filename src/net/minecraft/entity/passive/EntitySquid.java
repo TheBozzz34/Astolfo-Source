@@ -194,7 +194,7 @@ public class EntitySquid extends EntityWaterMob {
 
       @Override
       public void updateTask() {
-         int i = this.squid.s();
+         int i = this.squid.getAge();
          if (i > 100) {
             this.squid.func_175568_b(0.0F, 0.0F, 0.0F);
          } else if (this.squid.getRNG().nextInt(50) == 0 || !this.squid.inWater || !this.squid.func_175567_n()) {

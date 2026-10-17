@@ -38,7 +38,7 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
       this.field_178046_u.renderItem(entryID, i, j, k, mouseXIn, mouseYIn);
    }
 
-   public int X() {
+   public int func_178044_e() {
       return super.width;
    }
 
@@ -52,12 +52,12 @@ public class GuiClickableScrolledSelectionListProxy extends GuiSlot {
 
    @Override
    public int getContentHeight() {
-      return this.field_178046_u.n();
+      return this.field_178046_u.getMaxPosition();
    }
 
    @Override
    public int getScrollBarX() {
-      return this.field_178046_u.g();
+      return this.field_178046_u.getScrollbarPosition();
    }
 
    @Override

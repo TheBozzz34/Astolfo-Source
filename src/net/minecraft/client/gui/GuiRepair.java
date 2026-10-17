@@ -76,7 +76,7 @@ public class GuiRepair extends GuiContainer implements ICrafting {
             int j = 0xFF000000 | (i & 16579836) >> 2 | i & 0xFF000000;
             int k = this.xSize - 8 - this.fontRendererObj.getStringWidth(string);
             byte b = 67;
-            if (this.fontRendererObj.n()) {
+            if (this.fontRendererObj.getUnicodeFlag()) {
                drawRect(k - 3, b - 2, this.xSize - 7, b + 10, -16777216);
                drawRect(k - 2, b - 1, this.xSize - 8, b + 9, -12895429);
             } else {

@@ -136,11 +136,11 @@ public class NetworkIF {
       return this.ndisPhysicalMediumType;
    }
 
-   public void d(int i) {
-      this.ndisPhysicalMediumType = i;
+   public void setNdisPhysicalMediumType(int ndisPhysicalMediumType) {
+      this.ndisPhysicalMediumType = ndisPhysicalMediumType;
    }
 
-   public boolean k() {
+   public boolean isConnectorPresent() {
       return this.connectorPresent;
    }
 
@@ -220,7 +220,7 @@ public class NetworkIF {
       this.speed = ParseUtil.unsignedLongToSignedLong(speed);
    }
 
-   public long a() {
+   public long getTimeStamp() {
       return this.timeStamp;
    }
 

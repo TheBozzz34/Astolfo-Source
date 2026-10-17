@@ -25,7 +25,7 @@ public final class LinuxFirmware extends AbstractFirmware {
    private final Supplier<LinuxFirmware.BiosStrings> bios = Memoizer.memoize(this::queryBios);
 
    @Override
-   public String R() {
+   public String getManufacturer() {
       return this.manufacturer.get();
    }
 
@@ -35,7 +35,7 @@ public final class LinuxFirmware extends AbstractFirmware {
    }
 
    @Override
-   public String P() {
+   public String getVersion() {
       return this.version.get();
    }
 

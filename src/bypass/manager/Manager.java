@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 public abstract class Manager<T> {
-   public List<T> items = new Manager.au1();
+   public List<T> items = new Manager.GuardedList();
 
    public List<T> getList() {
       return this.items;
@@ -30,7 +30,7 @@ public abstract class Manager<T> {
       return true;
    }
 
-   public class au1 extends ArrayList<T> {
+   public class GuardedList extends ArrayList<T> {
       @Override
       public boolean addAll(Collection<? extends T> collection) {
          for (Object object : collection) {

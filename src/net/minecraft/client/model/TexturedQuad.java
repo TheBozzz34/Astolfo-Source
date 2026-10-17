@@ -55,7 +55,7 @@ public class TexturedQuad {
       if (Config.isShaders()) {
          renderer.begin(7, SVertexFormat.defVertexFormatTextured);
       } else {
-         renderer.begin(7, DefaultVertexFormats.b);
+         renderer.begin(7, DefaultVertexFormats.OLDMODEL_POSITION_TEX_NORMAL);
       }
 
       for (int i = 0; i < 4; i++) {

@@ -21,7 +21,7 @@ public final class RaycastUtil implements ClientAccess {
       double d2 = e;
       MovingObjectPosition movingObjectPosition = rayTraceBlocks(e, f, g);
       Vec3 vec3 = mc.thePlayer.getPositionEyes(1.0F);
-      if (mc.playerController.L()) {
+      if (mc.playerController.extendedReach()) {
          e = 6.0;
          d2 = 6.0;
       }

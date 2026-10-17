@@ -18,7 +18,7 @@ public class WorldServerOF extends WorldServer {
    @Override
    public void tick() {
       super.tick();
-      if (!Config.O()) {
+      if (!Config.isTimeDefault()) {
          this.fixWorldTime();
       }
 
@@ -30,7 +30,7 @@ public class WorldServerOF extends WorldServer {
 
    @Override
    public void updateWeather() {
-      if (!Config.pd()) {
+      if (!Config.isWeatherEnabled()) {
          this.fixWorldWeather();
       }
 
@@ -41,10 +41,10 @@ public class WorldServerOF extends WorldServer {
       if (this.worldInfo.isRaining() || this.worldInfo.isThundering()) {
          this.worldInfo.setRainTime(0);
          this.worldInfo.setRaining(false);
-         this.V(0.0F);
+         this.setRainStrength(0.0F);
          this.worldInfo.setThunderTime(0);
          this.worldInfo.setThundering(false);
-         this.t(0.0F);
+         this.setThunderStrength(0.0F);
          this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(2, 0.0F));
          this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(7, 0.0F));
          this.mcServer.getConfigurationManager().sendPacketToAllPlayers(new S2BPacketChangeGameState(8, 0.0F));

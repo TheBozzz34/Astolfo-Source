@@ -42,7 +42,7 @@ public final class UnusedTeleportCommand extends Command {
    @EventHandler(PacketEvent.class)
    private final Listener<PacketEvent> onPacket = packetEvent -> {
       if (packetEvent.getDirection() == PacketDirection.OUTGOING) {
-         if (packetEvent.getPacket() instanceof C0CPacketInput && mc.thePlayer.E()) {
+         if (packetEvent.getPacket() instanceof C0CPacketInput && mc.thePlayer.isRiding()) {
             C0CPacketInput c0CPacketInput = (C0CPacketInput)packetEvent.getPacket();
             c0CPacketInput.d(true);
             return;
@@ -364,6 +364,6 @@ public final class UnusedTeleportCommand extends Command {
    }
 
    private boolean cannotTeleport() {
-      return !GameUtil.isOnHypixel() || !mc.thePlayer.E() && mc.thePlayer.ticksExisted > 30;
+      return !GameUtil.isOnHypixel() || !mc.thePlayer.isRiding() && mc.thePlayer.ticksExisted > 30;
    }
 }

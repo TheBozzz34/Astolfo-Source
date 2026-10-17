@@ -33,8 +33,8 @@ public class Lagometer {
    private static long[] timesServer = new long[512];
    private static boolean[] gcs = new boolean[512];
    private static int numRecordedFrameTimes = 0;
-   private static long m = -1L;
-   private static long v = 0L;
+   private static long prevFrameTimeNano = -1L;
+   private static long renderTimeNano = 0L;
    private static long memTimeStartMs = System.currentTimeMillis();
    private static long memStart = getMemoryUsed();
    private static long memTimeLast = memTimeStartMs;
@@ -82,16 +82,16 @@ public class Lagometer {
          profiler = mc.mcProfiler;
       }
 
-      if (gameSettings.n && (gameSettings.ZH || gameSettings.A_)) {
+      if (gameSettings.showDebugInfo && (gameSettings.ofLagometer || gameSettings.showLagometer)) {
          active = true;
          long l = System.nanoTime();
-         if (m == -1L) {
-            m = l;
+         if (prevFrameTimeNano == -1L) {
+            prevFrameTimeNano = l;
          } else {
             int i = numRecordedFrameTimes & timesFrame.length - 1;
             numRecordedFrameTimes++;
             boolean bl = updateMemoryAllocation();
-            timesFrame[i] = l - m - v;
+            timesFrame[i] = l - prevFrameTimeNano - renderTimeNano;
             timesTick[i] = timerTick.timeNano;
             timesScheduledExecutables[i] = timerScheduledExecutables.timeNano;
             timesChunkUpload[i] = timerChunkUpload.timeNano;
@@ -107,16 +107,16 @@ public class Lagometer {
             Lagometer.TimerNano.A(timerChunkUpload);
             Lagometer.TimerNano.A(timerTerrain);
             Lagometer.TimerNano.A(timerServer);
-            m = System.nanoTime();
+            prevFrameTimeNano = System.nanoTime();
          }
       } else {
          active = false;
-         m = -1L;
+         prevFrameTimeNano = -1L;
       }
    }
 
    public static void showLagometer(ScaledResolution scaledResolution) {
-      if (gameSettings != null && (gameSettings.ZH || gameSettings.A_)) {
+      if (gameSettings != null && (gameSettings.ofLagometer || gameSettings.showLagometer)) {
          long l = System.nanoTime();
          GlStateManager.clear(256);
          GlStateManager.matrixMode(5889);
@@ -179,7 +179,7 @@ public class Lagometer {
          GuiIngame guiIngame = mc.ingameGUI;
          GuiIngame.drawRect(i6 - 1, i7 - 1, i6 + 50, i7 + 10, -1605349296);
          mc.fontRendererObj.D(" " + memMbSec + " MB/s", i6, i7, i5);
-         v = System.nanoTime() - l;
+         renderTimeNano = System.nanoTime() - l;
       }
    }
 

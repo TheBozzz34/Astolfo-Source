@@ -29,7 +29,7 @@ public class ReflectorRaw {
       try {
          Field[] fields = cls.getDeclaredFields();
          return getFields(fields, fieldType);
-      } catch (Exception eIn) {
+      } catch (Exception e) {
          return null;
       }
    }

@@ -3,8 +3,8 @@ package net.minecraft.block.material;
 public class MaterialLiquid extends Material {
    public MaterialLiquid(MapColor color) {
       super(color);
-      this.X();
-      this.k();
+      this.setReplaceable();
+      this.setNoPushMobility();
    }
 
    @Override

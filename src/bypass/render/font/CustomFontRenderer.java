@@ -162,16 +162,16 @@ public final class CustomFontRenderer extends GlyphFontRenderer {
                c = c2;
             }
 
-            GlyphPage.aun aun2 = GlyphFontRenderer.drawGlyph(glyphPage2, f, g, c);
+            GlyphPage.Glyph glyph = GlyphFontRenderer.drawGlyph(glyphPage2, f, g, c);
             if (bl6) {
-               RenderUtil.lineVertices(f, g + aun2.height / 4 + 2.0F, f + aun2.width / 2, g + aun2.height / 4 + 2.0F, 1.0F);
+               RenderUtil.lineVertices(f, g + glyph.height / 4 + 2.0F, f + glyph.width / 2, g + glyph.height / 4 + 2.0F, 1.0F);
             }
 
             if (bl7) {
-               RenderUtil.lineVertices(f, g + aun2.height / 2, f + aun2.width / 2, g + aun2.height / 2, 1.0F);
+               RenderUtil.lineVertices(f, g + glyph.height / 2, f + glyph.width / 2, g + glyph.height / 2, 1.0F);
             }
 
-            f += aun2.width + this.charSpacing;
+            f += glyph.width + this.charSpacing;
          }
       }
 

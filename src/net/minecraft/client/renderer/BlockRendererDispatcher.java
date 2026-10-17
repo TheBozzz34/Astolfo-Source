@@ -84,7 +84,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
                boolean bl = this.fluidRenderer.renderFluid(blockAccess, state, pos, worldRendererIn);
                if (Config.isShaders()) {
-                  SVertexBuilder.s(worldRendererIn);
+                  SVertexBuilder.popEntity(worldRendererIn);
                }
 
                return bl;
@@ -98,7 +98,7 @@ public class BlockRendererDispatcher implements IResourceManagerReloadListener {
 
                boolean bl2 = this.blockModelRenderer.renderModel(blockAccess, iBakedModel, state, pos, worldRendererIn);
                if (Config.isShaders()) {
-                  SVertexBuilder.s(worldRendererIn);
+                  SVertexBuilder.popEntity(worldRendererIn);
                }
 
                return bl2;

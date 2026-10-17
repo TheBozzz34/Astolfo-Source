@@ -1282,7 +1282,7 @@ public class StructureVillagePieces {
          boolean bl = false;
 
          for (int i = rand.nextInt(5); i < this.length - 8; i += 2 + rand.nextInt(5)) {
-            StructureComponent structureComponent = this.u((StructureVillagePieces.Start)componentIn, listIn, rand, 0, i);
+            StructureComponent structureComponent = this.getNextComponentNN((StructureVillagePieces.Start)componentIn, listIn, rand, 0, i);
             if (structureComponent != null) {
                i += Math.max(structureComponent.boundingBox.G(), structureComponent.boundingBox.S());
                bl = true;
@@ -1290,7 +1290,7 @@ public class StructureVillagePieces {
          }
 
          for (int j = rand.nextInt(5); j < this.length - 8; j += 2 + rand.nextInt(5)) {
-            StructureComponent structureComponent2 = this.I((StructureVillagePieces.Start)componentIn, listIn, rand, 0, j);
+            StructureComponent structureComponent2 = this.getNextComponentPP((StructureVillagePieces.Start)componentIn, listIn, rand, 0, j);
             if (structureComponent2 != null) {
                j += Math.max(structureComponent2.boundingBox.G(), structureComponent2.boundingBox.S());
                bl = true;
@@ -1574,14 +1574,14 @@ public class StructureVillagePieces {
          this.isDesertVillage = tagCompound.getBoolean("Desert");
       }
 
-      public StructureComponent u(StructureVillagePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j) {
+      public StructureComponent getNextComponentNN(StructureVillagePieces.Start startIn, List<StructureComponent> list, Random rand, int i, int j) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case NORTH:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX - 1,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ + j,
@@ -1590,9 +1590,9 @@ public class StructureVillagePieces {
                   );
                case SOUTH:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX - 1,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ + j,
@@ -1601,9 +1601,9 @@ public class StructureVillagePieces {
                   );
                case WEST:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX + j,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ - 1,
@@ -1612,9 +1612,9 @@ public class StructureVillagePieces {
                   );
                case EAST:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX + j,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ - 1,
@@ -1627,14 +1627,14 @@ public class StructureVillagePieces {
          return null;
       }
 
-      public StructureComponent I(StructureVillagePieces.Start start2, List<StructureComponent> list, Random random2, int i, int j) {
+      public StructureComponent getNextComponentPP(StructureVillagePieces.Start startIn, List<StructureComponent> list, Random rand, int i, int j) {
          if (this.coordBaseMode != null) {
             switch (this.coordBaseMode) {
                case NORTH:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.maxX + 1,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ + j,
@@ -1643,9 +1643,9 @@ public class StructureVillagePieces {
                   );
                case SOUTH:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.maxX + 1,
                      this.boundingBox.minY + i,
                      this.boundingBox.minZ + j,
@@ -1654,9 +1654,9 @@ public class StructureVillagePieces {
                   );
                case WEST:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX + j,
                      this.boundingBox.minY + i,
                      this.boundingBox.maxZ + 1,
@@ -1665,9 +1665,9 @@ public class StructureVillagePieces {
                   );
                case EAST:
                   return StructureVillagePieces.y(
-                     start2,
+                     startIn,
                      list,
-                     random2,
+                     rand,
                      this.boundingBox.minX + j,
                      this.boundingBox.minY + i,
                      this.boundingBox.maxZ + 1,

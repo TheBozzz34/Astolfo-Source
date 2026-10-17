@@ -64,15 +64,15 @@ public class EntityBoat extends Entity {
       return true;
    }
 
-   public EntityBoat(World worldIn, double d, double d2, double d3) {
+   public EntityBoat(World worldIn, double d, double e, double d2) {
       this(worldIn);
-      this.setPosition(d, d2, d3);
+      this.setPosition(d, e, d2);
       this.motionX = 0.0;
       this.motionY = 0.0;
       this.motionZ = 0.0;
       this.prevPosX = d;
-      this.prevPosY = d2;
-      this.prevPosZ = d3;
+      this.prevPosY = e;
+      this.prevPosZ = d2;
    }
 
    @Override

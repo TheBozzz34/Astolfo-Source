@@ -236,11 +236,11 @@ public class WalkNodeProcessor extends NodeProcessor {
       return this.canEnterDoors;
    }
 
-   public boolean j() {
+   public boolean getCanSwim() {
       return this.canSwim;
    }
 
-   public boolean n() {
+   public boolean getAvoidsWater() {
       return this.avoidsWater;
    }
 }

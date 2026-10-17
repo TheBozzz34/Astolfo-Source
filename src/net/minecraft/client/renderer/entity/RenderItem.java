@@ -73,7 +73,7 @@ import shadersmod.client.ShadersRender;
 
 public class RenderItem implements IResourceManagerReloadListener {
    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-   private boolean H = true;
+   private boolean notRenderingEffectsInGUI = true;
    public float zLevel;
    private final ItemModelMesher itemModelMesher;
    private final TextureManager textureManager;
@@ -94,8 +94,8 @@ public class RenderItem implements IResourceManagerReloadListener {
       this.registerItems();
    }
 
-   public void l(boolean bl) {
-      this.H = bl;
+   public void isNotRenderingEffectsInGUI(boolean isNot) {
+      this.notRenderingEffectsInGUI = isNot;
    }
 
    public ItemModelMesher getItemModelMesher() {
@@ -297,7 +297,7 @@ public class RenderItem implements IResourceManagerReloadListener {
             if (item == Items.fishing_rod && entityPlayer.fishEntity != null) {
                modelResourceLocation = new ModelResourceLocation("fishing_rod_cast", "inventory");
             } else if (item == Items.bow && entityPlayer.getItemInUse() != null) {
-               int i = stack.getMaxItemUseDuration() - entityPlayer.p();
+               int i = stack.getMaxItemUseDuration() - entityPlayer.getItemInUseCount();
                if (i >= 18) {
                   modelResourceLocation = new ModelResourceLocation("bow_pulling_2", "inventory");
                } else if (i > 13) {
@@ -306,7 +306,7 @@ public class RenderItem implements IResourceManagerReloadListener {
                   modelResourceLocation = new ModelResourceLocation("bow_pulling_0", "inventory");
                }
             } else if (Reflector.ForgeItem_getModel.exists()) {
-               modelResourceLocation = (ModelResourceLocation)Reflector.call(item, Reflector.ForgeItem_getModel, stack, entityPlayer, entityPlayer.p());
+               modelResourceLocation = (ModelResourceLocation)Reflector.call(item, Reflector.ForgeItem_getModel, stack, entityPlayer, entityPlayer.getItemInUseCount());
             }
 
             this.modelLocation = modelResourceLocation;

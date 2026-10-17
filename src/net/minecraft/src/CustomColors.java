@@ -50,12 +50,12 @@ public class CustomColors {
    private static CustomColormap swampGrassColors = null;
    private static CustomColormap[] colorsBlockColormaps = null;
    private static CustomColormap[][] blockColormaps = (CustomColormap[][])null;
-   private static CustomColormap G = null;
-   private static CustomColorFader J = new CustomColorFader();
-   private static CustomColormap h = null;
-   private static CustomColorFader N = new CustomColorFader();
-   private static CustomColormap L = null;
-   private static CustomColorFader P = new CustomColorFader();
+   private static CustomColormap skyColors = null;
+   private static CustomColorFader skyColorFader = new CustomColorFader();
+   private static CustomColormap fogColors = null;
+   private static CustomColorFader fogColorFader = new CustomColorFader();
+   private static CustomColormap underwaterColors = null;
+   private static CustomColorFader underwaterColorFader = new CustomColorFader();
    private static CustomColormap[] F = null;
    private static int lightmapMinDimensionId = 0;
    private static float[][] K = new float[16][3];
@@ -67,7 +67,7 @@ public class CustomColors {
    private static CustomColormap stemColors = null;
    private static CustomColormap stemMelonColors = null;
    private static CustomColormap stemPumpkinColors = null;
-   private static CustomColormap v = null;
+   private static CustomColormap myceliumParticleColors = null;
    private static boolean useDefaultGrassFoliageColors = true;
    private static int particleWaterColor = -1;
    private static int particlePortalColor = -1;
@@ -160,15 +160,15 @@ public class CustomColors {
       foliagePineColors = null;
       swampGrassColors = null;
       swampFoliageColors = null;
-      G = null;
-      h = null;
-      L = null;
+      skyColors = null;
+      fogColors = null;
+      underwaterColors = null;
       redstoneColors = null;
       xpOrbColors = null;
       xpOrbTime = -1;
       durabilityColors = null;
       stemColors = null;
-      v = null;
+      myceliumParticleColors = null;
       F = null;
       particleWaterColor = -1;
       particlePortalColor = -1;
@@ -205,11 +205,11 @@ public class CustomColors {
          String[] strings5 = new String[]{"swampfoliage.png", "swampfoliagecolor.png"};
          swampFoliageColors = getCustomColors(string, strings5, 256, 256);
          String[] strings6 = new String[]{"sky0.png", "skycolor0.png"};
-         G = getCustomColors(string, strings6, 256, 256);
+         skyColors = getCustomColors(string, strings6, 256, 256);
          String[] strings7 = new String[]{"fog0.png", "fogcolor0.png"};
-         h = getCustomColors(string, strings7, 256, 256);
+         fogColors = getCustomColors(string, strings7, 256, 256);
          String[] strings8 = new String[]{"underwater.png", "underwatercolor.png"};
-         L = getCustomColors(string, strings8, 256, 256);
+         underwaterColors = getCustomColors(string, strings8, 256, 256);
          String[] strings9 = new String[]{"redstone.png", "redstonecolor.png"};
          redstoneColors = getCustomColors(string, strings9, 16, 1);
          xpOrbColors = getCustomColors(string + "xporb.png", -1, -1);
@@ -219,7 +219,7 @@ public class CustomColors {
          stemPumpkinColors = getCustomColors(string + "pumpkinstem.png", 8, 1);
          stemMelonColors = getCustomColors(string + "melonstem.png", 8, 1);
          String[] strings11 = new String[]{"myceliumparticle.png", "myceliumparticlecolor.png"};
-         v = getCustomColors(string, strings11, -1, -1);
+         myceliumParticleColors = getCustomColors(string, strings11, -1, -1);
          Pair pair = parseLightMapPacks();
          F = (CustomColormap[])pair.getLeft();
          lightmapMinDimensionId = (Integer)pair.getRight();
@@ -769,8 +769,8 @@ public class CustomColors {
    }
 
    public static void updateMyceliumFX(EntityFX fx) {
-      if (v != null) {
-         int i = v.getColorRandom();
+      if (myceliumParticleColors != null) {
+         int i = myceliumParticleColors.getColorRandom();
          int j = i >> 16 & 0xFF;
          int k = i >> 8 & 0xFF;
          int l = i & 0xFF;
@@ -888,11 +888,11 @@ public class CustomColors {
    }
 
    public static Vec3 getSkyColor(Vec3 skyColor3d, IBlockAccess blockAccess, double x, double y, double z) {
-      if (G == null) {
+      if (skyColors == null) {
          return skyColor3d;
       }
 
-      int i = G.getColorSmooth(blockAccess, x, y, z, 3);
+      int i = skyColors.getColorSmooth(blockAccess, x, y, z, 3);
       int j = i >> 16 & 0xFF;
       int k = i >> 8 & 0xFF;
       int l = i & 0xFF;
@@ -905,43 +905,43 @@ public class CustomColors {
       f *= f2;
       g *= f3;
       h *= f4;
-      return J.getColor(f, g, h);
+      return skyColorFader.getColor(f, g, h);
    }
 
    private static Vec3 getFogColor(Vec3 fogColor3d, IBlockAccess blockAccess, double x, double y, double z) {
-      if (h == null) {
+      if (fogColors == null) {
          return fogColor3d;
       }
 
-      int i = h.getColorSmooth(blockAccess, x, y, z, 3);
-      int j = i >> 16 & 0xFF;
-      int k = i >> 8 & 0xFF;
-      int l = i & 0xFF;
-      float f = j / 255.0F;
-      float g = k / 255.0F;
-      float f2 = l / 255.0F;
-      float f3 = (float)fogColor3d.xCoord / 0.753F;
-      float f4 = (float)fogColor3d.yCoord / 0.8471F;
-      float f5 = (float)fogColor3d.zCoord;
-      f *= f3;
-      g *= f4;
-      f2 *= f5;
-      return N.getColor(f, g, f2);
-   }
-
-   public static Vec3 S(IBlockAccess iBlockAccess, double d, double d2, double d3) {
-      if (L == null) {
-         return null;
-      }
-
-      int i = L.getColorSmooth(iBlockAccess, d, d2, d3, 3);
+      int i = fogColors.getColorSmooth(blockAccess, x, y, z, 3);
       int j = i >> 16 & 0xFF;
       int k = i >> 8 & 0xFF;
       int l = i & 0xFF;
       float f = j / 255.0F;
       float g = k / 255.0F;
       float h = l / 255.0F;
-      return P.getColor(f, g, h);
+      float f2 = (float)fogColor3d.xCoord / 0.753F;
+      float f3 = (float)fogColor3d.yCoord / 0.8471F;
+      float f4 = (float)fogColor3d.zCoord;
+      f *= f2;
+      g *= f3;
+      h *= f4;
+      return fogColorFader.getColor(f, g, h);
+   }
+
+   public static Vec3 getUnderwaterColor(IBlockAccess blockAccess, double x, double y, double z) {
+      if (underwaterColors == null) {
+         return null;
+      }
+
+      int i = underwaterColors.getColorSmooth(blockAccess, x, y, z, 3);
+      int j = i >> 16 & 0xFF;
+      int k = i >> 8 & 0xFF;
+      int l = i & 0xFF;
+      float f = j / 255.0F;
+      float g = k / 255.0F;
+      float h = l / 255.0F;
+      return underwaterColorFader.getColor(f, g, h);
    }
 
    private static int getStemColorMultiplier(Block blockStem, IBlockAccess blockAccess, BlockPos blockPos, RenderEnv renderEnv) {
@@ -997,14 +997,14 @@ public class CustomColors {
          }
 
          float h = 1.1666666F * (world.getSunBrightness(1.0F) - 0.2F);
-         if (world.x() > 0) {
+         if (world.getLastLightningBolt() > 0) {
             h = 1.0F;
          }
 
          h = Config.limitTo1(h);
          float f2 = h * (n - 1);
          float f3 = Config.limitTo1(f + 0.5F) * (n - 1);
-         float f4 = Config.limitTo1(Config.getGameSettings().Zu);
+         float f4 = Config.limitTo1(Config.getGameSettings().gammaSetting);
          boolean bl2 = f4 > 1.0E-4F;
          float[][] floatss = customColormap.getColorsRgb();
          g(floatss, f2, i2, n, K);
@@ -1600,16 +1600,16 @@ public class CustomColors {
       Config.warn("CustomColors: " + str);
    }
 
-   public static int k(int i) {
-      return expBarTextColor < 0 ? i : expBarTextColor;
+   public static int getExpBarTextColor(int color) {
+      return expBarTextColor < 0 ? color : expBarTextColor;
    }
 
-   public static int P(int i) {
-      return bossTextColor < 0 ? i : bossTextColor;
+   public static int getBossTextColor(int color) {
+      return bossTextColor < 0 ? color : bossTextColor;
    }
 
-   public static int E(int i) {
-      return signTextColor < 0 ? i : signTextColor;
+   public static int getSignTextColor(int color) {
+      return signTextColor < 0 ? color : signTextColor;
    }
 
    public static CustomColormap U() {

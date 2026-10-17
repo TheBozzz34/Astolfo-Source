@@ -81,15 +81,15 @@ public class CommandSpreadPlayers extends CommandBase {
    }
 
    private void func_110669_a(
-      ICommandSender iCommandSender, List<Entity> list, CommandSpreadPlayers.Position position, double d, double d2, World worldIn, boolean bl
+      ICommandSender iCommandSender, List<Entity> list, CommandSpreadPlayers.Position position, double d, double e, World worldIn, boolean bl
    ) throws CommandException {
       Random random = new Random();
-      double e = position.field_111101_a - d2;
-      double d3 = position.field_111100_b - d2;
-      double d4 = position.field_111101_a + d2;
-      double d5 = position.field_111100_b + d2;
-      CommandSpreadPlayers.Position[] positions = this.func_110670_a(random, bl ? this.func_110667_a(list) : list.size(), e, d3, d4, d5);
-      int i = this.func_110668_a(position, d, worldIn, random, e, d3, d4, d5, positions, bl);
+      double d2 = position.field_111101_a - e;
+      double d3 = position.field_111100_b - e;
+      double d4 = position.field_111101_a + e;
+      double d5 = position.field_111100_b + e;
+      CommandSpreadPlayers.Position[] positions = this.func_110670_a(random, bl ? this.func_110667_a(list) : list.size(), d2, d3, d4, d5);
+      int i = this.func_110668_a(position, d, worldIn, random, d2, d3, d4, d5, positions, bl);
       double d6 = this.func_110671_a(list, worldIn, positions, bl);
       notifyOperators(
          iCommandSender, this, "commands.spreadplayers.success." + (bl ? "teams" : "players"), positions.length, position.field_111101_a, position.field_111100_b
@@ -120,20 +120,20 @@ public class CommandSpreadPlayers extends CommandBase {
       double d,
       World worldIn,
       Random random2,
+      double e,
       double d2,
       double d3,
       double d4,
-      double d5,
       CommandSpreadPlayers.Position[] positions,
       boolean bl
    ) throws CommandException {
       boolean bl2 = true;
-      double e = Float.MAX_VALUE;
+      double d5 = Float.MAX_VALUE;
 
       int i;
       for (i = 0; i < 10000 && bl2; i++) {
          bl2 = false;
-         e = Float.MAX_VALUE;
+         d5 = Float.MAX_VALUE;
 
          for (int j = 0; j < positions.length; j++) {
             CommandSpreadPlayers.Position position2 = positions[j];
@@ -144,7 +144,7 @@ public class CommandSpreadPlayers extends CommandBase {
                if (j != l) {
                   CommandSpreadPlayers.Position position4 = positions[l];
                   double d6 = position2.func_111099_a(position4);
-                  e = Math.min(d6, e);
+                  d5 = Math.min(d6, d5);
                   if (d6 < d) {
                      k++;
                      position3.field_111101_a = position3.field_111101_a + (position4.field_111101_a - position2.field_111101_a);
@@ -161,13 +161,13 @@ public class CommandSpreadPlayers extends CommandBase {
                   position3.func_111095_a();
                   position2.func_111094_b(position3);
                } else {
-                  position2.func_111097_a(random2, d2, d3, d4, d5);
+                  position2.func_111097_a(random2, e, d2, d3, d4);
                }
 
                bl2 = true;
             }
 
-            if (position2.func_111093_a(d2, d3, d4, d5)) {
+            if (position2.func_111093_a(e, d2, d3, d4)) {
                bl2 = true;
             }
          }
@@ -175,7 +175,7 @@ public class CommandSpreadPlayers extends CommandBase {
          if (!bl2) {
             for (CommandSpreadPlayers.Position position5 : positions) {
                if (!position5.func_111098_b(worldIn)) {
-                  position5.func_111097_a(random2, d2, d3, d4, d5);
+                  position5.func_111097_a(random2, e, d2, d3, d4);
                   bl2 = true;
                }
             }
@@ -188,7 +188,7 @@ public class CommandSpreadPlayers extends CommandBase {
             positions.length,
             position.field_111101_a,
             position.field_111100_b,
-            String.format("%.2f", e)
+            String.format("%.2f", d5)
          );
       } else {
          return i;
@@ -232,12 +232,12 @@ public class CommandSpreadPlayers extends CommandBase {
       return d / list.size();
    }
 
-   private CommandSpreadPlayers.Position[] func_110670_a(Random random2, int i, double d, double d2, double d3, double d4) {
+   private CommandSpreadPlayers.Position[] func_110670_a(Random random2, int i, double d, double e, double d2, double d3) {
       CommandSpreadPlayers.Position[] positions = new CommandSpreadPlayers.Position[i];
 
       for (int j = 0; j < positions.length; j++) {
          CommandSpreadPlayers.Position position = new CommandSpreadPlayers.Position();
-         position.func_111097_a(random2, d, d2, d3, d4);
+         position.func_111097_a(random2, d, e, d2, d3);
          positions[j] = position;
       }
 
@@ -256,9 +256,9 @@ public class CommandSpreadPlayers extends CommandBase {
       public Position() {
       }
 
-      public Position(double d, double d2) {
+      public Position(double d, double e) {
          this.field_111101_a = d;
-         this.field_111100_b = d2;
+         this.field_111100_b = e;
       }
 
       public double func_111099_a(CommandSpreadPlayers.Position position) {
@@ -282,21 +282,21 @@ public class CommandSpreadPlayers extends CommandBase {
          this.field_111100_b = this.field_111100_b - position.field_111100_b;
       }
 
-      public boolean func_111093_a(double d, double d2, double d3, double d4) {
+      public boolean func_111093_a(double d, double e, double d2, double d3) {
          boolean bl = false;
          if (this.field_111101_a < d) {
             this.field_111101_a = d;
             bl = true;
-         } else if (this.field_111101_a > d3) {
-            this.field_111101_a = d3;
+         } else if (this.field_111101_a > d2) {
+            this.field_111101_a = d2;
             bl = true;
          }
 
-         if (this.field_111100_b < d2) {
-            this.field_111100_b = d2;
+         if (this.field_111100_b < e) {
+            this.field_111100_b = e;
             bl = true;
-         } else if (this.field_111100_b > d4) {
-            this.field_111100_b = d4;
+         } else if (this.field_111100_b > d3) {
+            this.field_111100_b = d3;
             bl = true;
          }
 
@@ -330,9 +330,9 @@ public class CommandSpreadPlayers extends CommandBase {
          return false;
       }
 
-      public void func_111097_a(Random random2, double d, double d2, double d3, double d4) {
-         this.field_111101_a = MathHelper.getRandomDoubleInRange(random2, d, d3);
-         this.field_111100_b = MathHelper.getRandomDoubleInRange(random2, d2, d4);
+      public void func_111097_a(Random random2, double d, double e, double d2, double d3) {
+         this.field_111101_a = MathHelper.getRandomDoubleInRange(random2, d, d2);
+         this.field_111100_b = MathHelper.getRandomDoubleInRange(random2, e, d3);
       }
    }
 }

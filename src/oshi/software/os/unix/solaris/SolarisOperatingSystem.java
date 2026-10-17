@@ -21,7 +21,7 @@ import oshi.util.platform.unix.solaris.KstatUtil;
 
 @ThreadSafe
 public class SolarisOperatingSystem extends AbstractOperatingSystem {
-   private static final long A = querySystemBootTime();
+   private static final long BOOTTIME = querySystemBootTime();
 
    public SolarisOperatingSystem() {
       this.version = new SolarisOSVersionInfoEx();
@@ -230,7 +230,7 @@ public class SolarisOperatingSystem extends AbstractOperatingSystem {
 
    @Override
    public long getSystemBootTime() {
-      return A;
+      return BOOTTIME;
    }
 
    private static long querySystemBootTime() {

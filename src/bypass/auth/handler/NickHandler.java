@@ -16,11 +16,11 @@ public class NickHandler extends PacketHandler<NickPacket> {
    public void handle(NickPacket nickPacket, PacketOutput packetOutput) {
       System.out.println(nickPacket.nick + " is " + nickPacket.name);
       Denicker.nicks.put(nickPacket.nick, nickPacket.name);
-      PlayerStatsChecker.r95 r952 = PlayerStatsChecker.unresolvedNicks.get(nickPacket.nick);
-      if (r952 != null) {
+      PlayerStatsChecker.UnresolvedNick unresolvedNick = PlayerStatsChecker.unresolvedNicks.get(nickPacket.nick);
+      if (unresolvedNick != null) {
          PlayerStatsChecker playerStatsChecker = new PlayerStatsChecker(PlayerListTracker.hypixelApi);
-         playerStatsChecker.initialize(r952.playerInfo.getGameProfile().getId(), nickPacket.name, r952.playerInfo, true);
-         PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(nickPacket.name, r952.playerInfo, playerStatsChecker);
+         playerStatsChecker.initialize(unresolvedNick.playerInfo.getGameProfile().getId(), nickPacket.name, unresolvedNick.playerInfo, true);
+         PlayerStatsEntry playerStatsEntry = new PlayerStatsEntry(nickPacket.name, unresolvedNick.playerInfo, playerStatsChecker);
          playerStatsEntry.realName = nickPacket.name;
          playerStatsEntry.name = nickPacket.nick;
          PlayerListTracker.playerStats.add(playerStatsEntry);

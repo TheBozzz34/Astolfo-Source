@@ -2236,7 +2236,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       this.userMessage = message;
    }
 
-   public synchronized String r() {
+   public synchronized String getUserMessage() {
       return this.userMessage;
    }
 
@@ -2411,7 +2411,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       this.serverRunning = false;
    }
 
-   public void T() {
+   public void setInstance() {
       mcServer = this;
    }
 
@@ -2771,8 +2771,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.serverOwner;
    }
 
-   public void s(String string) {
-      this.serverOwner = string;
+   public void setServerOwner(String owner) {
+      this.serverOwner = owner;
    }
 
    public boolean isSinglePlayer() {
@@ -2783,15 +2783,15 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.folderName;
    }
 
-   public void L(String string) {
-      this.folderName = string;
+   public void setFolderName(String name) {
+      this.folderName = name;
    }
 
-   public void h(String string) {
+   public void setWorldName(String string) {
       this.worldName = string;
    }
 
-   public String l() {
+   public String getWorldName() {
       return this.worldName;
    }
 
@@ -2825,12 +2825,12 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.isDemo;
    }
 
-   public void y(boolean bl) {
-      this.isDemo = bl;
+   public void setDemo(boolean demo) {
+      this.isDemo = demo;
    }
 
-   public void F(boolean bl) {
-      this.enableBonusChest = bl;
+   public void canCreateBonusChest(boolean enable) {
+      this.enableBonusChest = enable;
    }
 
    public ISaveFormat getActiveAnvilConverter() {
@@ -2920,16 +2920,16 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.onlineMode;
    }
 
-   public void L(boolean bl) {
-      this.onlineMode = bl;
+   public void setOnlineMode(boolean online) {
+      this.onlineMode = online;
    }
 
    public boolean getCanSpawnAnimals() {
       return this.canSpawnAnimals;
    }
 
-   public void b(boolean bl) {
-      this.canSpawnAnimals = bl;
+   public void setCanSpawnAnimals(boolean spawnAnimals) {
+      this.canSpawnAnimals = spawnAnimals;
    }
 
    public boolean getCanSpawnNPCs() {
@@ -2938,24 +2938,24 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
 
    public abstract boolean shouldUseNativeTransport();
 
-   public void i(boolean bl) {
-      this.canSpawnNPCs = bl;
+   public void setCanSpawnNPCs(boolean spawnNpcs) {
+      this.canSpawnNPCs = spawnNpcs;
    }
 
    public boolean isPVPEnabled() {
       return this.pvpEnabled;
    }
 
-   public void v(boolean bl) {
-      this.pvpEnabled = bl;
+   public void setAllowPvp(boolean allowPvp) {
+      this.pvpEnabled = allowPvp;
    }
 
    public boolean isFlightAllowed() {
       return this.allowFlight;
    }
 
-   public void E(boolean bl) {
-      this.allowFlight = bl;
+   public void setAllowFlight(boolean allow) {
+      this.allowFlight = allow;
    }
 
    public abstract boolean isCommandBlockEnabled();
@@ -2964,8 +2964,8 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.motd;
    }
 
-   public void G(String string) {
-      this.motd = string;
+   public void setMOTD(String motdIn) {
+      this.motd = motdIn;
    }
 
    public int getBuildLimit() {
@@ -2998,7 +2998,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.networkSystem;
    }
 
-   public boolean u() {
+   public boolean serverIsInRunLoop() {
       return this.serverIsRunning;
    }
 
@@ -3012,7 +3012,7 @@ public abstract class MinecraftServer implements Runnable, ICommandSender, IThre
       return this.tickCounter;
    }
 
-   public void x() {
+   public void enableProfiling() {
       this.startProfiling = true;
    }
 

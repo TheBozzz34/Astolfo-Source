@@ -67,7 +67,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
    @Override
    public void startExecuting() {
       this.field_75343_h = 0;
-      this.field_75344_i = ((PathNavigateGround)this.thePet.getNavigator()).S();
+      this.field_75344_i = ((PathNavigateGround)this.thePet.getNavigator()).getAvoidsWater();
       ((PathNavigateGround)this.thePet.getNavigator()).setAvoidsWater(false);
    }
 

@@ -25,11 +25,11 @@ public abstract class ShaderUniformBase {
       return this.name;
    }
 
-   public int C() {
+   public int getProgram() {
       return this.program;
    }
 
-   public int e() {
+   public int getLocation() {
       return this.location;
    }
 

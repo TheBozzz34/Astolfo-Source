@@ -26,7 +26,7 @@ public class EntityAIWander extends EntityAIBase {
    @Override
    public boolean shouldExecute() {
       if (!this.mustUpdate) {
-         if (this.entity.s() >= 100) {
+         if (this.entity.getAge() >= 100) {
             return false;
          }
 

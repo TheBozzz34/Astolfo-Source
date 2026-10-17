@@ -119,7 +119,7 @@ public final class Freecam extends Module {
             this.viewedEntity.rotationPitch = mc.thePlayer.rotationPitch;
             this.viewedEntity.setRotationYawHead(mc.thePlayer.getRotationYawHead());
          } else {
-            mc.thePlayer.z(this.viewedEntity);
+            mc.thePlayer.copyLocationAndAnglesFrom(this.viewedEntity);
          }
       }
    };
@@ -146,7 +146,7 @@ public final class Freecam extends Module {
    public void onDisable() {
       Entity entity = mc.theWorld.removeEntityFromWorld(-1337);
       if (entity != null) {
-         mc.thePlayer.z(entity);
+         mc.thePlayer.copyLocationAndAnglesFrom(entity);
       }
 
       if (mc.thePlayer != null) {
@@ -168,7 +168,7 @@ public final class Freecam extends Module {
       }
 
       EntityOtherPlayerMP entityOtherPlayerMP = new EntityOtherPlayerMP(mc.theWorld, mc.thePlayer.getGameProfile());
-      entityOtherPlayerMP.z(mc.thePlayer);
+      entityOtherPlayerMP.copyLocationAndAnglesFrom(mc.thePlayer);
       entityOtherPlayerMP.rotationYawHead = mc.thePlayer.rotationYawHead;
       entityOtherPlayerMP.inventory.copyInventory(mc.thePlayer.inventory);
       mc.theWorld.addEntityToWorld(i, entityOtherPlayerMP);

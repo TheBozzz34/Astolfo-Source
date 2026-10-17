@@ -68,7 +68,7 @@ public class FontUtils {
    }
 
    public static ResourceLocation getHdFontLocation(ResourceLocation fontLoc) {
-      if (!Config.m()) {
+      if (!Config.isCustomFonts()) {
          return fontLoc;
       }
 

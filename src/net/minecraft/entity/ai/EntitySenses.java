@@ -29,7 +29,7 @@ public class EntitySenses {
       }
 
       this.entityObj.worldObj.theProfiler.startSection("canSee");
-      boolean bl = this.entityObj.C(entityIn);
+      boolean bl = this.entityObj.canEntityBeSeen(entityIn);
       this.entityObj.worldObj.theProfiler.endSection();
       if (bl) {
          this.seenEntities.add(entityIn);

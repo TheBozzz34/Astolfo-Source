@@ -10,8 +10,8 @@ public class Tezzelator {
       t.draw();
    }
 
-   public Tezzelator vertex(double d, double d2, double d3) {
-      t.getWorldRenderer().pos(d, d2, d3);
+   public Tezzelator vertex(double d, double e, double d2) {
+      t.getWorldRenderer().pos(d, e, d2);
       return this;
    }
 
@@ -35,16 +35,16 @@ public class Tezzelator {
       t.getWorldRenderer().endVertex();
    }
 
-   public void offset(double d, double d2, double d3) {
-      t.getWorldRenderer().setTranslation(d, d2, d3);
+   public void offset(double d, double e, double d2) {
+      t.getWorldRenderer().setTranslation(d, e, d2);
    }
 
    public RealmsBufferBuilder color(int i, int j, int k, int l) {
       return new RealmsBufferBuilder(t.getWorldRenderer().color(i, j, k, l));
    }
 
-   public Tezzelator tex(double d, double d2) {
-      t.getWorldRenderer().tex(d, d2);
+   public Tezzelator tex(double d, double e) {
+      t.getWorldRenderer().tex(d, e);
       return this;
    }
 }

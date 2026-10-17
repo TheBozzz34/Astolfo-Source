@@ -30,7 +30,7 @@ public class LayerEndermanEyes implements LayerRenderer<EntityEnderman> {
       GlStateManager.enableLighting();
       GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
       if (Config.isShaders()) {
-         Shaders.s();
+         Shaders.beginSpiderEyes();
       }
 
       this.endermanRenderer.getMainModel().render(entitylivingbaseIn, f, g, h, f2, f3, scale);

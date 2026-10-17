@@ -43,23 +43,23 @@ public final class AutoClicker extends Module {
                && mc.objectMouseOver != null
                && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
                && !mc.thePlayer.capabilities.isCreativeMode) {
-               KeyBinding.onTick(mc.gameSettings.lu.getKeyCode());
-               mc.gameSettings.lu.pressed = true;
+               KeyBinding.onTick(mc.gameSettings.keyBindAttack.getKeyCode());
+               mc.gameSettings.keyBindAttack.pressed = true;
                return;
             }
 
             if (this.clickTimer.hasElapsed(this.clickDelay)) {
                this.clickTimer.reset();
-               KeyBinding.onTick(mc.gameSettings.lu.getKeyCode());
-               mc.gameSettings.lu.pressed = false;
+               KeyBinding.onTick(mc.gameSettings.keyBindAttack.getKeyCode());
+               mc.gameSettings.keyBindAttack.pressed = false;
                if (this.block.getSetting("Enable").asBoolean() && GameUtil.isHoldingSword(mc.thePlayer) && Mouse.isButtonDown(1)) {
-                  KeyBinding.onTick(mc.gameSettings.Z7.getKeyCode());
-                  mc.gameSettings.Z7.pressed = true;
+                  KeyBinding.onTick(mc.gameSettings.keyBindUseItem.getKeyCode());
+                  mc.gameSettings.keyBindUseItem.pressed = true;
                   float f = 100 - this.block.getSetting("Chance").asInt();
                   boolean bl = RandomUtils.RANDOM.nextFloat() > (f != 0.0F ? f / 100.0F : -0.1);
                   if (bl) {
-                     KeyBinding.onTick(mc.gameSettings.Z7.getKeyCode());
-                     mc.gameSettings.Z7.pressed = false;
+                     KeyBinding.onTick(mc.gameSettings.keyBindUseItem.getKeyCode());
+                     mc.gameSettings.keyBindUseItem.pressed = false;
                   }
                }
 

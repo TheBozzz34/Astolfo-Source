@@ -10,23 +10,23 @@ public class Quintet<A, B, C, D, E> {
    private final D d;
    private final E e;
 
-   public Quintet(A a, B b, C c, D d, E eIn) {
+   public Quintet(A a, B b, C c, D d, E e) {
       this.N = a;
       this.b = b;
       this.c = c;
       this.d = d;
-      this.e = eIn;
+      this.e = e;
    }
 
    public final A y() {
       return this.N;
    }
 
-   public final B x() {
+   public final B getB() {
       return this.b;
    }
 
-   public final C q() {
+   public final C getC() {
       return this.c;
    }
 
@@ -34,7 +34,7 @@ public class Quintet<A, B, C, D, E> {
       return this.d;
    }
 
-   public final E s() {
+   public final E getE() {
       return this.e;
    }
 }

@@ -155,7 +155,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
          }
 
          if (button.id == 8675309) {
-            this.mc.entityRenderer.D();
+            this.mc.entityRenderer.activateNextShader();
          }
 
          if (button.id == 101) {
@@ -207,7 +207,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
+      this.drawCenteredString(this.fontRendererObj, this.field_146442_a, this.width / 2, 15, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

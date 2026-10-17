@@ -237,18 +237,18 @@ public class HttpPipelineConnection {
       return new String[]{string, string2};
    }
 
-   public synchronized void onExceptionSend(HttpPipelineRequest pr, Exception eIn) {
-      this.terminate(eIn);
+   public synchronized void onExceptionSend(HttpPipelineRequest pr, Exception e) {
+      this.terminate(e);
    }
 
-   public synchronized void onExceptionReceive(HttpPipelineRequest pr, Exception eIn) {
-      this.terminate(eIn);
+   public synchronized void onExceptionReceive(HttpPipelineRequest pr, Exception e) {
+      this.terminate(e);
    }
 
-   private synchronized void terminate(Exception eIn) {
+   private synchronized void terminate(Exception e) {
       if (!this.terminated) {
          this.terminated = true;
-         this.terminateRequests(eIn);
+         this.terminateRequests(e);
          if (this.httpPipelineSender != null) {
             this.httpPipelineSender.interrupt();
          }
@@ -270,11 +270,11 @@ public class HttpPipelineConnection {
       }
    }
 
-   private void terminateRequests(Exception eIn) {
+   private void terminateRequests(Exception e) {
       if (this.listRequests.size() > 0) {
          if (!this.responseReceived) {
             HttpPipelineRequest httpPipelineRequest = this.listRequests.remove(0);
-            httpPipelineRequest.getHttpListener().failed(httpPipelineRequest.getHttpRequest(), eIn);
+            httpPipelineRequest.getHttpListener().failed(httpPipelineRequest.getHttpRequest(), e);
             httpPipelineRequest.setClosed(true);
          }
 
@@ -289,7 +289,7 @@ public class HttpPipelineConnection {
       return this.terminated ? true : this.countRequests >= this.keepaliveMaxCount;
    }
 
-   public int K() {
+   public int getCountRequests() {
       return this.countRequests;
    }
 

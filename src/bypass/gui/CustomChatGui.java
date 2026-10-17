@@ -302,12 +302,12 @@ public class CustomChatGui extends GuiNewChat {
 
    @Override
    public int getChatWidth() {
-      return computeChatWidth(this.minecraft.gameSettings.l6);
+      return computeChatWidth(this.minecraft.gameSettings.chatWidth);
    }
 
    @Override
    public int getChatHeight() {
-      return computeChatHeight(this.getChatOpen() ? this.minecraft.gameSettings.o : this.minecraft.gameSettings.la);
+      return computeChatHeight(this.getChatOpen() ? this.minecraft.gameSettings.chatHeightFocused : this.minecraft.gameSettings.chatHeightUnfocused);
    }
 
    @Override

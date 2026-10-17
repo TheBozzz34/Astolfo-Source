@@ -29,7 +29,7 @@ public class HwidBuilder {
       }
 
       if (HwidOptions.isBaseboardEnabled(hwidOptions)) {
-         String string = String.format("%08x", computerSystem.getBaseboard().A().hashCode());
+         String string = String.format("%08x", computerSystem.getBaseboard().getSerialNumber().hashCode());
          this.hwid.append(string).append("$");
       }
 
@@ -54,7 +54,7 @@ public class HwidBuilder {
       }
 
       if (HwidOptions.isMemoryEnabled(hwidOptions)) {
-         this.hwid.append((int)(hardwareAbstractionLayer.getMemory().f() / 1.0E9)).append("$");
+         this.hwid.append((int)(hardwareAbstractionLayer.getMemory().getTotal() / 1.0E9)).append("$");
       }
 
       if (HwidOptions.isDiskEnabled(hwidOptions)) {
@@ -65,7 +65,7 @@ public class HwidBuilder {
                this.hwid.append(hardwareAbstractionLayer.getDiskStores()[i].getSerial().hashCode());
             }
          } else {
-            this.hwid.append(computerSystem.k().hashCode());
+            this.hwid.append(computerSystem.getSerialNumber().hashCode());
          }
 
          this.hwid.append("$");

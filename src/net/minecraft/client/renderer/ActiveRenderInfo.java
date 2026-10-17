@@ -78,23 +78,23 @@ public class ActiveRenderInfo {
       return position;
    }
 
-   public static float S() {
+   public static float getRotationX() {
       return rotationX;
    }
 
-   public static float w() {
+   public static float getRotationXZ() {
       return rotationXZ;
    }
 
-   public static float N() {
+   public static float getRotationZ() {
       return rotationZ;
    }
 
-   public static float T() {
+   public static float getRotationYZ() {
       return rotationYZ;
    }
 
-   public static float U() {
+   public static float getRotationXY() {
       return rotationXY;
    }
 }

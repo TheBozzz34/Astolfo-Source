@@ -786,10 +786,10 @@ public class ShadersTex {
          GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.configTexMagFilB]);
          GlStateManager.bindTexture(multiTexID.norm);
          GL11.glTexParameteri(3553, 10241, Shaders.texMinFilValue[Shaders.configTexMinFilN]);
-         GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.ub]);
+         GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.configTexMagFilN]);
          GlStateManager.bindTexture(multiTexID.spec);
          GL11.glTexParameteri(3553, 10241, Shaders.texMinFilValue[Shaders.configTexMinFilS]);
-         GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.L]);
+         GL11.glTexParameteri(3553, 10240, Shaders.texMagFilValue[Shaders.configTexMagFilS]);
          GlStateManager.bindTexture(0);
       }
    }

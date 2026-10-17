@@ -77,7 +77,7 @@ public abstract class AbstractTraversable<E> implements Traversable<E> {
             }
          });
          return true;
-      } catch (Exception eIn) {
+      } catch (Exception e) {
          return false;
       }
    }

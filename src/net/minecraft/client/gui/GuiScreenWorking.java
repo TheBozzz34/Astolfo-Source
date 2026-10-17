@@ -43,8 +43,8 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
          }
       } else {
          this.drawDefaultBackground();
-         this.d(this.fontRendererObj, this.field_146591_a, this.width / 2, 70, 16777215);
-         this.d(this.fontRendererObj, this.field_146589_f + " " + this.progress + "%", this.width / 2, 90, 16777215);
+         this.drawCenteredString(this.fontRendererObj, this.field_146591_a, this.width / 2, 70, 16777215);
+         this.drawCenteredString(this.fontRendererObj, this.field_146589_f + " " + this.progress + "%", this.width / 2, 90, 16777215);
          super.drawScreen(mouseX, mouseY, partialTicks);
       }
    }

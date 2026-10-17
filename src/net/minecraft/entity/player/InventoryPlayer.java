@@ -241,7 +241,7 @@ public class InventoryPlayer implements IInventory, Cloneable {
       return i;
    }
 
-   public void Y() {
+   public void decrementAnimations() {
       for (int i = 0; i < this.mainInventory.length; i++) {
          if (this.mainInventory[i] != null) {
             this.mainInventory[i].updateAnimation(this.player.worldObj, this.player, i, this.currentItem == i);

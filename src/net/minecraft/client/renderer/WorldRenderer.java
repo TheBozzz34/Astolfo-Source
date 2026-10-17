@@ -756,7 +756,7 @@ public class WorldRenderer {
       return this.rawIntBuffer.capacity() * 4 / (this.vertexFormat.getIntegerSize() * 4);
    }
 
-   public void H() {
+   public void checkAndGrow() {
       this.growBuffer(this.vertexFormat.getIntegerSize());
    }
 

@@ -38,7 +38,7 @@ public class BlockAliases {
    }
 
    public static void update(IShaderPack shaderPack) {
-      Q();
+      reset();
       String string = "/shaders/block.properties";
 
       try {
@@ -120,7 +120,7 @@ public class BlockAliases {
       return blockAliasss;
    }
 
-   public static void Q() {
+   public static void reset() {
       blockAliases = (BlockAlias[][])null;
    }
 }

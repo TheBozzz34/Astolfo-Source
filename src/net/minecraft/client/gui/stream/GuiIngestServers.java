@@ -87,7 +87,7 @@ public class GuiIngestServers extends GuiScreen {
       this.q = new GuiTextField(9, this.fontRendererObj, this.width / 2 + 90, 8, 100, 15);
       this.q.setMaxStringLength(128);
       this.field_152311_g = new GuiIngestServers.ServerList();
-      this.field_152311_g.U(7, 8);
+      this.field_152311_g.registerScrollButtons(7, 8);
       this.u();
       if (AltManager.unbannedCount > 0) {
          Toasts.TOASTS.infoTimed("Accounts unbanned", AltManager.unbannedCount + " accounts have been unbanned", 10000);
@@ -301,7 +301,7 @@ public class GuiIngestServers extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.field_152311_g.drawScreen(mouseX, mouseY, partialTicks);
-      this.I(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
+      this.drawString(this.fontRendererObj, "§7Username: §3" + this.mc.getSession().getUsername(), 3, 3, -1);
       int i = this.width / 2 + 193;
       byte b = 5;
       GL11.glEnable(3553);
@@ -329,8 +329,8 @@ public class GuiIngestServers extends GuiScreen {
             );
       }
 
-      this.d(this.fontRendererObj, "Alt Manager", this.width / 2, 9, 16777215);
-      this.d(
+      this.drawCenteredString(this.fontRendererObj, "Alt Manager", this.width / 2, 9, 16777215);
+      this.drawCenteredString(
          this.fontRendererObj,
          EnumChatFormatting.DARK_GRAY + "(" + EnumChatFormatting.GRAY + this.R.size() + EnumChatFormatting.DARK_GRAY + ")",
          this.width / 2,
@@ -414,8 +414,8 @@ public class GuiIngestServers extends GuiScreen {
       public void drawSlot(int entryID, int i, int j, int k, int mouseXIn, int mouseYIn) {
          if (j <= GuiIngestServers.this.height && j >= 0) {
             Alt alt = GuiIngestServers.this.R.get(entryID);
-            GuiIngestServers.this.I(this.mc.fontRendererObj, alt.displayName, i + 40, j + 5, -1);
-            GuiIngestServers.this.I(this.mc.fontRendererObj, this.Y(alt.password), i + 41, j + 15, -6513508);
+            GuiIngestServers.this.drawString(this.mc.fontRendererObj, alt.displayName, i + 40, j + 5, -1);
+            GuiIngestServers.this.drawString(this.mc.fontRendererObj, this.Y(alt.password), i + 41, j + 15, -6513508);
             RenderUtil.setColor(alt.V_boolean() ? (alt.failedLogin ? Color.YELLOW.getRGB() : Color.GREEN.getRGB()) : Color.GRAY.getRGB());
             if (alt.microsoft) {
                RenderUtil.setColor(Color.WHITE.getRGB());
@@ -466,7 +466,7 @@ public class GuiIngestServers extends GuiScreen {
                      string = string + n + "s";
                   }
 
-                  GuiIngestServers.this.I(this.mc.fontRendererObj, string, i + 40, j + 23, 16777215);
+                  GuiIngestServers.this.drawString(this.mc.fontRendererObj, string, i + 40, j + 23, 16777215);
                } else {
                   alt.banned = false;
                   alt.banExpiry = -1L;

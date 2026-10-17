@@ -125,15 +125,15 @@ public class DynamicLight {
       this.entity = entity;
    }
 
-   public double B() {
+   public double getLastPosX() {
       return this.lastPosX;
    }
 
-   public double r() {
+   public double getLastPosY() {
       return this.lastPosY;
    }
 
-   public double f() {
+   public double getLastPosZ() {
       return this.lastPosZ;
    }
 
@@ -145,7 +145,7 @@ public class DynamicLight {
       return this.underwater;
    }
 
-   public double L() {
+   public double getOffsetY() {
       return this.offsetY;
    }
 

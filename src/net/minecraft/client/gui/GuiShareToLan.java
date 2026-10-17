@@ -74,8 +74,8 @@ public class GuiShareToLan extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(this.fontRendererObj, I18n.format("lanServer.title"), this.width / 2, 50, 16777215);
-      this.d(this.fontRendererObj, I18n.format("lanServer.otherPlayers"), this.width / 2, 82, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.title"), this.width / 2, 50, 16777215);
+      this.drawCenteredString(this.fontRendererObj, I18n.format("lanServer.otherPlayers"), this.width / 2, 82, 16777215);
       super.drawScreen(mouseX, mouseY, partialTicks);
    }
 }

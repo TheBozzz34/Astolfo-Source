@@ -197,7 +197,7 @@ public class EntitySlime extends EntityLiving implements IMob {
 
    public void func_175451_e(EntityLivingBase entityLivingBase) {
       int i = this.getSlimeSize();
-      if (this.C(entityLivingBase)
+      if (this.canEntityBeSeen(entityLivingBase)
          && this.getDistanceSqToEntity(entityLivingBase) < 0.6 * i * 0.6 * i
          && entityLivingBase.attackEntityFrom(DamageSource.causeMobDamage(this), this.getAttackStrength())) {
          this.playSound("mob.attack", 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);

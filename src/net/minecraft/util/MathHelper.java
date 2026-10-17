@@ -18,7 +18,7 @@ import javax.script.ScriptException;
 import javax.xml.bind.DatatypeConverter;
 
 public class MathHelper {
-   public static final float H = sqrt_float(2.0F);
+   public static final float SQRT_2 = sqrt_float(2.0F);
    private static final int SIN_BITS = 12;
    private static final int SIN_MASK = 4095;
    private static final int SIN_COUNT = 4096;
@@ -32,7 +32,7 @@ public class MathHelper {
    public static final float deg2Rad = (float) (Math.PI / 180.0);
    private static final float[] SIN_TABLE_FAST = new float[4096];
    public static boolean fastMath = false;
-   private static final float[] Z = new float[65536];
+   private static final float[] SIN_TABLE = new float[65536];
    private static final int[] multiplyDeBruijnBitPosition;
    private static final double field_181163_d;
    private static final double[] field_181164_e;
@@ -40,11 +40,11 @@ public class MathHelper {
    private static boolean u;
 
    public static float sin(float f) {
-      return fastMath ? SIN_TABLE_FAST[(int)(f * 651.8986F) & 4095] : Z[(int)(f * 10430.378F) & 65535];
+      return fastMath ? SIN_TABLE_FAST[(int)(f * 651.8986F) & 4095] : SIN_TABLE[(int)(f * 10430.378F) & 65535];
    }
 
    public static float cos(float value) {
-      return fastMath ? SIN_TABLE_FAST[(int)((value + (float) (Math.PI / 2)) * 651.8986F) & 4095] : Z[(int)(value * 10430.378F + 16384.0F) & 65535];
+      return fastMath ? SIN_TABLE_FAST[(int)((value + (float) (Math.PI / 2)) * 651.8986F) & 4095] : SIN_TABLE[(int)(value * 10430.378F + 16384.0F) & 65535];
    }
 
    public static float sqrt_float(float value) {
@@ -165,16 +165,16 @@ public class MathHelper {
       return slide < 0.0 ? lowerBnd : (slide > 1.0 ? upperBnd : lowerBnd + (upperBnd - lowerBnd) * slide);
    }
 
-   public static double abs_max(double d, double d2) {
+   public static double abs_max(double d, double e) {
       if (d < 0.0) {
          d = -d;
       }
 
-      if (d2 < 0.0) {
-         d2 = -d2;
+      if (e < 0.0) {
+         e = -e;
       }
 
-      return d > d2 ? d : d2;
+      return d > e ? d : e;
    }
 
    public static int bucketInt(int i, int j) {
@@ -189,8 +189,8 @@ public class MathHelper {
       return f >= g ? f : random2.nextFloat() * (g - f) + f;
    }
 
-   public static double getRandomDoubleInRange(Random random2, double d, double d2) {
-      return d >= d2 ? d : random2.nextDouble() * (d2 - d) + d;
+   public static double getRandomDoubleInRange(Random random2, double d, double e) {
+      return d >= e ? d : random2.nextDouble() * (e - d) + d;
    }
 
    public static double average(long[] values) {
@@ -257,8 +257,8 @@ public class MathHelper {
       }
    }
 
-   public static double parseDoubleWithDefaultAndMax(String string, double d, double d2) {
-      return Math.max(d2, parseDoubleWithDefault(string, d));
+   public static double parseDoubleWithDefaultAndMax(String string, double d, double e) {
+      return Math.max(e, parseDoubleWithDefault(string, d));
    }
 
    public static int roundUpToPowerOfTwo(int value) {
@@ -352,13 +352,13 @@ public class MathHelper {
       return new UUID(l, m);
    }
 
-   public static double func_181160_c(double d, double d2, double d3) {
-      return (d - d2) / (d3 - d2);
+   public static double func_181160_c(double d, double e, double d2) {
+      return (d - e) / (d2 - e);
    }
 
-   public static double atan2(double d, double d2) {
-      double e = d2 * d2 + d * d;
-      if (Double.isNaN(e)) {
+   public static double atan2(double d, double e) {
+      double d2 = e * e + d * d;
+      if (Double.isNaN(d2)) {
          return Double.NaN;
       }
 
@@ -367,27 +367,27 @@ public class MathHelper {
          d = -d;
       }
 
-      boolean bl2 = d2 < 0.0;
+      boolean bl2 = e < 0.0;
       if (bl2) {
-         d2 = -d2;
+         e = -e;
       }
 
-      boolean bl3 = d > d2;
+      boolean bl3 = d > e;
       if (bl3) {
-         double d3 = d2;
-         d2 = d;
+         double d3 = e;
+         e = d;
          d = d3;
       }
 
-      double d4 = func_181161_i(e);
-      d2 *= d4;
+      double d4 = func_181161_i(d2);
+      e *= d4;
       d *= d4;
       double d5 = field_181163_d + d;
       int i = (int)Double.doubleToRawLongBits(d5);
       double d6 = field_181164_e[i];
       double d7 = field_181165_f[i];
       double d8 = d5 - field_181163_d;
-      double d9 = d * d7 - d2 * d8;
+      double d9 = d * d7 - e * d8;
       double d10 = (6.0 + d9 * d9) * d9 * 0.16666666666666666;
       double d11 = d6 + d10;
       if (bl3) {
@@ -465,7 +465,7 @@ public class MathHelper {
 
    static {
       for (int i = 0; i < 65536; i++) {
-         Z[i] = (float)Math.sin(i * Math.PI * 2.0 / 65536.0);
+         SIN_TABLE[i] = (float)Math.sin(i * Math.PI * 2.0 / 65536.0);
       }
 
       for (int j = 0; j < 4096; j++) {

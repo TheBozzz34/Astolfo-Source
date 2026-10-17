@@ -45,7 +45,7 @@ public class Property {
       return false;
    }
 
-   public void N() {
+   public void nextValue() {
       this.value++;
       if (this.value < 0 || this.value >= this.propertyValues.length) {
          this.value = 0;
@@ -71,7 +71,7 @@ public class Property {
       return this.propertyValues[this.value];
    }
 
-   public String d() {
+   public String getUserName() {
       return this.userName;
    }
 

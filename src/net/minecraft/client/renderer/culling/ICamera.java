@@ -5,5 +5,5 @@ import net.minecraft.util.AxisAlignedBB;
 public interface ICamera {
    boolean isBoundingBoxInFrustum(AxisAlignedBB axisAlignedBB);
 
-   void setPosition(double d, double d2, double d3);
+   void setPosition(double d, double e, double d2);
 }

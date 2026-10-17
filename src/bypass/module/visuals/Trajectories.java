@@ -68,7 +68,7 @@ public final class Trajectories extends Module {
          double d8 = MathHelper.cos(mc.thePlayer.rotationYaw / 180.0F * (float) Math.PI)
                * MathHelper.cos(mc.thePlayer.rotationPitch / 180.0F * (float) Math.PI)
             * (item instanceof ItemBow ? 1.0 : 0.4);
-         int i = 72000 - mc.thePlayer.p();
+         int i = 72000 - mc.thePlayer.getItemInUseCount();
          float f = i / 20.0F;
          f = (f * f + f * 2.0F) / 3.0F;
          if (f < 0.1) {

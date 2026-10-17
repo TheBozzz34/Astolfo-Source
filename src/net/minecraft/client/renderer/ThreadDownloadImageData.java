@@ -31,7 +31,7 @@ public class ThreadDownloadImageData extends SimpleTexture {
    private final IImageBuffer imageBuffer;
    private BufferedImage bufferedImage;
    private Thread imageThread;
-   private boolean d;
+   private boolean textureUploaded;
    public Boolean imageFound = null;
    public boolean pipeline = false;
 
@@ -43,8 +43,8 @@ public class ThreadDownloadImageData extends SimpleTexture {
    }
 
    private void checkTextureUploaded() {
-      if (!this.d && this.bufferedImage != null) {
-         this.d = true;
+      if (!this.textureUploaded && this.bufferedImage != null) {
+         this.textureUploaded = true;
          if (this.textureLocation != null) {
             this.deleteGlTexture();
          }

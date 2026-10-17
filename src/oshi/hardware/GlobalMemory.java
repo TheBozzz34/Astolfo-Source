@@ -4,9 +4,9 @@ import oshi.annotation.concurrent.ThreadSafe;
 
 @ThreadSafe
 public interface GlobalMemory {
-   long f();
+   long getTotal();
 
-   long d();
+   long getAvailable();
 
    long getPageSize();
 

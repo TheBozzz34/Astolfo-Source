@@ -333,7 +333,7 @@ public class AddAltScreen extends GuiScreen {
    @Override
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
-      this.d(
+      this.drawCenteredString(
          this.fontRendererObj,
          this.isNewAlt() ? (this.callbackServer != null ? "Waiting for Microsoft login (browser)" : "Add an account") : "Edit an account",
          this.width / 2,
@@ -357,13 +357,13 @@ public class AddAltScreen extends GuiScreen {
       this.saveButton.enabled = this.callbackServer == null;
       if (!this.microsoftCheckbox.isChecked()) {
          if (this.passwordField.getVisible()) {
-            this.I(this.fontRendererObj, "*Password:", this.width / 2 - 100, this.height / 6 + 68, -1);
+            this.drawString(this.fontRendererObj, "*Password:", this.width / 2 - 100, this.height / 6 + 68, -1);
          }
 
-         this.I(this.fontRendererObj, string, this.width / 2 - 100, this.height / 6 + 23, -1);
+         this.drawString(this.fontRendererObj, string, this.width / 2 - 100, this.height / 6 + 23, -1);
       }
 
-      this.d(this.fontRendererObj, "*Leave blank for offline account", this.width / 2, this.height / 6 + 180, -1);
+      this.drawCenteredString(this.fontRendererObj, "*Leave blank for offline account", this.width / 2, this.height / 6 + 180, -1);
       this.passwordField.setPasswordMode(this.hidePasswordCheckbox.isChecked());
       this.usernameField.setVisible(!this.microsoftCheckbox.isChecked());
       this.passwordField.setVisible(!this.microsoftCheckbox.isChecked());

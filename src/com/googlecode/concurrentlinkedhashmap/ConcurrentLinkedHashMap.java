@@ -235,8 +235,8 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
 
    @GuardedBy("evictionLock")
    public void applyRead(ConcurrentLinkedHashMap.Node<K, V> node) {
-      if (this.evictionDeque.Z(node)) {
-         this.evictionDeque.R(node);
+      if (this.evictionDeque.contains(node)) {
+         this.evictionDeque.moveToBack(node);
       }
    }
 
@@ -362,8 +362,8 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       return (V)node.getValue();
    }
 
-   public V B(Object object) {
-      ConcurrentLinkedHashMap.Node node = this.data.get(object);
+   public V getQuietly(Object key) {
+      ConcurrentLinkedHashMap.Node node = this.data.get(key);
       return (V)(node == null ? null : node.getValue());
    }
 
@@ -668,9 +668,9 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
          this.listener = (com.googlecode.concurrentlinkedhashmap.EvictionListener)(ConcurrentLinkedHashMap.DiscardingListener.INSTANCE);
       }
 
-      public ConcurrentLinkedHashMap.Builder<K, V> y(int i) {
-         ConcurrentLinkedHashMap.checkArgument(i >= 0);
-         this.initialCapacity = i;
+      public ConcurrentLinkedHashMap.Builder<K, V> initialCapacity(int initialCapacity) {
+         ConcurrentLinkedHashMap.checkArgument(initialCapacity >= 0);
+         this.initialCapacity = initialCapacity;
          return this;
       }
 
@@ -825,12 +825,12 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
 
    public static final class DiscardingQueue extends AbstractQueue<Object> {
       @Override
-      public boolean add(Object eIn) {
+      public boolean add(Object e) {
          return true;
       }
 
       @Override
-      public boolean offer(Object eIn) {
+      public boolean offer(Object e) {
          return true;
       }
 
@@ -951,7 +951,7 @@ public final class ConcurrentLinkedHashMap<K, V> extends AbstractMap<K, V> imple
       }
 
       @GuardedBy("evictionLock")
-      public ConcurrentLinkedHashMap.Node<K, V> U() {
+      public ConcurrentLinkedHashMap.Node<K, V> getPrevious() {
          return this.prev;
       }
 

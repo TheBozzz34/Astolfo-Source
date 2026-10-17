@@ -271,8 +271,8 @@ public class RenderManager {
       this.renderShadow = renderShadowIn;
    }
 
-   public void W(boolean bl) {
-      this.debugBoundingBox = bl;
+   public void setDebugBoundingBox(boolean debugBoundingBoxIn) {
+      this.debugBoundingBox = debugBoundingBoxIn;
    }
 
    public boolean isDebugBoundingBox() {
@@ -441,8 +441,8 @@ public class RenderManager {
       return this.textRenderer;
    }
 
-   public void S(boolean bl) {
-      this.renderOutlines = bl;
+   public void setRenderOutlines(boolean renderOutlinesIn) {
+      this.renderOutlines = renderOutlinesIn;
    }
 
    public Map getEntityRenderMap() {

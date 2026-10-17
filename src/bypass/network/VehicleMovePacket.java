@@ -24,10 +24,10 @@ public class VehicleMovePacket implements Packet<INetHandlerPlayServer> {
       this.pitch = entity.rotationPitch;
    }
 
-   public VehicleMovePacket(double d, double d2, double d3, float f, float g) {
+   public VehicleMovePacket(double d, double e, double d2, float f, float g) {
       this.x = d;
-      this.y = d2;
-      this.z = d3;
+      this.y = e;
+      this.z = d2;
       this.yaw = f;
       this.pitch = g;
    }

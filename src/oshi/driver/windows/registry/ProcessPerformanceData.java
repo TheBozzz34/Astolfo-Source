@@ -23,7 +23,7 @@ public final class ProcessPerformanceData {
 
       List list = (List)triplet.v();
       long l = (Long)triplet.q();
-      long m = (Long)triplet.U();
+      long m = (Long)triplet.getC();
       HashMap hashMap = new HashMap();
 
       for (Object object : list) {

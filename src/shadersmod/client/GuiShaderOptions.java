@@ -60,7 +60,7 @@ public class GuiShaderOptions extends GuiScreenOF {
 
          for (int l = 0; l < shaderOptions.length; l++) {
             ShaderOption shaderOption = shaderOptions[l];
-            if (shaderOption != null && shaderOption.V()) {
+            if (shaderOption != null && shaderOption.isVisible()) {
                int m = l % k;
                int n = l / k;
                int i2 = Math.min(this.width / k, 200);
@@ -154,7 +154,7 @@ public class GuiShaderOptions extends GuiScreenOF {
          if (isShiftKeyDown()) {
             shaderOption.resetValue();
          } else {
-            shaderOption.B();
+            shaderOption.prevValue();
          }
 
          this.updateAllButtons();
@@ -179,7 +179,7 @@ public class GuiShaderOptions extends GuiScreenOF {
             ShaderOption shaderOption = guiButtonShaderOption.getShaderOption();
             if (shaderOption instanceof ShaderOptionProfile) {
                ShaderOptionProfile shaderOptionProfile = (ShaderOptionProfile)shaderOption;
-               shaderOptionProfile.F();
+               shaderOptionProfile.updateProfile();
             }
 
             guiButtonShaderOption.displayString = this.o(shaderOption, guiButtonShaderOption.getButtonWidth());
@@ -191,9 +191,9 @@ public class GuiShaderOptions extends GuiScreenOF {
    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
       this.drawDefaultBackground();
       if (this.screenText != null) {
-         this.d(this.fontRendererObj, this.screenText, this.width / 2, 15, 16777215);
+         this.drawCenteredString(this.fontRendererObj, this.screenText, this.width / 2, 15, 16777215);
       } else {
-         this.d(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
+         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
       }
 
       super.drawScreen(mouseX, mouseY, partialTicks);

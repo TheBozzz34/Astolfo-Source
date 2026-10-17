@@ -183,29 +183,29 @@ public abstract class Render<T extends Entity> {
       return this.renderManager.worldObj;
    }
 
-   private void renderShadowBlock(Block blockIn, double d, double d2, double d3, BlockPos pos, float f, float g, double d4, double d5, double d6) {
+   private void renderShadowBlock(Block blockIn, double d, double e, double d2, BlockPos pos, float f, float g, double d3, double d4, double d5) {
       if (blockIn.isFullCube()) {
          Tessellator tessellator = Tessellator.getInstance();
          WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-         double e = (f - (d2 - (pos.getY() + d5)) / 2.0) * 0.5 * this.getWorldFromRenderManager().getLightBrightness(pos);
-         if (e >= 0.0) {
-            if (e > 1.0) {
-               e = 1.0;
+         double d6 = (f - (e - (pos.getY() + d4)) / 2.0) * 0.5 * this.getWorldFromRenderManager().getLightBrightness(pos);
+         if (d6 >= 0.0) {
+            if (d6 > 1.0) {
+               d6 = 1.0;
             }
 
-            double d7 = pos.getX() + blockIn.getBlockBoundsMinX() + d4;
-            double d8 = pos.getX() + blockIn.getBlockBoundsMaxX() + d4;
-            double d9 = pos.getY() + blockIn.getBlockBoundsMinY() + d5 + 0.015625;
-            double d10 = pos.getZ() + blockIn.getBlockBoundsMinZ() + d6;
-            double d11 = pos.getZ() + blockIn.getBlockBoundsMaxZ() + d6;
+            double d7 = pos.getX() + blockIn.getBlockBoundsMinX() + d3;
+            double d8 = pos.getX() + blockIn.getBlockBoundsMaxX() + d3;
+            double d9 = pos.getY() + blockIn.getBlockBoundsMinY() + d4 + 0.015625;
+            double d10 = pos.getZ() + blockIn.getBlockBoundsMinZ() + d5;
+            double d11 = pos.getZ() + blockIn.getBlockBoundsMaxZ() + d5;
             float h = (float)((d - d7) / 2.0 / g + 0.5);
             float f2 = (float)((d - d8) / 2.0 / g + 0.5);
-            float f3 = (float)((d3 - d10) / 2.0 / g + 0.5);
-            float f4 = (float)((d3 - d11) / 2.0 / g + 0.5);
-            worldRenderer.pos(d7, d9, d10).tex(h, f3).color(1.0F, 1.0F, 1.0F, (float)e).endVertex();
-            worldRenderer.pos(d7, d9, d11).tex(h, f4).color(1.0F, 1.0F, 1.0F, (float)e).endVertex();
-            worldRenderer.pos(d8, d9, d11).tex(f2, f4).color(1.0F, 1.0F, 1.0F, (float)e).endVertex();
-            worldRenderer.pos(d8, d9, d10).tex(f2, f3).color(1.0F, 1.0F, 1.0F, (float)e).endVertex();
+            float f3 = (float)((d2 - d10) / 2.0 / g + 0.5);
+            float f4 = (float)((d2 - d11) / 2.0 / g + 0.5);
+            worldRenderer.pos(d7, d9, d10).tex(h, f3).color(1.0F, 1.0F, 1.0F, (float)d6).endVertex();
+            worldRenderer.pos(d7, d9, d11).tex(h, f4).color(1.0F, 1.0F, 1.0F, (float)d6).endVertex();
+            worldRenderer.pos(d8, d9, d11).tex(f2, f4).color(1.0F, 1.0F, 1.0F, (float)d6).endVertex();
+            worldRenderer.pos(d8, d9, d10).tex(f2, f3).color(1.0F, 1.0F, 1.0F, (float)d6).endVertex();
          }
       }
    }

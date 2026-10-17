@@ -12,7 +12,7 @@ public class RandomMobsRule {
    private BiomeGenBase[] biomes = null;
    private RangeListInt heights = null;
    public int[] sumWeights = null;
-   public int n = 1;
+   public int sumAllWeights = 1;
 
    public RandomMobsRule(ResourceLocation resourceLocation, int[] ints, int[] ints2, BiomeGenBase[] biomeGenBases, RangeListInt rangeListInt) {
       this.baseResLoc = resourceLocation;
@@ -74,20 +74,20 @@ public class RandomMobsRule {
          this.sumWeights = new int[this.weights.length];
          int m = 0;
 
-         for (int i2 = 0; i2 < this.weights.length; i2++) {
-            if (this.weights[i2] < 0) {
-               Config.warn("Invalid weight: " + this.weights[i2]);
+         for (int n = 0; n < this.weights.length; n++) {
+            if (this.weights[n] < 0) {
+               Config.warn("Invalid weight: " + this.weights[n]);
                return false;
             }
 
-            m += this.weights[i2];
-            this.sumWeights[i2] = m;
+            m += this.weights[n];
+            this.sumWeights[n] = m;
          }
 
-         this.n = m;
-         if (this.n <= 0) {
+         this.sumAllWeights = m;
+         if (this.sumAllWeights <= 0) {
             Config.warn("Invalid sum of all weights: " + m);
-            this.n = 1;
+            this.sumAllWeights = 1;
          }
       }
 
@@ -105,7 +105,7 @@ public class RandomMobsRule {
       if (this.weights == null) {
          i = randomId % this.resourceLocations.length;
       } else {
-         int j = randomId % this.n;
+         int j = randomId % this.sumAllWeights;
 
          for (int k = 0; k < this.sumWeights.length; k++) {
             if (this.sumWeights[k] > j) {
