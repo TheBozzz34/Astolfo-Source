@@ -688,8 +688,6 @@ public class GameSettings {
          );
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public boolean getOptionOrdinalValue(GameSettings.Options settingOption) {
       switch (settingOption) {
          case INVERT_MOUSE:

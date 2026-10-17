@@ -11,8 +11,6 @@ import org.lwjgl.opengl.GL11;
 import shadersmod.client.SVertexBuilder;
 
 public class WorldVertexBufferUploader {
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public void draw(WorldRenderer worldRenderer) {
       if (worldRenderer.getVertexCount() > 0) {
          VertexFormat vertexFormat = worldRenderer.getVertexFormat();

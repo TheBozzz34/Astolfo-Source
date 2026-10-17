@@ -490,8 +490,6 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    public boolean canRenderName(T entity) {
       EntityPlayerSP entityPlayerSP = Minecraft.getMinecraft().thePlayer;
       if (entity instanceof EntityPlayer && entity != entityPlayerSP) {

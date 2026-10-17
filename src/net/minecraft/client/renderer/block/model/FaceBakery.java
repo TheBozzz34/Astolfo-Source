@@ -102,8 +102,6 @@ public class FaceBakery {
       return 0xFF000000 | i << 16 | i << 8 | i;
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private float getFaceBrightness(EnumFacing facing) {
       switch (facing) {
          case DOWN:
@@ -178,8 +176,6 @@ public class FaceBakery {
       faceData[j + 4 + 1] = Float.floatToRawIntBits(sprite.getInterpolatedV(faceUV.func_178346_b(vertexIndex)));
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void rotatePart(Vector3f vector3f, BlockPartRotation partRotation) {
       if (partRotation != null) {
          Matrix4f matrix4f = this.getMatrixIdentity();
@@ -361,8 +357,6 @@ public class FaceBakery {
       }
    }
 
-   // $VF: Unable to simplify switch on enum
-   // Please report this to the Vineflower issue tracker, at https://github.com/Vineflower/vineflower/issues with a copy of the class file (if you have the rights to distribute it!)
    private void lockVertexUv(int i, int[] ints, EnumFacing facing, BlockFaceUV blockFaceUV, TextureAtlasSprite textureAtlasSprite) {
       int j = ints.length / 4;
       int k = j * i;
