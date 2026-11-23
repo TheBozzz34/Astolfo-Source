@@ -1,5 +1,7 @@
 # Astolfo Source
 
+# AI disclaimer, most of this project was created using Claude Opus 5.5
+
 This repository contains the Java source of the Astolfo client. Astolfo was a modified
 Minecraft 1.8.9 client, its development has stopped.
 
