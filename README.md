@@ -1,7 +1,7 @@
 # Astolfo Source
 
-This repository contains the Java source of the Astolfo client. Astolfo is a modified
-Minecraft 1.8.9 client. Its development has stopped.
+This repository contains the Java source of the Astolfo client. Astolfo was a modified
+Minecraft 1.8.9 client, its development has stopped.
 
 The source is decompiled from the last release of the client. The tools in
 [astolfo-decomp](https://github.com/TheBozzz34/astolfo-decomp) make this source. Do not edit
